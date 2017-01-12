@@ -122,7 +122,7 @@ package global.ui.hud
 					
 					if (g is Building)
 					{
-						if (Building(g).name == "communications-center")
+						if (Building(g).name == "communications-center" || Building(g).name == "advanced-communications-tower")
 						{
 							hasCommCenter = true;
 							HUDView.getInstance().hideNavButtons();

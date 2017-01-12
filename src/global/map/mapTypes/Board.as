@@ -558,6 +558,11 @@ package global.map.mapTypes
 								str = String(textureFrame);
 							}
 							
+							if (textureFrame == 0)
+							{
+								continue;
+							}
+							
 							
 							var treeTextures:Vector.<Texture> = GameAtlas.getTextures("tree-"+str);
 							node.obstacleTile = new MovieClip(treeTextures);

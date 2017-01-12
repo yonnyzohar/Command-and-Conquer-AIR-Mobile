@@ -128,13 +128,30 @@ package states.game.entities.buildings
 					if(nodeExists(proposedRow, proposedCol))
 					{
 						n = Node( Parameters.boardArr[proposedRow][proposedCol] );
-							//not the unit's tile itself
-
 						n.occupyingUnit = this;
-						//n.withinUnitRange = uniqueID;
 					}
 				}
 			}
+		}
+		
+		public function getBuildingTiles():Array
+		{
+			var n:Node;
+			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+			var buildingTiles:Array = [];
+			for(var i:int = 0; i < occupyArray.length; i++)
+			{
+				for (var j:int = 0; j < occupyArray[i].length; j++ )
+				{
+					var curTile:int = occupyArray[i][j];
+					
+					if (curTile == 0) continue;//this is only for build indication
+					n = Node( Parameters.boardArr[model.row + j][model.col + i] );
+					buildingTiles.push(n);
+				}
+			}
+			
+			return buildingTiles;
 		}
 		
 		override public function hasBeenTouched(_row:int, _col:int):Boolean

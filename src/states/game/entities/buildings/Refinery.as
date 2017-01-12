@@ -89,12 +89,17 @@ package  states.game.entities.buildings
 		public function getLoadingLoacation():Node
 		{
 			var n:Node;
-			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+			if (model && model.dead == false)
+			{
+				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
 			
-			var row:int = model.row + int(occupyArray.length);
-			var col:int = model.col;
+				var row:int = model.row + int(occupyArray.length);
+				var col:int = model.col;
+				
+				var n:Node = Parameters.boardArr[row][col];
+			}
 			
-			var n:Node = Parameters.boardArr[row][col];
+			
 			return n;
 			
 		}
@@ -103,8 +108,16 @@ package  states.game.entities.buildings
 		{
 			
 			var locNode:Node = getLoadingLoacation();
-			BuildingView(view).highlightBuilding();
-			return { row : locNode.row, col : locNode.col, assetName: "harvester" };
+			if (locNode)
+			{
+				BuildingView(view).highlightBuilding();
+				return { row : locNode.row, col : locNode.col, assetName: "harvester" };
+			}
+			else
+			{
+				return null;
+			}
+			
 		}
 	}
 }

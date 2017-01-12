@@ -24,7 +24,7 @@ package  states.game.entities.units
 	 * ...
 	 * @author Yonny Zohar
 	 */
-	public class Harvester extends Unit
+	public class Harvester extends Vehicle
 	{
 		private var currentFrame:int;
 		private var destResourceNode:Node;
@@ -102,13 +102,19 @@ package  states.game.entities.units
 		
 		private function inRefineryDock():Boolean 
 		{
-			if (refinery != null)
+			if (refinery != null && refinery.model && refinery.model.dead == false)
 			{
 				var node:Node = refinery.getLoadingLoacation()
-				
-				if (this.model.row == node.row && model.col == node.col)
+				if (node)
 				{
-					return true;
+					if (this.model.row == node.row && model.col == node.col)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				}
 				else
 				{
@@ -125,9 +131,25 @@ package  states.game.entities.units
 		{
 			if (refineryExists())
 			{
-				var node:Node = refinery.getLoadingLoacation()
-				getWalkPath(node.row, node.col);
-				setState(UnitStates.WALK);
+				var node:Node = refinery.getLoadingLoacation();
+				if (node == null)
+				{
+					refinery = myTeamObj.getRefinery();
+					if (refinery)
+					{
+						node = refinery.getLoadingLoacation();
+					}
+				}
+				if (node)
+				{
+					getWalkPath(node.row, node.col);
+					setState(UnitStates.WALK);
+				}
+				else
+				{
+					setState(UnitStates.IDLE);
+				}
+				
 			}
 		}
 		
@@ -174,7 +196,7 @@ package  states.game.entities.units
 		override protected function handleIdleState(_pulse:Boolean):void
 		{
 
-			if (inRefineryDock() && storageBar.currentStore > 0)
+			if ( !model.dead && inRefineryDock() && storageBar.currentStore > 0)
 			{
 				loadingBegan = false;
 				setState(UnitStates.LOADING_RESOURCES);

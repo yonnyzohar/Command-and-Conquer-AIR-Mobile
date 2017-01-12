@@ -2,6 +2,7 @@ package states.game.entities
 {
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
+	import global.enums.AiBehaviours;
 	import global.Parameters;
 	import global.enums.Agent;
 	import global.enums.UnitStates;
@@ -40,11 +41,15 @@ package states.game.entities
 			//trace"uniqueID: " + uniqueID);
 		}
 		
+		public function changeAI(_newAi:int):void
+		{
+			aiBehaviour = _newAi;
+		}
+		
 		public function sayHello():void 
 		{
 			
 		}
-		
 
 		
 		protected function removeAllTiles():void 
@@ -161,6 +166,7 @@ package states.game.entities
 		public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
 		{
 			currentInfantryDeath = _currentInfantryDeath;
+			changeAI(AiBehaviours.SEEK_AND_DESTROY);
 			var dead:Boolean = false;
 			if(model != null)
 			{
@@ -180,6 +186,12 @@ package states.game.entities
 					healthBar.visible = true;
 					view.addChild(healthBar);
 				}
+			}
+			else
+			{
+				dead = true;
+				if(healthBar)healthBar.visible = false;
+				setState(UnitStates.DIE);
 			}
 			
 			return dead;

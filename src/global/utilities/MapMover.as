@@ -86,9 +86,6 @@ package global.utilities
 		private var startDragX:int = 0;
 		private var startDragY:int = 0;
 		
-		private var tf:TextField = new TextField();
-		private var myFormat:TextFormat = new TextFormat();
-		
 		
 		private function onStageTouch(e:TouchEvent):void
 		{
@@ -165,17 +162,6 @@ package global.utilities
 					
 					if (Math.abs(dragDiffX) > 50 || Math.abs(dragDiffY) > 50)
 					{
-						/*tf.text = "clearingTimeout (dragDiffX)" + Math.abs(dragDiffX) + " dragDiffY " + Math.abs(dragDiffY);
-						if (tf.stage == null)
-						{
-							tf.width = Parameters.flashStage.stageWidth;
-							myFormat.size = 20;
-							tf.defaultTextFormat = myFormat;
-							tf.textColor = 0xffffff;
-							Parameters.flashStage.addChild(tf);
-						}
-						
-						trace("clearingTimeout (dragDiffX)" + (dragDiffX) + " dragDiffY " + dragDiffY)*/
 						clearTimeout(myTimeout)
 						MouseStates.currentState = MouseStates.REG_PLAY;
 					}
@@ -185,6 +171,14 @@ package global.utilities
 			
 			if (endMulti && endMulti.length != 0)
 			{
+				var p:Point = endMulti[0].getLocation(Parameters.theStage);
+				
+				if (p.x >= (stageWidth - HUDView.hudWidth))
+				{
+					return;
+				}
+				
+				
 				diffX = Parameters.mapHolder.x - lastX;
 				diffY = Parameters.mapHolder.y - lastY;
 				//trace("diffX " + diffX, "diffY " + diffY);
@@ -583,7 +577,9 @@ package global.utilities
 		public function moveMapByPercetage(xPer:Number, yPer:Number):void
 		{
 			Parameters.mapHolder.y = (Parameters.mapHeight - Parameters.flashStage.stageHeight) * (-yPer);
-			Parameters.mapHolder.x = (Parameters.mapWidth - (Parameters.flashStage.stageWidth - HUDView.hudWidth)) * (-xPer);
+			Parameters.mapHolder.x = (Parameters.mapWidth - (Parameters.flashStage.stageWidth - HUDView.hudWidth)) * ( -xPer);
+			lastX = Parameters.mapHolder.x;
+			lastY = Parameters.mapHolder.y;
 			render(true)
 		}
 		

@@ -123,8 +123,8 @@ package states.game.entities
 		
 		override public function dispose():void
 		{
-			//trace"disposing view!!!");
-			if(mc is MovieClip)Starling.juggler.remove(MovieClip(mc));
+			if (mc is MovieClip) Starling.juggler.remove(MovieClip(mc));
+			mc.visible = false;
 			mc.removeFromParent();
 			mc = null;
 			if(circle != null)circle.removeFromParent();

@@ -102,6 +102,10 @@ package states.game.entities.units
 						break;
 				}
 			}
+			else
+			{
+				handleDeath(_pulse);
+			}
 		}
 		
 		
@@ -129,17 +133,25 @@ package states.game.entities.units
 			stopMovingAndSplicePath();
 			UnitView(view).stand();
 			traceMe("handleIdleState");
+			
 		}
 		
 		
 		protected function handleDeath(_pulse:Boolean):void
 		{
-			model.dead = true;
+			if (model)
+			{
+				trace(model.stats.name + " " + this.model.teamName + " is dead!")
+				model.dead = true;
+				UnitModel(model).moving = false;
+			}
+			
 			stopMovingAndSplicePath();
-			//UnitView(view).state = "_die";
-			UnitView(view).dir = "";
-			UnitView(view).playDeathSound();
-			UnitModel(model).moving = false;
+			if (view)
+			{
+				UnitView(view).dir = "";
+				UnitView(view).playDeathSound();
+			}
 		}
 		
 		
@@ -247,66 +259,6 @@ package states.game.entities.units
 				model.col = col;
 				occupyTile(row, col);
 			}
-			
-			/*if (model.dead)
-			{
-				UnitModel(model).path.splice(0);
-				UnitModel(model).moving = false;
-				UnitModel(model).inWayPoint = true;
-				UnitModel(model).moveCounter = 0;
-				return;
-			}
-			
-			if (_startShooting == false)
-			{
-				UnitModel(model).path.splice(0);
-				UnitModel(model).moving = false;
-				UnitModel(model).inWayPoint = true;
-				UnitModel(model).moveCounter = 0;
-			}
-			else
-			{
-				var path:Array =  UnitModel(model).path;
-				var moveCounter:int = UnitModel(model).moveCounter;
-				var row:int = 0;
-				var col:int = 0;
-				
-				if (path && path[moveCounter] && moveCounter != 0)
-				{
-					model.row = path[moveCounter-1].row;
-					model.col = path[moveCounter-1].col;
-					
-					row = model.row;
-					col = model.col;
-					occupyTile(row, col);
-				}
-				
-				if (model.prevRow && model.prevCol)
-				{
-					row = model.prevRow;
-					col = model.prevCol;
-					occupyTile(model.prevRow, model.prevCol);
-				}
-				
-
-				var n:Node = Node(Parameters.boardArr[row][col]);
-				//if this tile is already occupied and not by me!
-				if(n.occupyingUnit != null && n.occupyingUnit.uniqueID != uniqueID)
-				{
-					var bob:int = 5;
-				}
-				else
-				{
-					UnitModel(model).destX = col * Parameters.tileSize;
-					UnitModel(model).destY = row * Parameters.tileSize;
-					view.x = UnitModel(model).destX;
-					view.y = UnitModel(model).destY;
-					UnitModel(model).path.splice(0);
-					UnitModel(model).moving = false;
-					UnitModel(model).inWayPoint = true;
-					UnitModel(model).moveCounter = 0;
-				}
-			}*/
 		}
 		
 		
@@ -526,8 +478,6 @@ package states.game.entities.units
 		
 		override public function dispose():void
 		{
-			
-			//aStar.dispose();
 			aStar = null;
 			super.dispose();
 		}

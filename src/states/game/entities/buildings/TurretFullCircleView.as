@@ -176,7 +176,14 @@ package states.game.entities.buildings
 					//if rot is a whole number
 					if ( int(rotI) == rotI && rotArr[rotI])
 					{
-						mc.currentFrame = rotArr[rotI]
+						try {
+							mc.currentFrame = rotArr[rotI]
+						}
+						catch (e:Error)
+						{
+							trace(e.message)
+						}
+						
 					}
 					//trace(rotI + " / " + rotArr.length)
 					rotI += turnSpeed;
@@ -197,7 +204,10 @@ package states.game.entities.buildings
 			//trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
 			currentFrameNum = endFrame;
 			
-			if(mc)mc.currentFrame = endFrame
+			if (mc && endFrame <= mc.numFrames)
+			{
+				mc.currentFrame = endFrame
+			}
 			GameTimer.getInstance().removeUser(this);
 			
 			TurretModel(model).rotating = false;

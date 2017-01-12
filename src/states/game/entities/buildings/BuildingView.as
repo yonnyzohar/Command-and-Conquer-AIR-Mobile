@@ -163,6 +163,7 @@ package states.game.entities.buildings
 		
 		private function onExplosionComplte(e:Event):void 
 		{
+			Starling.juggler.remove(explosionAnim);
 			explosionAnim.removeFromParent(true)
 			explosionAnim.removeEventListener(Event.COMPLETE, onExplosionComplte);
 			dispatchEvent(new Event("EXPLOSION_COMPLETE"))

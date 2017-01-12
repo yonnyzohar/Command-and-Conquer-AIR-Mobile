@@ -2,6 +2,7 @@ package states.game.teamsData
 {
 	import com.greensock.TweenLite;
 	import global.enums.Agent;
+	import global.enums.AiBehaviours;
 	import global.GameAtlas;
 	import global.map.SpiralBuilder;
 	import global.Methods;
@@ -311,6 +312,7 @@ package states.game.teamsData
 					Parameters.mapHolder.addChild(soldier.view);
 					team.push(soldier);
 					soldier.addEventListener("DEAD", onDead);
+					soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);
 				}
 				
 				//this is temporary until the pc can build its own
@@ -320,16 +322,18 @@ package states.game.teamsData
 				}
 			}
 			
-			
+			var removed:Boolean = false;
 			if (team != null)
 			{
 				if (team.indexOf(p) != -1)
 				{
+					removed = true;
 					team.splice(team.indexOf(p), 1);
-					p.dispose();
-					p = null;
 				}
 			}
+			trace(p.model.stats.name + " " + p.model.teamName + " is removed: " + removed)
+			p.dispose();
+			p = null;
 			
 			dispatchEventWith("ASSET_DESTROYED", false, {numResidents: numResidents});
 		}

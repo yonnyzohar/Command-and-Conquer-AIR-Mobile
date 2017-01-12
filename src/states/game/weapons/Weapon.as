@@ -217,7 +217,11 @@ package  states.game.weapons
 			
 			if (isValidEnemy(currentTarget))
 			{
-				if (n.occupyingUnit)
+				u = currentTarget;
+				hitRow = destRow;
+				hitCol = destCol;
+				
+				/*if (n.occupyingUnit)
 				{
 					u = n.occupyingUnit;
 					hitRow = destRow;
@@ -242,7 +246,7 @@ package  states.game.weapons
 							}
 						}
 					}
-				}
+				}*/
 			}
 
 			

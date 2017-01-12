@@ -78,11 +78,6 @@ package  states.game.weapons
 				}
 				
 			}
-
-			//weaponStats.projectile.explosion: "frag1",
-			//weaponStats.projectile.image: "dragon",
-			//weaponStats.projectile.warhead.infantryDeath
-			//tex:Vector.<Texture> , _isMovieClip:Boolean
 			
 			if (explosionMC)
 			{
@@ -102,13 +97,7 @@ package  states.game.weapons
 			lastDistY = 0;
 			inflictDamadgeFnctn = _inflictDamadgeFnctn;
 			
-			/*if (projectileMC)
-			{
-				projectileMC.returnMe();
-				Starling.juggler.remove(projectileMC);
-				projectileMC = null;
-			}*/
-			
+		
 			projectileMC = pool.getAsset();
 			
 			if (projectileMC)

@@ -6,6 +6,7 @@ package  states.game.entities.units
 	import global.Methods;
 	import global.Parameters;
 	import global.utilities.SightManager;
+	import states.game.entities.buildings.Building;
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.views.FullCircleView;
 	import states.game.entities.units.views.UnitView;
@@ -221,7 +222,6 @@ package  states.game.entities.units
 			var rowDiff:int;
 			var colDiff:int;
 			
-			//var dist:int = int(Math.abs(currentEnemy.row - model.row) + Math.abs(currentEnemy.col - model.col));
 			var dist:int = Methods.distanceTwoPoints(currentEnemy.model.col, model.col, currentEnemy.model.row, model.row);
 			if (dist <= shootRange)
 			{
@@ -229,7 +229,27 @@ package  states.game.entities.units
 			}
 			else
 			{
-				return false;
+				if (currentEnemy is Building)
+				{
+					var buildingTiles:Array = Building(currentEnemy).getBuildingTiles();
+					var n:Node;
+					var inRange:Boolean = false;
+					for (var j:int = 0; j < buildingTiles.length; j++ )
+					{
+						n = buildingTiles[j];
+						dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+						if (dist <= shootRange)
+						{
+							inRange = true;
+							break;
+						}
+					}
+					return inRange;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 		
@@ -265,7 +285,26 @@ package  states.game.entities.units
 					if(p.model.dead == false)
 					{
 						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						//int(Math.abs(p.row - model.row) + Math.abs(p.col - model.col));
+						
+						if (p is Building)
+						{
+							var buildingTiles:Array = Building(p).getBuildingTiles();
+							var n:Node;
+							for (var j:int = 0; j < buildingTiles.length; j++ )
+							{
+								n = buildingTiles[j];
+								dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+								if (dist <= sightRange)
+								{
+									if (dist < shortestDist)
+									{
+										shortestDist = dist;
+										closestEnemny = p;
+									}
+								}
+							}
+						}
+						
 						if (dist <= sightRange)
 						{
 							if (dist < shortestDist)
@@ -547,10 +586,6 @@ package  states.game.entities.units
 		
 		override public function dispose():void
 		{
-			/*if (weapon)
-			{
-				weapon.stop();
-			}*/
 			weapon = null;
 			super.dispose();
 		}
