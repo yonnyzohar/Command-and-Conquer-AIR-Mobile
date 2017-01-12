@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="chinook_stand0" x="0" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand1" x="0" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand2" x="0" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand3" x="0" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand4" x="0" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand5" x="0" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand6" x="0" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand7" x="0" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand8" x="0" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand9" x="0" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand10" x="0" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand11" x="0" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand12" x="0" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand13" x="0" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand14" x="0" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand15" x="0" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand16" x="0" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand17" x="0" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand18" x="0" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand19" x="0" y="912" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand20" x="0" y="960" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand21" x="0" y="1008" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand22" x="48" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand23" x="48" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand24" x="48" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand25" x="48" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand26" x="48" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand27" x="48" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand28" x="48" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand29" x="48" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand30" x="48" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_stand31" x="48" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_load0" x="48" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_load1" x="48" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_load2" x="48" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="chinook_load3" x="48" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

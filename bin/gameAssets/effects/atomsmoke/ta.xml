@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="atomsmoke_00" x="0" y="0" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_01" x="0" y="48" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_02" x="0" y="96" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_03" x="0" y="144" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_04" x="0" y="192" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_05" x="0" y="240" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_06" x="0" y="288" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_07" x="0" y="336" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_08" x="0" y="384" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_09" x="0" y="432" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_10" x="0" y="480" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_11" x="0" y="528" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_12" x="0" y="576" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_13" x="0" y="624" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_14" x="0" y="672" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_15" x="0" y="720" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_16" x="0" y="768" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_17" x="0" y="816" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_18" x="0" y="864" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_19" x="0" y="912" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_20" x="0" y="960" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_21" x="0" y="1008" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_22" x="24" y="0" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_23" x="24" y="48" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_24" x="24" y="96" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_25" x="24" y="144" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_26" x="24" y="192" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_27" x="24" y="240" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_28" x="24" y="288" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_29" x="24" y="336" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_30" x="24" y="384" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_31" x="24" y="432" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsmoke_32" x="24" y="480" width="24" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

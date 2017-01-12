@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="ioncannon_00" x="0" y="0" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_01" x="0" y="191" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_02" x="0" y="382" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_03" x="0" y="573" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_04" x="0" y="764" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_05" x="0" y="955" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_06" x="72" y="0" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_07" x="72" y="191" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_08" x="72" y="382" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_09" x="72" y="573" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_10" x="72" y="764" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_11" x="72" y="955" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_12" x="144" y="0" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_13" x="144" y="191" width="72" height="191" pivotX="1" pivotY="1"/>
+<SubTexture name="ioncannon_14" x="144" y="382" width="72" height="191" pivotX="1" pivotY="1"/>
+</TextureAtlas>

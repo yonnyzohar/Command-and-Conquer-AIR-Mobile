@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="advanced-guard-tower_build0" x="0" y="0" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build1" x="0" y="48" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build2" x="0" y="96" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build3" x="0" y="144" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build4" x="0" y="192" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build5" x="0" y="240" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build6" x="0" y="288" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build7" x="0" y="336" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build8" x="0" y="384" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build9" x="0" y="432" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build10" x="0" y="480" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build11" x="0" y="528" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build12" x="0" y="576" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_build13" x="0" y="624" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_damaged0" x="0" y="672" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_healthy0" x="0" y="720" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="advanced-guard-tower_ultra-damaged0" x="0" y="768" width="24" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

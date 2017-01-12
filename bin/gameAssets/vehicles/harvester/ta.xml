@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+	<SubTexture name="harvester_move00" x="0" y="960" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move01" x="0" y="1008" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move02" x="48" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move03" x="48" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move04" x="48" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move05" x="48" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move06" x="48" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move07" x="48" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move08" x="48" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move09" x="48" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move10" x="48" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move11" x="48" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move12" x="48" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move13" x="48" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move14" x="48" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move15" x="48" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move16" x="48" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move17" x="48" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move18" x="48" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move19" x="48" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move20" x="48" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move21" x="48" y="912" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move22" x="48" y="960" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move23" x="48" y="1008" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move24" x="96" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move25" x="96" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move26" x="96" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move27" x="96" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move28" x="96" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move29" x="96" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move30" x="96" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_move31" x="96" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+
+	<SubTexture name="harvester_harvest_SOUTH_west00" x="0" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_SOUTH_west01" x="0" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_SOUTH_west02" x="0" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_SOUTH_west03" x="0" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+		
+	<SubTexture name="harvester_harvest_west00" x="0" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_west01" x="0" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_west02" x="0" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_west03" x="0" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+		
+	<SubTexture name="harvester_harvest_SOUTH_east00" x="0" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_SOUTH_east01" x="0" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_SOUTH_east02" x="0" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_SOUTH_east04" x="0" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+	
+	<SubTexture name="harvester_harvest_east00" x="0" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_east01" x="0" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_east02" x="0" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_east03" x="0" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+	
+	<SubTexture name="harvester_harvest_south00" x="0" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_south01" x="0" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_south02" x="0" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_south03" x="0" y="912" width="48" height="48" pivotX="1" pivotY="1"/>
+		
+	<SubTexture name="harvester_harvest_north00" x="96" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_north01" x="96" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_north02" x="96" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_north03" x="96" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+	
+	<SubTexture name="harvester_harvest_NORTH_west00" x="96" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_NORTH_west01" x="96" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_NORTH_west02" x="96" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_NORTH_west03" x="96" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+	
+	<SubTexture name="harvester_harvest_NORTH_east00" x="96" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_NORTH_east01" x="96" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_NORTH_east02" x="96" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+	<SubTexture name="harvester_harvest_NORTH_east03" x="96" y="912" width="48" height="48" pivotX="1" pivotY="1"/>
+
+</TextureAtlas>

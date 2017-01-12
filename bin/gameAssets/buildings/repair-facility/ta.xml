@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="repair-facility_healthy00" x="0" y="0" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy00" x="0" y="72" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy01" x="0" y="144" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy02" x="0" y="216" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy03" x="0" y="288" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy04" x="0" y="360" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy05" x="0" y="432" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-healthy06" x="0" y="504" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build00" x="0" y="576" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build01" x="0" y="648" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build02" x="0" y="720" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build03" x="0" y="792" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build04" x="0" y="864" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build05" x="0" y="936" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build06" x="0" y="1008" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build07" x="72" y="0" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build08" x="72" y="72" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build09" x="72" y="144" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build10" x="72" y="216" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build11" x="72" y="288" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build12" x="72" y="360" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build13" x="72" y="432" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build14" x="72" y="504" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build15" x="72" y="576" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build16" x="72" y="648" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build17" x="72" y="720" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build18" x="72" y="792" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_build19" x="72" y="864" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged00" x="72" y="936" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged01" x="72" y="1008" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged02" x="144" y="0" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged03" x="144" y="72" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged04" x="144" y="144" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged05" x="144" y="216" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_repair-damaged06" x="144" y="288" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_damaged00" x="144" y="360" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="repair-facility_ultra-damaged00" x="144" y="432" width="72" height="72" pivotX="1" pivotY="1"/>
+</TextureAtlas>

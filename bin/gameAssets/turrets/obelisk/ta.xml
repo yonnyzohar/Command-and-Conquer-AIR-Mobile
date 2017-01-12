@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="obelisk_healthy0" x="0" y="0" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_healthy1" x="0" y="48" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_healthy2" x="0" y="96" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_healthy3" x="0" y="144" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_ultra-damaged0" x="0" y="192" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_damaged0" x="0" y="240" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_damaged1" x="0" y="288" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_damaged2" x="0" y="336" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_damaged3" x="0" y="384" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build0" x="0" y="432" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build1" x="0" y="480" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build2" x="0" y="528" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build3" x="0" y="576" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build4" x="0" y="624" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build5" x="0" y="672" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build6" x="0" y="720" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build7" x="0" y="768" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build8" x="0" y="816" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build9" x="0" y="864" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build10" x="0" y="912" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build11" x="0" y="960" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build12" x="0" y="1008" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build13" x="24" y="0" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build14" x="24" y="48" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build15" x="24" y="96" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build16" x="24" y="144" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build17" x="24" y="192" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build18" x="24" y="240" width="24" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="obelisk_build19" x="24" y="288" width="24" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

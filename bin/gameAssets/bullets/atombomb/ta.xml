@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="atombomb_00" x="0" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_01" x="0" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_02" x="0" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_03" x="0" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_04" x="0" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_05" x="0" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_06" x="0" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="atombomb_07" x="0" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<!--<SubTexture name="weapons-factory_healthy-base00" x="0" y="0" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_ultra-damaged-base00" x="0" y="864" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_damaged-base00" x="0" y="792" width="72" height="72" pivotX="1" pivotY="1"/>-->
+
+<SubTexture name="weapons-factory-construct_damaged00" x="0" y="72" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged01" x="0" y="144" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged02" x="0" y="216" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged03" x="0" y="288" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged04" x="0" y="360" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged05" x="0" y="432" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged06" x="0" y="504" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged07" x="0" y="576" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_damaged08" x="0" y="648" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_healthy00" x="0" y="720" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy00" x="0" y="936" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy01" x="0" y="1008" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy02" x="72" y="0" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy03" x="72" y="72" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy04" x="72" y="144" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy05" x="72" y="216" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy06" x="72" y="288" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy07" x="72" y="360" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory-construct_healthy08" x="72" y="432" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build00" x="72" y="504" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build01" x="72" y="576" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build02" x="72" y="648" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build03" x="72" y="720" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build04" x="72" y="792" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build05" x="72" y="864" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build06" x="72" y="936" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build07" x="72" y="1008" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build08" x="144" y="0" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build09" x="144" y="72" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build10" x="144" y="144" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build11" x="144" y="216" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build12" x="144" y="288" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build13" x="144" y="360" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build14" x="144" y="432" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build15" x="144" y="504" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build16" x="144" y="576" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build17" x="144" y="648" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build18" x="144" y="720" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_build19" x="144" y="792" width="72" height="72" pivotX="1" pivotY="1"/>
+<SubTexture name="weapons-factory_damaged00" x="144" y="864" width="72" height="72" pivotX="1" pivotY="1"/>
+</TextureAtlas>

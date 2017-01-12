@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="mcv_move00" x="0" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move01" x="0" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move02" x="0" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move03" x="0" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move04" x="0" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move05" x="0" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move06" x="0" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move07" x="0" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move08" x="0" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move09" x="0" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move10" x="0" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move11" x="0" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move12" x="0" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move13" x="0" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move14" x="0" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move15" x="0" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move16" x="0" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move17" x="0" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move18" x="0" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move19" x="0" y="912" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move20" x="0" y="960" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move21" x="0" y="1008" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move22" x="48" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move23" x="48" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move24" x="48" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move25" x="48" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move26" x="48" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move27" x="48" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move28" x="48" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move29" x="48" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move30" x="48" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="mcv_move31" x="48" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

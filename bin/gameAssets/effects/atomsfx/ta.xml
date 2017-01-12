@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="atomsfx_00" x="0" y="0" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_01" x="0" y="121" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_02" x="0" y="242" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_03" x="0" y="363" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_04" x="0" y="484" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_05" x="0" y="605" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_06" x="0" y="726" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_07" x="0" y="847" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_08" x="0" y="968" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_09" x="78" y="0" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_10" x="78" y="121" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_11" x="78" y="242" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_12" x="78" y="363" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_13" x="78" y="484" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_14" x="78" y="605" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_15" x="78" y="726" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_16" x="78" y="847" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_17" x="78" y="968" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_18" x="156" y="0" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_19" x="156" y="121" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_20" x="156" y="242" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_21" x="156" y="363" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_22" x="156" y="484" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_23" x="156" y="605" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_24" x="156" y="726" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_25" x="156" y="847" width="78" height="121" pivotX="1" pivotY="1"/>
+<SubTexture name="atomsfx_26" x="156" y="968" width="78" height="121" pivotX="1" pivotY="1"/>
+</TextureAtlas>

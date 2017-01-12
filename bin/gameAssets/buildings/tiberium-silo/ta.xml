@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="tiberium-silo_healthy00" x="0" y="0" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_healthy01" x="0" y="24" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_healthy02" x="0" y="48" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_healthy03" x="0" y="72" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_healthy04" x="0" y="96" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build00" x="0" y="120" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build01" x="0" y="144" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build02" x="0" y="168" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build03" x="0" y="192" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build04" x="0" y="216" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build05" x="0" y="240" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build06" x="0" y="264" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build07" x="0" y="288" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build08" x="0" y="312" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build09" x="0" y="336" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build10" x="0" y="360" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build11" x="0" y="384" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build12" x="0" y="408" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build13" x="0" y="432" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build14" x="0" y="456" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build15" x="0" y="480" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build16" x="0" y="504" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build17" x="0" y="528" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build18" x="0" y="552" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_build19" x="0" y="576" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_damaged00" x="0" y="600" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_damaged01" x="0" y="624" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_damaged02" x="0" y="648" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_damaged03" x="0" y="672" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_damaged04" x="0" y="696" width="48" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="tiberium-silo_ultra-damaged00" x="0" y="720" width="48" height="24" pivotX="1" pivotY="1"/>
+</TextureAtlas>

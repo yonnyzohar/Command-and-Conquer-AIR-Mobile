@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="apc_load-right00" x="0" y="0" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_load-right01" x="0" y="24" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_load-right02" x="0" y="48" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move00" x="0" y="72" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move01" x="0" y="96" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move02" x="0" y="120" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move03" x="0" y="144" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move04" x="0" y="168" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move05" x="0" y="192" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move06" x="0" y="216" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move07" x="0" y="240" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move08" x="0" y="264" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move09" x="0" y="288" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move10" x="0" y="312" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move11" x="0" y="336" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move12" x="0" y="360" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move13" x="0" y="384" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move14" x="0" y="408" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move15" x="0" y="432" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move16" x="0" y="456" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move17" x="0" y="480" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move18" x="0" y="504" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move19" x="0" y="528" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move20" x="0" y="552" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move21" x="0" y="576" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move22" x="0" y="600" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move23" x="0" y="624" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move24" x="0" y="648" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move25" x="0" y="672" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move26" x="0" y="696" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move27" x="0" y="720" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move28" x="0" y="744" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move29" x="0" y="768" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move30" x="0" y="792" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_move31" x="0" y="816" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_load-left00" x="0" y="840" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_load-left01" x="0" y="864" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="apc_load-left02" x="0" y="888" width="24" height="24" pivotX="1" pivotY="1"/>
+</TextureAtlas>

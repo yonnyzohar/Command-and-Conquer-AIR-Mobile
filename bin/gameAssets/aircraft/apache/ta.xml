@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="apache_stand0" x="0" y="0" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand1" x="0" y="29" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand2" x="0" y="58" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand3" x="0" y="87" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand4" x="0" y="116" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand5" x="0" y="145" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand6" x="0" y="174" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand7" x="0" y="203" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand8" x="0" y="232" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand9" x="0" y="261" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand10" x="0" y="290" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand11" x="0" y="319" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand12" x="0" y="348" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand13" x="0" y="377" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand14" x="0" y="406" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand15" x="0" y="435" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand16" x="0" y="464" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand17" x="0" y="493" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand18" x="0" y="522" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand19" x="0" y="551" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand20" x="0" y="580" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand21" x="0" y="609" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand22" x="0" y="638" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand23" x="0" y="667" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand24" x="0" y="696" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand25" x="0" y="725" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand26" x="0" y="754" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand27" x="0" y="783" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand28" x="0" y="812" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand29" x="0" y="841" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand30" x="0" y="870" width="46" height="29" pivotX="1" pivotY="1"/>
+<SubTexture name="apache_stand31" x="0" y="899" width="46" height="29" pivotX="1" pivotY="1"/>
+</TextureAtlas>

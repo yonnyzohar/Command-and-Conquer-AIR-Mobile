@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="barracks_build00" x="0" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build01" x="0" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build02" x="0" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build03" x="0" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build04" x="0" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build05" x="0" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build06" x="0" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build07" x="0" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build08" x="0" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build09" x="0" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build10" x="0" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build11" x="0" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build12" x="0" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build13" x="0" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build14" x="0" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build15" x="0" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build16" x="0" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build17" x="0" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build18" x="0" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_build19" x="0" y="912" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_ultra-damaged00" x="0" y="960" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy00" x="0" y="1008" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy01" x="48" y="0" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy02" x="48" y="48" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy03" x="48" y="96" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy04" x="48" y="144" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy05" x="48" y="192" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy06" x="48" y="240" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy07" x="48" y="288" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy08" x="48" y="336" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_healthy09" x="48" y="384" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged00" x="48" y="432" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged01" x="48" y="480" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged02" x="48" y="528" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged03" x="48" y="576" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged04" x="48" y="624" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged05" x="48" y="672" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged06" x="48" y="720" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged07" x="48" y="768" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged08" x="48" y="816" width="48" height="48" pivotX="1" pivotY="1"/>
+<SubTexture name="barracks_damaged09" x="48" y="864" width="48" height="48" pivotX="1" pivotY="1"/>
+</TextureAtlas>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+<SubTexture name="minigun-fire_north00" x="0" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_north01" x="18" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_north02" x="36" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_NORTH_west00" x="54" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_NORTH_west01" x="72" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_NORTH_west02" x="90" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_west00" x="108" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_west01" x="126" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_west02" x="144" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_SOUTH_west00" x="162" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_SOUTH_west01" x="180" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_SOUTH_west02" x="198" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_south00" x="216" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_south01" x="234" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_south02" x="252" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_SOUTH_east00" x="270" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_SOUTH_east01" x="288" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_SOUTH_east02" x="306" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_east00" x="324" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_east01" x="342" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_east02" x="360" y="0" width="18" height="17" pivotX="1" pivotY="1"/>
+
+<SubTexture name="minigun-fire_NORTH_east00" x="378" y="255" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_NORTH_east01" x="396" y="272" width="18" height="17" pivotX="1" pivotY="1"/>
+<SubTexture name="minigun-fire_NORTH_east02" x="414" y="289" width="18" height="17" pivotX="1" pivotY="1"/>
+
+
+</TextureAtlas>
