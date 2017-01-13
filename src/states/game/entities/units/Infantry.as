@@ -1,5 +1,7 @@
 package states.game.entities.units
 {
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import global.GameAtlas;
 	import global.Parameters;
 	import starling.core.Starling;
@@ -14,6 +16,7 @@ package states.game.entities.units
 	public class Infantry extends ShootingUnit
 	{
 		private var deathMC:MovieClip;
+		private var shootInterval:int;
 		
 		public function Infantry(_unitStats:InfantryStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
 		{
@@ -21,13 +24,53 @@ package states.game.entities.units
 			model.enemyTeam = _enemyTeam;
 			if (UnitModel(model).stats.weapon)
 			{
-				UnitModel(model).shootCount = UnitModel(model).stats.weapon.rateOfFire;//UnitModel(model).unitStats.shootCycleInterval);
+				UnitModel(model).shootCount = UnitModel(model).stats.weapon.rateOfFire;
 			}
 			
 		}
 		
+		override protected function fireWeaponActual(currentEnemy):void 
+		{
+			//this is for the grenadier only
+			var fnctn:Function = super.fireWeaponActual;
+			if (InfantryStatsObj(model.stats).fireIndex)
+			{
+				if (view && UnitView(view).state == "_fire")
+				{
+					shootInterval = setInterval(function() 
+					{
+						if (view && UnitView(view).state == "_fire")
+						{
+						
+							if (view.mc && view.mc.currentFrame == InfantryStatsObj(model.stats).fireIndex)
+							{
+								if (fnctn)
+								{
+									fnctn(currentEnemy);
+								}
+								clearInterval(shootInterval)
+								
+							}
+						}
+						else
+						{
+							clearInterval(shootInterval);
+						}
+						
+					},50);
+				}
+			}
+			else
+			{
+				super.fireWeaponActual(currentEnemy);
+			}
+		}
+		
+		
+		
 		override protected function handleDeath(_pulse:Boolean):void
 		{
+			clearInterval(shootInterval)
 			playDeathAniamtion(model.stats.name +  "_" + currentInfantryDeath);
 			super.handleDeath(_pulse);
 			dispatchEvent(new Event("DEAD"));
@@ -48,6 +91,10 @@ package states.game.entities.units
 				Starling.juggler.add(deathMC);
 				deathMC.x = view.x;// + (width / 2);
 				deathMC.y = view.y;// + (height / 2);
+				deathMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
+				deathMC.y += ((model.stats.pixelOffsetY*Parameters.gameScale)/2);
+				
+				
 				view.visible = false;
 			}
 			else

@@ -9,6 +9,8 @@ package states.game.ui
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.KeyboardController;
 	import global.utilities.MapMover;
+	import states.game.entities.units.ShootingUnit;
+	import states.game.teamsData.TeamObject;
 	
 	import global.Methods;
 	import global.Parameters;
@@ -336,11 +338,8 @@ package states.game.ui
 					{
 						//trace"alright already!");
 						p = Parameters.currentSquad[0];
-						
-						
-						
-						p.walkToDestination(targetRow, targetCol);
 						playHitAnim = true;
+						p.walkToDestination(targetRow, targetCol);
 					}
 				}
 				else
@@ -424,11 +423,19 @@ package states.game.ui
 		{
 			if (Parameters.currentSquad == null) return;
 			
-			/*if(KeyboardController.ctrl)
+			if(KeyboardController.ctrl)
 			{
-				HudController.completedAsset = { "name" : "minigunner", "type" : "units" };
-				GlobalEventDispatcher.getInstance().dispatchEvent(new Event("ASSET_CONSTRUCTED"));
-			}*/
+				//HudController.completedAsset = { "name" : "minigunner", "type" : "units" };
+				//GlobalEventDispatcher.getInstance().dispatchEvent(new Event("ASSET_CONSTRUCTED"));
+				var currentUnit:GameEntity = Parameters.currentSquad[0];
+				if (currentUnit)
+				{
+					var currentTeamObj:TeamObject = currentUnit.myTeamObj;
+					currentTeamObj.spawnEnemyUnit(currentUnit.model.row + 3, currentUnit.model.col - 3, false);
+				}
+				
+				
+			}
 			
 			Parameters.currentSquad.splice(0);
 			recSelector.unitsArray.splice(0);

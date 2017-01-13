@@ -143,7 +143,10 @@ package states.game
 			}
 			
 			team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-			team2Obj.init(Parameters.pcTeam, Parameters.humanTeam)
+			team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+			
+			team1Obj.setEnemyTeamObj(team2Obj);
+			team2Obj.setEnemyTeamObj(team1Obj);
 			
 			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
 		}

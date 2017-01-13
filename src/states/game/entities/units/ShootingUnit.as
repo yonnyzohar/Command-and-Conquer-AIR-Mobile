@@ -1,5 +1,6 @@
 package  states.game.entities.units
 {
+	import starling.events.Event;
 	import flash.geom.Point;
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
@@ -7,6 +8,7 @@ package  states.game.entities.units
 	import global.Parameters;
 	import global.utilities.SightManager;
 	import states.game.entities.buildings.Building;
+	import states.game.entities.EntityModel;
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.views.FullCircleView;
 	import states.game.entities.units.views.UnitView;
@@ -48,6 +50,18 @@ package  states.game.entities.units
 			{
 				weapon = new Weapon(_unitStats.weapon, model);
 			}
+		}
+		
+		override protected function setState(state:int):void
+		{
+			if (state != UnitStates.SHOOT)
+			{
+				if (view)
+				{
+					view.removeEventListener("DONE_ROTATING", onDoneRotating);
+				}
+			}
+			super.setState(state);
 		}
 		
 		
@@ -385,34 +399,35 @@ package  states.game.entities.units
 			{
 				if (Methods.isValidEnemy(currentEnemy, teamNum) && isInRange(currentEnemy))
 				{
-					UnitModel(model).shootCount++;
+					
 					var rateOfFire:int = UnitModel(model).stats.weapon.rateOfFire;
-					////trace("shootCount " + UnitModel(model).shootCount + " rateOfFire " + rateOfFire);
+					//trace("shootCount " + UnitModel(model).shootCount + " rateOfFire " + rateOfFire);
 					if(UnitModel(model).shootCount == rateOfFire)
 					{
 						UnitView(view).shoot(currentEnemy , currentEnemy.model.row, currentEnemy.model.col);
 						
 						if(UnitModel(model).stats.weapon != null && UnitModel(model).rotating == false)
 						{
-							//var shootDuration:Number = Methods.estimateDistance(currentEnemy.view.y, view.y, currentEnemy.view.x, view.x) * 0.001;
-							weapon.shoot(currentEnemy, view);
-							
-							if(Methods.isValidEnemy(currentEnemy, teamNum))UnitView(view).recoil( currentEnemy);
+							fireWeaponActual(currentEnemy)
 						}
-						UnitModel(model).shootCount = 0;
+						else
+						{
+							view.addEventListener("DONE_ROTATING", onDoneRotating);
+						}
+						
 					}
 					else
 					{
 						if (UnitView(view).shootAnimPlaying == false)
 						{
 							UnitView(view).stopShootingAndStandIdlly();
-							//weapon.stop();
 						}
-						if (UnitModel(model).shootCount > rateOfFire)
+						/*if (UnitModel(model).shootCount > rateOfFire)
 						{
 							UnitModel(model).shootCount = 0;
-						}
+						}*/
 					}
+					UnitModel(model).shootCount++;
 				}
 				else
 				{
@@ -420,6 +435,25 @@ package  states.game.entities.units
 				}
 			}
 			
+		}
+		
+		private function onDoneRotating(e:Event):void 
+		{
+			view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			if (model.currentState == UnitStates.SHOOT)
+			{
+				UnitModel(model).shootCount = 0;// UnitModel(model).stats.weapon.rateOfFire;
+			}
+		}
+		
+		protected function fireWeaponActual(currentEnemy):void 
+		{
+			weapon.shoot(currentEnemy, view);
+			if (Methods.isValidEnemy(currentEnemy, teamNum))
+			{
+				UnitView(view).recoil( currentEnemy);
+			}
+			UnitModel(model).shootCount = 0;
 		}
 		
 		override protected function doNothing():void
@@ -586,6 +620,10 @@ package  states.game.entities.units
 		
 		override public function dispose():void
 		{
+			if (view)
+			{
+				view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			}
 			weapon = null;
 			super.dispose();
 		}

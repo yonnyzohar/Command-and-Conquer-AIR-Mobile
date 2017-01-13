@@ -43,6 +43,7 @@ package states.game.teamsData
 		public var cash:int;
 		public var powerCtrl:PowerController;
 		private var startParams:Object;
+		private var enemyTeam1Obj:TeamObject;
 		
 		public function TeamObject(_startParams:Object, _teamNum:int)
 		{
@@ -268,6 +269,16 @@ package states.game.teamsData
 			return p;
 		}
 		
+		public function setEnemyTeamObj(_enemyTeam1Obj:TeamObject):void 
+		{
+			enemyTeam1Obj = _enemyTeam1Obj;
+		}
+		
+		public function spawnEnemyUnit(row:int, col:int, searchAndDestroy:Boolean = true):void 
+		{
+			enemyTeam1Obj.spawnSoldier(row, col, searchAndDestroy);
+		}
+		
 		private function onDead(e:Event):void
 		{
 			var residentSoldiersArr:Array = [];
@@ -290,8 +301,8 @@ package states.game.teamsData
 					
 					for (i = 0; i < numResidents; i++)
 					{
-						var soldier:Infantry = new Infantry(InfantryStats.dict["minigunner"], p.myTeamObj, BuildingModel(p.model).enemyTeam, p.teamNum);
-						residentSoldiersArr.push(soldier);
+						spawnSoldier(row, col);
+						
 					}
 					
 					//this is temporary until the pc can build its own
@@ -301,19 +312,7 @@ package states.game.teamsData
 					}
 					
 				}
-				
-				
-				
-				for (i = 0; i < residentSoldiersArr.length; i++)
-				{
-					var soldier:Infantry = residentSoldiersArr[i];
-					var placementsArr:Array = SpiralBuilder.getSpiral(row, col, 1);
-					soldier.placeUnit(placementsArr[0].row, placementsArr[0].col);
-					Parameters.mapHolder.addChild(soldier.view);
-					team.push(soldier);
-					soldier.addEventListener("DEAD", onDead);
-					soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);
-				}
+
 				
 				//this is temporary until the pc can build its own
 				if (team == Parameters.humanTeam)
@@ -338,6 +337,15 @@ package states.game.teamsData
 			dispatchEventWith("ASSET_DESTROYED", false, {numResidents: numResidents});
 		}
 		
-		
+		public function spawnSoldier(row:int, col:int, searchAndDestroy:Boolean = true):void 
+		{
+			var soldier:Infantry = new Infantry(InfantryStats.dict["minigunner"], this, enemyTeam, teamNum);
+			var placementsArr:Array = SpiralBuilder.getSpiral(row, col, 1);
+			soldier.placeUnit(placementsArr[0].row, placementsArr[0].col);
+			Parameters.mapHolder.addChild(soldier.view);
+			team.push(soldier);
+			soldier.addEventListener("DEAD", onDead);
+			if(searchAndDestroy)soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);
+		}
 	}
 }

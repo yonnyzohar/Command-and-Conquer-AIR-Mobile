@@ -80,7 +80,6 @@ package  states.game.weapons
 		public function shoot(enemy:GameEntity, shooterView:EntityView):void
 		{
 			
-			
 			/*var arr:Array;
 			
 			if(numOfCannons > 1)

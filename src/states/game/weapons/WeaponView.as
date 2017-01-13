@@ -113,8 +113,8 @@ package  states.game.weapons
 				projectileMC.x = shooter.x;
 				projectileMC.y = shooter.y;
 				
-				projectileMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
-				projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale) / 2);
+				//projectileMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
+				//projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale)/2 );
 				
 				
 				
@@ -154,7 +154,7 @@ package  states.game.weapons
 						var dist:int = Methods.distanceTwoPoints(projectileMC.x, targetX, projectileMC.y, targetY);
 						
 						halfy -= (dist * 0.2);
-						var time:Number = (speed * dist * 0.001);
+						var time:Number = (speed * dist * 0.002);
 						
 						TweenMax.to(projectileMC, time, 
 									{

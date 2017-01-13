@@ -9,7 +9,7 @@ package states.game.stats
 	{
 		public var idleRotate:Boolean;
 		public var sounds:UnitSounds;
-		
+		public var fireIndex:int;
 		
 	}
 }

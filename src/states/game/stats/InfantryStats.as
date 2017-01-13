@@ -56,6 +56,7 @@ package states.game.stats
                 infantryObj.constructedIn		= curUnit.constructedIn; // what buildings can build this unit
                 infantryObj.owner				= curUnit.owner; // gdi, nod or both
 				infantryObj.cost				= curUnit.cost;
+				infantryObj.fireIndex			= curUnit.fireIndex;
 				
 				infantryObj.pixelOffsetX  = curUnit.pixelOffsetX;
 				infantryObj.pixelOffsetY  = curUnit.pixelOffsetY;

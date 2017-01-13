@@ -249,6 +249,11 @@ package states.game.entities.units.views
 			}
 			
 			 UnitModel(model).rotating = false;
+			 if (model.currentState == UnitStates.SHOOT)
+			 {
+				 dispatchEvent(new starling.events.Event("DONE_ROTATING"))
+			 }
+			
 		}
 		
 		
@@ -265,26 +270,7 @@ package states.game.entities.units.views
 			}
 		}
 		
-		public function playExplosion(deathAnimation:String):void 
-		{
-			var explosionMC:MovieClip = GameAtlas.createMovieClip(deathAnimation);
-			explosionMC.touchable = false;
-			Parameters.mapHolder.addChild(explosionMC);
-			explosionMC.scaleX = explosionMC.scaleY = Parameters.gameScale;
-			explosionMC.x = x; 
-			explosionMC.y = y;
-			Starling.juggler.add(explosionMC);
-			explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
-			explosionMC.play();
-		}
 		
-		private function onExplosionComplete(e:Event):void
-		{
-			var explosionMC:MovieClip = MovieClip(e.currentTarget)
-			Starling.juggler.remove(explosionMC);
-			explosionMC.removeEventListener(Event.COMPLETE, onExplosionComplete);
-			Parameters.mapHolder.removeChild(explosionMC);
-		}
 		
 		
 	}
