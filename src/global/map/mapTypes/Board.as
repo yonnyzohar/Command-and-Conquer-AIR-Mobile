@@ -282,7 +282,7 @@ package global.map.mapTypes
 			}
 			var rndImg:int = Math.random() * textures.length; 
 			var img:Image = new Image(textures[rndImg]);
-			img.scaleX = img.scaleY = (Parameters.gameScale );
+			img.scaleX = img.scaleY = (Parameters.gameScale);
 			img.blendMode = BlendMode.NONE;
 			img.touchable = false;
 			
@@ -306,6 +306,8 @@ package global.map.mapTypes
 					n.groundTile = getGrassTile();  
 					n.groundTile.y = n.row * Parameters.tileSize;
 					n.groundTile.x = n.col * Parameters.tileSize;
+					n.groundTile.scaleX += 0.5;
+					n.groundTile.scaleY += 0.5;
 					
 					if (drawType == Board.DRAW_TYPE_ALL_TILES)
 					{
@@ -354,7 +356,7 @@ package global.map.mapTypes
 				}
 			}
 			
-			var d:Object = { };
+			/*var d:Object = { };
 			d["topRight"] = 0;
 			d["topLeft"] = 1;
 			d["bottomLeft"] = 2;
@@ -467,7 +469,7 @@ package global.map.mapTypes
 								c[g].groundTile.texture = beachTextures[d["topRight"]];
 							}
 							
-							/*						
+												
 							if (a[g] == "top" && Parameters.boardArr[c[g].row][c[g].col + 1] && Parameters.boardArr[c[g].row][c[g].col + 1].isWater)
 							{
 								c[g].groundTile.texture = beachTextures[d["topLeft"]];
@@ -481,7 +483,7 @@ package global.map.mapTypes
 							if (a[g] == "bottom" && Parameters.boardArr[c[g].row][c[g].col + 1] && Parameters.boardArr[c[g].row][c[g].col + 1].isWater)
 							{
 								c[g].groundTile.texture = beachTextures[d["bottomLeft"]];
-							}*/
+							}
 							
 							
 							
@@ -496,7 +498,7 @@ package global.map.mapTypes
 				
 				
 				
-			}
+			}*/
 			waterTiles.splice(0);
 			waterTiles = null;
 				

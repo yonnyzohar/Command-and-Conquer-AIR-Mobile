@@ -169,7 +169,6 @@ package states.editor
 			}
 			if (currentType == "vehicle")
 			{
-				//
 				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_move", owner)));
 				var tex:Texture = GameAtlas.getTexture(currentUnit + "_turret", owner);
 				if (tex)

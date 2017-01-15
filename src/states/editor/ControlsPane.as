@@ -28,6 +28,12 @@ package states.editor
 		private var treeTextures:Vector.<Texture>;
 		private var resourceTextures:Vector.<Texture>;
 		
+		private var topShoreTextures:Vector.<Texture>;
+		private var bottomShoreTextures:Vector.<Texture>;
+		private var leftShoreTextures:Vector.<Texture>;
+		private var rightShoreTextures:Vector.<Texture>;
+		private var cornerShoreTextures:Vector.<Texture>;
+		
 		private var currentTile:String = "grass";
 		private var currentTexture:Vector.<Texture>;
 		private var xOffset:int;
@@ -35,6 +41,11 @@ package states.editor
 		
 		private var currentTree:int = 0;
 		private var currenttiberium:int = 0;
+		private var currentTopShore:int = 0;
+		private var currentBottomShore:int = 0;
+		private var currentLeftShore:int = 0;
+		private var currentRightShore:int = 0;
+		private var currentCornerShore:int = 0;
 		
 		public function ControlsPane()
 		{
@@ -56,6 +67,12 @@ package states.editor
 			ButtonManager.setButton(view.treeMC, "TOUCH", onTreeClicked);
 			ButtonManager.setButton(view.tileTypeMC, "TOUCH", onTileTypeClicked);
 			
+			ButtonManager.setButton(view.shore_top, "TOUCH", onShoreTopClicked);
+			ButtonManager.setButton(view.shore_bottom, "TOUCH", onShoreBottomClicked);
+			ButtonManager.setButton(view.shore_left, "TOUCH", onShoreLeftClicked);
+			ButtonManager.setButton(view.shore_right, "TOUCH", onShoreRightClicked);
+			ButtonManager.setButton(view.shore_corner, "TOUCH", onShoreCornerClicked);
+			
 			ButtonManager.setButton(view.eraseMC, "TOUCH", onEraseClicked);
 			ButtonManager.setButton(view.brushMC, "TOUCH", onBrushClicked);
 			ButtonManager.setButton(view.bucketMC, "TOUCH", onBucketClicked);
@@ -69,6 +86,87 @@ package states.editor
 			initTiles();
 			initObstacles();
 			
+		}
+		
+		
+		private function onShoreTopClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.shore_top);
+			
+			currentTexture = topShoreTextures;
+			
+			if(isAlreadyCovered)currentTopShore++;
+			
+			if (currentTopShore >= topShoreTextures.length)
+			{
+				currentTopShore = 0;
+			}
+			
+			setTile(view.shore_top, topShoreTextures, currentTopShore);
+		}
+		
+		private function onShoreBottomClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.shore_bottom);
+			
+			currentTexture = bottomShoreTextures;
+			
+			if(isAlreadyCovered)currentBottomShore++;
+			
+			if (currentBottomShore >= bottomShoreTextures.length)
+			{
+				currentBottomShore = 0;
+			}
+			
+			setTile(view.shore_bottom, bottomShoreTextures, currentBottomShore);
+		}
+		
+		private function onShoreLeftClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.shore_left);
+			
+			currentTexture = leftShoreTextures;
+			
+			if(isAlreadyCovered)currentLeftShore++;
+			
+			if (currentLeftShore >= leftShoreTextures.length)
+			{
+				currentLeftShore = 0;
+			}
+			
+			setTile(view.shore_left, leftShoreTextures, currentLeftShore);
+		}
+		
+		private function onShoreRightClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.shore_right);
+			
+			currentTexture = rightShoreTextures;
+			
+			if(isAlreadyCovered)currentRightShore++;
+			
+			if (currentRightShore >= rightShoreTextures.length)
+			{
+				currentRightShore = 0;
+			}
+			
+			setTile(view.shore_right, rightShoreTextures, currentRightShore);
+		}
+		
+		private function onShoreCornerClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.shore_corner);
+			
+			currentTexture = cornerShoreTextures;
+			
+			if(isAlreadyCovered)currentCornerShore++;
+			
+			if (currentCornerShore >= cornerShoreTextures.length)
+			{
+				currentCornerShore = 0;
+			}
+			
+			setTile(view.shore_corner, cornerShoreTextures, currentCornerShore);
 		}
 		
 		
@@ -125,10 +223,9 @@ package states.editor
 		private function initObstacles():void 
 		{
 			resourceTextures = GameAtlas.getTextures("tiberium");
-			setResourceTile();
+			setTile(view.rockMC, resourceTextures,currenttiberium);
 			
-			//var treeTextureArrays:Array  = GameAtlas.getMultipleTextureArrays("tree");
-
+			//we need to get only the first frame of each tree
 			for (var k:String in Assets.trees.list)
 			{
 				var tex:Vector.<Texture> = GameAtlas.getTextures(k);
@@ -137,36 +234,40 @@ package states.editor
 					treeTextures = new Vector.<Texture> ;
 				}
 				if(tex)treeTextures.push(tex[0]);
-				
 			}
 			
-			 
-			setTreeTile();
+			setTile(view.treeMC, treeTextures, currentTree);
+			
+			topShoreTextures = GameAtlas.getTextures("shore_top_low");
+			setTile(view.shore_top, topShoreTextures, currentTopShore);
+			
+			bottomShoreTextures = GameAtlas.getTextures("shore_bottom_low");
+			setTile(view.shore_bottom, bottomShoreTextures, currentBottomShore);
+			
+			leftShoreTextures = GameAtlas.getTextures("shore_left_low");
+			setTile(view.shore_left, leftShoreTextures, currentLeftShore);
+			
+			rightShoreTextures = GameAtlas.getTextures("shore_right_low");
+			setTile(view.shore_right, rightShoreTextures, currentRightShore);
+			
+			cornerShoreTextures = GameAtlas.getTextures("shore_corner_low");
+			setTile(view.shore_corner, cornerShoreTextures, currentCornerShore);
 		}
 		
-		private function setTreeTile():void 
-		{
-			if (view.treeMC.img == null)
-			{
-				view.treeMC.img = new Image(treeTextures[currentTree]);
-				view.treeMC.img.scaleX = view.treeMC.img.scaleY = Parameters.gameScale;
-			}
-			view.treeMC.img.texture = treeTextures[currentTree]
-			view.treeMC.img.width = 35;
-			view.treeMC.img.height = 35;
-			view.treeMC.addChild(view.treeMC.img);
-		}
+
 		
-		private function setResourceTile():void 
+		
+		private function setTile(mc:GameSprite, texture:Vector.<Texture>, count:int):void 
 		{
-			if (view.rockMC.img == null)
+			if (mc.img == null)
 			{
-				view.rockMC.img = new Image(resourceTextures[currenttiberium]);
+				mc.img = new Image(texture[count]);
+				mc.img.scaleX = mc.img.scaleY = Parameters.gameScale;
 			}
-			view.rockMC.img.texture = resourceTextures[currenttiberium]
-			view.rockMC.img.width = 35;
-			view.rockMC.img.height = 35;
-			view.rockMC.addChild(view.rockMC.img);
+			mc.img.texture = texture[count]
+			mc.img.width = 35;
+			mc.img.height = 35;
+			mc.addChild(mc.img);
 		}
 		
 		private function onNoneClicked(caller:GameSprite):void
@@ -179,45 +280,52 @@ package states.editor
 		
 		private function onTreeClicked(caller:GameSprite):void
 		{
-			view.tileTypeCoverMC.x = view.treeMC.x;
-			view.tileTypeCoverMC.y = view.treeMC.y;
-			view.bucketMC.alpha = 0.5;
-			view.bucketMC.touchable = false;
-			view.paintCoverMC.x = view.brushMC.x;
-			view.paintCoverMC.y = view.brushMC.y;
+			var isAlreadyCovered:Boolean = highlightMe(view.treeMC);
+			
 			currentTexture = treeTextures;
 			
-			currentTree++;
+			if(isAlreadyCovered)currentTree++;
 			
 			if (currentTree >= treeTextures.length)
 			{
 				currentTree = 0;
 			}
 			
-			setTreeTile();
+			setTile(view.treeMC, treeTextures, currentTree);
 			
 			
 		}
 		
-		private function onObstacleClicked(caller:GameSprite):void
+		private function highlightMe(mc:GameSprite):Boolean
 		{
-			view.tileTypeCoverMC.x = view.rockMC.x;
-			view.tileTypeCoverMC.y = view.rockMC.y;
+			var isAlreadyHere:Boolean = false;
+			if (view.tileTypeCoverMC.x == mc.x && view.tileTypeCoverMC.y == mc.y)
+			{
+				isAlreadyHere = true;
+			}
+			view.tileTypeCoverMC.x = mc.x;
+			view.tileTypeCoverMC.y = mc.y;
 			view.bucketMC.alpha = 0.5;
 			view.bucketMC.touchable = false;
 			view.paintCoverMC.x = view.brushMC.x;
 			view.paintCoverMC.y = view.brushMC.y;
+			return isAlreadyHere
+		}
+		
+		private function onObstacleClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.rockMC);
 			currentTexture = resourceTextures;
 			
 			
-			currenttiberium++;
+			if(isAlreadyCovered)currenttiberium++;
 			
 			if (currenttiberium >= resourceTextures.length)
 			{
 				currenttiberium = 0;
 			}
 			
-			setResourceTile();
+			setTile(view.rockMC, resourceTextures,currenttiberium);
 			
 		}
 		private function onTileTypeClicked(caller:GameSprite):void
@@ -335,16 +443,19 @@ package states.editor
 			{
 				phase = "end"
 				location = end.getLocation(Parameters.theStage);
+				
 			}
+			
 			
 			if(location != null)
 			{
 				boardCoordinates = Parameters.mapHolder.globalToLocal(new Point(location.x, location.y));
 				targetCol = (boardCoordinates.x / Parameters.tileSize)
 				targetRow = (boardCoordinates.y / Parameters.tileSize)
+				fillTile(targetRow, targetCol, phase);
 			}
 			
-			fillTile(targetRow, targetCol, phase);
+			
 			
 			e.stopPropagation();
 		}
@@ -428,6 +539,8 @@ package states.editor
 			}
 		}
 		
+		private var shoreObstacle:MovieClip;
+		
 		private function fillTile(targetRow:int, targetCol:int, _phase:String = ""):void 
 		{
 			if (Parameters.boardArr[targetRow][targetCol])
@@ -435,6 +548,94 @@ package states.editor
 				var rnd:int = Math.random() * currentTexture.length;
 				var node:Node = Node(Parameters.boardArr[targetRow][targetCol]);
 				var currentNum:int = 0;
+				
+				if (currentTexture == topShoreTextures || 
+					currentTexture == bottomShoreTextures ||
+					currentTexture == leftShoreTextures ||
+					currentTexture == rightShoreTextures ||
+					currentTexture == cornerShoreTextures)
+				{
+					if (_phase == "begin")
+					{
+						if (currentTexture == topShoreTextures)
+						{
+							n = getShoreN("shore_top_low_", currentTopShore);
+						}
+
+						if (currentTexture == bottomShoreTextures)
+						{
+							n = getShoreN("shore_bottom_low_", currentBottomShore);
+						}
+						
+						if (currentTexture == leftShoreTextures)
+						{
+							n = getShoreN("shore_left_low_", currentLeftShore);
+						}
+						if (currentTexture == rightShoreTextures)
+						{
+							n = getShoreN("shore_right_low_", currentRightShore);
+						}
+						if (currentTexture == cornerShoreTextures)
+						{
+							n = getShoreN("shore_corner_low_", currentCornerShore);
+						}
+
+						shoreObstacle = GameAtlas.createMovieClip(n);
+						shoreObstacle.x = node.col * Parameters.tileSize;
+						shoreObstacle.y = node.row * Parameters.tileSize;
+						shoreObstacle.scaleX = shoreObstacle.scaleY = Parameters.gameScale;
+						Parameters.mapHolder.addChild(shoreObstacle);
+						
+					}
+					if (_phase == "move")
+					{
+						if (shoreObstacle)
+						{
+							shoreObstacle.x = node.col * Parameters.tileSize;
+							shoreObstacle.y = node.row * Parameters.tileSize;
+						}
+					}
+					if (_phase == "end")
+					{
+						if (shoreObstacle) 
+						{
+							shoreObstacle.removeFromParent();
+							shoreObstacle = null;
+						}
+						
+						if (currentTexture == topShoreTextures)
+						{
+							n = getShoreN("shore_top_low_", currentTopShore);
+						}
+
+						if (currentTexture == bottomShoreTextures)
+						{
+							n = getShoreN("shore_bottom_low_", currentBottomShore);
+						}
+						
+						if (currentTexture == leftShoreTextures)
+						{
+							n = getShoreN("shore_left_low_", currentLeftShore);
+						}
+						if (currentTexture == rightShoreTextures)
+						{
+							n = getShoreN("shore_right_low_", currentRightShore);
+						}
+						if (currentTexture == cornerShoreTextures)
+						{
+							n = getShoreN("shore_corner_low_", currentCornerShore);
+						}
+						
+						
+						node.obstacleTile = GameAtlas.createMovieClip(n);
+						node.obstacleTile.x = node.col * Parameters.tileSize;
+						node.obstacleTile.y = node.row * Parameters.tileSize;
+						node.walkable = false;
+						node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
+						node.obstacleTile.name = n;
+						Parameters.mapHolder.addChild(node.obstacleTile);
+					}
+				}
 				
 				if (currentTexture == treeTextures || currentTexture == resourceTextures)
 				{
@@ -452,38 +653,36 @@ package states.editor
 							currentNum = currenttiberium;
 							n = "tiberium_" + currentNum;
 						}
-						
-						if (node.obstacleTile)
-						{
-							if (node.obstacleTile.texture == currentTexture[currentNum])
-							{
-								return;
-							}
-							
-							node.obstacleTile.dispose();
-						}
-						else
-						{
-							node.obstacleTile = new MovieClip(currentTexture);
-							node.obstacleTile.x = node.col * Parameters.tileSize;
-							node.obstacleTile.y = node.row * Parameters.tileSize;
-						}
-						if (currentTexture == treeTextures)
-						{
-							if((node.obstacleTile.height - Parameters.tileSize) > 5)
-							{
-								node.obstacleTile.y -= Parameters.tileSize ;
-							}
-						}
-						
-						node.walkable = false;
-						node.obstacleTile.texture = currentTexture[currentNum];
-						node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
-						node.obstacleTile.name = n;
-						//tracenode.obstacleTile.name)
-						
-						Parameters.mapHolder.addChild(node.obstacleTile);
 					}
+					
+					if (node.obstacleTile)
+					{
+						if (node.obstacleTile.texture == currentTexture[currentNum])
+						{
+							return;
+						}
+						
+						node.obstacleTile.dispose();
+					}
+					else
+					{
+						node.obstacleTile = new MovieClip(currentTexture);
+						node.obstacleTile.x = node.col * Parameters.tileSize;
+						node.obstacleTile.y = node.row * Parameters.tileSize;
+					}
+					if (currentTexture == treeTextures)
+					{
+						if((node.obstacleTile.height - Parameters.tileSize) > 5)
+						{
+							node.obstacleTile.y -= Parameters.tileSize ;
+						}
+					}
+					
+					node.walkable = false;
+					node.obstacleTile.texture = currentTexture[currentNum];
+					node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
+					node.obstacleTile.name = n;
+					Parameters.mapHolder.addChild(node.obstacleTile);
 					
 				}
 				
@@ -504,20 +703,38 @@ package states.editor
 						node.isWater = false;
 					}
 					
-					if (node.obstacleTile && currentTexture == waterTextures)
+					/*if (node.obstacleTile && currentTexture == waterTextures)
 					{
 						node.obstacleTile.removeFromParent(true);
 						node.obstacleTile = null;
-					}
+					}*/
 					
 					node.groundTile.dispose();
 					node.groundTile.texture = currentTexture[rnd];
 				}
 				
-				
 			}
+		}
+		
+		//83.6
+		//83.1
+		
+		private function getShoreN( _name:String, _count:int):String 
+		{
+
+			var currentNum:int = _count+1;
+			var str:String = ""
+			if (currentNum < 10)
+			{
+				str = "0" + currentNum;
+			}
+			else
+			{
+				str = String(currentNum);
+			}
+			var n:String = _name + str;
 			
-			
+			return n
 		}
 		
 		private function floodFillTiles(targetRow:int, targetCol:int, type:int):void 

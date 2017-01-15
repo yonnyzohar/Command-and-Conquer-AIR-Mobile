@@ -6,6 +6,687 @@ package global.assets
      */
     public class Assets 
 	{
+		public static var shores:Object = {
+			
+			type:"shores",
+			list: {
+			
+				"shore_corner_high_1": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_bottom_high_4": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				
+				"shore_corner_low_11": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				
+				"shore_corner_low_12": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				
+				"shore_bottom_high_5": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_bottom_high_6": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				
+				"shore_corner_high_2": {
+					gridBuild:[
+						[1,1],
+						[1,0]
+					]
+				},
+				"shore_corner_high_3": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_high_4": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_high_5": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_high_6": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_high_7": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_high_8": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_top_high_1": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_top_high_2": {
+					gridBuild:[
+						[0,1],
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_top_high_3": {
+					gridBuild:[
+						[1],
+						[1]
+						
+					]
+				},
+				"shore_right_high_1": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				
+				"shore_right_high_2": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"shore_right_high_3": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_right_high_4": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_right_high_5": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_right_high_6": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"shore_right_high_7": {
+					gridBuild:[
+						[1,1],
+						[0,1]
+					]
+				},
+				
+				
+				"shore_corner_low_7": {
+					gridBuild:[
+						[1, 1, 1],
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				
+				"shore_corner_low_1": {
+					gridBuild:[
+						[1, 1,1],
+						[0, 1, 1],
+						[0,1,1]
+					]
+				},
+				"shore_corner_low_2": {
+					gridBuild:[
+						[0, 1,1],
+						[1, 1, 1],
+						[0,1,1]
+					]
+				},
+				"shore_corner_low_3": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_low_4": {
+					gridBuild:[
+						[1, 1,0],
+						[1, 1, 1],
+						[1,1,1]
+					]
+				},
+				"shore_corner_low_8": {
+					gridBuild:[
+						[1, 1,1],
+						[1, 1, 0],
+						[1,0,0]
+					]
+				},
+				"shore_corner_high_9":{
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_corner_high_10":{
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_bottom_high_1": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_left_low_11": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_bottom_high_7": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_bottom_high_2": {
+					gridBuild:[
+						[1, 1],
+						[1, 1],
+						[1,1]
+					]
+				},
+				
+				"shore_bottom_high_3": {
+					gridBuild:[
+						[1, 1],
+						[1, 1],
+						[1,0]
+					]
+				},
+				"shore_right_low_3": {
+					gridBuild:[
+						[0, 1,1],
+						[1, 1,1],
+						[1,1,1]
+					]
+				},
+				"shore_right_low_4": {
+					gridBuild:[
+						[1, 1]
+						
+					]
+				},
+				"shore_right_low_5": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_right_low_6": {
+					gridBuild:[
+						[1, 1, 1, 0, 0],
+						[0, 1, 1, 0, 0],
+						[0, 1, 1, 1, 0],
+						[0, 1, 1, 1, 1],
+						[0, 0, 1, 1, 1]
+						
+					]
+				},
+				"shore_right_low_7": {
+					gridBuild:[
+						[1, 1, 0, 0],
+						[1, 1, 1, 0],
+						[1, 1, 1, 1],
+						[0, 1, 1, 1]
+					]
+				},
+				"shore_right_low_8": {
+					gridBuild:[
+						[1, 1, 1, 0],
+						[0, 1, 1, 1],
+						[0, 1, 1, 1]
+					]
+				},
+				"shore_corner_low_5": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_corner_low_6": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+					
+				},
+				"shore_corner_low_9": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_corner_low_10": {
+					gridBuild:[
+						[1, 0, 0],
+						[1, 1, 0],
+						[1, 1, 1]
+						
+					]
+				},
+				"shore_left_low_1": {
+					gridBuild:[
+						[1,1,1,0,0,0],
+						[0,1,1,1,0,0],
+						[0, 1, 1, 1, 1, 0],
+						[0, 1, 1, 1, 1, 1],
+						[0,0,0,1,1,1]
+						
+					]
+				},
+				"shore_left_low_7": {
+					gridBuild:[
+						[1,1,1,0],
+						[1,1,1,0],
+						[1,1,1,0],
+						[0,1,1,1]
+						
+					]
+				},
+				"shore_left_low_8": {
+					gridBuild:[
+						[1,1,1,1,0],
+						[0,1,1,1,0],
+						[0,0,1,1,1]
+						
+					]
+				},
+				"shore_left_low_9": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_left_low_5": {
+					gridBuild:[
+						[1, 1]
+					]
+				},
+				"shore_left_low_6": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_left_low_2": {
+					gridBuild:[
+						[0,1,1,1],
+						[0,1,1,1],
+						[1,1,1,0],
+						[1,1,1,0],
+						[1,1,1,0]
+						
+					]
+				},
+				"shore_left_low_3": {
+					gridBuild:[
+						[0,0,1,1,1],
+						[1,1,1,1,0],
+						[1,1,1,0,0],
+						[1,1,1,0,0]
+					]
+				},
+				"shore_left_low_4": {
+					gridBuild:[
+						[0,1,1,1,1],
+						[1,1,1,1,0],
+						[1,1,1,0,0]
+					]
+				},
+				"shore_top_low_4": {
+					gridBuild:[
+						[1,0,0,0,0,0],
+						[1,1,0,0,0,0],
+						[1, 1, 1, 1, 1, 1],
+						[0, 1, 1, 1, 1, 1],
+						[0,0,0,1,1,1]
+					]
+				},
+				"shore_top_low_5": {
+					gridBuild:[
+						[1,1,1,0,0],
+						[1,1,1,1,1],
+						[0,1,1,1,1],
+						[0,0,1,1,1],
+						[0,0,1,1,1]
+					]
+				},
+				"shore_top_low_6": {
+					gridBuild:[
+						[1,1,0],
+						[1,1,1],
+						[0,1,1],
+						[0,0,1]
+					]
+				},
+				"shore_bottom_low_1": {
+					gridBuild:[
+						[0,0,0,1],
+						[0,1,1,1],
+						[1,1,1,1],
+						[1,1,0,0],
+						[1,0,0,0]
+					]
+				},
+				"shore_bottom_low_2": {
+					gridBuild:[
+						[0,0,0,0,1],
+						[0,0,0,1,1],
+						[1,1,1,1,1],
+						[1,1,1,1,0],
+						[1,1,1,0,0]
+					]
+				},
+				"shore_bottom_low_3": {
+					gridBuild:[
+						[0,0,1],
+						[0,1,1],
+						[1,1,1],
+						[1,1,0],
+						[1,0,0]
+					]
+				},
+				"shore_bottom_low_4": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_bottom_low_5": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_bottom_low_6": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_bottom_low_7": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1, 1,1]
+						
+					]
+				},
+				"shore_bottom_low_8": {
+					gridBuild:[
+						[1],
+						[1]
+						
+					]
+				},
+				"shore_bottom_low_9": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"shore_bottom_low_10": {
+					gridBuild:[
+						[1,0,0,0,0],
+						[1,1,0,0,0],
+						[1,1,1,1,0],
+						[0, 0, 1, 1, 1],
+						[0, 0, 1, 1, 1],
+						[0,0,0,1,1]
+					]
+				},
+				"shore_bottom_low_11": {
+					gridBuild:[
+						[1,1,0,0],
+						[1,1,1,0],
+						[1,1,1,1],
+						[0,0,1,1],
+						[0,0,1,1]
+					]
+				},
+				"shore_bottom_low_12": {
+					gridBuild:[
+						[1,1,0],
+						[1,1,1],
+						[1,1,1],
+						[0,1,1],
+						[0,0,1]
+					]
+				},
+				"shore_top_low_7": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1],
+						[1,1,1]
+						
+					]
+				},
+				"shore_top_low_8": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1],
+						[1,1,1]
+						
+					]
+				},
+				"shore_top_low_9": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1],
+						[1,1,1]
+						
+					]
+				},
+				"shore_top_low_10": {
+					gridBuild:[
+						[0,1,1],
+						[1,1,1],
+						[1,1,1]
+						
+					]
+				},
+				"shore_top_low_11": {
+					gridBuild:[
+						[1],
+						[1]
+					]
+				},
+				"shore_top_low_12": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"shore_top_low_3": {
+					gridBuild:[
+						[0, 0, 0, 1, 1, 1],
+						[0, 0, 1, 1, 1, 1],
+						[1, 1, 1, 1, 1, 0],
+						[1, 1, 1, 1, 1, 0],
+						[1, 1, 1, 1, 1, 0]
+					]
+				},
+				"shore_top_low_2": {
+					gridBuild:[
+						[0, 0, 1, 1],
+						[0, 0, 1, 1],
+						[1, 1, 1, 1],
+						[1, 1, 1, 0],
+						[1, 1, 0, 0]
+					]
+				},
+				"shore_top_low_1": {
+					gridBuild:[
+						[0, 1, 1],
+						[1, 1, 1],
+						[1, 1, 0],
+						[1, 1, 0],
+						[1, 1, 0]
+					]
+				},
+				"shore_right_low_2": {
+					gridBuild:[
+						[0, 0, 0, 1, 1, 1],
+						[0, 1, 1, 1, 1, 0],
+						[0, 1, 1, 1, 0, 0],
+						[0, 1, 1, 1, 0, 0],
+						[1, 1, 1, 0, 0, 0]
+					]
+				},
+				"shore_right_low_1": {
+					gridBuild:[
+						[0, 0, 1, 1],
+						[0, 1, 1, 1],
+						[0, 1, 1, 1],
+						[0, 1, 1, 1],
+						[1, 1, 1, 0]
+					]
+				},
+				"shore_right_low_9": {
+					gridBuild:[
+						[0, 1, 1, 1],
+						[1, 1, 1, 0],
+						[1, 1, 1, 0]
+					]
+				},
+				"shore_left_high_4": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"shore_left_high_1": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"shore_left_high_2": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_left_high_3": {
+				
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},	
+				"shore_top_high_6": {
+					gridBuild:[
+						[1,0],
+						[1, 1],
+						[0,1]
+					]
+				},
+				"shore_top_high_4": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+					
+				},
+				"shore_top_high_5": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+					
+				},
+				"shore_top_high_7": {
+					gridBuild:[
+						[1,0],
+						[1, 1],
+						[0,1]
+					]
+				},
+				"shore_left_low_10": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_left_high_5": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				}
+			}
+			
+		};
+		
         public static var buildings: Object = {
             type: "buildings",
             list: {

@@ -103,7 +103,7 @@ package  global
 			
 			//load the map - currently from FLA
 			mc = new MapMC();
-			var b:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(mc, scale, 0, true, true);
+			var b:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(mc, 1, 0, true, true);
 			sharedTextures.push(b);
 			b = null;
 			
@@ -134,8 +134,9 @@ package  global
 				tiberium:[
 					"tiberium"
 				],
-				trees:[
-					"trees"
+				map:[
+					"trees",
+					"shores"
 				]
 				
 			}
