@@ -318,6 +318,7 @@ package  states.game.entities.buildings
 			view.removeEventListener("DONE_ROTATING", onDoneRotating);
 			if (model.currentState == UnitStates.SHOOT)
 			{
+				TurretModel(model).shootCount = 0;
 			}
 		}
 		
@@ -328,6 +329,7 @@ package  states.game.entities.buildings
 			{
 				view.recoil( currentEnemy);
 			}
+			TurretModel(model).shootCount = 0;
 		}
 		
 		protected function doNothing():void
