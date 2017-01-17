@@ -327,16 +327,9 @@ package global.utilities
 				{
 					for (col = screenCol; col <= (_stageWidth + screenCol); col++)
 					{
-						if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-						{
-							n = Node(Parameters.boardArr[row][col]);
-							if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-								if (n.groundTile)
-									groundHolder.addChild(n.groundTile);
-							if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-								if (n.obstacleTile)
-									Parameters.mapHolder.addChild(n.obstacleTile);
-						}
+						addTile(row, col);
+						
+						
 					}
 				}
 				
@@ -355,16 +348,7 @@ package global.utilities
 						{
 							for (col = screenCol; col < (_stageWidth + screenCol + hudTiles); col++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											n.obstacleTile.removeFromParent();
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											n.groundTile.removeFromParent();
-								}
+								removeTile(row, col);
 							}
 						}
 						
@@ -373,16 +357,7 @@ package global.utilities
 						{
 							for (col = screenCol; col <= (_stageWidth + screenCol + gap); col++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											groundHolder.addChild(n.groundTile);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											Parameters.mapHolder.addChild(n.obstacleTile);
-								}
+								addTile(row, col);
 							}
 						}
 					}
@@ -393,16 +368,7 @@ package global.utilities
 						{
 							for (col = screenCol; col < (_stageWidth + screenCol + hudTiles); col++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											n.obstacleTile.removeFromParent();
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											n.groundTile.removeFromParent();
-								}
+								removeTile(row, col);
 							}
 						}
 						
@@ -411,16 +377,7 @@ package global.utilities
 						{
 							for (col = screenCol; col <= (_stageWidth + screenCol + gap); col++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											groundHolder.addChild(n.groundTile);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											Parameters.mapHolder.addChild(n.obstacleTile);
-								}
+								addTile(row, col);
 							}
 						}
 					}
@@ -432,16 +389,7 @@ package global.utilities
 						{
 							for (row = screenRow; row < (_stageHeight + screenRow); row++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											n.obstacleTile.removeFromParent();
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											n.groundTile.removeFromParent();
-								}
+								removeTile(row, col);
 							}
 						}
 						
@@ -450,16 +398,7 @@ package global.utilities
 						{
 							for (row = screenRow; row <= (_stageHeight + screenRow); row++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											groundHolder.addChild(n.groundTile);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											Parameters.mapHolder.addChild(n.obstacleTile);
-								}
+								addTile(row, col);
 							}
 						}
 						
@@ -472,16 +411,7 @@ package global.utilities
 						{
 							for (row = screenRow; row <= (_stageHeight + screenRow + gap); row++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											n.obstacleTile.removeFromParent();
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											n.groundTile.removeFromParent();
-								}
+								removeTile(row, col);
 							}
 						}
 						
@@ -490,16 +420,7 @@ package global.utilities
 						{
 							for (row = screenRow; row <= (_stageHeight + screenRow + gap); row++)
 							{
-								if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
-								{
-									n = Node(Parameters.boardArr[row][col]);
-									if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
-										if (n.groundTile)
-											groundHolder.addChild(n.groundTile);
-									if (Board.drawType != Board.DRAW_TYPE_ALL_TILES)
-										if (n.obstacleTile)
-											Parameters.mapHolder.addChild(n.obstacleTile);
-								}
+								addTile(row, col);
 							}
 						}
 					}
@@ -513,6 +434,57 @@ package global.utilities
 			
 			prevRow = screenRow;
 			prevCol = screenCol;
+		}
+		
+		private function removeTile(row:int, col:int):void 
+		{
+			if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
+			{
+				var n:Node = Node(Parameters.boardArr[row][col]);
+
+					if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
+					{
+						if (n.obstacleTile)
+						{
+							n.obstacleTile.removeFromParent();
+						}
+						
+						if (n.shoreCliffTile)
+						{
+							//n.shoreCliffTile.removeFromParent();
+						}
+						
+						if (n.groundTile)
+						{
+							n.groundTile.removeFromParent();
+						}
+					}
+			}
+		}
+		
+		private function addTile(row:int, col:int):void 
+		{
+			if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
+			{
+				var n:Node = Node(Parameters.boardArr[row][col]);
+				
+
+					if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
+					{
+						if (n.groundTile)
+						{
+							groundHolder.addChild(n.groundTile);
+						}
+						if (n.obstacleTile)
+						{
+							Parameters.mapHolder.addChild(n.obstacleTile);
+						}
+						if (n.shoreCliffTile && n.seen)
+						{
+							Parameters.mapHolder.addChild(n.shoreCliffTile);
+						}
+					}
+			}
 		}
 		
 		private function showHideUnits(team:Array):void

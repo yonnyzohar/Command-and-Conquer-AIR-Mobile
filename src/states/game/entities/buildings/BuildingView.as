@@ -9,6 +9,7 @@ package states.game.entities.buildings
 	import starling.textures.SubTexture;
 	import starling.utils.Color;
 	import states.game.entities.EntityModel;
+	import states.game.stats.BuildingsStatsObj;
 	
 	import starling.display.Image;
 	import starling.filters.ColorMatrixFilter;
@@ -23,7 +24,7 @@ package states.game.entities.buildings
 		private var texture:Texture;
 		private var currentState:String;
 		private static var filterWhite:ColorMatrixFilter = new ColorMatrixFilter();
-
+		private var baseIMG:Image;
 		
 		
 		public function BuildingView(_model:EntityModel,_name:String)
@@ -38,6 +39,8 @@ package states.game.entities.buildings
 			mc.loop = true;
 			Starling.juggler.add(mc);
 			addChild(mc);
+			
+			//weapons-factory_healthy-base00
 		}
 		
 		protected function onBuildAnimComplete(e:Event):void 
@@ -45,6 +48,13 @@ package states.game.entities.buildings
 			mc.removeEventListener(Event.COMPLETE, onBuildAnimComplete);
 			state = "";
 			setViewByHealth(1);
+			
+			if (BuildingsStatsObj(model.stats).hasBaseIMG)
+			{
+				baseIMG = new Image(GameAtlas.getTexture(model.stats.name +"-base"+ healthAnim + "00", model.teamName));
+				baseIMG.scaleX = baseIMG.scaleY = Parameters.gameScale;
+				addChildAt(baseIMG, 0);
+			}
 		}
 		
 		public function setConstructAnimation():void 

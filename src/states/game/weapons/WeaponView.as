@@ -42,6 +42,9 @@ package  states.game.weapons
 		private var destCol:int;
 		private var targetX:int;
 		private var targetY:int;
+		
+		private var offsetX:int = 0;
+		private var offsetY:int = 0;
 		//private var offsetX:int;
 		//private var offsetY:int;
 		
@@ -309,11 +312,18 @@ package  states.game.weapons
 		
 		private function onDone(b:PoolElement):void
 		{
-			if (explosionMC && enemy && enemy.model)
+			
+			
+			if (enemy && enemy.model)
+			{
+				offsetX = enemy.model.stats.pixelOffsetX;
+				offsetY = enemy.model.stats.pixelOffsetY;
+			}
+			if (explosionMC )
 			{
 				Parameters.upperTilesLayer.addChild(explosionMC);
-				explosionMC.x = targetX - ((enemy.model.stats.pixelOffsetX * Parameters.gameScale) / 2);
-				explosionMC.y = targetY - ((enemy.model.stats.pixelOffsetY * Parameters.gameScale) / 2);
+				explosionMC.x = targetX - ((offsetX * Parameters.gameScale) / 2);
+				explosionMC.y = targetY - ((offsetY * Parameters.gameScale) / 2);
 				explosionMC.x += (explosionMC.width / 2);
 				explosionMC.y += (explosionMC.height / 2);
 				Starling.juggler.add(explosionMC);

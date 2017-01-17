@@ -5,6 +5,7 @@ package  states.game.entities.buildings
 	import global.enums.UnitStates;
 	import global.Methods;
 	import global.utilities.SightManager;
+	import starling.events.Event;
 	import states.game.entities.GameEntity;
 	import states.game.entities.HealthBar;
 	import states.game.entities.units.views.FullCircleView;
@@ -287,7 +288,6 @@ package  states.game.entities.buildings
 				{
 					var model:TurretModel = TurretModel(model)
 					
-					model.shootCount++;
 					var rateOfFire:int = model.stats.weapon.rateOfFire;
 					
 					if(model.shootCount == rateOfFire)
@@ -296,29 +296,38 @@ package  states.game.entities.buildings
 						
 						if(model.stats.weapon != null && model.rotating == false)
 						{
-							weapon.shoot(currentEnemy, view);
-							
-							if (Methods.isValidEnemy(currentEnemy, teamNum))
-							{
-								view.recoil( currentEnemy);
-							}
+							fireWeaponActual(currentEnemy)
 						}
-						model.shootCount = 0;
-					}
-					else
-					{
-						if (model.shootCount > rateOfFire)
+						else
 						{
-							model.shootCount = 0;
+							view.addEventListener("DONE_ROTATING", onDoneRotating);
 						}
 					}
+
+					model.shootCount++;
 				}
 				else
 				{
 					findATarget(false);
 				}
 			}
-			
+		}
+		
+		private function onDoneRotating(e:Event):void 
+		{
+			view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			if (model.currentState == UnitStates.SHOOT)
+			{
+			}
+		}
+		
+		protected function fireWeaponActual(currentEnemy):void 
+		{
+			weapon.shoot(currentEnemy, view);
+			if (Methods.isValidEnemy(currentEnemy, teamNum))
+			{
+				view.recoil( currentEnemy);
+			}
 		}
 		
 		protected function doNothing():void

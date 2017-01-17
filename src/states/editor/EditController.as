@@ -160,34 +160,42 @@ package states.editor
 		
 		private function placeImage(currentType:String, currentUnit:String, owner:String):void 
 		{
-			currentImage = new EditAssetObj()
+			try {
+				currentImage = new EditAssetObj()
 			
-			if (currentType == "infantry")
-			{
-				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_stand", owner)));
-				
-			}
-			if (currentType == "vehicle")
-			{
-				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_move", owner)));
-				var tex:Texture = GameAtlas.getTexture(currentUnit + "_turret", owner);
-				if (tex)
+				if (currentType == "infantry")
 				{
-					currentImage.addChild(new Image(tex));
+					currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_stand", owner)));
+					
+				}
+				if (currentType == "vehicle")
+				{
+					currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_move", owner)));
+					var tex:Texture = GameAtlas.getTexture(currentUnit + "_turret", owner);
+					if (tex)
+					{
+						currentImage.addChild(new Image(tex));
+					}
+					
+				}
+				if (currentType == "building" || currentType == "turret")
+				{
+					currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit+"_healthy", owner)));
 				}
 				
+				currentImage.model.name = currentUnit;
+				currentImage.model.type = currentType;
+				currentImage.model.owner = owner;
+				
+				currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
+				Parameters.mapHolder.addChild(currentImage);
 			}
-			if (currentType == "building" || currentType == "turret")
+			catch (e:Error)
 			{
-				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit+"_healthy", owner)));
+				currentImage = null;
 			}
 			
-			currentImage.model.name = currentUnit;
-			currentImage.model.type = currentType;
-			currentImage.model.owner = owner;
 			
-			currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
-			Parameters.mapHolder.addChild(currentImage);
 		}
 			
 		public function init():void
@@ -390,30 +398,33 @@ package states.editor
 					mapNode.row = row;
 					mapNode.col = col;
 					
-					if (node.walkable)
+					if (node.shoreCliffTile)
 					{
 						mapNode.groundTileTexture = "grass";
+						var texName:String = node.shoreCliffTile.name;
+						mapNode.obstacleTextureName = texName;
+						a.push(mapNode);
 					}
-					else
+					
+					
+					if (node.obstacleTile)
 					{
-						if (node.obstacleTile)
-						{
-							mapNode.groundTileTexture = "grass";
-							var texName:String = node.obstacleTile.name;
-							var num:int = int(texName.substr(texName.indexOf("_") +1));
-							var nme:String = texName.substr(0, texName.indexOf("_"))
-							//tracenum);
-							mapNode.textureFrame = num;
-							mapNode.obstacleTextureName = nme;
-							a.push(mapNode);
-							
-						}
-						else if(node.isWater)
-						{
-							mapNode.groundTileTexture = "water";
-							a.push(mapNode);
-						}
+						mapNode.groundTileTexture = "grass";
+						var texName:String = node.obstacleTile.name;
+						
+						var nme:String = texName.substr(0, texName.indexOf("_"))
+						trace(texName, nme, node.num);
+						mapNode.textureFrame = node.num;
+						mapNode.obstacleTextureName = texName;
+						a.push(mapNode);
+						
 					}
+					else if(node.isWater)
+					{
+						mapNode.groundTileTexture = "water";
+						a.push(mapNode);
+					}
+					
 					
 					
 					

@@ -34,7 +34,8 @@ package states.game.stats
 				buildingObj.pixelHeight = curBuilding.pixelHeight;
 				buildingObj.tech		= curBuilding.tech;
 				buildingObj.connectedSprites = curBuilding.connectedSprites;
-				buildingObj.attachedUnit= curBuilding.attachedUnit;
+				buildingObj.attachedUnit = curBuilding.attachedUnit;
+				buildingObj.hasBaseIMG = curBuilding.hasBaseIMG;
 				
 				if (curBuilding.residents)
 				{

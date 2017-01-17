@@ -5,6 +5,7 @@ package global.map.mapTypes
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
+	import global.assets.Assets;
 	import global.GameAtlas;
 	import global.map.Node;
 	import global.map.ResourceNode;
@@ -36,7 +37,6 @@ package global.map.mapTypes
 		public static var drawType:int;
 		public static var DRAW_TYPE_ALL_TILES:int = 0;
 		public static var DRAW_TYPE_ONLY_CENTER:int = 1;
-		public static var RENDER_TEXTURE:int = 2;
 		public static var resourceNodes:Object = { };
 		
 		private var renderTextures:Array = [];
@@ -102,26 +102,7 @@ package global.map.mapTypes
 			}
 			
 			
-			if (drawType ==  Board.RENDER_TEXTURE)
-			{
-				var w:Number = Parameters.mapWidth / 1024;
-				var h:Number = Parameters.mapHeight / 1024;
-				
-				var intW:int = w;
-				var intH:int = h;
-				
-				
-				for (var row:int = 0; row < intH; row++ )
-				{
-					renderTextures.push([]);
-					
-					for (var col:int = 0; col < intW; col++ )
-					{
-						renderTextures[row].push(new RenderTexture(1024, 1024));
-						//trace("created render texture");
-					}
-				}
-			}
+			
 			
 			destroyMap();
 			
@@ -174,40 +155,17 @@ package global.map.mapTypes
 		
 		private function onMapLoadDone(e:starling.events.Event):void
 		{
-			if (drawType ==  Board.RENDER_TEXTURE)
-			{
-				
-				for (var row:int = 0; row <  renderTextures.length; row++)
-				{
-					for (var col:int = 0; col <  renderTextures[row].length; col++)
-					{
-						var renderTex:RenderTexture = RenderTexture(renderTextures[row][col]);
-						var mapImg:Image = new Image(renderTex );
-						mapImg.x = renderTex.width * col;
-						mapImg.y = renderTex.height * row;
-						Parameters.mapHolder.addChild(mapImg);
-						//trace("adding render tex at " + mapImg.x + " " + mapImg.y)
-					}
-				}
-				
-			}
 			
 			
-			//trace"MAP LOAD DONE!!!!!!!!!!!!!!!!!!!!!!!!");
+			
 			GlobalEventDispatcher.getInstance().removeEventListener("MAP_LOAD_DONE", onMapLoadDone);
-			//drawGridlines();
-			//mapImg.blendMode = BlendMode.NONE;
-			//mapImg.flatten();
+
 			mapMover = MapMover.getInstance();
 			mapMover.init();
-			
-			
-			
-			//Parameters.mapHolder.addChild(mapImg);
+
 			createWallsAndTrees();
 			var totalMapSize:Rectangle = new Rectangle(0, 0, Parameters.tileSize * Parameters.numCols, Parameters.tileSize * Parameters.numRows);
 			var screenSize:Rectangle   = new Rectangle(0, 0, Parameters.flashStage.stageWidth, Parameters.flashStage.stageHeight);
-			//dragScroll.init(Parameters.mapHolder, Parameters.theStage, totalMapSize,screenSize, mapMover.render);
 			mapMover.render(true);
 			
 			GameTimer.getInstance().addUser(this);
@@ -306,19 +264,14 @@ package global.map.mapTypes
 					n.groundTile = getGrassTile();  
 					n.groundTile.y = n.row * Parameters.tileSize;
 					n.groundTile.x = n.col * Parameters.tileSize;
-					n.groundTile.scaleX += 0.5;
-					n.groundTile.scaleY += 0.5;
+					//n.groundTile.scaleX += 0.5;
+					//n.groundTile.scaleY += 0.5;
 					
 					if (drawType == Board.DRAW_TYPE_ALL_TILES)
 					{
 						Parameters.mapHolder.addChild(n.groundTile);
 					}
-					if (drawType == Board.RENDER_TEXTURE)
-					{
-						//trace("grass");
-						addTileTocorrectCanves(n, n.groundTile);
-						//canvas.draw(n.groundTile);
-					}
+					
 				}
 			}
 			
@@ -344,165 +297,12 @@ package global.map.mapTypes
 					var rndImg:int = Math.random() * waterTextures.length; 
 					n.groundTile.texture = waterTextures[rndImg];
 					n.groundTile.touchable = false;
-					waterTiles.push(n);
 			
 					
-					if (drawType == Board.RENDER_TEXTURE)
-					{
-						//trace("water");
-						addTileTocorrectCanves(n, n.groundTile);
-						//canvas.draw(n.groundTile);
-					}
+					
 				}
 			}
-			
-			/*var d:Object = { };
-			d["topRight"] = 0;
-			d["topLeft"] = 1;
-			d["bottomLeft"] = 2;
-			d["bottomRight"] = 3;
-			
-			var e:Object = {}
-			e["top"] = 4;
-			e["Right"] = 5;
-			e["bottom"] = 6;
-			e["Left"] = 7;
-
-			
-			//rearrange all water tiles
-			var beachTextures:Vector.<Texture>  = GameAtlas.getTextures("beach");
-			for (i = 0; i < waterTiles.length; i++ )
-			{
-				n =  waterTiles[i];
-				var top:String = "";
-				var bottom:String="";
-				var Left:String = "";
-				var Right:String = "";
-				var oneColLeft:Node; 
-				var oneColRight:Node;
-				var oneRowUp:Node;
-				var oneRowDown:Node;
-				var g:int = 0;
-				
-				if (Parameters.boardArr[n.row][n.col - 1])
-				{
-					oneColLeft = Parameters.boardArr[n.row][n.col - 1];
-					
-					if (oneColLeft && oneColLeft.walkable)
-					{
-						Left = "Left";
-					}
-				}
-				
-				if (Parameters.boardArr[n.row][n.col + 1])
-				{
-					oneColRight = Parameters.boardArr[n.row][n.col + 1];
-				
-					if (oneColRight && oneColRight.walkable)
-					{
-						Right = "Right";
-					}
-					
-				}
-				
-				if (Parameters.boardArr[n.row-1] && Parameters.boardArr[n.row-1][n.col])
-				{
-					oneRowUp = Parameters.boardArr[n.row-1][n.col];
-				
-					if (oneRowUp && oneRowUp.walkable)
-					{
-						top = "top";
-					}
-				}
-				
-				if (Parameters.boardArr[n.row+1] && Parameters.boardArr[n.row+1][n.col])
-				{
-					oneRowDown = Parameters.boardArr[n.row+1][n.col];
-				
-					if (oneRowDown && oneRowDown.walkable)
-					{
-						bottom = "bottom";
-					}
-				}
-				
-				var topRight:String = top + Right;
-				var topLeft:String = top + Left;
-				var bottomLeft:String = bottom + Left;
-				var bottomRight:String = bottom + Right;
-				
-				var a:Array = [topRight, topLeft, bottomLeft, bottomRight ];
-				var success:Boolean = false;
-				
-				for (g = 0; g < a.length; g++ )
-				{
-					var texName:String = a[g];
-					if (d[texName])
-					{
-						var frame:int = d[texName]
-						n.groundTile.texture = beachTextures[frame];
-						n.groundTile.touchable = false;
-						success = true;
-						
-						if (drawType == Board.RENDER_TEXTURE)
-						{
-							//trace("shore");
-							addTileTocorrectCanves(n, n.groundTile);
-						}
-					}
-				}
-				
-				if (!success)
-				{
-					a = [top, bottom, Left, Right ];
-					var c:Array = [oneRowUp ,oneRowDown,  oneColLeft, oneColRight];
-					for (g = 0; g < a.length; g++ )
-					{
-						texName = a[g];
-						if (e[texName])
-						{
-							var frame:int = e[texName]
-							c[g].groundTile.texture = beachTextures[frame];
-							c[g].groundTile.touchable = false;
-							
-							if (a[g] == "top" && Parameters.boardArr[c[g].row][c[g].col - 1] && Parameters.boardArr[c[g].row][c[g].col - 1].isWater)
-							{
-								c[g].groundTile.texture = beachTextures[d["topRight"]];
-							}
-							
-												
-							if (a[g] == "top" && Parameters.boardArr[c[g].row][c[g].col + 1] && Parameters.boardArr[c[g].row][c[g].col + 1].isWater)
-							{
-								c[g].groundTile.texture = beachTextures[d["topLeft"]];
-							}
-							
-							if (a[g] == "bottom" && Parameters.boardArr[c[g].row][c[g].col - 1] && Parameters.boardArr[c[g].row][c[g].col - 1].isWater)
-							{
-								c[g].groundTile.texture = beachTextures[d["bottomRight"]];
-							}
-							
-							if (a[g] == "bottom" && Parameters.boardArr[c[g].row][c[g].col + 1] && Parameters.boardArr[c[g].row][c[g].col + 1].isWater)
-							{
-								c[g].groundTile.texture = beachTextures[d["bottomLeft"]];
-							}
-							
-							
-							
-							if (drawType == Board.RENDER_TEXTURE)
-							{
-								//trace("shore");
-								addTileTocorrectCanves(n, n.groundTile);
-							}
-						}
-					}
-				}
-				
-				
-				
-			}*/
-			waterTiles.splice(0);
-			waterTiles = null;
-				
-			
+	
 			
 			
 			GlobalEventDispatcher.getInstance().dispatchEvent(new starling.events.Event("MAP_LOAD_DONE"));
@@ -530,10 +330,10 @@ package global.map.mapTypes
 			{
 				var obj:Object = LevelManager.currentlevelData.map[i];
 				
-				if (obj.groundTileTexture != "grass")
+				/*if (obj.groundTileTexture != "grass")
 				{
 					continue;
-				}
+				}*/
 				
 				var row:int = obj.row;
 				var col:int = obj.col;
@@ -541,32 +341,15 @@ package global.map.mapTypes
 				var textureFrame:int = obj.textureFrame;
 				
 
-				if(Parameters.boardArr[row])
+				if(Parameters.boardArr[row] && textureName)
 				{
 					if(Parameters.boardArr[row][col])
 					{
 						node = Node(Parameters.boardArr[row][col]);
 
-						if (textureName == "tree")
+						if (textureName.indexOf("tree") != -1)
 						{
-							//-06
-							var str:String = "";
-							if (textureFrame < 10)
-							{
-								str = "0" + textureFrame;
-							}
-							else
-							{
-								str = String(textureFrame);
-							}
-							
-							if (textureFrame == 0)
-							{
-								continue;
-							}
-							
-							
-							var treeTextures:Vector.<Texture> = GameAtlas.getTextures("tree-"+str);
+							var treeTextures:Vector.<Texture> = GameAtlas.getTextures(textureName);
 							node.obstacleTile = new MovieClip(treeTextures);
 							node.obstacleTile.currentFrame = 0;
 							node.walkable = false;
@@ -584,8 +367,14 @@ package global.map.mapTypes
 									}
 								}
 							}
+							node.obstacleTile.loop = false;
+							node.obstacleTile.name = textureName;// + "_" + textureFrame;
+							node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
+							node.obstacleTile.x = col * Parameters.tileSize;
+							node.obstacleTile.y = row * Parameters.tileSize;
 						}
-						if (textureName == "tiberium")
+						
+						if (textureName.indexOf("tiberium") != -1)
 						{
 							resourceNode = new ResourceNode();
 							copyNode(resourceNode, node);
@@ -594,33 +383,48 @@ package global.map.mapTypes
 							resourceNode.initResource(resourceTextures, textureFrame);
 							resourceNodes[resourceNode.row + "_" + resourceNode.col] = resourceNode;
 							node = resourceNode;
+							node.obstacleTile.loop = false;
+							node.obstacleTile.name = textureName;// + "_" + textureFrame;
+							node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
+							node.obstacleTile.x = col * Parameters.tileSize;
+							node.obstacleTile.y = row * Parameters.tileSize;
 						}
 						
-						
-						node.obstacleTile.loop = false;
-						node.obstacleTile.name = textureName + "_" + textureFrame;
-						
-						node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
-						node.obstacleTile.x = col * Parameters.tileSize;
-						node.obstacleTile.y = row * Parameters.tileSize;
-						
-						
-						
-						
-						if (textureName == "tree")
+						if (textureName.indexOf("shore") != -1)
 						{
-							if(node.obstacleTile.height > Parameters.tileSize)
+							var o:Array = Assets.shores.list[textureName].gridBuild;
+							node.shoreCliffTile = new Image(GameAtlas.getTexture(textureName));
+							node.shoreCliffTile.x = node.col * Parameters.tileSize;
+							node.shoreCliffTile.y = node.row * Parameters.tileSize;
+							
+							node.shoreCliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+							node.shoreCliffTile.height = o.length * Parameters.tileSize;  // * Parameters.gameScale;
+							node.shoreCliffTile.name = textureName;
+							
+							for (var _row:int = 0; _row < o.length ; _row++ )
 							{
-								if((node.obstacleTile.height - Parameters.tileSize) > 5)
+								for (var _col:int = 0; _col < o[_row].length; _col++ )
 								{
-									node.obstacleTile.y -= Parameters.tileSize ;
+									if (Parameters.boardArr[node.row + _row] && Parameters.boardArr[node.row + _row][node.col + _col])
+									{
+										if (o[_row][_col] == 1)
+										{
+											Parameters.boardArr[node.row + _row][node.col + _col].walkable = true;
+											
+										}
+										else 
+										{
+											Parameters.boardArr[node.row + _row][node.col + _col].walkable = false;
+										}
+										Parameters.boardArr[node.row + _row][node.col + _col].shoreCliffTile = node.shoreCliffTile;
+									}
 								}
 							}
-							treesAndRocks.push({"view" : node.obstacleTile, "row" :node.row, "col": node.col, type : "tree"});
+							
+							//Parameters.mapHolder.addChild(node.shoreCliffTile);
 						}
 						
-						
-						
+
 						
 						if (drawType == Board.DRAW_TYPE_ALL_TILES)
 						{

@@ -11,13 +11,20 @@ package global.assets
 			type:"shores",
 			list: {
 			
-				"shore_corner_high_1": {
+				"shore_corner_high_00": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_bottom_high_4": {
+				"shore_bottom_high_03": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				
+				"shore_corner_low_10": {
 					gridBuild:[
 						[1,1],
 						[1,1]
@@ -31,126 +38,119 @@ package global.assets
 					]
 				},
 				
-				"shore_corner_low_12": {
+				"shore_bottom_high_04": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"shore_bottom_high_05": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
 				
-				"shore_bottom_high_5": {
-					gridBuild:[
-						[1,1],
-						[1,1]
-					]
-				},
-				"shore_bottom_high_6": {
-					gridBuild:[
-						[1,1],
-						[1,1]
-					]
-				},
-				
-				"shore_corner_high_2": {
+				"shore_corner_high_01": {
 					gridBuild:[
 						[1,1],
 						[1,0]
 					]
 				},
-				"shore_corner_high_3": {
+				"shore_corner_high_02": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_high_4": {
+				"shore_corner_high_03": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_high_5": {
+				"shore_corner_high_04": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_high_6": {
+				"shore_corner_high_05": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_high_7": {
+				"shore_corner_high_06": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_high_8": {
+				"shore_corner_high_07": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_top_high_1": {
+				"shore_top_high_00": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_top_high_2": {
+				"shore_top_high_01": {
 					gridBuild:[
 						[0,1],
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_top_high_3": {
+				"shore_top_high_02": {
 					gridBuild:[
 						[1],
 						[1]
 						
 					]
 				},
-				"shore_right_high_1": {
+				"shore_right_high_00": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
 				
-				"shore_right_high_2": {
+				"shore_right_high_01": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1]
 					]
 				},
-				"shore_right_high_3": {
+				"shore_right_high_02": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_right_high_4": {
+				"shore_right_high_03": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_right_high_5": {
+				"shore_right_high_04": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_right_high_6": {
+				"shore_right_high_05": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1]
 					]
 				},
-				"shore_right_high_7": {
+				"shore_right_high_06": {
 					gridBuild:[
 						[1,1],
 						[0,1]
@@ -158,7 +158,7 @@ package global.assets
 				},
 				
 				
-				"shore_corner_low_7": {
+				"shore_corner_low_06": {
 					gridBuild:[
 						[1, 1, 1],
 						[1,1,1],
@@ -166,71 +166,71 @@ package global.assets
 					]
 				},
 				
-				"shore_corner_low_1": {
+				"shore_corner_low_00": {
 					gridBuild:[
 						[1, 1,1],
 						[0, 1, 1],
 						[0,1,1]
 					]
 				},
-				"shore_corner_low_2": {
+				"shore_corner_low_01": {
 					gridBuild:[
 						[0, 1,1],
 						[1, 1, 1],
 						[0,1,1]
 					]
 				},
-				"shore_corner_low_3": {
+				"shore_corner_low_02": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_low_4": {
+				"shore_corner_low_03": {
 					gridBuild:[
 						[1, 1,0],
 						[1, 1, 1],
 						[1,1,1]
 					]
 				},
-				"shore_corner_low_8": {
+				"shore_corner_low_07": {
 					gridBuild:[
 						[1, 1,1],
 						[1, 1, 0],
 						[1,0,0]
 					]
 				},
-				"shore_corner_high_9":{
+				"shore_corner_high_08":{
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_corner_high_10":{
+				"shore_corner_high_09":{
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_bottom_high_1": {
+				"shore_bottom_high_00": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_left_low_11": {
+				"shore_left_low_10": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_bottom_high_7": {
+				"shore_bottom_high_06": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_bottom_high_2": {
+				"shore_bottom_high_01": {
 					gridBuild:[
 						[1, 1],
 						[1, 1],
@@ -238,27 +238,27 @@ package global.assets
 					]
 				},
 				
-				"shore_bottom_high_3": {
+				"shore_bottom_high_02": {
 					gridBuild:[
 						[1, 1],
 						[1, 1],
 						[1,0]
 					]
 				},
-				"shore_right_low_3": {
+				"shore_right_low_02": {
 					gridBuild:[
 						[0, 1,1],
 						[1, 1,1],
 						[1,1,1]
 					]
 				},
-				"shore_right_low_4": {
+				"shore_right_low_03": {
 					gridBuild:[
 						[1, 1]
 						
 					]
 				},
-				"shore_right_low_5": {
+				"shore_right_low_04": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -266,7 +266,7 @@ package global.assets
 						
 					]
 				},
-				"shore_right_low_6": {
+				"shore_right_low_05": {
 					gridBuild:[
 						[1, 1, 1, 0, 0],
 						[0, 1, 1, 0, 0],
@@ -276,7 +276,7 @@ package global.assets
 						
 					]
 				},
-				"shore_right_low_7": {
+				"shore_right_low_06": {
 					gridBuild:[
 						[1, 1, 0, 0],
 						[1, 1, 1, 0],
@@ -284,14 +284,14 @@ package global.assets
 						[0, 1, 1, 1]
 					]
 				},
-				"shore_right_low_8": {
+				"shore_right_low_07": {
 					gridBuild:[
 						[1, 1, 1, 0],
 						[0, 1, 1, 1],
 						[0, 1, 1, 1]
 					]
 				},
-				"shore_corner_low_5": {
+				"shore_corner_low_04": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -299,14 +299,14 @@ package global.assets
 						
 					]
 				},
-				"shore_corner_low_6": {
+				"shore_corner_low_05": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 					
 				},
-				"shore_corner_low_9": {
+				"shore_corner_low_08": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -314,7 +314,7 @@ package global.assets
 						
 					]
 				},
-				"shore_corner_low_10": {
+				"shore_corner_low_09": {
 					gridBuild:[
 						[1, 0, 0],
 						[1, 1, 0],
@@ -322,7 +322,7 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_1": {
+				"shore_left_low_00": {
 					gridBuild:[
 						[1,1,1,0,0,0],
 						[0,1,1,1,0,0],
@@ -332,7 +332,7 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_7": {
+				"shore_left_low_06": {
 					gridBuild:[
 						[1,1,1,0],
 						[1,1,1,0],
@@ -341,7 +341,7 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_8": {
+				"shore_left_low_07": {
 					gridBuild:[
 						[1,1,1,1,0],
 						[0,1,1,1,0],
@@ -349,7 +349,7 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_9": {
+				"shore_left_low_08": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -357,12 +357,12 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_5": {
+				"shore_left_low_04": {
 					gridBuild:[
 						[1, 1]
 					]
 				},
-				"shore_left_low_6": {
+				"shore_left_low_05": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -370,7 +370,7 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_2": {
+				"shore_left_low_01": {
 					gridBuild:[
 						[0,1,1,1],
 						[0,1,1,1],
@@ -380,7 +380,7 @@ package global.assets
 						
 					]
 				},
-				"shore_left_low_3": {
+				"shore_left_low_02": {
 					gridBuild:[
 						[0,0,1,1,1],
 						[1,1,1,1,0],
@@ -388,14 +388,14 @@ package global.assets
 						[1,1,1,0,0]
 					]
 				},
-				"shore_left_low_4": {
+				"shore_left_low_03": {
 					gridBuild:[
 						[0,1,1,1,1],
 						[1,1,1,1,0],
 						[1,1,1,0,0]
 					]
 				},
-				"shore_top_low_4": {
+				"shore_top_low_03": {
 					gridBuild:[
 						[1,0,0,0,0,0],
 						[1,1,0,0,0,0],
@@ -404,7 +404,7 @@ package global.assets
 						[0,0,0,1,1,1]
 					]
 				},
-				"shore_top_low_5": {
+				"shore_top_low_04": {
 					gridBuild:[
 						[1,1,1,0,0],
 						[1,1,1,1,1],
@@ -413,7 +413,7 @@ package global.assets
 						[0,0,1,1,1]
 					]
 				},
-				"shore_top_low_6": {
+				"shore_top_low_05": {
 					gridBuild:[
 						[1,1,0],
 						[1,1,1],
@@ -421,7 +421,7 @@ package global.assets
 						[0,0,1]
 					]
 				},
-				"shore_bottom_low_1": {
+				"shore_bottom_low_00": {
 					gridBuild:[
 						[0,0,0,1],
 						[0,1,1,1],
@@ -430,7 +430,7 @@ package global.assets
 						[1,0,0,0]
 					]
 				},
-				"shore_bottom_low_2": {
+				"shore_bottom_low_01": {
 					gridBuild:[
 						[0,0,0,0,1],
 						[0,0,0,1,1],
@@ -439,7 +439,7 @@ package global.assets
 						[1,1,1,0,0]
 					]
 				},
-				"shore_bottom_low_3": {
+				"shore_bottom_low_02": {
 					gridBuild:[
 						[0,0,1],
 						[0,1,1],
@@ -448,7 +448,7 @@ package global.assets
 						[1,0,0]
 					]
 				},
-				"shore_bottom_low_4": {
+				"shore_bottom_low_03": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -456,7 +456,7 @@ package global.assets
 						
 					]
 				},
-				"shore_bottom_low_5": {
+				"shore_bottom_low_04": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -464,7 +464,7 @@ package global.assets
 						
 					]
 				},
-				"shore_bottom_low_6": {
+				"shore_bottom_low_05": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -472,7 +472,7 @@ package global.assets
 						
 					]
 				},
-				"shore_bottom_low_7": {
+				"shore_bottom_low_06": {
 					gridBuild:[
 						[1, 1, 1],
 						[1, 1, 1],
@@ -480,21 +480,21 @@ package global.assets
 						
 					]
 				},
-				"shore_bottom_low_8": {
+				"shore_bottom_low_07": {
 					gridBuild:[
 						[1],
 						[1]
 						
 					]
 				},
-				"shore_bottom_low_9": {
+				"shore_bottom_low_08": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1],
 						[1,1,1]
 					]
 				},
-				"shore_bottom_low_10": {
+				"shore_bottom_low_09": {
 					gridBuild:[
 						[1,0,0,0,0],
 						[1,1,0,0,0],
@@ -504,7 +504,7 @@ package global.assets
 						[0,0,0,1,1]
 					]
 				},
-				"shore_bottom_low_11": {
+				"shore_bottom_low_10": {
 					gridBuild:[
 						[1,1,0,0],
 						[1,1,1,0],
@@ -513,7 +513,7 @@ package global.assets
 						[0,0,1,1]
 					]
 				},
-				"shore_bottom_low_12": {
+				"shore_bottom_low_11": {
 					gridBuild:[
 						[1,1,0],
 						[1,1,1],
@@ -522,7 +522,7 @@ package global.assets
 						[0,0,1]
 					]
 				},
-				"shore_top_low_7": {
+				"shore_top_low_06": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1],
@@ -530,7 +530,7 @@ package global.assets
 						
 					]
 				},
-				"shore_top_low_8": {
+				"shore_top_low_07": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1],
@@ -538,7 +538,7 @@ package global.assets
 						
 					]
 				},
-				"shore_top_low_9": {
+				"shore_top_low_08": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1],
@@ -546,7 +546,7 @@ package global.assets
 						
 					]
 				},
-				"shore_top_low_10": {
+				"shore_top_low_09": {
 					gridBuild:[
 						[0,1,1],
 						[1,1,1],
@@ -554,19 +554,19 @@ package global.assets
 						
 					]
 				},
-				"shore_top_low_11": {
+				"shore_top_low_10": {
 					gridBuild:[
 						[1],
 						[1]
 					]
 				},
-				"shore_top_low_12": {
+				"shore_top_low_11": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1]
 					]
 				},
-				"shore_top_low_3": {
+				"shore_top_low_02": {
 					gridBuild:[
 						[0, 0, 0, 1, 1, 1],
 						[0, 0, 1, 1, 1, 1],
@@ -575,7 +575,7 @@ package global.assets
 						[1, 1, 1, 1, 1, 0]
 					]
 				},
-				"shore_top_low_2": {
+				"shore_top_low_01": {
 					gridBuild:[
 						[0, 0, 1, 1],
 						[0, 0, 1, 1],
@@ -584,7 +584,7 @@ package global.assets
 						[1, 1, 0, 0]
 					]
 				},
-				"shore_top_low_1": {
+				"shore_top_low_00": {
 					gridBuild:[
 						[0, 1, 1],
 						[1, 1, 1],
@@ -593,7 +593,7 @@ package global.assets
 						[1, 1, 0]
 					]
 				},
-				"shore_right_low_2": {
+				"shore_right_low_01": {
 					gridBuild:[
 						[0, 0, 0, 1, 1, 1],
 						[0, 1, 1, 1, 1, 0],
@@ -602,7 +602,7 @@ package global.assets
 						[1, 1, 1, 0, 0, 0]
 					]
 				},
-				"shore_right_low_1": {
+				"shore_right_low_00": {
 					gridBuild:[
 						[0, 0, 1, 1],
 						[0, 1, 1, 1],
@@ -611,73 +611,73 @@ package global.assets
 						[1, 1, 1, 0]
 					]
 				},
-				"shore_right_low_9": {
+				"shore_right_low_08": {
 					gridBuild:[
 						[0, 1, 1, 1],
 						[1, 1, 1, 0],
 						[1, 1, 1, 0]
 					]
 				},
-				"shore_left_high_4": {
+				"shore_left_high_03": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1]
 					]
 				},
-				"shore_left_high_1": {
+				"shore_left_high_00": {
 					gridBuild:[
 						[1,1,1],
 						[1,1,1]
 					]
 				},
-				"shore_left_high_2": {
+				"shore_left_high_01": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_left_high_3": {
+				"shore_left_high_02": {
 				
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},	
-				"shore_top_high_6": {
+				"shore_top_high_05": {
 					gridBuild:[
 						[1,0],
 						[1, 1],
 						[0,1]
 					]
 				},
-				"shore_top_high_4": {
+				"shore_top_high_03": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 					
 				},
-				"shore_top_high_5": {
+				"shore_top_high_04": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 					
 				},
-				"shore_top_high_7": {
+				"shore_top_high_06": {
 					gridBuild:[
 						[1,0],
 						[1, 1],
 						[0,1]
 					]
 				},
-				"shore_left_low_10": {
+				"shore_left_low_09": {
 					gridBuild:[
 						[1,1],
 						[1,1]
 					]
 				},
-				"shore_left_high_5": {
+				"shore_left_high_04": {
 					gridBuild:[
 						[1,1],
 						[1,1]
@@ -922,6 +922,7 @@ package global.assets
                     armor: 2,
                     hitPoints: 200,
                     hasBib: true,
+					hasBaseIMG:true,
                     spriteImages: [{
                         name: "build",
                         count: 20
@@ -5370,8 +5371,28 @@ package global.assets
 		public static var trees: Object = {
             type: "trees",
             list: {
+                "tree-00": {
+                    label: "Tree",
+                    pixelWidth: 48,
+                    pixelHeight: 48,
+                    pixelOffsetX: 0,
+                    pixelOffsetY: -24,
+                    hitPoints: 600,
+                    armor: 1,
+                    gridShape: [
+                        [0, 0],
+                        [1, 0]
+                    ],
+                    gridBuild: [
+                        [0, 0],
+                        [1, 0]
+                    ],
+                    spriteImages: [{
+                        name: "default",
+                        count: 10
+                    }]
+                },
                 "tree-01": {
-                    name: "tree-01",
                     label: "Tree",
                     pixelWidth: 48,
                     pixelHeight: 48,
@@ -5393,7 +5414,6 @@ package global.assets
                     }]
                 },
                 "tree-02": {
-                    name: "tree-02",
                     label: "Tree",
                     pixelWidth: 48,
                     pixelHeight: 48,
@@ -5415,7 +5435,6 @@ package global.assets
                     }]
                 },
                 "tree-03": {
-                    name: "tree-03",
                     label: "Tree",
                     pixelWidth: 48,
                     pixelHeight: 48,
@@ -5436,29 +5455,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-05": {
-                    name: "tree-05",
-                    label: "Tree",
-                    pixelWidth: 48,
-                    pixelHeight: 48,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -24,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 0],
-                        [1, 0]
-                    ],
-                    gridBuild: [
-                        [0, 0],
-                        [1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "tree-06": {
+                "tree-04": {
                     name: "tree-06",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5480,7 +5477,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-07": {
+                "tree-05": {
                     name: "tree-07",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5500,7 +5497,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-08": {
+                "tree-06": {
                     name: "tree-08",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5522,7 +5519,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-11": {
+                "tree-07": {
                     name: "tree-11",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5544,7 +5541,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-12": {
+                "tree-08": {
                     name: "tree-12",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5566,7 +5563,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-16": {
+                "tree-09": {
                     name: "tree-16",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5588,7 +5585,7 @@ package global.assets
                         count: 10
                     }]
                 },
-                "tree-17": {
+                "tree-10": {
                     name: "tree-17",
                     label: "Tree",
                     pixelWidth: 48,
@@ -5604,202 +5601,6 @@ package global.assets
                     gridBuild: [
                         [0, 0],
                         [1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "desert-tree-04": {
-                    name: "desert-tree-04",
-                    label: "Tree",
-                    pixelWidth: 23,
-                    pixelHeight: 23,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: 0,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [1]
-                    ],
-                    gridBuild: [
-                        [1]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "desert-tree-09": {
-                    name: "desert-tree-09",
-                    label: "Tree",
-                    pixelWidth: 47,
-                    pixelHeight: 23,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: 0,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [1, 0]
-                    ],
-                    gridBuild: [
-                        [1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "desert-tree-08": {
-                    name: "desert-tree-08",
-                    label: "Tree",
-                    pixelWidth: 48,
-                    pixelHeight: 25,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -1,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [1, 0]
-                    ],
-                    gridBuild: [
-                        [1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "desert-tree-18": {
-                    name: "desert-tree-18",
-                    label: "Tree",
-                    pixelWidth: 71,
-                    pixelHeight: 47,
-                    pixelOffsetX: -23,
-                    pixelOffsetY: -23,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 0],
-                        [0, 1]
-                    ],
-                    gridBuild: [
-                        [0, 0],
-                        [0, 1]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "tree-cluster-01": {
-                    name: "tree-cluster-01",
-                    label: "Tree",
-                    pixelWidth: 72,
-                    pixelHeight: 48,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -24,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 0, 0],
-                        [1, 1, 0]
-                    ],
-                    gridBuild: [
-                        [0, 0, 0],
-                        [1, 1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "tree-cluster-02": {
-                    name: "tree-cluster-02",
-                    label: "Tree",
-                    pixelWidth: 72,
-                    pixelHeight: 48,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -24,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 0, 0],
-                        [1, 1, 0]
-                    ],
-                    gridBuild: [
-                        [0, 0, 0],
-                        [1, 1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "tree-cluster-03": {
-                    name: "tree-cluster-03",
-                    label: "Tree",
-                    pixelWidth: 72,
-                    pixelHeight: 48,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -24,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 1, 1],
-                        [1, 1, 0]
-                    ],
-                    gridBuild: [
-                        [0, 1, 1],
-                        [1, 1, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "tree-cluster-04": {
-                    name: "tree-cluster-04",
-                    label: "Tree",
-                    pixelWidth: 96,
-                    pixelHeight: 72,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -24,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 0, 0, 0],
-                        [1, 1, 1, 0],
-                        [1, 0, 0, 0]
-                    ],
-                    gridBuild: [
-                        [0, 0, 0, 0],
-                        [1, 1, 1, 0],
-                        [1, 0, 0, 0]
-                    ],
-                    spriteImages: [{
-                        name: "default",
-                        count: 10
-                    }]
-                },
-                "tree-cluster-05": {
-                    name: "tree-cluster-05",
-                    label: "Tree",
-                    pixelWidth: 96,
-                    pixelHeight: 72,
-                    pixelOffsetX: 0,
-                    pixelOffsetY: -24,
-                    hitPoints: 600,
-                    armor: 1,
-                    gridShape: [
-                        [0, 0, 1, 0],
-                        [1, 1, 1, 0],
-                        [0, 1, 1, 0]
-                    ],
-                    gridBuild: [
-                        [0, 0, 1, 0],
-                        [1, 1, 1, 0],
-                        [0, 1, 1, 0]
                     ],
                     spriteImages: [{
                         name: "default",

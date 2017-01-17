@@ -225,10 +225,19 @@ package states.editor
 			resourceTextures = GameAtlas.getTextures("tiberium");
 			setTile(view.rockMC, resourceTextures,currenttiberium);
 			
+			var a:Array = [];
 			//we need to get only the first frame of each tree
 			for (var k:String in Assets.trees.list)
 			{
-				var tex:Vector.<Texture> = GameAtlas.getTextures(k);
+				a.push(k);
+				
+			}
+			
+			a.sort();
+			
+			for (var i:int = 0; i < a.length; i++ )
+			{
+				var tex:Vector.<Texture> = GameAtlas.getTextures(a[i]);
 				if (treeTextures == null)
 				{
 					treeTextures = new Vector.<Texture> ;
@@ -536,6 +545,14 @@ package states.editor
 					node.obstacleTile = null;
 					node.walkable = true;
 				}
+				
+				if (node.shoreCliffTile)
+				{
+					node.shoreCliffTile.dispose();
+					node.shoreCliffTile.removeFromParent();
+					node.shoreCliffTile = null;
+					node.walkable = true;
+				}
 			}
 		}
 		
@@ -543,7 +560,7 @@ package states.editor
 		
 		private function fillTile(targetRow:int, targetCol:int, _phase:String = ""):void 
 		{
-			if (Parameters.boardArr[targetRow][targetCol])
+			if (Parameters.boardArr[targetRow] && Parameters.boardArr[targetRow][targetCol])
 			{
 				var rnd:int = Math.random() * currentTexture.length;
 				var node:Node = Node(Parameters.boardArr[targetRow][targetCol]);
@@ -579,11 +596,12 @@ package states.editor
 						{
 							n = getShoreN("shore_corner_low_", currentCornerShore);
 						}
-
+						var o:Array = Assets.shores.list[n].gridBuild;
 						shoreObstacle = GameAtlas.createMovieClip(n);
 						shoreObstacle.x = node.col * Parameters.tileSize;
 						shoreObstacle.y = node.row * Parameters.tileSize;
-						shoreObstacle.scaleX = shoreObstacle.scaleY = Parameters.gameScale;
+						shoreObstacle.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+						shoreObstacle.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
 						Parameters.mapHolder.addChild(shoreObstacle);
 						
 					}
@@ -606,34 +624,41 @@ package states.editor
 						if (currentTexture == topShoreTextures)
 						{
 							n = getShoreN("shore_top_low_", currentTopShore);
+							node.num = currentTopShore;
 						}
 
 						if (currentTexture == bottomShoreTextures)
 						{
 							n = getShoreN("shore_bottom_low_", currentBottomShore);
+							node.num = currentBottomShore;
 						}
 						
 						if (currentTexture == leftShoreTextures)
 						{
 							n = getShoreN("shore_left_low_", currentLeftShore);
+							node.num = currentLeftShore;
 						}
 						if (currentTexture == rightShoreTextures)
 						{
 							n = getShoreN("shore_right_low_", currentRightShore);
+							node.num = currentRightShore;
 						}
 						if (currentTexture == cornerShoreTextures)
 						{
 							n = getShoreN("shore_corner_low_", currentCornerShore);
+							node.num = currentCornerShore;
 						}
 						
+						var o:Array = Assets.shores.list[n].gridBuild;
 						
-						node.obstacleTile = GameAtlas.createMovieClip(n);
-						node.obstacleTile.x = node.col * Parameters.tileSize;
-						node.obstacleTile.y = node.row * Parameters.tileSize;
+						node.shoreCliffTile = new Image(GameAtlas.getTexture(n));
+						node.shoreCliffTile.x = node.col * Parameters.tileSize;
+						node.shoreCliffTile.y = node.row * Parameters.tileSize;
 						node.walkable = false;
-						node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
-						node.obstacleTile.name = n;
-						Parameters.mapHolder.addChild(node.obstacleTile);
+						node.shoreCliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+						node.shoreCliffTile.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
+						node.shoreCliffTile.name = n;
+						Parameters.mapHolder.addChild(node.shoreCliffTile);
 					}
 				}
 				
@@ -646,44 +671,44 @@ package states.editor
 						if (currentTexture == treeTextures) 
 						{
 							currentNum = currentTree;
-							n = "tree_" + currentNum;
+							n = getShoreN("tree-", currentNum);
+							n += "_default00"
 						}
 						if (currentTexture == resourceTextures)
 						{
 							currentNum = currenttiberium;
-							n = "tiberium_" + currentNum;
+							n = getShoreN("tiberium_default", currentNum);
 						}
-					}
 					
-					if (node.obstacleTile)
-					{
-						if (node.obstacleTile.texture == currentTexture[currentNum])
+						if (node.obstacleTile)
 						{
-							return;
+							if (node.obstacleTile.texture == currentTexture[currentNum])
+							{
+								return;
+							}
+							
+							node.obstacleTile.dispose();
+						}
+						else
+						{
+							node.obstacleTile = GameAtlas.createMovieClip(n);
+							node.obstacleTile.x = node.col * Parameters.tileSize;
+							node.obstacleTile.y = node.row * Parameters.tileSize;
+						}
+						if (currentTexture == treeTextures)
+						{
+							if((node.obstacleTile.height - Parameters.tileSize) > 5)
+							{
+								node.obstacleTile.y -= Parameters.tileSize ;
+							}
 						}
 						
-						node.obstacleTile.dispose();
+						node.walkable = false;
+						node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
+						node.obstacleTile.name = n;
+						node.num = currentNum;
+						Parameters.mapHolder.addChild(node.obstacleTile);
 					}
-					else
-					{
-						node.obstacleTile = new MovieClip(currentTexture);
-						node.obstacleTile.x = node.col * Parameters.tileSize;
-						node.obstacleTile.y = node.row * Parameters.tileSize;
-					}
-					if (currentTexture == treeTextures)
-					{
-						if((node.obstacleTile.height - Parameters.tileSize) > 5)
-						{
-							node.obstacleTile.y -= Parameters.tileSize ;
-						}
-					}
-					
-					node.walkable = false;
-					node.obstacleTile.texture = currentTexture[currentNum];
-					node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
-					node.obstacleTile.name = n;
-					Parameters.mapHolder.addChild(node.obstacleTile);
-					
 				}
 				
 				if (currentTexture == waterTextures || currentTexture == groundTextures)
@@ -703,11 +728,6 @@ package states.editor
 						node.isWater = false;
 					}
 					
-					/*if (node.obstacleTile && currentTexture == waterTextures)
-					{
-						node.obstacleTile.removeFromParent(true);
-						node.obstacleTile = null;
-					}*/
 					
 					node.groundTile.dispose();
 					node.groundTile.texture = currentTexture[rnd];
@@ -716,13 +736,11 @@ package states.editor
 			}
 		}
 		
-		//83.6
-		//83.1
 		
 		private function getShoreN( _name:String, _count:int):String 
 		{
 
-			var currentNum:int = _count+1;
+			var currentNum:int = _count;
 			var str:String = ""
 			if (currentNum < 10)
 			{

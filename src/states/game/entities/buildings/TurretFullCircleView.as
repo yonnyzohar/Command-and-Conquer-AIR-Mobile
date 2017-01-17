@@ -211,6 +211,10 @@ package states.game.entities.buildings
 			GameTimer.getInstance().removeUser(this);
 			
 			TurretModel(model).rotating = false;
+			if (model.currentState == UnitStates.SHOOT)
+			{
+				 dispatchEvent(new starling.events.Event("DONE_ROTATING"))
+			}
 		}
 		
 				

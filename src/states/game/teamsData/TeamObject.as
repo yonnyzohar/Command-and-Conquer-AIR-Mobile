@@ -216,9 +216,8 @@ package states.game.teamsData
 				p.placeUnit(buildManager.targetRow, buildManager.targetCol);
 				buildManager.updateUnitsAndBuildings(assetName);
 				p.sayHello();
-				powerCtrl.updatePower();
-				//handleAtachedUnit(assetName , buildManager.targetRow, buildManager.targetCol);
-
+				//this is temporary until the pc can build its own
+				if (team == Parameters.humanTeam)powerCtrl.updatePower();
 			}
 			
 			buildManager.assetBuildComplete(assetName);
@@ -315,10 +314,7 @@ package states.game.teamsData
 
 				
 				//this is temporary until the pc can build its own
-				if (team == Parameters.humanTeam)
-				{
-					powerCtrl.updatePower();
-				}
+				if (team == Parameters.humanTeam)powerCtrl.updatePower();
 			}
 			
 			var removed:Boolean = false;

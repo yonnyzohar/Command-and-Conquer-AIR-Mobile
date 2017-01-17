@@ -428,10 +428,10 @@ package states.game.ui
 				//HudController.completedAsset = { "name" : "minigunner", "type" : "units" };
 				//GlobalEventDispatcher.getInstance().dispatchEvent(new Event("ASSET_CONSTRUCTED"));
 				var currentUnit:GameEntity = Parameters.currentSquad[0];
-				if (currentUnit)
+				if (currentUnit && currentUnit.model && currentUnit.model.dead == false)
 				{
 					var currentTeamObj:TeamObject = currentUnit.myTeamObj;
-					currentTeamObj.spawnEnemyUnit(currentUnit.model.row + 3, currentUnit.model.col - 3, false);
+					currentTeamObj.spawnEnemyUnit(currentUnit.model.row + 3, currentUnit.model.col - 3, true);
 				}
 				
 				

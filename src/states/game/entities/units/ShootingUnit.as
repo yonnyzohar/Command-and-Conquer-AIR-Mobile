@@ -401,7 +401,6 @@ package  states.game.entities.units
 				{
 					
 					var rateOfFire:int = UnitModel(model).stats.weapon.rateOfFire;
-					//trace("shootCount " + UnitModel(model).shootCount + " rateOfFire " + rateOfFire);
 					if(UnitModel(model).shootCount == rateOfFire)
 					{
 						UnitView(view).shoot(currentEnemy , currentEnemy.model.row, currentEnemy.model.col);
@@ -422,10 +421,6 @@ package  states.game.entities.units
 						{
 							UnitView(view).stopShootingAndStandIdlly();
 						}
-						/*if (UnitModel(model).shootCount > rateOfFire)
-						{
-							UnitModel(model).shootCount = 0;
-						}*/
 					}
 					UnitModel(model).shootCount++;
 				}
