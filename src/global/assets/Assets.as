@@ -6,6 +6,7 @@ package global.assets
      */
     public class Assets 
 	{
+		public static var ridges:Object = {
 			type:"ridges",
 			list: {
 
