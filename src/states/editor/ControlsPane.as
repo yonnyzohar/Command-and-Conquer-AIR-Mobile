@@ -34,6 +34,13 @@ package states.editor
 		private var rightShoreTextures:Vector.<Texture>;
 		private var cornerShoreTextures:Vector.<Texture>;
 		
+		
+		private var topRidgeTextures:Vector.<Texture>;
+		private var bottomRidgeTextures:Vector.<Texture>;
+		private var leftRidgeTextures:Vector.<Texture>;
+		private var rightRidgeTextures:Vector.<Texture>;
+		private var cornerRidgeTextures:Vector.<Texture>;
+		
 		private var currentTile:String = "grass";
 		private var currentTexture:Vector.<Texture>;
 		private var xOffset:int;
@@ -41,11 +48,20 @@ package states.editor
 		
 		private var currentTree:int = 0;
 		private var currenttiberium:int = 0;
+		
 		private var currentTopShore:int = 0;
 		private var currentBottomShore:int = 0;
 		private var currentLeftShore:int = 0;
 		private var currentRightShore:int = 0;
 		private var currentCornerShore:int = 0;
+		
+		private var currentTopRidge:int = 0;
+		private var currentBottomRidge:int = 0;
+		private var currentLeftRidge:int = 0;
+		private var currentRightRidge:int = 0;
+		private var currentCornerRidge:int = 0;
+		
+		private var shoreCliffObstacle:MovieClip;
 		
 		public function ControlsPane()
 		{
@@ -73,6 +89,15 @@ package states.editor
 			ButtonManager.setButton(view.shore_right, "TOUCH", onShoreRightClicked);
 			ButtonManager.setButton(view.shore_corner, "TOUCH", onShoreCornerClicked);
 			
+			
+			ButtonManager.setButton(view.ridges_top, "TOUCH", onRidgeTopClicked);
+			ButtonManager.setButton(view.ridges_bottom, "TOUCH", onRidgeBottomClicked);
+			ButtonManager.setButton(view.ridges_left, "TOUCH", onRidgeLeftClicked);
+			ButtonManager.setButton(view.ridges_right, "TOUCH", onRidgeRightClicked);
+			ButtonManager.setButton(view.ridges_corner, "TOUCH", onRidgeCornerClicked);
+			
+			
+			
 			ButtonManager.setButton(view.eraseMC, "TOUCH", onEraseClicked);
 			ButtonManager.setButton(view.brushMC, "TOUCH", onBrushClicked);
 			ButtonManager.setButton(view.bucketMC, "TOUCH", onBucketClicked);
@@ -88,7 +113,7 @@ package states.editor
 			
 		}
 		
-		
+		//////////////////////////////////////////----shores----------//////////////////////////////////////
 		private function onShoreTopClicked(caller:GameSprite):void
 		{
 			var isAlreadyCovered:Boolean = highlightMe(view.shore_top);
@@ -169,6 +194,88 @@ package states.editor
 			setTile(view.shore_corner, cornerShoreTextures, currentCornerShore);
 		}
 		
+		
+		/////////////////////////////////////////---ridges---/////////////////////////////////////
+		private function onRidgeTopClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.ridges_top);
+			
+			currentTexture = topRidgeTextures;
+			
+			if(isAlreadyCovered)currentTopRidge++;
+			
+			if (currentTopRidge >= topRidgeTextures.length)
+			{
+				currentTopRidge = 0;
+			}
+			
+			setTile(view.ridges_top, topRidgeTextures, currentTopRidge);
+		}
+		
+		private function onRidgeBottomClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.ridges_bottom);
+			
+			currentTexture = bottomRidgeTextures;
+			
+			if(isAlreadyCovered)currentBottomRidge++;
+			
+			if (currentBottomRidge >= bottomRidgeTextures.length)
+			{
+				currentBottomRidge = 0;
+			}
+			
+			setTile(view.ridges_bottom, bottomRidgeTextures, currentBottomRidge);
+		}
+		
+		private function onRidgeLeftClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.ridges_left);
+			
+			currentTexture = leftRidgeTextures;
+			
+			if(isAlreadyCovered)currentLeftRidge++;
+			
+			if (currentLeftRidge >= leftRidgeTextures.length)
+			{
+				currentLeftRidge = 0;
+			}
+			
+			setTile(view.ridges_left, leftRidgeTextures, currentLeftRidge);
+		}
+		
+		private function onRidgeRightClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.ridges_right);
+			
+			currentTexture = rightRidgeTextures;
+			
+			if(isAlreadyCovered)currentRightRidge++;
+			
+			if (currentRightRidge >= rightRidgeTextures.length)
+			{
+				currentRightRidge = 0;
+			}
+			
+			setTile(view.ridges_right, rightRidgeTextures, currentRightRidge);
+		}
+		
+		private function onRidgeCornerClicked(caller:GameSprite):void
+		{
+			var isAlreadyCovered:Boolean = highlightMe(view.ridges_corner);
+			
+			currentTexture = cornerRidgeTextures;
+			
+			if(isAlreadyCovered)currentCornerRidge++;
+			
+			if (currentCornerRidge >= cornerRidgeTextures.length)
+			{
+				currentCornerRidge = 0;
+			}
+			
+			setTile(view.ridges_corner, cornerRidgeTextures, currentCornerRidge);
+		}
+		///////////////////////////////////////
 		
 		
 		private function onPaneTouch(e:TouchEvent):void
@@ -261,6 +368,22 @@ package states.editor
 			
 			cornerShoreTextures = GameAtlas.getTextures("shore_corner_low");
 			setTile(view.shore_corner, cornerShoreTextures, currentCornerShore);
+			
+			
+			topRidgeTextures = GameAtlas.getTextures("ridges_top");
+			setTile(view.ridges_top, topRidgeTextures, currentTopRidge);
+			
+			bottomRidgeTextures = GameAtlas.getTextures("ridges_bottom");
+			setTile(view.ridges_bottom, bottomRidgeTextures, currentBottomRidge);
+			
+			leftRidgeTextures = GameAtlas.getTextures("ridges_left");
+			setTile(view.ridges_left, leftRidgeTextures, currentLeftRidge);
+			
+			rightRidgeTextures = GameAtlas.getTextures("ridges_right");
+			setTile(view.ridges_right, rightRidgeTextures, currentRightRidge);
+			
+			cornerRidgeTextures = GameAtlas.getTextures("ridges_corner");
+			setTile(view.ridges_corner, cornerRidgeTextures, currentCornerRidge);
 		}
 		
 
@@ -546,17 +669,25 @@ package states.editor
 					node.walkable = true;
 				}
 				
-				if (node.shoreCliffTile)
+				if (node.shoreTile)
 				{
-					node.shoreCliffTile.dispose();
-					node.shoreCliffTile.removeFromParent();
-					node.shoreCliffTile = null;
+					node.shoreTile.dispose();
+					node.shoreTile.removeFromParent();
+					node.shoreTile = null;
+					node.walkable = true;
+				}
+				
+				if (node.cliffTile)
+				{
+					node.cliffTile.dispose();
+					node.cliffTile.removeFromParent();
+					node.cliffTile = null;
 					node.walkable = true;
 				}
 			}
 		}
 		
-		private var shoreObstacle:MovieClip;
+		
 		
 		private function fillTile(targetRow:int, targetCol:int, _phase:String = ""):void 
 		{
@@ -566,11 +697,101 @@ package states.editor
 				var node:Node = Node(Parameters.boardArr[targetRow][targetCol]);
 				var currentNum:int = 0;
 				
-				if (currentTexture == topShoreTextures || 
-					currentTexture == bottomShoreTextures ||
-					currentTexture == leftShoreTextures ||
-					currentTexture == rightShoreTextures ||
-					currentTexture == cornerShoreTextures)
+				if (currentTexture == topRidgeTextures || currentTexture == bottomRidgeTextures || currentTexture == leftRidgeTextures || currentTexture == rightRidgeTextures || currentTexture == cornerRidgeTextures)
+				{
+					if (_phase == "begin")
+					{
+						if (currentTexture == topRidgeTextures)
+						{
+							n = getShoreN("ridges_top_", currentTopRidge);
+						}
+
+						if (currentTexture == bottomRidgeTextures)
+						{
+							n = getShoreN("ridges_bottom_", currentBottomRidge);
+						}
+						
+						if (currentTexture == leftRidgeTextures)
+						{
+							n = getShoreN("ridges_left_", currentLeftRidge);
+						}
+						if (currentTexture == rightRidgeTextures)
+						{
+							n = getShoreN("ridges_right_", currentRightRidge);
+						}
+						if (currentTexture == cornerRidgeTextures)
+						{
+							n = getShoreN("ridges_corner_", currentCornerRidge);
+						}
+						
+						var o:Array = Assets.ridges.list[n].gridBuild;
+						shoreCliffObstacle = GameAtlas.createMovieClip(n);
+						shoreCliffObstacle.x = node.col * Parameters.tileSize;
+						shoreCliffObstacle.y = node.row * Parameters.tileSize;
+						shoreCliffObstacle.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+						shoreCliffObstacle.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
+						Parameters.mapHolder.addChild(shoreCliffObstacle);
+						
+					}
+					if (_phase == "move")
+					{
+						if (shoreCliffObstacle)
+						{
+							shoreCliffObstacle.x = node.col * Parameters.tileSize;
+							shoreCliffObstacle.y = node.row * Parameters.tileSize;
+						}
+					}
+					if (_phase == "end")
+					{
+						if (shoreCliffObstacle) 
+						{
+							shoreCliffObstacle.removeFromParent();
+							shoreCliffObstacle = null;
+						}
+						
+						if (currentTexture == topRidgeTextures)
+						{
+							n = getShoreN("ridges_top_", currentTopRidge);
+							node.num = currentTopRidge;
+						}
+
+						if (currentTexture == bottomRidgeTextures)
+						{
+							n = getShoreN("ridges_bottom_", currentBottomRidge);
+							node.num = currentBottomRidge;
+						}
+						
+						if (currentTexture == leftRidgeTextures)
+						{
+							n = getShoreN("ridges_left_", currentLeftRidge);
+							node.num = currentLeftRidge;
+						}
+						if (currentTexture == cornerRidgeTextures)
+						{
+							n = getShoreN("ridges_right_", currentRightRidge);
+							node.num = currentRightRidge;
+						}
+						if (currentTexture == cornerRidgeTextures)
+						{
+							n = getShoreN("ridges_corner_", currentCornerRidge);
+							node.num = currentCornerRidge;
+						}
+						
+						var o:Array = Assets.ridges.list[n].gridBuild;
+						
+						node.cliffTile = new Image(GameAtlas.getTexture(n));
+						node.cliffTile.x = node.col * Parameters.tileSize;
+						node.cliffTile.y = node.row * Parameters.tileSize;
+						node.walkable = false;
+						node.cliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+						node.cliffTile.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
+						node.cliffTile.name = n;
+						Parameters.mapHolder.addChild(node.cliffTile);
+					}
+				}
+				
+				
+				if (currentTexture == topShoreTextures || currentTexture == bottomShoreTextures || currentTexture == leftShoreTextures || currentTexture == rightShoreTextures || currentTexture == cornerShoreTextures)
 				{
 					if (_phase == "begin")
 					{
@@ -596,29 +817,30 @@ package states.editor
 						{
 							n = getShoreN("shore_corner_low_", currentCornerShore);
 						}
+						
 						var o:Array = Assets.shores.list[n].gridBuild;
-						shoreObstacle = GameAtlas.createMovieClip(n);
-						shoreObstacle.x = node.col * Parameters.tileSize;
-						shoreObstacle.y = node.row * Parameters.tileSize;
-						shoreObstacle.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
-						shoreObstacle.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
-						Parameters.mapHolder.addChild(shoreObstacle);
+						shoreCliffObstacle = GameAtlas.createMovieClip(n);
+						shoreCliffObstacle.x = node.col * Parameters.tileSize;
+						shoreCliffObstacle.y = node.row * Parameters.tileSize;
+						shoreCliffObstacle.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+						shoreCliffObstacle.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
+						Parameters.mapHolder.addChild(shoreCliffObstacle);
 						
 					}
 					if (_phase == "move")
 					{
-						if (shoreObstacle)
+						if (shoreCliffObstacle)
 						{
-							shoreObstacle.x = node.col * Parameters.tileSize;
-							shoreObstacle.y = node.row * Parameters.tileSize;
+							shoreCliffObstacle.x = node.col * Parameters.tileSize;
+							shoreCliffObstacle.y = node.row * Parameters.tileSize;
 						}
 					}
 					if (_phase == "end")
 					{
-						if (shoreObstacle) 
+						if (shoreCliffObstacle) 
 						{
-							shoreObstacle.removeFromParent();
-							shoreObstacle = null;
+							shoreCliffObstacle.removeFromParent();
+							shoreCliffObstacle = null;
 						}
 						
 						if (currentTexture == topShoreTextures)
@@ -651,14 +873,14 @@ package states.editor
 						
 						var o:Array = Assets.shores.list[n].gridBuild;
 						
-						node.shoreCliffTile = new Image(GameAtlas.getTexture(n));
-						node.shoreCliffTile.x = node.col * Parameters.tileSize;
-						node.shoreCliffTile.y = node.row * Parameters.tileSize;
+						node.shoreTile = new Image(GameAtlas.getTexture(n));
+						node.shoreTile.x = node.col * Parameters.tileSize;
+						node.shoreTile.y = node.row * Parameters.tileSize;
 						node.walkable = false;
-						node.shoreCliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
-						node.shoreCliffTile.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
-						node.shoreCliffTile.name = n;
-						Parameters.mapHolder.addChild(node.shoreCliffTile);
+						node.shoreTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+						node.shoreTile.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
+						node.shoreTile.name = n;
+						Parameters.mapHolder.addChild(node.shoreTile);
 					}
 				}
 				

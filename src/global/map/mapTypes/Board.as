@@ -393,13 +393,13 @@ package global.map.mapTypes
 						if (textureName.indexOf("shore") != -1)
 						{
 							var o:Array = Assets.shores.list[textureName].gridBuild;
-							node.shoreCliffTile = new Image(GameAtlas.getTexture(textureName));
-							node.shoreCliffTile.x = node.col * Parameters.tileSize;
-							node.shoreCliffTile.y = node.row * Parameters.tileSize;
+							node.shoreTile = new Image(GameAtlas.getTexture(textureName));
+							node.shoreTile.x = node.col * Parameters.tileSize;
+							node.shoreTile.y = node.row * Parameters.tileSize;
 							
-							node.shoreCliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
-							node.shoreCliffTile.height = o.length * Parameters.tileSize;  // * Parameters.gameScale;
-							node.shoreCliffTile.name = textureName;
+							node.shoreTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+							node.shoreTile.height = o.length * Parameters.tileSize;  // * Parameters.gameScale;
+							node.shoreTile.name = textureName;
 							
 							for (var _row:int = 0; _row < o.length ; _row++ )
 							{
@@ -416,13 +416,48 @@ package global.map.mapTypes
 										{
 											Parameters.boardArr[node.row + _row][node.col + _col].walkable = false;
 										}
-										Parameters.boardArr[node.row + _row][node.col + _col].shoreCliffTile = node.shoreCliffTile;
+										
+										if(Parameters.editMode == false)Parameters.boardArr[node.row + _row][node.col + _col].shoreTile = node.shoreTile;
 									}
 								}
 							}
-							
-							//Parameters.mapHolder.addChild(node.shoreCliffTile);
 						}
+						
+						
+						if (textureName.indexOf("ridges") != -1)
+						{
+							var o:Array = Assets.ridges.list[textureName].gridBuild;
+							node.cliffTile = new Image(GameAtlas.getTexture(textureName));
+							node.cliffTile.x = node.col * Parameters.tileSize;
+							node.cliffTile.y = node.row * Parameters.tileSize;
+							
+							node.cliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
+							node.cliffTile.height = o.length * Parameters.tileSize;  // * Parameters.gameScale;
+							node.cliffTile.name = textureName;
+							
+							for (var _row:int = 0; _row < o.length ; _row++ )
+							{
+								for (var _col:int = 0; _col < o[_row].length; _col++ )
+								{
+									if (Parameters.boardArr[node.row + _row] && Parameters.boardArr[node.row + _row][node.col + _col])
+									{
+										if (o[_row][_col] == 1)
+										{
+											Parameters.boardArr[node.row + _row][node.col + _col].walkable = false;
+											
+										}
+										else 
+										{
+											Parameters.boardArr[node.row + _row][node.col + _col].walkable = true;
+										}
+										
+										if(Parameters.editMode == false)Parameters.boardArr[node.row + _row][node.col + _col].cliffTile = node.cliffTile;
+									}
+								}
+							}
+						}
+						
+						
 						
 
 						

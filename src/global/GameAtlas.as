@@ -136,7 +136,8 @@ package  global
 				],
 				map:[
 					"trees",
-					"shores"
+					"shores",
+					"ridges"
 				]
 				
 			}

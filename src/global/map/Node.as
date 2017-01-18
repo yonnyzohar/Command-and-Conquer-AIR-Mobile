@@ -19,7 +19,8 @@ package  global.map
 		protected var _seen:Boolean = false;
 		public var groundTile:Image
 		public var obstacleTile:MovieClip;
-		public var shoreCliffTile:Image;
+		public var shoreTile:Image;
+		public var cliffTile:Image;
 		public var isWater:Boolean = false;
 		public var isResource:Boolean = false;
 		public var type:int = 0;
@@ -72,9 +73,13 @@ package  global.map
 			
 			if (_seen == true)
 			{
-				if (prevSeen == false && shoreCliffTile)
+				if (prevSeen == false && shoreTile)
 				{
-					Parameters.mapHolder.addChild(shoreCliffTile);
+					Parameters.mapHolder.addChild(shoreTile);
+				}
+				if (prevSeen == false && cliffTile)
+				{
+					Parameters.mapHolder.addChild(cliffTile);
 				}
 				
 				if (groundTile)

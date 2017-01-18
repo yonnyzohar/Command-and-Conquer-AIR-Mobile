@@ -449,9 +449,9 @@ package global.utilities
 							n.obstacleTile.removeFromParent();
 						}
 						
-						if (n.shoreCliffTile)
+						if (n.shoreTile)
 						{
-							//n.shoreCliffTile.removeFromParent();
+							//n.shoreTile.removeFromParent();
 						}
 						
 						if (n.groundTile)
@@ -479,9 +479,14 @@ package global.utilities
 						{
 							Parameters.mapHolder.addChild(n.obstacleTile);
 						}
-						if (n.shoreCliffTile && n.seen)
+						if (n.shoreTile && n.seen)
 						{
-							Parameters.mapHolder.addChild(n.shoreCliffTile);
+							Parameters.mapHolder.addChild(n.shoreTile);
+						}
+						
+						if (n.cliffTile && n.seen)
+						{
+							Parameters.mapHolder.addChild(n.cliffTile);
 						}
 					}
 			}

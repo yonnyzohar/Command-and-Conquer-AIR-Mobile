@@ -398,10 +398,18 @@ package states.editor
 					mapNode.row = row;
 					mapNode.col = col;
 					
-					if (node.shoreCliffTile)
+					if (node.shoreTile)
 					{
 						mapNode.groundTileTexture = "grass";
-						var texName:String = node.shoreCliffTile.name;
+						var texName:String = node.shoreTile.name;
+						mapNode.obstacleTextureName = texName;
+						a.push(mapNode);
+					}
+					
+					if ( node.cliffTile)
+					{
+						mapNode.groundTileTexture = "grass";
+						var texName:String = node.cliffTile.name;
 						mapNode.obstacleTextureName = texName;
 						a.push(mapNode);
 					}

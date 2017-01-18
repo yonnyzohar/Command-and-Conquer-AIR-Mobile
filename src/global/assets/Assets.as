@@ -6,6 +6,224 @@ package global.assets
      */
     public class Assets 
 	{
+			type:"ridges",
+			list: {
+
+				"ridges_bottom_00": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_bottom_01": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_bottom_02": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_bottom_03": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_bottom_04": {
+					gridBuild:[
+						[1,1],
+						[1,0]
+					]
+				},
+				"ridges_bottom_05": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_00": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_01": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_02": {
+					gridBuild:[
+						[1,1],
+						[1,0]
+					]
+				},
+				"ridges_corner_03": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_04": {
+					gridBuild:[
+						[0,1],
+						[1, 1],
+						[1,1]
+					]
+				},
+				"ridges_corner_05": {
+					gridBuild:[
+						[1],
+						[1]
+					]
+				},
+				"ridges_corner_06": {
+					gridBuild:[
+						[1,1],
+						[0,1]
+					]
+				},
+				"ridges_corner_07": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_08": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_09": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_10": {
+					gridBuild:[
+						[1,1],
+						[1,0]
+					]
+				},
+				"ridges_corner_11": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_12": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_13": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_corner_14": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_left_00": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_left_01": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_left_02": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_left_03": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_left_04": {
+					gridBuild:[
+						[1,1,1],
+						[1,1,1]
+					]
+				},
+				"ridges_top_00": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_top_01": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_top_02": {
+					gridBuild:[
+						[1,1],
+						[1,1]
+					]
+				},
+				"ridges_right_00": {
+					gridBuild:[
+						[1,1]
+					]
+				},
+				"ridges_right_01": {
+					gridBuild:[
+						[1, 1, 1],
+						[1, 1, 1],
+						[1,1,1]
+					]
+				},
+				"ridges_right_02": {
+					gridBuild:[
+						[1, 1],
+						[1, 1]
+					]
+				},
+				"ridges_right_03": {
+					gridBuild:[
+						[1, 1],
+						[1, 1]
+					]
+				},
+				"ridges_right_04": {
+					gridBuild:[
+						[1, 1],
+						[1, 1]
+					]
+				},
+				"ridges_right_05": {
+					gridBuild:[
+						[1, 1,1],
+						[1, 1, 1],
+						[1, 1,1]
+					]
+				}
+			}
+		}
+		
 		public static var shores:Object = {
 			
 			type:"shores",
