@@ -1,5 +1,7 @@
 package  states.game.entities.buildings
 {
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import global.enums.Agent;
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
@@ -21,6 +23,7 @@ package  states.game.entities.buildings
 	{
 		private var currentEnemy:GameEntity;
 		private var weapon:Weapon;
+		private var shootInterval:int;
 		
 		public function Turret(_turretStats:TurretStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
 		{
@@ -322,15 +325,47 @@ package  states.game.entities.buildings
 			}
 		}
 		
-		protected function fireWeaponActual(currentEnemy):void 
+		//////////////
+		
+		protected function fireWeaponActual(currentEnemy:GameEntity):void 
 		{
-			weapon.shoot(currentEnemy, view);
-			if (Methods.isValidEnemy(currentEnemy, teamNum))
+			if (TurretStatsObj(model.stats).fireIndex)
 			{
-				view.recoil( currentEnemy);
+				shootInterval = setInterval(function() 
+				{
+					if (view && TurretView(view).state == "_fire")
+					{
+						if (view.mc && view.mc.currentFrame == TurretStatsObj(model.stats).fireIndex)
+						{
+							weapon.shoot(currentEnemy, view);
+							if (Methods.isValidEnemy(currentEnemy, teamNum))
+							{
+								view.recoil( currentEnemy);
+							}
+							TurretModel(model).shootCount = 0;
+							
+							clearInterval(shootInterval)
+							
+						}
+					}
+					else
+					{
+						clearInterval(shootInterval);
+					}
+					
+				},50);
 			}
-			TurretModel(model).shootCount = 0;
+			else
+			{
+				weapon.shoot(currentEnemy, view);
+				if (Methods.isValidEnemy(currentEnemy, teamNum))
+				{
+					view.recoil( currentEnemy);
+				}
+				TurretModel(model).shootCount = 0;
+			}
 		}
+		//////////////
 		
 		protected function doNothing():void
 		{

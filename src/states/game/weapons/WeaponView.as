@@ -65,11 +65,7 @@ package  states.game.weapons
 			trailCounter = 0;
 			model = _model;
 			movingProjectile = _movingProjectile;
-			if (_explosionAnimName)
-			{
-				explosionMC = GameAtlas.createMovieClip(_explosionAnimName);
-				explosionMC.touchable = false;
-			}
+
 			if (_projectileImgName)
 			{
 				pool = new Pool(ProjectileView,GameAtlas.getTextures(_projectileImgName),_model.stats.pixelOffsetX, _model.stats.pixelOffsetY  );
@@ -82,13 +78,19 @@ package  states.game.weapons
 				
 			}
 			
-			if (explosionMC)
+			if (_explosionAnimName)
 			{
-				explosionMC.scaleX = explosionMC.scaleY = Parameters.gameScale;
-				explosionMC.pivotX = explosionMC.width * 0.5;
-				explosionMC.pivotY = explosionMC.height * 0.5;
+				createExplosion(_explosionAnimName);
 			}
-			
+		}
+		
+		private function createExplosion(explosionAnimName:String):void 
+		{
+			explosionMC = GameAtlas.createMovieClip(explosionAnimName);
+			explosionMC.touchable = false;
+			explosionMC.scaleX = explosionMC.scaleY = Parameters.gameScale;
+			explosionMC.pivotX = explosionMC.width *  (0.5/Parameters.gameScale);
+			explosionMC.pivotY = explosionMC.height *  (0.5/Parameters.gameScale);
 		}
 		
 		public function shootTarget( _enemy:GameEntity, _destRow:int,       _destCol:int, shooter:EntityView,  duration:Number, 
@@ -319,18 +321,8 @@ package  states.game.weapons
 				offsetX = enemy.model.stats.pixelOffsetX;
 				offsetY = enemy.model.stats.pixelOffsetY;
 			}
-			if (explosionMC )
-			{
-				Parameters.upperTilesLayer.addChild(explosionMC);
-				explosionMC.x = targetX - ((offsetX * Parameters.gameScale) / 2);
-				explosionMC.y = targetY - ((offsetY * Parameters.gameScale) / 2);
-				explosionMC.x += (explosionMC.width / 2);
-				explosionMC.y += (explosionMC.height / 2);
-				Starling.juggler.add(explosionMC);
-				explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
-				explosionMC.currentFrame = 0;
-				explosionMC.play();
-			}
+			playExplosion();
+			
 			
 			
 			//GameSounds.playExplosionSound();
@@ -350,6 +342,27 @@ package  states.game.weapons
 			inflictDamadgeFnctn();
 			
 			
+		}
+		
+		public function playExplosion(_x:int = 0, _y:int = 0):void 
+		{
+			if (_x != 0 && _y != 0)
+			{
+				targetX = _x;
+				targetY = _y;
+			}
+			if (explosionMC )
+			{
+				Parameters.upperTilesLayer.addChild(explosionMC);
+				explosionMC.x = targetX - ((offsetX * Parameters.gameScale) / 2);
+				explosionMC.y = targetY - ((offsetY * Parameters.gameScale) / 2);
+				explosionMC.x += (explosionMC.width / 2);
+				explosionMC.y += (explosionMC.height / 2);
+				Starling.juggler.add(explosionMC);
+				explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
+				explosionMC.currentFrame = 0;
+				explosionMC.play();
+			}
 		}
 		
 		private function onTrailComplete(e:Event):void 

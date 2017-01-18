@@ -57,27 +57,7 @@ package states.game.entities.buildings
 			}
 		}
 		
-		public function setConstructAnimation():void 
-		{
-			state = "-construct";
-			mc.loop = false;
-			playState();
-			mc.addEventListener(Event.COMPLETE, onConstructAnimComplete);
-		}
 		
-		private function onConstructAnimComplete(e:Event):void
-		{
-			mc.removeEventListener(Event.COMPLETE, onConstructAnimComplete);
-			stopConstructAnimation();
-		}
-		
-		public function stopConstructAnimation():void 
-		{
-			state = "";
-			healthAnim = healthAnim.toLowerCase()
-			mc.loop = true;
-			playState();
-		}
 		
 		override public function addHealthBar(_healthBar:HealthBar):void
 		{
@@ -219,6 +199,29 @@ package states.game.entities.buildings
 			circle.width = mc.width;
 			circle.height = mc.height / 2;
 			circle.y += mc.height / 2;
+		}
+		
+		//when constructing an asset
+		public function setConstructAnimation():void 
+		{
+			state = "-construct";
+			mc.loop = false;
+			playState();
+			mc.addEventListener(Event.COMPLETE, onConstructAnimComplete);
+		}
+		
+		private function onConstructAnimComplete(e:Event):void
+		{
+			mc.removeEventListener(Event.COMPLETE, onConstructAnimComplete);
+			stopConstructAnimation();
+		}
+		
+		public function stopConstructAnimation():void 
+		{
+			state = "";
+			healthAnim = healthAnim.toLowerCase()
+			mc.loop = true;
+			playState();
 		}
 	}
 }

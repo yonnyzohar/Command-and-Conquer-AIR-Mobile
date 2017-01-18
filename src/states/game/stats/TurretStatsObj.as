@@ -7,6 +7,7 @@ package states.game.stats
 	public class TurretStatsObj extends BuildingsStatsObj 
 	{
         public var turnSpeed:int;
+		public var fireIndex:int;
 		
 	}
 

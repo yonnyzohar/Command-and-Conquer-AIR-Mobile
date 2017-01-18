@@ -40,6 +40,7 @@ package states.game.stats
 				turretObj.pixelWidth    = curTurret.pixelWidth;
 				turretObj.tech			= curTurret.tech;
 				turretObj.connectedSprites = curTurret.connectedSprites;
+				turretObj.fireIndex = curTurret.fireIndex;
 				
 				dict[curTurret.name] = turretObj;
 			}

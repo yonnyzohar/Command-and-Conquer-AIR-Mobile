@@ -441,7 +441,7 @@ package  states.game.entities.units
 			}
 		}
 		
-		protected function fireWeaponActual(currentEnemy):void 
+		protected function fireWeaponActual(currentEnemy:GameEntity):void 
 		{
 			weapon.shoot(currentEnemy, view);
 			if (Methods.isValidEnemy(currentEnemy, teamNum))

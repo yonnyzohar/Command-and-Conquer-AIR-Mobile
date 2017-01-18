@@ -15,7 +15,12 @@ package states.game.entities.buildings
 			super(_model,_name)
 		}
 		
-		
+		override public function shoot(enemy:GameEntity, eRow:int, eCol:int):void
+		{
+			state = "_fire";
+			playState();
+			mc.loop = false;
+		}
 		
 	}
 

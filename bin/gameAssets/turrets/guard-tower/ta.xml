@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas imagePath="ta.png">
 <SubTexture name="guard-tower_damaged0" x="0" y="0" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build0" x="0" y="24" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build1" x="0" y="48" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build2" x="0" y="72" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build3" x="0" y="96" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build4" x="0" y="120" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build5" x="0" y="144" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build6" x="0" y="168" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build7" x="0" y="192" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build8" x="0" y="216" width="24" height="24" pivotX="1" pivotY="1"/>
-<SubTexture name="guard-tower_build9" x="0" y="240" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build00" x="0" y="24" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build01" x="0" y="48" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build02" x="0" y="72" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build03" x="0" y="96" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build04" x="0" y="120" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build05" x="0" y="144" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build06" x="0" y="168" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build07" x="0" y="192" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build08" x="0" y="216" width="24" height="24" pivotX="1" pivotY="1"/>
+<SubTexture name="guard-tower_build09" x="0" y="240" width="24" height="24" pivotX="1" pivotY="1"/>
 <SubTexture name="guard-tower_build10" x="0" y="264" width="24" height="24" pivotX="1" pivotY="1"/>
 <SubTexture name="guard-tower_build11" x="0" y="288" width="24" height="24" pivotX="1" pivotY="1"/>
 <SubTexture name="guard-tower_build12" x="0" y="312" width="24" height="24" pivotX="1" pivotY="1"/>

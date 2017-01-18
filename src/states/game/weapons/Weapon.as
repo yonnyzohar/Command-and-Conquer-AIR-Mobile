@@ -5,6 +5,7 @@ package  states.game.weapons
 	import flash.geom.Point;
 	import global.map.Node;
 	import global.Methods;
+	import global.pools.Pool;
 	import global.utilities.CircleRadiusBuilder;
 	import states.game.entities.EntityModel;
 	import states.game.entities.EntityView;
@@ -24,6 +25,7 @@ package  states.game.weapons
 	
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.Unit;
+	import starling.display.Shape;
 	/**
 	 * ...
 	 * @author Yonny Zohar
@@ -41,6 +43,8 @@ package  states.game.weapons
 		private var model:EntityModel;
 		private var piffPiff:MovieClip;
 		private var currentTarget:GameEntity;
+		private var shape:Shape;
+		private var smokePool:Pool;
 		
 		public function Weapon(_weaponStats:WeaponStatsObj,  _model:EntityModel) 
 		{
@@ -64,8 +68,13 @@ package  states.game.weapons
 				weaponImg = weaponStats.muzzleFlash;
 				movingProjectile = false;
 			}
-			 
+			if (weaponStats.projectile.name == "lasershot")
+			{
+				smokePool = new Pool(PoolElement,GameAtlas.getTextures(weaponStats.projectile.explosion), _model.stats.pixelOffsetX, _model.stats.pixelOffsetY);
+			}
 			view = new WeaponView(_model, weaponStats.projectile.explosion, weaponImg, weaponStats.projectile.smokeTrail, movingProjectile, weaponStats.projectile.directions );
+			
+			
 
 		}
 		
@@ -79,64 +88,71 @@ package  states.game.weapons
 		
 		public function shoot(enemy:GameEntity, shooterView:EntityView):void
 		{
-			
-			/*var arr:Array;
-			
-			if(numOfCannons > 1)
-			{
-				var startAngle:int = 0;
-				
-				if(dir == "_east")
-				{
-					startAngle = 0;
-				}
-				if(dir == "_SOUTH_east")
-				{
-					startAngle = 45;
-				}
-				if(dir == "_south")
-				{
-					startAngle = 90;
-				}
-				if(dir == "_SOUTH_west")
-				{
-					startAngle = 135;
-				}
-				if(dir == "_west")
-				{
-					startAngle = 180;
-				}
-				if(dir == "_NORTH_west")
-				{
-					startAngle = 225;
-				}
-				if(dir == "_north")
-				{
-					startAngle = 270;
-				}
-				if(dir == "_NORTH_east")
-				{
-					startAngle = 315;
-				}
-				
-				arr = CircleRadiusBuilder.getPointsAroundCircumference(centerPoint.x, centerPoint.y, 10, numOfCannons, startAngle);
-			}*/
-			
 
 			if (isValidEnemy(enemy))
 			{
 				currentTarget = enemy;
 				destRow = currentTarget.model.row;
 				destCol = currentTarget.model.col;
+				var targetObj:Object = Methods.getTargetLocation(enemy);
 				
 				for(var i:int = model.stats.numOfCannons; i >= 1; i--)
 				{
 					//playShootSound();
-					//
-					if (weaponStats.projectile.name.indexOf("invisible") == -1)
+					
+					if (weaponStats.projectile.name.indexOf("invisible") != -1)
 					{
+						if (piffPiff == null)
+						{
+							piffPiff = GameAtlas.createMovieClip("piffpiff");
+							piffPiff.loop = false;
+							piffPiff.touchable = false;
+							Starling.juggler.add(piffPiff);
+							piffPiff.addEventListener(Event.COMPLETE, onPiffPiffComplete);
+							
+						}
 						
-						////trace("shootTarget " + i);
+						
+						
+						piffPiff.x = targetObj.targetX + ((Math.random() * 10) - 5);
+						piffPiff.y = targetObj.targetY + ((Math.random() * 10) - 5);
+						piffPiff.currentFrame = 0;
+						piffPiff.visible = true;
+						Parameters.upperTilesLayer.addChild(piffPiff);
+						piffPiff.play();
+						inflictDamadge();
+					}
+					else if (weaponStats.projectile.name == "lasershot")
+					{
+						if (enemy && enemy.model && enemy.model.dead == false)
+						{
+							if (!shape)
+							{
+								shape = new Shape();
+							}
+							Parameters.upperTilesLayer.addChild(shape);
+							shape.alpha = 1;
+							shape.x = shooterView.x;
+							shape.y = shooterView.y;
+							shape.x += 30;
+							shape.y += 15;
+							shape.graphics.clear();
+							shape.graphics.lineStyle(3, 0xFF0000);
+							
+							var rndX:Number = enemy.model.stats.pixelWidth * Math.random();
+							var rndY:Number = enemy.model.stats.pixelHeight * Math.random();
+							
+							var p:Point = enemy.view.localToGlobal( new Point(rndX,rndY) );
+							var pp:Point = shape.globalToLocal(p)
+							shape.graphics.lineTo(pp.x, pp.y);
+							playLaserExplosion(enemy.view.x + rndX, enemy.view.y + rndY);
+							TweenLite.to(shape, 1, { alpha:0, onComplete:function():void{shape.removeFromParent()} } );
+							inflictDamadge();
+						}
+						
+					}
+					else
+					{
 						view.shootTarget(
 										currentTarget,
 										destRow,
@@ -149,36 +165,6 @@ package  states.game.weapons
 						);
 
 					}
-					else
-					{
-						/*if (piffPiff != null)
-						{
-							piffPiff.removeFromParent();
-							Starling.juggler.remove(piffPiff);
-						}*/
-						
-						if (piffPiff == null)
-						{
-							piffPiff = GameAtlas.createMovieClip("piffpiff");
-							piffPiff.loop = false;
-							piffPiff.touchable = false;
-							Starling.juggler.add(piffPiff);
-							piffPiff.addEventListener(Event.COMPLETE, onPiffPiffComplete);
-							
-						}
-						
-						var targetObj:Object = Methods.getTargetLocation(enemy);
-						
-						piffPiff.x = targetObj.targetX + ((Math.random() * 10) - 5);
-						piffPiff.y = targetObj.targetY + ((Math.random() * 10) - 5);
-						piffPiff.currentFrame = 0;
-						piffPiff.visible = true;
-						Parameters.upperTilesLayer.addChild(piffPiff);
-						piffPiff.play();
-						
-						
-						inflictDamadge();
-					}
 					
 				}
 			}
@@ -187,6 +173,36 @@ package  states.game.weapons
 				//stop();
 				currentTarget = null;
 			}
+		}
+		
+		private function playLaserExplosion(rndX:Number, rndY:Number):void 
+		{
+			var smokeMC:PoolElement = smokePool.getAsset();
+			smokeMC.loop = false;
+			smokeMC.touchable = false;
+			smokeMC.scaleX = smokeMC.scaleY = Parameters.gameScale;
+			smokeMC.pivotX = smokeMC.width * (0.5/Parameters.gameScale);
+			smokeMC.pivotY = smokeMC.height * (0.5/Parameters.gameScale);
+			
+			
+			
+			smokeMC.x = rndX;
+			smokeMC.y = rndY;
+			smokeMC.addEventListener(Event.COMPLETE, onMCComplte);
+			Parameters.upperTilesLayer.addChild(smokeMC);
+			smokeMC.currentFrame = int(Math.random() * smokeMC.numFrames);
+			Starling.juggler.add(smokeMC);
+		}
+		
+		private function onMCComplte(e:Event):void 
+		{
+			var mc:PoolElement = PoolElement(e.currentTarget);
+			mc.removeEventListener(Event.COMPLETE, onMCComplte);
+			mc.returnMe();
+			Starling.juggler.remove(mc);
+			mc = null;
+			
+
 		}
 		
 		private function onPiffPiffComplete(e:Event):void 

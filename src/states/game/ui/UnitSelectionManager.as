@@ -57,8 +57,8 @@ package states.game.ui
 			
 			hitMC = GameAtlas.createMovieClip("hitMC");
 			hitMC.scaleX = hitMC.scaleY = 1;
-			hitMC.pivotX =  hitMC.width * 0.5;
-			hitMC.pivotY =  hitMC.height* 0.5 ;
+			hitMC.pivotX =  hitMC.width * (0.5/Parameters.gameScale);
+			hitMC.pivotY =  hitMC.height* (0.5/Parameters.gameScale);
 			Starling.juggler.add(hitMC);
 			hitMC.stop();
 			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
@@ -237,9 +237,10 @@ package states.game.ui
 				
 				
 				startDragCircle.touchable = false;
-				startDragCircle.pivotX =  startDragCircle.width * 0.5;
-				startDragCircle.pivotY =  startDragCircle.height * 0.5 ;
 				startDragCircle.scaleX = startDragCircle.scaleY = Parameters.gameScale;
+				startDragCircle.pivotX =  startDragCircle.width * (0.5/Parameters.gameScale);
+				startDragCircle.pivotY =  startDragCircle.height *  (0.5/Parameters.gameScale);
+				
 				Starling.juggler.add(startDragCircle);
 				startDragCircle.stop();
 				

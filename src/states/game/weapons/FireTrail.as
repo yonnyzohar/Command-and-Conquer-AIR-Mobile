@@ -13,8 +13,8 @@ package states.game.weapons
 		{
 			super(tex, _isMovieClip);
 			this.scaleX = this.scaleY = Parameters.gameScale;
-			this.pivotX = this.width * 0.5;
-			this.pivotY = this.height * 0.5;
+			this.pivotX = this.width *  (0.5/Parameters.gameScale);
+			this.pivotY = this.height *  (0.5/Parameters.gameScale);
 		}
 		
 		public function init():void

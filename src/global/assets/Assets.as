@@ -1638,6 +1638,7 @@ package global.assets
                     cost: 1500,
                     hitPoints: 400,
                     sight: 5,
+					fireIndex:2,
                     turnSpeed: undefined,
                     armor: 2,
                     dependency: ["construction-yard", "communications-center", "power-plant","advanced-power-plant"],
@@ -3489,7 +3490,7 @@ package global.assets
                 },
                 lasershot: {
                     name: "lasershot",
-                    explosion: undefined,
+                    explosion: "smoke",
                     warhead: "super",
                     rotationSpeed: 0,
                     bulletSpeed: undefined,

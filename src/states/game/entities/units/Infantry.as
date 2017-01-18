@@ -29,7 +29,7 @@ package states.game.entities.units
 			
 		}
 		
-		override protected function fireWeaponActual(currentEnemy):void 
+		override protected function fireWeaponActual(currentEnemy:GameEntity):void 
 		{
 			//this is for the grenadier only
 			var fnctn:Function = super.fireWeaponActual;
