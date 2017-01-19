@@ -69,6 +69,8 @@ package  states.game.entities.units
 			explosionMC.removeEventListener(Event.COMPLETE, onExplosionComplete);
 			Parameters.mapHolder.removeChild(explosionMC);
 		}
+		
+	
 	}
 }
 

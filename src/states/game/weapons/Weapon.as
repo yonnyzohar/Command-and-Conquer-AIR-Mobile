@@ -7,6 +7,7 @@ package  states.game.weapons
 	import global.Methods;
 	import global.pools.Pool;
 	import global.utilities.CircleRadiusBuilder;
+	import starling.display.Sprite;
 	import states.game.entities.EntityModel;
 	import states.game.entities.EntityView;
 	import states.game.entities.units.UnitModel;
@@ -44,7 +45,7 @@ package  states.game.weapons
 		private var piffPiff:MovieClip;
 		private var currentTarget:GameEntity;
 		private var shape:Shape;
-		private var smokePool:Pool;
+		
 		
 		public function Weapon(_weaponStats:WeaponStatsObj,  _model:EntityModel) 
 		{
@@ -68,10 +69,7 @@ package  states.game.weapons
 				weaponImg = weaponStats.muzzleFlash;
 				movingProjectile = false;
 			}
-			if (weaponStats.projectile.name == "lasershot")
-			{
-				smokePool = new Pool(PoolElement,GameAtlas.getTextures(weaponStats.projectile.explosion), _model.stats.pixelOffsetX, _model.stats.pixelOffsetY);
-			}
+
 			view = new WeaponView(_model, weaponStats.projectile.explosion, weaponImg, weaponStats.projectile.smokeTrail, movingProjectile, weaponStats.projectile.directions );
 			
 			
@@ -145,7 +143,7 @@ package  states.game.weapons
 							var p:Point = enemy.view.localToGlobal( new Point(rndX,rndY) );
 							var pp:Point = shape.globalToLocal(p)
 							shape.graphics.lineTo(pp.x, pp.y);
-							playLaserExplosion(enemy.view.x + rndX, enemy.view.y + rndY);
+							Methods.createSmoke(enemy.view.x + rndX, enemy.view.y + rndY);
 							TweenLite.to(shape, 1, { alpha:0, onComplete:function():void{shape.removeFromParent()} } );
 							inflictDamadge();
 						}
@@ -175,35 +173,7 @@ package  states.game.weapons
 			}
 		}
 		
-		private function playLaserExplosion(rndX:Number, rndY:Number):void 
-		{
-			var smokeMC:PoolElement = smokePool.getAsset();
-			smokeMC.loop = false;
-			smokeMC.touchable = false;
-			smokeMC.scaleX = smokeMC.scaleY = Parameters.gameScale;
-			smokeMC.pivotX = smokeMC.width * (0.5/Parameters.gameScale);
-			smokeMC.pivotY = smokeMC.height * (0.5/Parameters.gameScale);
-			
-			
-			
-			smokeMC.x = rndX;
-			smokeMC.y = rndY;
-			smokeMC.addEventListener(Event.COMPLETE, onMCComplte);
-			Parameters.upperTilesLayer.addChild(smokeMC);
-			smokeMC.currentFrame = int(Math.random() * smokeMC.numFrames);
-			Starling.juggler.add(smokeMC);
-		}
 		
-		private function onMCComplte(e:Event):void 
-		{
-			var mc:PoolElement = PoolElement(e.currentTarget);
-			mc.removeEventListener(Event.COMPLETE, onMCComplte);
-			mc.returnMe();
-			Starling.juggler.remove(mc);
-			mc = null;
-			
-
-		}
 		
 		private function onPiffPiffComplete(e:Event):void 
 		{

@@ -1,8 +1,13 @@
 package global
 {
 	import flash.system.Capabilities;
+	import global.pools.Pool;
+	import global.pools.PoolElement;
 	import global.ui.hud.HUDView;
 	import global.utilities.CircleRadiusBuilder;
+	import starling.core.Starling;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import states.game.entities.GameEntity;
 	import states.game.stats.AssetStatsObj;
 	import states.game.stats.BuildingsStats;
@@ -19,6 +24,7 @@ package global
 		public static var rightClickFNCTN:Function;
 		private static var androidDevice:Boolean = false;
 		private static var iosDevice:Boolean = false;
+		static private var smokePool:Pool;
 		
 		public static  function estimateDistance(endY:Number, curY:Number, endX:Number, curX:Number):Number
 		{
@@ -309,22 +315,16 @@ package global
 			{
 				var arr:Array = CircleRadiusBuilder.getPointsAroundCircumference(enemy.view.x + (enemy.view.width/2), enemy.view.y + (enemy.view.height/2), 15, 10, 0);
 				var rnd:int = Math.random() * arr.length;
-				var pnt:Object = arr[rnd];
+				var pnt:Object = arr[int(arr.length/2)];
 				
 				targetX = pnt.x;
 				targetY = pnt.y;
-				
-				//targetX = enemy.view.x + ((enemy.model.stats.pixelWidth * Parameters.gameScale)* Math.random());
-				//targetY = enemy.view.y + ((enemy.model.stats.pixelWidth * Parameters.gameScale)* Math.random());
 			}
 			else
 			{
 				//this is a unit
 				targetX = enemy.view.x;// - (enemy.model.stats.pixelOffsetX * Parameters.gameScale);
 				targetY = enemy.view.y;// - (enemy.model.stats.pixelOffsetY * Parameters.gameScale);
-				
-				//targetX -= ((enemy.model.stats.pixelOffsetX*Parameters.gameScale)/2);
-				//targetY -= ((enemy.model.stats.pixelOffsetY*Parameters.gameScale)/2);
 			}
 			
 			return { targetX : targetX, targetY : targetY }  ;
@@ -349,6 +349,57 @@ package global
 			if (e.model.dead) return false;
 			if (e.teamNum == teamNum) return false;
 			return true;
+		}
+		
+		static public function createSmoke(_X:Number, _Y:Number, cont:Sprite = null):void
+		{
+			if (Math.random() < 0.3)
+			{
+			
+				if (!smokePool)
+				{
+					smokePool = new Pool(PoolElement,GameAtlas.getTextures("smoke"), 0, 0);
+				}
+				
+				var smokeMC:PoolElement = smokePool.getAsset();
+				smokeMC.loop = false;
+				smokeMC.touchable = false;
+				smokeMC.scaleX = smokeMC.scaleY = Parameters.gameScale;
+				
+					
+				
+				smokeMC.pivotX = smokeMC.width * (0.5/Parameters.gameScale);
+				smokeMC.pivotY = smokeMC.height * (0.5/Parameters.gameScale);
+				smokeMC.x = _X;
+				smokeMC.y = _Y;
+				smokeMC.addEventListener(Event.COMPLETE, onMCComplte);
+				
+				if (cont)
+				{
+					cont.addChild(smokeMC);
+				}
+				else
+				{
+					Parameters.upperTilesLayer.addChild(smokeMC);
+				}
+				
+				smokeMC.currentFrame = int(Math.random() * smokeMC.numFrames);
+				Starling.juggler.add(smokeMC);
+			}
+			
+		}
+		
+
+		
+		private static function onMCComplte(e:Event):void 
+		{
+			var mc:PoolElement = PoolElement(e.currentTarget);
+			mc.removeEventListener(Event.COMPLETE, onMCComplte);
+			mc.returnMe();
+			Starling.juggler.remove(mc);
+			mc = null;
+			
+
 		}
 	}
 }

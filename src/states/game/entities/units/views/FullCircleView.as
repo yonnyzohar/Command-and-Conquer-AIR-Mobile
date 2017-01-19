@@ -56,6 +56,16 @@ package states.game.entities.units.views
 			stopShootingAndStandIdlly();
 		}
 		
+		override public function setViewByHealth(healthScale:Number):void 
+		{
+			super.setViewByHealth(healthScale);
+			if (healthScale > .25)
+			{
+				Methods.createSmoke(0, 0, this);
+			}
+		}
+		
+		
 		
 		public function addTurret(_turretMC:GunTurretView):void 
 		{
@@ -71,7 +81,7 @@ package states.game.entities.units.views
 			if (mc != null) return;
 			var defaultTextures:Vector.<Texture>  = GameAtlas.getTextures(model.stats.name+"_move", model.teamName);
 			texturesDict["default"] = defaultTextures;
-			mc = new MovieClip(defaultTextures, 10);// GameAtlas.createMovieClip(model.stats.name+"_move", model.teamName);
+			mc = new MovieClip(defaultTextures, 10);
 			mc.scaleX = mc.scaleY = Parameters.gameScale;
 			mc.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
 			mc.y += ((model.stats.pixelOffsetY*Parameters.gameScale)/2);

@@ -136,14 +136,17 @@ package states.game
 			if(team1Obj.agent == Agent.HUMAN)
 			{
 				Parameters.humaTeamObject = team1Obj;
+				team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
+				team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
 			}
 			else if(team2Obj.agent == Agent.HUMAN)
 			{
 				Parameters.humaTeamObject = team2Obj;
+				team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+				team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
 			}
 			
-			team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-			team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+			
 			
 			team1Obj.setEnemyTeamObj(team2Obj);
 			team2Obj.setEnemyTeamObj(team1Obj);

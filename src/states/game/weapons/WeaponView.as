@@ -118,8 +118,8 @@ package  states.game.weapons
 				projectileMC.x = shooter.x;
 				projectileMC.y = shooter.y;
 				
-				//projectileMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
-				//projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale)/2 );
+				projectileMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
+				projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale)/2 );
 				
 				
 				
@@ -139,21 +139,21 @@ package  states.game.weapons
 						
 						if (projectileMC.x > targetX)
 						{
-							halfX = targetX + ((projectileMC.x - targetX) / 2);
+							halfX = targetX + ((projectileMC.x - targetX)  * 0.3);
 						}
 						else
 						{
-							halfX = projectileMC.x + ((targetX - projectileMC.x) / 2);
+							halfX = projectileMC.x + ((targetX - projectileMC.x)  * 0.3);
 						}
 						
 						
 						if (projectileMC.y > targetY)
 						{
-							halfy = targetY + ((projectileMC.y - targetY) / 2);
+							halfy = targetY + ((projectileMC.y - targetY) * 0.3);
 						}
 						else
 						{
-							halfy = projectileMC.y + ((targetY - projectileMC.y) / 2);
+							halfy = projectileMC.y + ((targetY - projectileMC.y)  * 0.3);
 						}
 						
 						var dist:int = Methods.distanceTwoPoints(projectileMC.x, targetX, projectileMC.y, targetY);
