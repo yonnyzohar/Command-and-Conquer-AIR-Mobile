@@ -3516,7 +3516,7 @@ package global.assets
                     damage: 25,
                     rateOfFire: 50,
                     range: 4,
-					muzzleFlash: undefined,
+					muzzleFlash: "minigun-fire",
                     sound: "gun8"
                 },
 				machinegun: {

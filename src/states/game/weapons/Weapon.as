@@ -98,24 +98,22 @@ package  states.game.weapons
 				{
 					//playShootSound();
 					
-					if (weaponStats.projectile.name.indexOf("invisible") != -1)
+					if (weaponStats.projectile.name.indexOf("invisible") != -1 && weaponStats.muzzleFlash == null)
 					{
 						if (piffPiff == null)
 						{
 							piffPiff = GameAtlas.createMovieClip("piffpiff");
 							piffPiff.loop = false;
 							piffPiff.touchable = false;
-							Starling.juggler.add(piffPiff);
-							piffPiff.addEventListener(Event.COMPLETE, onPiffPiffComplete);
-							
 						}
 						
 						
-						
+						piffPiff.addEventListener(Event.COMPLETE, onPiffPiffComplete);
 						piffPiff.x = targetObj.targetX + ((Math.random() * 10) - 5);
 						piffPiff.y = targetObj.targetY + ((Math.random() * 10) - 5);
 						piffPiff.currentFrame = 0;
 						piffPiff.visible = true;
+						Starling.juggler.add(piffPiff);
 						Parameters.upperTilesLayer.addChild(piffPiff);
 						piffPiff.play();
 						inflictDamadge();
@@ -132,8 +130,12 @@ package  states.game.weapons
 							shape.alpha = 1;
 							shape.x = shooterView.x;
 							shape.y = shooterView.y;
-							shape.x += 30;
-							shape.y += 15;
+							//shape.x += 30;
+							//shape.y += 15;
+							
+							shape.x += Parameters.tileSize / 2;// ((model.stats.pixelOffsetX * Parameters.gameScale));
+							shape.y -= Parameters.tileSize / 2;// ((model.stats.pixelOffsetY * Parameters.gameScale) );
+							
 							shape.graphics.clear();
 							shape.graphics.lineStyle(3, 0xFF0000);
 							
@@ -179,6 +181,7 @@ package  states.game.weapons
 		{
 			piffPiff.visible = false;
 			piffPiff.stop();
+			stop();
 		}
 		
 		public function stop():void 
@@ -206,32 +209,7 @@ package  states.game.weapons
 				hitRow = destRow;
 				hitCol = destCol;
 				
-				/*if (n.occupyingUnit)
-				{
-					u = n.occupyingUnit;
-					hitRow = destRow;
-					hitCol = destCol;
-				}
-				else
-				{
-					OuterLoop: for (var i:int = -1; i <= 1; i++ )
-					{
-						for (var j:int = -1; j <= 1; j++ )
-						{
-							if (Parameters.boardArr[destRow + i] && Parameters.boardArr[destRow + i][destCol + j])
-							{
-								n = Node(Parameters.boardArr[destRow + i][destCol + j]);
-								if (n.occupyingUnit)
-								{
-									u = n.occupyingUnit;
-									hitRow = destRow + i;
-									hitCol = destCol + j;
-									break OuterLoop;
-								}
-							}
-						}
-					}
-				}*/
+				
 			}
 
 			

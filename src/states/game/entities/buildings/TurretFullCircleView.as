@@ -98,9 +98,9 @@ package states.game.entities.buildings
 			if(mc != null &&  TurretModel(model).rotating == false && oldDegrees != degrees)
 			{
 				TurretModel(model).rotating = true;
-				endFrame = Methods.degreesToFrame(_degrees, oldDegrees);
-				//trace("turret _degrees " + _degrees + " oldDegrees " + oldDegrees + " endFrame " + endFrame)
+				
 			}
+			endFrame = Methods.degreesToFrame(_degrees, oldDegrees);
 		}
 		
 		override protected function onBuildAnimComplete(e:Event):void 

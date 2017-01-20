@@ -58,6 +58,7 @@ package  states.game.weapons
 		private var trailCounter:int = 0;
 		private var enemy:GameEntity;
 		private var animDirections:int;
+		private var isMuzzleFlash:Boolean = false;
 		
 		public function WeaponView(_model:EntityModel, _explosionAnimName:String, _projectileImgName:String, _smokeTrail:Boolean, _movingProjectile:Boolean, _animDirections:int) 
 		{
@@ -78,7 +79,7 @@ package  states.game.weapons
 				
 			}
 			
-			if (_explosionAnimName)
+			if (_explosionAnimName && _explosionAnimName != "piffpiff")
 			{
 				createExplosion(_explosionAnimName);
 			}
@@ -118,9 +119,23 @@ package  states.game.weapons
 				projectileMC.x = shooter.x;
 				projectileMC.y = shooter.y;
 				
-				projectileMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
-				projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale)/2 );
+				if (model.stats.name == "flame-tank")
+				{
+					projectileMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale));
+					projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale) );
+					isMuzzleFlash = true;
+				}
+				if (model.stats.name == "flame-thrower" || model.stats.name == "chem-warrior" )
+				{
+					
+					projectileMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale) * 0.8 );
+					projectileMC.x += ((model.stats.pixelOffsetX * Parameters.gameScale ) / 4 );
+					
+					isMuzzleFlash = true;
+				}
 				
+				//bazooka all fames good at 0
+				//med tak ok at 0
 				
 				
 				if (movingProjectile)
@@ -314,15 +329,15 @@ package  states.game.weapons
 		
 		private function onDone(b:PoolElement):void
 		{
-			
+			if(!isMuzzleFlash)Methods.shakeMap(1);
 			
 			if (enemy && enemy.model)
 			{
 				offsetX = enemy.model.stats.pixelOffsetX;
 				offsetY = enemy.model.stats.pixelOffsetY;
 			}
-			playExplosion();
 			
+			playExplosion();
 			
 			
 			//GameSounds.playExplosionSound();
@@ -356,8 +371,8 @@ package  states.game.weapons
 				Parameters.upperTilesLayer.addChild(explosionMC);
 				explosionMC.x = targetX - ((offsetX * Parameters.gameScale) / 2);
 				explosionMC.y = targetY - ((offsetY * Parameters.gameScale) / 2);
-				explosionMC.x += (explosionMC.width / 2);
-				explosionMC.y += (explosionMC.height / 2);
+				//explosionMC.x += (explosionMC.width / 2);
+				//explosionMC.y += (explosionMC.height / 2);
 				Starling.juggler.add(explosionMC);
 				explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
 				explosionMC.currentFrame = 0;

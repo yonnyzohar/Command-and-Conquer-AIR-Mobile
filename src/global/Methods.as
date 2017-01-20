@@ -1,5 +1,6 @@
 package global
 {
+	import com.greensock.TweenLite;
 	import flash.system.Capabilities;
 	import global.pools.Pool;
 	import global.pools.PoolElement;
@@ -353,7 +354,7 @@ package global
 		
 		static public function createSmoke(_X:Number, _Y:Number, cont:Sprite = null):void
 		{
-			if (Math.random() < 0.3)
+			if (Math.random() < 0.4)
 			{
 			
 				if (!smokePool)
@@ -387,6 +388,34 @@ package global
 				Starling.juggler.add(smokeMC);
 			}
 			
+		}
+		
+		static public function shakeMap(numResidents:int):void 
+		{
+			var origPosX:int = Parameters.gameHolder.x;
+			var origPosY:int = Parameters.gameHolder.y;
+			
+			TweenLite.to(Parameters.gameHolder, 0.1, 
+			{
+				x:origPosX + (Math.random() * numResidents), 
+				y:origPosY + (Math.random() * numResidents), 
+				onComplete:function()
+				{
+					TweenLite.to(Parameters.gameHolder, 0.1, 
+					{ 
+						x:origPosX - (Math.random() * numResidents), 
+						y: origPosY - (Math.random() * numResidents), 
+						onComplete:function()
+						{
+							TweenLite.to(Parameters.gameHolder, 0.1, 
+							{ 
+								x:origPosX, 
+								y: origPosY 
+							})
+						}
+					})
+				}
+			})
 		}
 		
 

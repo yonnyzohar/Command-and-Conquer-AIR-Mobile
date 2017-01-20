@@ -6,12 +6,14 @@ package  states.game.entities.buildings
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
 	import global.Methods;
+	import global.Parameters;
 	import global.utilities.SightManager;
 	import starling.events.Event;
 	import states.game.entities.GameEntity;
 	import states.game.entities.HealthBar;
 	import states.game.entities.units.views.FullCircleView;
 	import states.game.entities.units.views.UnitView;
+	import states.game.stats.BuildingsStatsObj;
 	import states.game.stats.TurretStatsObj;
 	import states.game.teamsData.TeamObject;
 	import states.game.weapons.Weapon;
@@ -52,6 +54,10 @@ package  states.game.entities.buildings
 			{
 				view = new TurretView(model, model.stats.name);
 			}
+			
+			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+			view.mc.y -= Parameters.tileSize * (occupyArray.length-1);
+			
 			
 		}
 		

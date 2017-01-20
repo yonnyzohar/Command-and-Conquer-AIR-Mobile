@@ -6,6 +6,7 @@ package states.game
 	import global.GameAtlas;
 	import global.map.mapTypes.Board;
 	import global.map.SpiralBuilder;
+	import global.Methods;
 	import global.pools.Pool;
 	import global.pools.PoolElement;
 	import global.pools.PoolsManager;
@@ -159,30 +160,8 @@ package states.game
 			if (e.data && e.data.numResidents)
 			{
 				var numResidents:int = e.data.numResidents;
-				var origPosX:int = Parameters.gameHolder.x;
-				var origPosY:int = Parameters.gameHolder.y;
+				Methods.shakeMap(numResidents);
 				
-				TweenLite.to(Parameters.gameHolder, 0.1, 
-				{
-					x:origPosX + (Math.random() * numResidents), 
-					y:origPosY + (Math.random() * numResidents), 
-					onComplete:function()
-					{
-						TweenLite.to(Parameters.gameHolder, 0.1, 
-						{ 
-							x:origPosX - (Math.random() * numResidents), 
-							y: origPosY - (Math.random() * numResidents), 
-							onComplete:function()
-							{
-								TweenLite.to(Parameters.gameHolder, 0.1, 
-								{ 
-									x:origPosX, 
-									y: origPosY 
-								})
-							}
-						})
-					}
-				})
 			}
 			
 			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
