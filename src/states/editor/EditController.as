@@ -1,6 +1,8 @@
 package states.editor
 {
+	import com.codeazur.as3swf.tags.ITag;
 	import flash.geom.Point;
+	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 	import global.GameAtlas;
 	import global.map.Node;
@@ -80,7 +82,13 @@ package states.editor
 			}
 			
 
-			init()
+			init();
+			
+			setInterval(function():void
+			{
+				trace("saving!")
+				onSaveClicked();
+			},30000);
 		}
 		
 		public function createStartAssets():void
@@ -105,9 +113,10 @@ package states.editor
 				{
 					var curType:String = typesArr[g];
 					
-					for(i = 0; i < LevelManager.currentlevelData[teams[j]][curType].length; i++ )
+					for(i = 0; i < Parameters.editObj[teams[j]][curType].length; i++ )
 					{
-						obj = LevelManager.currentlevelData[teams[j]][curType][i];
+						obj = Parameters.editObj[teams[j]][curType][i];
+						
 						
 						selRow = obj.row;
 						selCol = obj.col;
@@ -119,12 +128,34 @@ package states.editor
 						currentImage.model.row = selRow;
 						currentImage.model.col = selCol;
 						currentImage.model.name = obj.name;
+						obj.asset = currentImage;
 						teamsArr[j].push(currentImage);
 					}
 				}
 			}
+			currentImage = null;
 			
+		}
+		
+		private function removeBadData():void
+		{
+			var typesArr:Array = ["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
+			var teams:Array = ["team1", "team2"];
+			var obj:Object;
 			
+			for (var j:int = 0; j < teams.length; j++ )
+			{
+				for (var g:int = 0; g < typesArr.length; g++ )
+				{
+					var curType:String = typesArr[g];
+					
+					for(var i:int = 0; i < Parameters.editObj[teams[j]][curType].length; i++ )
+					{
+						obj = Parameters.editObj[teams[j]][curType][i];
+						delete obj.asset;
+					}
+				}
+			}
 		}
 		
 		private function onBuildingSelected(e:Event):void
@@ -294,9 +325,11 @@ package states.editor
 			e.stopPropagation();
 		}
 		
+		
+		
 		private function addToCorrectArray(currentImage:EditAssetObj):void 
 		{
-			var o:Object = {name : currentImage.model.name, row : currentImage.model.row, col: currentImage.model.col }
+			var o:Object = {name : currentImage.model.name, row : currentImage.model.row, col: currentImage.model.col, asset: currentImage}
 
 			if(HUDView.currentTeam == 1)
 			{
@@ -361,6 +394,7 @@ package states.editor
 		
 		private function fillObject():void
 		{
+			removeBadData();
 			Parameters.editObj.tech = 5;
 			Parameters.editObj.team1.teamName =  "gdi";
 			Parameters.editObj.team2.teamName =  "nod";
@@ -451,7 +485,7 @@ package states.editor
 			dispatchEvent(new Event("EDITING_CANCELED"));
 		}
 		
-		private function onSaveClicked(e:Event):void
+		private function onSaveClicked(e:Event = null):void
 		{
 			fillObject();
 			FileSaver.getInstance().save("savedLevel.json", JSON.stringify(Parameters.editObj));

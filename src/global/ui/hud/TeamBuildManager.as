@@ -43,12 +43,14 @@ package global.ui.hud
 		public var completedAsset:Object;
 		
 		
+		
+		
 		private var buildingPlacementMarker:BuidingPlacementMarker;
 		
 		
 		public function TeamBuildManager()
 		{
-			view = HUDView.getInstance();
+			
 		}
 		
 		public function init(teamStartParams:Object, _teamObj:TeamObject):void
@@ -67,13 +69,16 @@ package global.ui.hud
 			
 			if(teamStartParams.Agent == Agent.HUMAN)
 			{
+				view = HUDView.getInstance();
 				view.setHUD(infantry, vehicles, buildings, turrets, teamObj);
 				view.unitsContainer.addEventListener("SLOT_SELECTED", onUnitSelected);
 				view.buildingsContainer.addEventListener("SLOT_SELECTED", onBuildingSelected);
 			}
 
 			buildingPlacementMarker = new BuidingPlacementMarker();
-			buildingPlacementMarker.addEventListener(BuidingPlacementMarker.BUILDNG_SPOT_FOUND, onSpotFound)
+			buildingPlacementMarker.addEventListener(BuidingPlacementMarker.BUILDNG_SPOT_FOUND, onSpotFound);
+			
+			
 		}
 		
 		public function updateUnitsAndBuildings(_assetName:String):void
@@ -82,7 +87,12 @@ package global.ui.hud
 			var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
 			var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
 			var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
-			view.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+			
+			if (teamObj.agent == Agent.HUMAN)
+			{
+				view.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+			}
+			
 		}
 		
 		public function removeDependantUnitsAndBuildings(_assetName:String):void 
@@ -92,7 +102,11 @@ package global.ui.hud
 			var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
 			var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
 			
-			view.removeUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+			if (teamObj.agent == Agent.HUMAN)
+			{
+				view.removeUnitsAndBuildings(infantry, vehicles, buildings, turrets)
+			}
+			;
 		}
 		
 		private function getAvaliableInfantry(_buildings:Array):Object
@@ -263,7 +277,6 @@ package global.ui.hud
 						view.buildingsContainer.disableAllSlotsExceptSelected(selectedSlot);
 						selectedSlot.buildMe(onBuildingComplete);
 						assetBeingBuilt(selectedSlot.assetName);
-						view.reduceCash(selectedSlot.cost);
 					}
 				}
 				else
@@ -282,7 +295,12 @@ package global.ui.hud
 			var selectedSlot:SlotHolder = view.buildingsContainer.selectedSlot;
 			targetRow = buildingPlacementMarker.targetRow;
 			targetCol = buildingPlacementMarker.targetCol;
-			view.buildingsContainer.enableAllSlots();
+			
+			if (teamObj.agent == Agent.HUMAN)
+			{
+				view.buildingsContainer.enableAllSlots();
+			}
+			
 			
 			dispatchEventWith("ASSET_CONSTRUCTED", false, { "name" : selectedSlot.assetName, "type" : "building" });
 		}
@@ -305,9 +323,6 @@ package global.ui.hud
 						view.unitsContainer.disableAllOtherSlotsBuiltWithSameBuilding(selectedSlot);
 						selectedSlot.buildMe(onUnitComplete);
 						assetBeingBuilt(selectedSlot.assetName);
-						
-						//view.reduceCash(selectedSlot.cost);
-						//teamObj.cash = teamObj.cash -  selectedSlot.cost;
 					}
 				}
 			}

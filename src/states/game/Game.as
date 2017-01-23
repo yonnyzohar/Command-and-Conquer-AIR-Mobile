@@ -3,6 +3,7 @@ package states.game
 	
 	import com.greensock.TweenLite;
 	import flash.events.DataEvent;
+	import global.ai.AIController;
 	import global.GameAtlas;
 	import global.map.mapTypes.Board;
 	import global.map.SpiralBuilder;
@@ -57,6 +58,7 @@ package states.game
 	{
 		private var baordMC:Board;
 		private var teamslisting:TeamsListingWindow;
+		private var aiController:AIController;
 		
 		
 
@@ -133,18 +135,22 @@ package states.game
 			teamObjects.push( team1Obj );
 			teamObjects.push( team2Obj );
 			
+			aiController = new AIController();
+			
 			
 			if(team1Obj.agent == Agent.HUMAN)
 			{
 				Parameters.humaTeamObject = team1Obj;
 				team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
 				team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+				aiController.applyAI(team2Obj);
 			}
 			else if(team2Obj.agent == Agent.HUMAN)
 			{
 				Parameters.humaTeamObject = team2Obj;
 				team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
 				team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
+				aiController.applyAI(team1Obj);
 			}
 			
 			

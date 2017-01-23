@@ -13,7 +13,7 @@ package global.ui.hud
 	{
 		private var team:Array;
 		private var view:HUDView;
-		public static var POWER_SHORTAGE:Boolean = false;
+		public var POWER_SHORTAGE:Boolean = false;
 		
 		public function PowerController(_team:Array)
 		{

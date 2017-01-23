@@ -100,10 +100,9 @@ package global.ui.hud
 			
 			if (!Parameters.editMode)
 			{
-				if (PowerController.POWER_SHORTAGE)
+				if (Parameters.humaTeamObject.powerCtrl.POWER_SHORTAGE)
 				{
 					shutDownMap();
-					HUDView.getInstance().showNavButtons();
 					mapShown = false;
 					return;
 				}
@@ -125,7 +124,6 @@ package global.ui.hud
 						if (Building(g).name == "communications-center" || Building(g).name == "advanced-communications-tower")
 						{
 							hasCommCenter = true;
-							HUDView.getInstance().hideNavButtons();
 							break;
 						}
 					}
@@ -134,7 +132,6 @@ package global.ui.hud
 				if (hasCommCenter == false)
 				{
 					shutDownMap();
-					HUDView.getInstance().showNavButtons();
 					mapShown = false;
 					return;
 				}
@@ -173,7 +170,7 @@ package global.ui.hud
 			{
 				for (col = 0; col < Parameters.numCols; col++ )
 				{
-					n = Parameters.boardArr[row][col];
+					n = Node(Parameters.boardArr[row][col]);
 					if (n.seen)
 					{
 						if (n.groundTile)
@@ -188,7 +185,7 @@ package global.ui.hud
 							}
 						}
 						
-						if (n.obstacleTile)
+						if (n.obstacleTile || n.cliffTile)
 						{
 							drawPixel( row, col, tileSize,  COLOR_OBSTACLES, mapBd);
 						}

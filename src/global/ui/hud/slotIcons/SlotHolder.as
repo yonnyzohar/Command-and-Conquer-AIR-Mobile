@@ -128,7 +128,6 @@ package global.ui.hud.slotIcons
 					addChild(loadingSquare);
 					buildingDone = false;
 					GameTimer.getInstance().addUser(this);
-					//TweenLite.to(this, buildTime,{ease: Linear.easeNone, currentPerNum:100, onUpdate:setCorrectFrame, onComplete:done});
 					return false;
 				}
 			}

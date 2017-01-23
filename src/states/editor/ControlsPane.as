@@ -522,6 +522,8 @@ package states.editor
 			{
 				phase = "end"
 				location = end.getLocation(Parameters.theStage);
+				
+				
 			}
 			
 			if(location != null)
@@ -529,11 +531,47 @@ package states.editor
 				boardCoordinates = Parameters.mapHolder.globalToLocal(new Point(location.x, location.y));
 				targetCol = (boardCoordinates.x / Parameters.tileSize)
 				targetRow = (boardCoordinates.y / Parameters.tileSize)
+				
+				if(phase == "end")removeUnitFromArray(targetRow, targetCol);
 			}
 			
 			eraseTile(targetRow, targetCol, phase);
 			
 			e.stopPropagation();
+		}
+		
+		private function removeUnitFromArray(_row:int, _col:int):void
+		{
+			var o:Object;
+			var typesArr:Array = ["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
+			for (var i:int = 0; i < typesArr.length; i++ )
+			{
+				for (var j:int = 0; j < Parameters.editObj.team1[typesArr[i]].length; j++ )
+				{
+					o = Parameters.editObj.team1[typesArr[i]][j];
+					if (o)
+					{
+						if (o.row == _row && o.col == _col)
+						{
+							o.asset.removeFromParent();
+						}
+					}
+					
+				}
+				
+				for (j = 0; j < Parameters.editObj.team2[typesArr[i]].length; j++ )
+				{
+					o = Parameters.editObj.team1[typesArr[i]][j];
+					if (o)
+					{
+						if (o.row == _row && o.col == _col)
+						{
+							o.asset.removeFromParent();
+						}
+					}
+					
+				}
+			}
 		}
 		
 		
@@ -684,6 +722,8 @@ package states.editor
 					node.cliffTile = null;
 					node.walkable = true;
 				}
+				
+				
 			}
 		}
 		

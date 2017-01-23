@@ -1,0 +1,13 @@
+{
+	"buildQueue":[
+		"refinery",
+		"barracks",
+		"airstrip",
+		"communications-center"
+	],
+	"unitQueue":{
+		"minigunner" : 5,
+		"light-tank" : 3
+	},
+	"minNumOfAttackParty" :[3,5,7,10]
+}

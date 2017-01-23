@@ -117,7 +117,7 @@ package global.map.mapTypes
 		
 		private function getTileSize():Number 
 		{
-			return getGrassTile().width;
+			return int(getGrassTile().width);
 		}
 		
 		private function destroyMap():void 
@@ -241,6 +241,8 @@ package global.map.mapTypes
 			var rndImg:int = Math.random() * textures.length; 
 			var img:Image = new Image(textures[rndImg]);
 			img.scaleX = img.scaleY = (Parameters.gameScale);
+			img.width = int(img.width);
+			img.height = int(img.height);
 			img.blendMode = BlendMode.NONE;
 			img.touchable = false;
 			

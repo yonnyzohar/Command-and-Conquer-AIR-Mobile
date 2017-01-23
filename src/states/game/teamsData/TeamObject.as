@@ -76,6 +76,7 @@ package states.game.teamsData
 			powerCtrl.updatePower();
 		}
 		
+		
 		public function createStartAssets():void
 		{
 			var i:int = 0;

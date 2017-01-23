@@ -39,25 +39,17 @@ package global.ui.hud
 		public static var hudWidth:int = 0;
 		public static var currentTeam:int = 1;
 		private var targetBalance:int;
-		//private var bg:Image;
 		private var miniMap:MiniMap;
 		private var powerGreenMC:Quad;
 		private var teamObj:TeamObject;
 		
-		
-		
-		
-		//private var costTf:TextField;
+		private var ui:GameSprite;
+		private var cashUi:GameSprite;
+		private var powerMC:GameSprite;
 		public var buildingsContainer:PaneColumn; 
 		public var unitsContainer:PaneColumn; 
 		
 		static private var instance:HUDView = new HUDView();
-		
-		
-		private var ui:GameSprite;
-		private var cashUi:GameSprite;
-		private var powerMC:GameSprite;
-		//private var moveButtons:GameSprite;
 		
 		public function HUDView()
 		{
@@ -72,6 +64,8 @@ package global.ui.hud
 			return instance;
 		}
 		
+		
+		
 		public function init():void
 		{
 			var i:int = 0;
@@ -83,73 +77,19 @@ package global.ui.hud
 				
 				cashUi = TemplateLoader.get("CashContMC")
 				Parameters.gameHolder.addChild(cashUi);
-				
-				/*moveButtons = TemplateLoader.get("TouchOptionsBox");
-				Parameters.gameHolder.addChild(moveButtons);
-				moveButtons.y = Parameters.flashStage.stageHeight - moveButtons.height;
-				
-				moveButtons.buttonCoverMC.touchable = false;
-				
-				if (MouseStates.currentState == MouseStates.SELECT)
-				{
-					moveButtons.buttonCoverMC.x = moveButtons.unitSelectBTN.x;
-					moveButtons.buttonCoverMC.x -= (moveButtons.buttonCoverMC.width/2)
-				}
-				else
-				{
-					moveButtons.buttonCoverMC.x = moveButtons.mapMoveBTN.x;
-					moveButtons.buttonCoverMC.x -= (moveButtons.buttonCoverMC.width/2)
-				}
-				
-				
-				ButtonManager.setButton(moveButtons.unitSelectBTN, "TOUCH", onSelectClicked);
-				ButtonManager.setButton(moveButtons.mapMoveBTN, "TOUCH", onMapMoveClicked);*/
-				
-				//bg = new Image(GameAtlas.getTexture("hudUI"));//paneBG
 				ui.height = Parameters.flashStage.stageHeight;
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;
 				addChildAt(ui, 0);
-				
-				buildingsContainer = new PaneColumn(BuildingSlotHolder, "buildings", ui);
-				unitsContainer     = new PaneColumn(UnitSlotHolder, "units", ui);
-				
+				initPanelColumns();
 				hudWidth = ui.width;
 			}
 		}
 		
-		public function showNavButtons():void
+		public function initPanelColumns():void
 		{
-			return;
-			/*if (moveButtons.y != (Parameters.flashStage.stageHeight - moveButtons.height))
-			{
-				TweenLite.to(moveButtons, 0.5, {y : (Parameters.flashStage.stageHeight - moveButtons.height)})
-			}*/
-		}
-		
-		public function hideNavButtons():void
-		{
-			return;
-			/*if (moveButtons.y != (Parameters.flashStage.stageHeight))
-			{
-				onSelectClicked();
-				TweenLite.to(moveButtons, 0.5, {y : (Parameters.flashStage.stageHeight)})
-			}*/
-		}
-		
-		private function onSelectClicked(caller:GameSprite = null):void
-		{
-			/*MouseStates.currentState = MouseStates.SELECT;
-			moveButtons.buttonCoverMC.x = moveButtons.unitSelectBTN.x;
-			moveButtons.buttonCoverMC.x -= (moveButtons.buttonCoverMC.width/2)*/
-		}
-		
-		private function onMapMoveClicked(caller:GameSprite = null):void
-		{
-			/*MouseStates.currentState = MouseStates.REG_PLAY;
-			moveButtons.buttonCoverMC.x = moveButtons.mapMoveBTN.x;
-			moveButtons.buttonCoverMC.x -= (moveButtons.buttonCoverMC.width/2)*/
-		}
-		
+			buildingsContainer = new PaneColumn(BuildingSlotHolder, "buildings", ui);
+			unitsContainer     = new PaneColumn(UnitSlotHolder, "units", ui);
+		}	
 		
 		public function initEdit():void
 		{
@@ -163,16 +103,12 @@ package global.ui.hud
 		{
 			teamObj = _teamObj;
 			addMiniMap();
+			
 			buildingsContainer.init(buildings, true, "building");
 			buildingsContainer.init(turrets, true, "turret");
-			
 			unitsContainer.init(infantry, true, "infantry");
 			unitsContainer.init(vehicles, true, "vehicle");
 			
-			//costTf = new TextField(170, 15, teamObj.cash + "$", "Verdana", 10, 0xffcc00, true);//- Starling 1_7;
-			//addChild(costTf);
-			//costTf.y = miniMap.y + miniMap.height;
-			//costTf.x = (ui.width - costTf.width) / 2;
 			
 			cashUi.tf.text = "$" + teamObj.cash;
 			

@@ -29,7 +29,6 @@ package global.ui.hud
 		
 		
 		private var contextType:String; // units or buildings
-		//private var wrapper:Sprite = new Sprite();
 		private var upBTN:GameSprite;
 		private var downBTN:GameSprite;
 		private var arr:Array = [];
@@ -57,7 +56,6 @@ package global.ui.hud
 		
 		public function init(obj:Object , realGame:Boolean, assetFamily:String):void
 		{
-			//addChild(wrapper);
 			var i:int = arr.length;
 			for (var unit:String in obj)
 			{
@@ -86,13 +84,9 @@ package global.ui.hud
 					
 					if (ui[contextType + i])
 					{
-						//trace("placeholder: " + contextType + i)
 						ui[contextType + i].addChild(slot)
 					}
-					
-					
-					//wrapper.addChild(slot);
-					//slot.y = (slot.height + 5) * i;
+
 					i++;
 				}
 			
@@ -110,7 +104,6 @@ package global.ui.hud
 				upBTN.visible = false;
 			}
 			
-			//wrapper.clipRect = new Rectangle(0, 0, wrapper.width, 330)// - Starling 1_7;
 		}
 		
 		public function removeSlots(assets:Object):void

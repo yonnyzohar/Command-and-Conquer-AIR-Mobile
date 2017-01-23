@@ -8,6 +8,9 @@ package global.assets
 		[Embed(source = 'levels.json', mimeType='application/octet-stream')]
 		public static const LevelsJson:Class;
 		
+		[Embed(source = "../../../bin/aiFlow.json", mimeType = "application/octet-stream")]
+		public static const AIJson:Class;
+		
 		/*//units
 		[Embed(source="units.xml",mimeType="application/octet-stream")]
 		public static const UnitsXml:Class;
