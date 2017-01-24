@@ -11,7 +11,7 @@ package states.game
 	import global.pools.Pool;
 	import global.pools.PoolElement;
 	import global.pools.PoolsManager;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import global.ui.hud.TeamBuildManager;
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.MapMover;
@@ -118,10 +118,7 @@ package states.game
 			
 			var numTeams:int = TeamsLoader.numTeams();
 			
-			var hudView:HUDView = HUDView.getInstance();
-			hudView.init();
-			hudView.x = Parameters.flashStage.stageWidth - hudView.getWidth();
-			Parameters.gameHolder.addChild(hudView);
+			
 			
 			
 			var team1Obj:TeamObject = new TeamObject(LevelManager.currentlevelData.team1, 1);

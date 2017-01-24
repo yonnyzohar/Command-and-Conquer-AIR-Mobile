@@ -2,11 +2,16 @@ package global.ui.hud.slotIcons
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import global.utilities.GameTimer;
 	import global.utilities.GlobalEventDispatcher;
 	import starling.display.MovieClip;
 	import starling.events.Event;
+	import starling.events.EventDispatcher;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
+	import states.game.teamsData.TeamObject;
 	
 	import global.GameAtlas;
 	
@@ -16,12 +21,11 @@ package global.ui.hud.slotIcons
 	import starling.text.TextField;
 	import starling.textures.Texture;
 	
-	public class SlotHolder extends Sprite
+	public class SlotHolder extends EventDispatcher
 	{
 		protected var loadingSquare:MovieClip;
 		//protected var bg:Quad;
 		protected var mc:Image;
-		protected var imgeName:String;
 		public var assetName:String;
 		
 		private var buildTime:int;
@@ -39,57 +43,104 @@ package global.ui.hud.slotIcons
 		
 		private var costBg:Quad;
 		private var bgQuad:Quad;
+		protected var teamObj:TeamObject;
+		private var showUI:Boolean;
+		
+		public var view:Sprite;
 		
 		
-		public function SlotHolder(_imgeName:String, _contextType:String)
+		public function SlotHolder(_assetName:String, _contextType:String, _teamObj:TeamObject = null, _showUI:Boolean = true )
 		{
+			assetName = _assetName;
+			
+			showUI = _showUI;
+			teamObj = _teamObj;
 			contextType = _contextType;
-			var w:int = 64;
-			var h:int = 48;
+			
+			if (showUI)
+			{
+				view = new Sprite();
+				var w:int = 64;
+				var h:int = 48;
 
-			var textureName:String = "icons_"+_imgeName;
-			var tex:Texture = GameAtlas.getTexture(textureName);
-			if (tex)
-			{
-				mc = new Image(tex);
-				addChild(mc);
-				mc.touchable = false;
-				w = mc.width;
-				h = mc.height;
+				var textureName:String = "icons_"+assetName;
+				var tex:Texture = GameAtlas.getTexture(textureName);
+				if (tex)
+				{
+					mc = new Image(tex);
+					view.addChild(mc);
+					mc.touchable = false;
+					w = mc.width;
+					h = mc.height;
+				}
+			
+				
+				
+				bgQuad = new Quad(w, h);
+				bgQuad.touchable = true;
+				view.addChildAt(bgQuad, 0);
+				
+				if(loadingSquare == null)
+				{
+					loadingSquare = GameAtlas.createMovieClip("loadingSquare");
+					loadingSquare.alpha = 0.5;
+					loadingSquare.width = w;
+					loadingSquare.height = h;
+					loadingSquare.touchable = false;
+				}
+				
+				loadingSquare.currentFrame = 0;
+				
+				if (contextType == "building" || contextType == "turret")
+				{
+					readyTXT = new TextField(78, 20, "READY", "Verdana", 15, 0xffffff, true);// - Starling 1_7;
+					view.addChild(readyTXT);
+					readyTXT.touchable = false;
+					readyTXT.x = (w - readyTXT.width) / 2;
+					readyTXT.y = (h - readyTXT.height) / 2;
+					readyTXT.visible = false;
+				}
+				
+				view.addEventListener(TouchEvent.TOUCH, onSlotClicked);
 			}
+			
+			
+		}
 		
+		private function onSlotClicked(e:TouchEvent):void 
+		{
+			var begin:Touch  = e.getTouch(view, TouchPhase.BEGAN);
 			
-			
-			bgQuad = new Quad(w, h);
-			bgQuad.touchable = true;
-			addChildAt(bgQuad, 0);
-			
-			if(loadingSquare == null)
+			if(begin)
 			{
-				loadingSquare = GameAtlas.createMovieClip("loadingSquare");
-				loadingSquare.alpha = 0.5;
-				loadingSquare.width = w;
-				loadingSquare.height = h;
-				loadingSquare.touchable = false;
+				
+				simulateClickOnBuild();
+				
+				e.stopPropagation();
+				
+			}
+		}
+		
+		public function simulateClickOnBuild():void 
+		{
+			var currentUnitType:String;
+				
+			if(this is UnitSlotHolder)
+			{
+				currentUnitType = "unit";
+			}
+			else
+			{
+				currentUnitType = "building";
 			}
 			
-			loadingSquare.currentFrame = 0;
-			
-			if (contextType == "building" || contextType == "turret")
-			{
-				readyTXT = new TextField(78, 20, "READY", "Verdana", 15, 0xffffff, true);// - Starling 1_7;
-				addChild(readyTXT);
-				readyTXT.touchable = false;
-				readyTXT.x = (w - readyTXT.width) / 2;
-				readyTXT.y = (h - readyTXT.height) / 2;
-				readyTXT.visible = false;
-			}
-			
+			dispatchEventWith("SLOT_SELECTED", false, { selectedSlot : this, currentUnit :getUnit(), currentUnitName: assetName, currentUnitType: currentUnitType } );
+				
 		}
 		
 		public function getUnit():String
 		{
-			return null;
+			return assetName;
 		}
 		
 		public function setup(assetDetails:Object):void
@@ -102,12 +153,15 @@ package global.ui.hud.slotIcons
 			
 			cost = assetDetails.cost;
 			
-			costTf = new TextField(mc.width, 15, cost + "$", "Verdana", 9, 0xffffff, true); //- Starling 1_7;
-			costBg = new Quad(mc.width * 0.8, 15, 0x000000);
-			costBg.alpha = 0.7;
-			costTf.hAlign = "left";
-			addChild(costBg);
-			addChild(costTf);
+			if (showUI)
+			{
+				costTf = new TextField(mc.width, 15, cost + "$", "Verdana", 9, 0xffffff, true); //- Starling 1_7;
+				costBg = new Quad(mc.width * 0.8, 15, 0x000000);
+				costBg.alpha = 0.7;
+				costTf.hAlign = "left";
+				view.addChild(costBg);
+				view.addChild(costTf);
+			}
 		}
 		
 		
@@ -120,16 +174,15 @@ package global.ui.hud.slotIcons
 			}
 			else
 			{
-				if(loadingSquare.texture != null)
-				{
-					buildCompleteFunction = _complteFnctn;
-					buildInProgress = true;
-					currentPerNum = 0;
-					addChild(loadingSquare);
-					buildingDone = false;
-					GameTimer.getInstance().addUser(this);
-					return false;
-				}
+				if (showUI) view.addChild(loadingSquare);
+				
+				buildCompleteFunction = _complteFnctn;
+				buildInProgress = true;
+				currentPerNum = 0;
+				buildingDone = false;
+				GameTimer.getInstance().addUser(this);
+				return false;
+				
 			}
 			
 			return false;
@@ -137,14 +190,14 @@ package global.ui.hud.slotIcons
 		
 		public function update(_pulse:Boolean):void
 		{
-			if (HUDView.getInstance().getBalance() > 0 )
+			if (teamObj.getBalance() > 0 )
 			{
 				if (currentPerNum < cost)
 				{
-					HUDView.getInstance().reduceCash(  1 );
+					teamObj.reduceCash(  1 );
 					
 					var per:int = ((currentPerNum / cost) * 100);
-					loadingSquare.currentFrame = per;
+					if (showUI)loadingSquare.currentFrame = per;
 					currentPerNum++;
 				}
 				else
@@ -159,17 +212,25 @@ package global.ui.hud.slotIcons
 		
 		public function disable():void
 		{
-			this.touchable = false;
-			this.alpha = 0.6;
+			if (showUI)
+			{
+				view.touchable = false;
+				view.alpha = 0.6;
+			}
+			
 		}
 		
 		public function enable():void
 		{
-			this.touchable = true;
-			this.alpha = 1;
-			buildInProgress = false;
-			loadingSquare.removeFromParent();
-			if(readyTXT)readyTXT.visible = false;
+			if (showUI)
+			{
+				view.touchable = true;
+				view.alpha = 1;
+				buildInProgress = false;
+				loadingSquare.removeFromParent();
+				if(readyTXT)readyTXT.visible = false;
+			}
+			
 		}
 		
 		protected function done():void{
@@ -181,25 +242,29 @@ package global.ui.hud.slotIcons
 			
 		}
 		
-		override public function dispose():void
+		public function dispose():void
 		{
-			loadingSquare = null;
-			var a:Array = [ mc, costTf, readyTXT ];
-			for (var i:int = 0; i < a.length; i++ )
+			if (showUI)
 			{
-				if (a[i] != null)
+				view.removeEventListener(TouchEvent.TOUCH, onSlotClicked);
+				loadingSquare = null;
+				var a:Array = [ mc, costTf, readyTXT ];
+				for (var i:int = 0; i < a.length; i++ )
 				{
-					a[i].removeFromParent(true)
-					a[i].dispose();
-					a[i] = null;
+					if (a[i] != null)
+					{
+						a[i].removeFromParent(true)
+						a[i].dispose();
+						a[i] = null;
+					}
 				}
+				a = null;
 			}
-			a = null;
+			
 			
 			buildInProgress = false;
 			buildCompleteFunction = null;
 			
-			super.dispose();
 		}
 	}
 }

@@ -17,6 +17,7 @@ package global.ui.hud
 	import states.game.stats.InfantryStatsObj;
 	import states.game.stats.VehicleStats;
 	import states.game.stats.VehicleStatsObj;
+	import states.game.teamsData.TeamObject;
 	
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -31,39 +32,48 @@ package global.ui.hud
 		private var contextType:String; // units or buildings
 		private var upBTN:GameSprite;
 		private var downBTN:GameSprite;
-		private var arr:Array = [];
+		public var slotsArr:Array = [];
 		private var SlotHolderCLS:Class;
 		public var selectedSlot:SlotHolder;
 		public var unitsDict:Object = { };
 		private var ui:GameSprite;
+		private var teamObj:TeamObject;
+		private var showUI:Boolean;
 		
-		public function PaneColumn(_SlotHolderCLS:Class,_contextType:String, _ui:GameSprite)
+		public function PaneColumn(_SlotHolderCLS:Class,_contextType:String, _ui:GameSprite = null, _teamObj:TeamObject = null)
 		{
 			ui = _ui;
 			contextType = _contextType;
 			SlotHolderCLS = _SlotHolderCLS;
-			upBTN = ui[_contextType + "UpBTN"];
-			downBTN = ui[_contextType + "DownBTN"];
+			teamObj = _teamObj;
 			
-
-			downBTN.visible = false;
-			upBTN.visible = false;
-			upBTN.addEventListener(TouchEvent.TOUCH, onUpBTNClicked);
-			downBTN.addEventListener(TouchEvent.TOUCH, onDownBTNClicked);
-			
+			if (ui)
+			{
+				showUI = true;
+				upBTN = ui[_contextType + "UpBTN"];
+				downBTN = ui[_contextType + "DownBTN"];
+				downBTN.visible = false;
+				upBTN.visible = false;
+				upBTN.addEventListener(TouchEvent.TOUCH, onUpBTNClicked);
+				downBTN.addEventListener(TouchEvent.TOUCH, onDownBTNClicked);
+			}
+			else
+			{
+				showUI = false;
+			}
 		}
 		
 		
 		public function init(obj:Object , realGame:Boolean, assetFamily:String):void
 		{
-			var i:int = arr.length;
+			var i:int = slotsArr.length;
 			for (var unit:String in obj)
 			{
 				var exists:Boolean = false;
 				
-				for (var j:int = 0; j <  arr.length; j++ )
+				for (var j:int = 0; j <  slotsArr.length; j++ )
 				{
-					if (unit == arr[j].assetName)
+					if (unit == slotsArr[j].assetName)
 					{
 						exists = true;
 						break;
@@ -72,19 +82,20 @@ package global.ui.hud
 				}
 				if (!exists)
 				{
-					var slot = new SlotHolderCLS(unit, assetFamily);//contextType
+					var slot = new SlotHolderCLS(unit, assetFamily, teamObj, showUI);//contextType
 				
 					if(realGame)
 					{
 						slot.setup(obj[unit]);
 					}
-					arr.push(slot);
+					slotsArr.push(slot);
 					unitsDict[unit] = slot;
-					slot.addEventListener(TouchEvent.TOUCH, onSlotClicked);
 					
-					if (ui[contextType + i])
+					slot.addEventListener("SLOT_SELECTED", onSlotSelected);
+					if (ui && ui[contextType + i])
 					{
-						ui[contextType + i].addChild(slot)
+						
+						ui[contextType + i].addChild(slot.view)
 					}
 
 					i++;
@@ -92,77 +103,61 @@ package global.ui.hud
 			
 			}
 			
-						
-			if(arr.length > 4)
-			{
-				downBTN.visible = true;
-				upBTN.visible = true;
-			}
-			else
-			{
-				downBTN.visible = false;
-				upBTN.visible = false;
-			}
+			showHideButtons();
+		}
+		
+		private function onSlotSelected(e:Event):void 
+		{
+			var o:Object = e.data;
 			
+			selectedSlot = o.selectedSlot;
+			currentUnit = o.currentUnit;
+			currentUnitName = o.currentUnitName;
+			currentUnitType = o.currentUnitType;
+			
+			dispatchEvent(new Event("SLOT_SELECTED") );
+			e.stopPropagation();
+		}
+		
+		private function showHideButtons():void 
+		{
+			if (ui)
+			{
+				if(slotsArr.length > 4)
+				{
+					downBTN.visible = true;
+					upBTN.visible = true;
+				}
+				else
+				{
+					downBTN.visible = false;
+					upBTN.visible = false;
+				}
+			}
 		}
 		
 		public function removeSlots(assets:Object):void
 		{
 			for (var unit:String in assets)
 			{
-				for (var i:int = arr.length - 1; i >= 0; i-- )
+				for (var i:int = slotsArr.length - 1; i >= 0; i-- )
 				{
-					var slot:SlotHolder = SlotHolder(arr[i]);
+					var slot:SlotHolder = SlotHolder(slotsArr[i]);
 					if (slot.assetName == unit)
 					{
 						delete unitsDict[unit];
 						slot.dispose();
-						slot.removeFromParent(true);
+						slot.view.removeFromParent(true);
 						slot = null;
-						arr.splice(i, 1 );
+						slotsArr.splice(i, 1 );
 					}
 				}
 			}
 			
-			if(arr.length > 4)
-			{
-				downBTN.visible = true;
-				upBTN.visible = true;
-			}
-			else
-			{
-				downBTN.visible = false;
-				upBTN.visible = false;
-			}
+			showHideButtons();
 		}
 		
-		private function onSlotClicked(e:TouchEvent):void 
-		{
-			var begin:Touch  = e.getTouch(ui, TouchPhase.BEGAN);
-			
-			if(begin)
-			{
-				if(e.currentTarget is SlotHolder)
-				{
-					selectedSlot = SlotHolder(e.currentTarget);
-					currentUnit = SlotHolder(e.currentTarget).getUnit();
-					currentUnitName = SlotHolder(e.currentTarget).assetName;
-					
-					if(e.currentTarget is UnitSlotHolder)
-					{
-						currentUnitType = "unit";
-					}
-					else
-					{
-						currentUnitType = "building";
-					}
-					
-					
-					dispatchEvent(new Event("SLOT_SELECTED"));
-					e.stopPropagation();
-				}
-			}
-		}
+		
 		
 		public function disableAllOtherSlotsBuiltWithSameBuilding(_selectedSlot:SlotHolder):void 
 		{
@@ -220,14 +215,12 @@ package global.ui.hud
 		
 		public function disableAllSlotsExceptSelected(_selectedSlot:SlotHolder):void 
 		{
-			
-			
 			var i:int = 0;
-			for (i = 0; i < arr.length; i++)
+			for (i = 0; i < slotsArr.length; i++)
 			{
-				if (arr[i] != _selectedSlot)
+				if (slotsArr[i] != _selectedSlot)
 				{
-					arr[i].disable();
+					slotsArr[i].disable();
 				}
 			}
 		}
@@ -235,9 +228,9 @@ package global.ui.hud
 		public function enableAllSlots():void 
 		{
 			var i:int = 0;
-			for (i = 0; i < arr.length; i++)
+			for (i = 0; i < slotsArr.length; i++)
 			{
-				arr[i].enable();
+				slotsArr[i].enable();
 			}
 		}
 		
@@ -258,15 +251,15 @@ package global.ui.hud
 			if(end)
 			{
 				GameSounds.playSound("HUD8");
-				arr.unshift(arr.pop());
+				slotsArr.unshift(slotsArr.pop());
 				
 			
-				for (var i:int = 0; i < arr.length; i++)
+				for (var i:int = 0; i < slotsArr.length; i++)
 				{
-					arr[i].removeFromParent();
+					slotsArr[i].view.removeFromParent();
 					if (ui[contextType + i])
 					{
-						ui[contextType + i].addChild(arr[i])
+						ui[contextType + i].addChild(slotsArr[i].view)
 					}
 					
 				}
@@ -283,15 +276,15 @@ package global.ui.hud
 			{
 				GameSounds.playSound("HUD8");
 				
-				arr.push(arr.shift());
+				slotsArr.push(slotsArr.shift());
 				
 			
-				for (var i:int = 0; i < arr.length; i++)
+				for (var i:int = 0; i < slotsArr.length; i++)
 				{
-					arr[i].removeFromParent();
+					slotsArr[i].view.removeFromParent();
 					if (ui[contextType + i])
 					{
-						ui[contextType + i].addChild(arr[i])
+						ui[contextType + i].addChild(slotsArr[i].view)
 					}
 				}
 			}
@@ -303,15 +296,15 @@ package global.ui.hud
 		
 		public function dispose():void
 		{
-			if(arr != null)
+			if(slotsArr != null)
 			{
-				for(var i:int = 0; i < arr.length; i++)
+				for(var i:int = 0; i < slotsArr.length; i++)
 				{
-					arr[i].removeEventListener(TouchEvent.TOUCH, onSlotClicked);
-					arr[i].removeFromParent(true);
-					arr[i] = null;
+					
+					slotsArr[i].view.removeFromParent(true);
+					slotsArr[i] = null;
 				}
-				arr.splice(0);
+				slotsArr.splice(0);
 			}
 			
 		}

@@ -12,18 +12,16 @@ package global.ui.hud
 	public class PowerController extends EventDispatcher
 	{
 		private var team:Array;
-		private var view:HUDView;
 		public var POWER_SHORTAGE:Boolean = false;
 		
 		public function PowerController(_team:Array)
 		{
 			team = _team;
-			view = HUDView.getInstance();
 			
 		}
 		
 
-		public function updatePower():void
+		public function updatePower():Object
 		{
 			var totalPowerIn:int = 0;//how much it takes
 			var totalPowerOut:int = 0;//how much it gives
@@ -42,7 +40,6 @@ package global.ui.hud
 			
 			//trace("totalPowerIn " + totalPowerIn);
 			//trace("totalPowerOut " + totalPowerOut);
-			view.updatePower(totalPowerIn, totalPowerOut);
 			
 			if (totalPowerIn > totalPowerOut)
 			{
@@ -52,6 +49,8 @@ package global.ui.hud
 			{
 				POWER_SHORTAGE = false;
 			}
+			
+			return {totalPowerIn : totalPowerIn , totalPowerOut : totalPowerOut}
 			
 		}
 	}

@@ -229,7 +229,7 @@ package  states.game.entities.units
 			if(aiBehaviour == AiBehaviours.HELPLESS)return false;
 			if(currentEnemy == null)return false;
 			if(currentEnemy.model == null)return false;
-			if(currentEnemy.model.dead == null)return false;
+			if(currentEnemy.model.dead == true)return false;
 			var shootRange:int = UnitModel(model).stats.weapon.range;
 			////trace("shootRange " + shootRange);
 			

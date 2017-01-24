@@ -208,7 +208,7 @@ package  states.game.entities.buildings
 			if(aiBehaviour == AiBehaviours.HELPLESS)return false;
 			if(currentEnemy == null)return false;
 			if(currentEnemy.model == null)return false;
-			if(currentEnemy.model.dead == null)return false;
+			if(currentEnemy.model.dead == true)return false;
 			var shootRange:int = model.stats.weapon.range;
 			////trace("shootRange " + shootRange);
 			
@@ -337,7 +337,7 @@ package  states.game.entities.buildings
 		{
 			if (TurretStatsObj(model.stats).fireIndex)
 			{
-				shootInterval = setInterval(function() 
+				shootInterval = setInterval(function():void
 				{
 					if (view && TurretView(view).state == "_fire")
 					{

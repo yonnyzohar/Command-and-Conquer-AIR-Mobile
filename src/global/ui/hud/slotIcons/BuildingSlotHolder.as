@@ -1,6 +1,7 @@
 package global.ui.hud.slotIcons
 {
 	import global.GameAtlas;
+	import states.game.teamsData.TeamObject;
 	
 	import starling.core.Starling;
 	import starling.events.Event;
@@ -8,22 +9,19 @@ package global.ui.hud.slotIcons
 
 	public class BuildingSlotHolder extends SlotHolder
 	{
-		public function BuildingSlotHolder(_unitName:String, _contextType:String)
+		public function BuildingSlotHolder(assetName:String, _contextType:String,  _teamObj:TeamObject = null, showUI:Boolean = true)
 		{
-			assetName = _unitName;
-			
-			super(assetName, _contextType);
-		}
-		
-		override public function getUnit():String
-		{
-			return assetName;
+			super(assetName, _contextType, _teamObj, showUI);
 		}
 		
 		override protected function done():void
 		{
-			addChild(readyTXT);
-			readyTXT.visible = true;
+			if (view)
+			{
+				view.addChild(readyTXT);
+				readyTXT.visible = true;
+			}
+			
 			super.done();
 		}
 		

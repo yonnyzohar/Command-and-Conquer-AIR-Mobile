@@ -8,7 +8,7 @@ package states.editor
 	import global.GameAtlas;
 	import global.map.Node;
 	import global.Parameters;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import starling.display.Image;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
@@ -17,7 +17,7 @@ package states.editor
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import starling.textures.Texture;
 
 	public class ControlsPane extends EventDispatcher
@@ -1045,7 +1045,7 @@ package states.editor
 		private function onTeamSelected(caller:GameSprite):void
 		{
 			selectButton(caller);
-			HUDView.currentTeam = caller.index;
+			HUD.currentTeam = caller.index;
 		}
 		
 		private function selectButton(caller:GameSprite):void 

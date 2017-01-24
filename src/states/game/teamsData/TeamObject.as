@@ -34,7 +34,7 @@ package states.game.teamsData
 		public var ai:int;
 		public var agent:int;
 		public var teamName:String;
-		
+		private var targetBalance:int;
 		public var team:Array;
 		public var enemyTeam:Array;
 		private var teamNum:int;
@@ -72,8 +72,13 @@ package states.game.teamsData
 		
 		private function updatePower():void
 		{
-			powerCtrl = new PowerController(team)
-			powerCtrl.updatePower();
+			if (!powerCtrl)
+			{
+				powerCtrl = new PowerController(team)
+			}
+			
+			var powerObj:Object = powerCtrl.updatePower();
+			buildManager.hud.updatePower(powerObj.totalPowerIn, powerObj.totalPowerOut);
 		}
 		
 		
@@ -218,7 +223,7 @@ package states.game.teamsData
 				buildManager.updateUnitsAndBuildings(assetName);
 				p.sayHello();
 				//this is temporary until the pc can build its own
-				if (team == Parameters.humanTeam)powerCtrl.updatePower();
+				updatePower();
 			}
 			
 			buildManager.assetBuildComplete(assetName);
@@ -315,7 +320,7 @@ package states.game.teamsData
 
 				
 				//this is temporary until the pc can build its own
-				if (team == Parameters.humanTeam)powerCtrl.updatePower();
+				updatePower();
 			}
 			
 			var removed:Boolean = false;
@@ -343,6 +348,33 @@ package states.game.teamsData
 			team.push(soldier);
 			soldier.addEventListener("DEAD", onDead);
 			if(searchAndDestroy)soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);
+		}
+		
+		public function reduceCash(_reduceAmount:int):void
+		{	
+			targetBalance = cash - _reduceAmount;
+			cash = targetBalance;
+			trace(cash);
+			if (agent == Agent.HUMAN)
+			{
+				buildManager.hud.updateCashUI(cash);
+			}
+			
+		}
+		
+		public function addCash(_amount:int):void
+		{	
+			targetBalance = cash + _amount;
+			cash = targetBalance;
+			if (agent == Agent.HUMAN)
+			{
+				buildManager.hud.updateCashUI(cash);
+			}
+		}
+		
+		public function getBalance():int
+		{
+			return cash;
 		}
 	}
 }

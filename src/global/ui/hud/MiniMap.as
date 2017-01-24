@@ -58,7 +58,22 @@ package global.ui.hud
 		
 		private var selectionArea:MiniMapSelectionAreaView;
 		
-		public function MiniMap(_w:int, _h:int) 
+		private static var instance:MiniMap = new MiniMap();
+		
+		public function MiniMap()
+		{
+			if (instance)
+			{
+				throw new Error("Singleton and can only be accessed through Singleton.getInstance()");
+			}
+		}
+		
+		public static function getInstance():MiniMap
+		{
+			return instance;
+		}
+		
+		public function init(_w:int, _h:int):void 
 		{
 			mapWidth = _w ;
 			mapHeight = _h ;

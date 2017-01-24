@@ -136,7 +136,7 @@ package global.utilities
 					for (g = 0; g < len4; g++ )
 					{
 						var n:Node = sightArray[g];
-						//n.seen = true;// -- setting this to true will make pc units appear in the minimap!
+						n.seen = true;// -- setting this to true will make pc units appear in the minimap!
 						if (p is Building)
 						{
 							pc_buildingsSight.push(n);
@@ -200,9 +200,17 @@ package global.utilities
 			return enemy;
 		}
 		
-		public function getBaseNodes():Array 
+		public function getBaseNodes(_agent:int):Array 
 		{
-			return human_buildingsSight;
+			if (_agent == Agent.HUMAN)
+			{
+				return human_buildingsSight;
+			}
+			else
+			{
+				return pc_buildingsSight;
+			}
+			
 		}
 		
 	}

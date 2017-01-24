@@ -2,6 +2,8 @@ package global.ai
 {
 	import global.assets.GameAssets;
 	import global.Methods;
+	import global.ui.hud.slotIcons.SlotHolder;
+	import starling.events.Event;
 	import states.game.stats.AssetStatsObj;
 	import states.game.teamsData.TeamObject;
 	/**
@@ -25,10 +27,10 @@ package global.ai
 			pcTeamObj = teamObj;
 			
 			//buildQueue
-			build();
+			buildBuilding();
 		}
 		
-		private function build():void 
+		private function buildBuilding():void 
 		{
 			//if there are still stuff to build
 			if (aiJSON.buildQueue[buildCount])
@@ -41,7 +43,16 @@ package global.ai
 					//if we have money - build, on complete come back to here
 					if (pcTeamObj.cash >= currentBuildingObj.cost)
 					{
-						pcTeamObj.buildManager.assetBeingBuilt(currentBuildingObj.name)
+						var myBuildSlot:SlotHolder = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
+						if (myBuildSlot)
+						{
+							myBuildSlot.simulateClickOnBuild();
+							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+						}
+						else
+						{
+							trace(currentBuildingObj.name + " slot does not exist");
+						}
 					}
 					else
 					{
@@ -51,8 +62,43 @@ package global.ai
 				else
 				{
 					//build power station, on complete - build
+					currentBuildingObj = Methods.getCurretStatsObj("power-plant");
+					if (pcTeamObj.cash >= currentBuildingObj.cost)
+					{
+						var myBuildSlot:SlotHolder = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
+						if (myBuildSlot)
+						{
+							myBuildSlot.simulateClickOnBuild();
+							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+						}
+						else
+						{
+							trace(currentBuildingObj.name + " slot does not exist");
+						}
+					}
+					else
+					{
+						//if no money, wait x seconds then check again
+					}
+					
 				}
 			}
+		}
+		
+		private function placeBuilding(e:Event):void 
+		{
+			trace("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
+			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+			pcTeamObj.buildManager.addEventListener("ASSET_CONSTRUCTED", onBuildingContructed);
+			pcTeamObj.buildManager.buildingPlacementMarker.getValidPlacement()
+		}
+		
+		private function onBuildingContructed(e:Event):void 
+		{
+			trace("ASSET_CONSTRUCTED, move on");
+			pcTeamObj.buildManager.removeEventListener("ASSET_CONSTRUCTED", onBuildingContructed);
+			buildCount++;
+			buildBuilding();
 		}
 		
 	}

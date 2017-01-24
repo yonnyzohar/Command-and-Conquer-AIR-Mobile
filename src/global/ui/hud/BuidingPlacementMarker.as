@@ -15,6 +15,7 @@ package global.ui.hud
 	import starling.events.TouchPhase;
 	import states.game.stats.BuildingsStats;
 	import states.game.stats.TurretStats;
+	import states.game.teamsData.TeamObject;
 	/**
 	 * ...
 	 * @author Yonny Zohar
@@ -30,11 +31,13 @@ package global.ui.hud
 		private var COLLOR_RED:uint = 0xE1360A;
 		private var COLLOR_GREEN:uint = 0x00FF00;
 		private var isValidPlacementArea:Boolean = false;
+		private var teamObj:TeamObject;
 		
 		public static const BUILDNG_SPOT_FOUND:String = "BUILDNG_SPOT_FOUND"
 		
-		public function BuidingPlacementMarker() 
+		public function BuidingPlacementMarker(_teamObj:TeamObject) 
 		{
+			teamObj = _teamObj;
 			view = new Sprite();
 			view.alpha = 0.5;
 		}
@@ -150,9 +153,30 @@ package global.ui.hud
 			e.stopPropagation();
 		}
 		
+		public function getValidPlacement():void
+		{
+			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
+			var foundValidPlace:Boolean = false;
+			for (var i:int = 0; i < allBaseNodes.length; i++ )
+			{
+				var n:Node = allBaseNodes[i];
+				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
+				if (isValidPlacementArea)
+				{
+					targetCol = n.col;
+					targetRow = n.row;
+					foundValidPlace = true;
+					dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
+					break;
+				}
+			}
+			
+			trace("foundValidPlace " + foundValidPlace);
+		}
+		
 
 		
-		private function setCorrectColors(startRow:int, startCol:int):void 
+		private function setCorrectColors(startRow:int, startCol:int):Boolean 
 		{
 			var valid:Boolean = true;
 			
@@ -184,12 +208,13 @@ package global.ui.hud
 				}
 			}
 			isValidPlacementArea = valid;
+			return isValidPlacementArea;
 			
 		}
 		
 		private function nodeOutSideBase(node:Node):Boolean 
 		{
-			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes();
+			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
 			if (allBaseNodes.indexOf(node) == -1)
 			{
 				return true;

@@ -14,7 +14,7 @@ package states.editor
 	import global.Parameters;
 	import global.GameAtlas;
 	import global.map.mapTypes.Board;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import global.utilities.FileSaver;
 	import global.utilities.GlobalEventDispatcher;
 	
@@ -31,7 +31,7 @@ package states.editor
 	{
 		private var detailsPanel:DetailsPanelController;
 		private var baordMC:Board;
-		private var view:HUDView;
+		private var view:HUD;
 		private var model:EditModel;
 		private var currentImage:EditAssetObj;
 		private var lastLoc:Point;
@@ -53,7 +53,7 @@ package states.editor
 			model = new EditModel();
 			baordMC = Board.getInstance();
 			baordMC.init(true);
-			view = HUDView.getInstance();
+			view = new HUD();
 			view.init();
 			view.addMiniMap();
 			view.initEdit();
@@ -165,7 +165,7 @@ package states.editor
 			model.currentType = view.buildingsContainer.selectedSlot.contextType;
 			
 			var gdiOrNod:String = "gdi"
-			if (HUDView.currentTeam == 2)
+			if (HUD.currentTeam == 2)
 			{
 				gdiOrNod = "nod";
 			}
@@ -180,7 +180,7 @@ package states.editor
 			model.currentUnitName = view.unitsContainer.currentUnitName;
 			model.currentType = view.unitsContainer.selectedSlot.contextType;
 			var gdiOrNod:String = "gdi"
-			if (HUDView.currentTeam == 2)
+			if (HUD.currentTeam == 2)
 			{
 				gdiOrNod = "nod";
 			}
@@ -305,7 +305,7 @@ package states.editor
 					currentImage.model.row = targetRow;
 					currentImage.model.col = targetCol;
 					
-					if (HUDView.currentTeam == 1)
+					if (HUD.currentTeam == 1)
 					{
 						Parameters.humanTeam.push(currentImage);
 					}
@@ -331,7 +331,7 @@ package states.editor
 		{
 			var o:Object = {name : currentImage.model.name, row : currentImage.model.row, col: currentImage.model.col, asset: currentImage}
 
-			if(HUDView.currentTeam == 1)
+			if(HUD.currentTeam == 1)
 			{
 				//["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
 				 

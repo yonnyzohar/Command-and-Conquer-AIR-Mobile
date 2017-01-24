@@ -1,7 +1,8 @@
 package global.ui.hud.slotIcons
 {
 	
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
+	import states.game.teamsData.TeamObject;
 	
 	import starling.display.MovieClip;
 	
@@ -10,20 +11,12 @@ package global.ui.hud.slotIcons
 	{
 		
 		
-		public function UnitSlotHolder(_unitName:String, _contextType:String)
+		public function UnitSlotHolder(assetName:String, _contextType:String,  _teamObj:TeamObject = null, showUI:Boolean = true)
 		{
-			assetName = _unitName;
-			
-			super(_unitName, _contextType);
+			super(assetName, _contextType, _teamObj, showUI);
 		}
 		
-		override public function getUnit():String
-		{
-			var pos:String = "";
-			var n:String;
-
-			return assetName;
-		}
+		
 		
 		override protected function done():void
 		{

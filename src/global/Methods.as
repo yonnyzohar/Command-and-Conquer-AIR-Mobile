@@ -4,7 +4,7 @@ package global
 	import flash.system.Capabilities;
 	import global.pools.Pool;
 	import global.pools.PoolElement;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import global.utilities.CircleRadiusBuilder;
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -294,7 +294,7 @@ package global
 			var assetOnScreen:Boolean = false;
 			var screenRow:int   = Math.abs( Parameters.mapHolder.y  /  (Parameters.tileSize  )  );
 			var screenCol:int   = Math.abs( Parameters.mapHolder.x  /  (Parameters.tileSize  )  );
-			var _stageWidth:int  = (Parameters.flashStage.stageWidth - HUDView.hudWidth) / Parameters.tileSize;
+			var _stageWidth:int  = (Parameters.flashStage.stageWidth - HUD.hudWidth) / Parameters.tileSize;
 			var _stageHeight:int = Parameters.flashStage.stageHeight / Parameters.tileSize;
 			
 			if (_row >= screenRow && _row <= (_stageHeight + screenRow))

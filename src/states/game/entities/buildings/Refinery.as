@@ -2,7 +2,7 @@ package  states.game.entities.buildings
 {
 	import global.map.Node;
 	import global.Parameters;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
 	import global.utilities.GameTimer;
 	import starling.display.Quad;
 	import starling.events.Event;
@@ -62,7 +62,7 @@ package  states.game.entities.buildings
 		{
 			if (currentStore > 0)
 			{
-				HUDView.getInstance().addCash(  1 );
+				myTeamObj.addCash(  1 );
 				currentStore--;
 				////trace(currentStore);
 			}

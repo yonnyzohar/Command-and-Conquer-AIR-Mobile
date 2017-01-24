@@ -9,7 +9,8 @@ package global.utilities
 	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.Parameters;
-	import global.ui.hud.HUDView;
+	import global.ui.hud.HUD;
+	import global.ui.hud.MiniMap;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.MovieClip;
@@ -96,7 +97,7 @@ package global.utilities
 			{
 				var p:Point = checkStart.getLocation(Parameters.theStage);
 				
-				if (p.x >= (stageWidth - HUDView.hudWidth))
+				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
 					return;
 				}
@@ -109,7 +110,7 @@ package global.utilities
 			
 				var p:Point = checkMove.getLocation(Parameters.theStage);
 		
-				if (p.x >= (stageWidth - HUDView.hudWidth))
+				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
 					return;
 				}
@@ -173,7 +174,7 @@ package global.utilities
 			{
 				var p:Point = endMulti[0].getLocation(Parameters.theStage);
 				
-				if (p.x >= (stageWidth - HUDView.hudWidth))
+				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
 					return;
 				}
@@ -264,7 +265,7 @@ package global.utilities
 			{
 				changeHappened = true;
 				
-				if (((Parameters.mapHolder.x) + (Parameters.mapWidth)) > (stageWidth - HUDView.hudWidth))
+				if (((Parameters.mapHolder.x) + (Parameters.mapWidth)) > (stageWidth - HUD.hudWidth))
 				{
 					Parameters.mapHolder.x -= Parameters.mapMoveSpeed;
 				}
@@ -283,9 +284,9 @@ package global.utilities
 			var screenRow:int = Math.abs(Parameters.mapHolder.y / (Parameters.tileSize /** Parameters.gameScale*/));
 			var screenCol:int = Math.abs(Parameters.mapHolder.x / (Parameters.tileSize /** Parameters.gameScale*/));
 			var _stageHeight:int = Parameters.flashStage.stageHeight / Parameters.tileSize;
-			var _stageWidth:int = (Parameters.flashStage.stageWidth - HUDView.hudWidth) / Parameters.tileSize;
+			var _stageWidth:int = (Parameters.flashStage.stageWidth - HUD.hudWidth) / Parameters.tileSize;
 			
-			HUDView.getInstance().moveMiniMap(screenRow / (Parameters.numRows - _stageHeight), screenCol / (Parameters.numCols - _stageWidth));
+			MiniMap.getInstance().moveMiniMap(screenRow / (Parameters.numRows - _stageHeight), screenCol / (Parameters.numCols - _stageWidth));
 		}
 		
 		public function render(_changeHappened:Boolean):void
@@ -311,9 +312,9 @@ package global.utilities
 			
 			var screenRow:int = Math.abs(Parameters.mapHolder.y / (Parameters.tileSize /** Parameters.gameScale*/));
 			var screenCol:int = Math.abs(Parameters.mapHolder.x / (Parameters.tileSize /** Parameters.gameScale*/));
-			var _stageWidth:int = (Parameters.flashStage.stageWidth - HUDView.hudWidth) / Parameters.tileSize;
+			var _stageWidth:int = (Parameters.flashStage.stageWidth - HUD.hudWidth) / Parameters.tileSize;
 			var _stageHeight:int = Parameters.flashStage.stageHeight / Parameters.tileSize;
-			var hudTiles:int = HUDView.hudWidth / Parameters.tileSize;
+			var hudTiles:int = HUD.hudWidth / Parameters.tileSize;
 			
 			Parameters.screenDisplayArea.col = int(screenCol);
 			Parameters.screenDisplayArea.row = int(screenRow);
@@ -505,7 +506,7 @@ package global.utilities
 					var entViewAbsY:int = entView.y + Parameters.mapHolder.y;
 					var entViewAbsX:int = entView.x + Parameters.mapHolder.x;
 					
-					if (entViewAbsY > (Parameters.flashStage.stageHeight - Parameters.tileSize) || (entViewAbsY + entView.height) < 0 || (entViewAbsX + entView.width) < 0 || entViewAbsX > (Parameters.flashStage.stageWidth - HUDView.hudWidth - Parameters.tileSize))
+					if (entViewAbsY > (Parameters.flashStage.stageHeight - Parameters.tileSize) || (entViewAbsY + entView.height) < 0 || (entViewAbsX + entView.width) < 0 || entViewAbsX > (Parameters.flashStage.stageWidth - HUD.hudWidth - Parameters.tileSize))
 					{
 						if (entView.parent)
 							entView.removeFromParent();
@@ -542,9 +543,9 @@ package global.utilities
 				Parameters.mapHolder.x = 0;
 			}
 			
-			if (Parameters.mapHolder.x + Parameters.mapWidth < stageWidth - HUDView.hudWidth)
+			if (Parameters.mapHolder.x + Parameters.mapWidth < stageWidth - HUD.hudWidth)
 			{
-				Parameters.mapHolder.x = (stageWidth - HUDView.hudWidth) - Parameters.mapWidth;
+				Parameters.mapHolder.x = (stageWidth - HUD.hudWidth) - Parameters.mapWidth;
 			}
 			
 			render(true)
@@ -554,7 +555,7 @@ package global.utilities
 		public function moveMapByPercetage(xPer:Number, yPer:Number):void
 		{
 			Parameters.mapHolder.y = (Parameters.mapHeight - Parameters.flashStage.stageHeight) * (-yPer);
-			Parameters.mapHolder.x = (Parameters.mapWidth - (Parameters.flashStage.stageWidth - HUDView.hudWidth)) * ( -xPer);
+			Parameters.mapHolder.x = (Parameters.mapWidth - (Parameters.flashStage.stageWidth - HUD.hudWidth)) * ( -xPer);
 			lastX = Parameters.mapHolder.x;
 			lastY = Parameters.mapHolder.y;
 			render(true)

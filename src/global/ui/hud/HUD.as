@@ -34,11 +34,11 @@ package global.ui.hud
 	import com.dynamicTaMaker.loaders.TemplateLoader;
 
 
-	public class HUDView extends Sprite
+	public class HUD extends Sprite
 	{
 		public static var hudWidth:int = 0;
 		public static var currentTeam:int = 1;
-		private var targetBalance:int;
+		
 		private var miniMap:MiniMap;
 		private var powerGreenMC:Quad;
 		private var teamObj:TeamObject;
@@ -48,28 +48,21 @@ package global.ui.hud
 		private var powerMC:GameSprite;
 		public var buildingsContainer:PaneColumn; 
 		public var unitsContainer:PaneColumn; 
+		private var showUI:Boolean;
 		
-		static private var instance:HUDView = new HUDView();
+	
 		
-		public function HUDView()
+		public function HUD(_showUI:Boolean = false, _teamObj:TeamObject = null)
 		{
-			if (instance)
-			{
-				throw new Error("Singleton and can only be accessed through Singleton.getInstance()");
-			}
+			showUI =  _showUI;
+			teamObj = _teamObj;
 		}
-		
-		public static function getInstance():HUDView
-		{
-			return instance;
-		}
-		
 		
 		
 		public function init():void
 		{
 			var i:int = 0;
-			if(ui == null)
+			if(ui == null && showUI)
 			{
 				ui = TemplateLoader.get("HudUI");
 				ui.nodSymbolMC.visible = false;
@@ -80,15 +73,25 @@ package global.ui.hud
 				ui.height = Parameters.flashStage.stageHeight;
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;
 				addChildAt(ui, 0);
-				initPanelColumns();
-				hudWidth = ui.width;
+				
+				ui.x = Parameters.flashStage.stageWidth - getWidth();
+				
+
+				Parameters.gameHolder.addChild(ui);
 			}
+			
+			initPanelColumns();
+		}
+		
+		public function updateCashUI(_cash:int):void
+		{
+			cashUi.tf.text = "$" + _cash;
 		}
 		
 		public function initPanelColumns():void
 		{
-			buildingsContainer = new PaneColumn(BuildingSlotHolder, "buildings", ui);
-			unitsContainer     = new PaneColumn(UnitSlotHolder, "units", ui);
+			buildingsContainer = new PaneColumn(BuildingSlotHolder, "buildings", ui, teamObj);
+			unitsContainer     = new PaneColumn(UnitSlotHolder, "units", ui, teamObj);
 		}	
 		
 		public function initEdit():void
@@ -99,25 +102,25 @@ package global.ui.hud
 			unitsContainer.init(VehicleStats.dict, false, "vehicle");
 		}
 		
-		public function setHUD(infantry:Object, vehicles:Object, buildings:Object, turrets:Object, _teamObj:TeamObject):void
+		public function setHUD(infantry:Object, vehicles:Object, buildings:Object, turrets:Object):void
 		{
-			teamObj = _teamObj;
-			addMiniMap();
+			
+			
 			
 			buildingsContainer.init(buildings, true, "building");
 			buildingsContainer.init(turrets, true, "turret");
 			unitsContainer.init(infantry, true, "infantry");
 			unitsContainer.init(vehicles, true, "vehicle");
 			
-			
-			cashUi.tf.text = "$" + teamObj.cash;
-			
-			if (teamObj.teamName == "nod")
+			if (showUI)
 			{
-				ui.nodSymbolMC.visible = true;
+				addMiniMap();
+				cashUi.tf.text = "$" + teamObj.cash;
+				if (teamObj.teamName == "nod")
+				{
+					ui.nodSymbolMC.visible = true;
+				}
 			}
-			
-			
 		}
 		
 		override public function dispose():void
@@ -142,42 +145,50 @@ package global.ui.hud
 		}
 		
 		
-		public function reduceCash(_reduceAmount:int):void
-		{	
-			targetBalance = teamObj.cash - _reduceAmount;
-			teamObj.cash = targetBalance;
-			cashUi.tf.text = "$" + teamObj.cash;
-		}
-		
-		public function addCash(_amount:int):void
-		{	
-			targetBalance = teamObj.cash + _amount;
-			teamObj.cash = targetBalance;
-			cashUi.tf.text = "$" + teamObj.cash;
-		}
-		
-		public function getBalance():int
+		public function getSlot(_name:String):SlotHolder
 		{
-			return teamObj.cash;
+			var mySlot:SlotHolder;
+			
+			for (var i:int = 0; i < buildingsContainer.slotsArr.length; i++ )
+			{
+				var slot:SlotHolder = buildingsContainer.slotsArr[i];
+				
+				if (slot && slot.assetName == _name)
+				{
+					mySlot = slot;
+					break;
+				}
+			}
+			
+			if (mySlot == null)
+			{
+				for (i = 0; i < unitsContainer.slotsArr.length; i++ )
+				{
+					var slot:SlotHolder = unitsContainer.slotsArr[i];
+					
+					if (slot && slot.assetName == _name)
+					{
+						mySlot = slot;
+						break;
+					}
+				}
+			}
+			
+			return mySlot;
 		}
+		
 		
 		
 
 		public function addMiniMap():void 
 		{
-			miniMap = new MiniMap(ui.nodSymbolMC.width * ui.scaleX, ui.nodSymbolMC.height * ui.scaleY);
+			miniMap = MiniMap.getInstance();
+			miniMap.init(ui.nodSymbolMC.width * ui.scaleX, ui.nodSymbolMC.height * ui.scaleY);
 			miniMap.x = (ui.width - miniMap.width) / 2;
 			miniMap.y = 5;
-			addChildAt(miniMap,1);
+			addChild(miniMap);
 		}
 		
-		public function moveMiniMap(rowsPer:Number, colsPer:Number):void 
-		{
-			if (miniMap)
-			{
-				miniMap.moveMiniMap(rowsPer, colsPer);
-			}
-		}
 		
 		public function updateUnitsAndBuildings(infantry:Object, vehicles:Object, buildings:Object, turrets:Object):void 
 		{
@@ -199,42 +210,39 @@ package global.ui.hud
 		
 		public function updatePower(totalPowerIn:int, totalPowerOut:int):void 
 		{
-			if (powerGreenMC == null)
+			if (showUI)
 			{
-				powerGreenMC = new Quad(10, 1, 0x00cc00);
-				powerGreenMC.alpha = 0.7;
-				ui.powerPlaceolder.addChild(powerGreenMC);
+				if (powerGreenMC == null)
+				{
+					powerGreenMC = new Quad(10, 1, 0x00cc00);
+					powerGreenMC.alpha = 0.7;
+					ui.powerPlaceolder.addChild(powerGreenMC);
+				}
+				
+				powerGreenMC.y = 0;
+				powerGreenMC.height = totalPowerOut;
+				powerGreenMC.y -= totalPowerOut;
+				
+				if (powerMC == null)
+				{
+					powerMC = TemplateLoader.get("PowerMC");
+					ui.powerPlaceolder.addChild(powerMC);
+				}
+				
+				var currentPowerY:int = powerMC.y;
+				powerMC.y = 0;
+				powerMC.y -= totalPowerIn;
+				
+				
+				if (totalPowerIn > totalPowerOut)
+				{
+					powerGreenMC.color = 0xff0000;//red
+				}
+				else
+				{
+					powerGreenMC.color = 0x00cc00;//green
+				}
 			}
-			
-			powerGreenMC.y = 0;
-			powerGreenMC.height = totalPowerOut;
-			powerGreenMC.y -= totalPowerOut;
-			
-			if (powerMC == null)
-			{
-				powerMC = TemplateLoader.get("PowerMC");
-				ui.powerPlaceolder.addChild(powerMC);
-			}
-			
-			var currentPowerY:int = powerMC.y;
-			powerMC.y = 0;
-			powerMC.y -= totalPowerIn;
-			
-			
-			if (totalPowerIn > totalPowerOut)
-			{
-				powerGreenMC.color = 0xff0000;//red
-			}
-			else
-			{
-				powerGreenMC.color = 0x00cc00;//green
-			}
-			
-			//powerMC
-			//powerPlaceolder
 		}
-		
-
-
 	}
 }
