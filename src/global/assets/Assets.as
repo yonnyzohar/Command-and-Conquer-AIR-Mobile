@@ -886,7 +886,7 @@ package global.assets
 				"shore_top_high_06": {
 					gridBuild:[
 						[1,0],
-						[1, 1],
+						[1,1],
 						[0,1]
 					]
 				},
@@ -945,6 +945,12 @@ package global.assets
                         [1, 1],
                         [1, 1]
                     ],
+					 gridBuildSight: [
+                        [1, 1, 0],
+                        [1, 1, 1],
+                        [1, 1, 1],
+						[1, 1, 1]
+                    ],
 					residents:1,
 					tech:1
                 },
@@ -956,7 +962,7 @@ package global.assets
 					connectedSprites:["harvester"],
 					attachedUnit:"harvester",
                     powerOut: 10,
-                    cost: 2e3,
+                    cost: 2000,
                     sight: 3,
                     hasBib: true,
                     tiberiumStorage: 1e3,
@@ -1007,6 +1013,13 @@ package global.assets
                         [1, 1, 1],
                         [1, 1, 1],
                         [1, 1, 1]
+                    ],
+					 gridBuildSight: [
+                        [0,0, 1, 0,0],
+                        [1,1, 1, 1,1],
+                        [1,1, 1, 1,1],
+                        [1, 1, 1, 1, 1],
+						[1,1, 1, 1,1]
                     ],
 					residents:2
                 },

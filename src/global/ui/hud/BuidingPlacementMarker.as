@@ -165,25 +165,31 @@ package global.ui.hud
 			var foundValidPlace:Boolean = false;
 			var baseNodesLen:int = allBaseNodes.length;
 			var count:int = 0;
+			var used:Array = [];
 			
 			while (count < baseNodesLen)
 			{
 				var rnd:int = Math.random() * baseNodesLen;
-				var n:Node = allBaseNodes[rnd];
-				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
-				if (isValidPlacementArea)
+				if (used.indexOf(rnd) == -1)
 				{
-					targetCol = n.col;
-					targetRow = n.row;
-					foundValidPlace = true;
-					if(view)view.removeFromParent(true );
-					dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
-					break;
+					var n:Node = allBaseNodes[rnd];
+					var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
+					if (isValidPlacementArea)
+					{
+						targetCol = n.col;
+						targetRow = n.row;
+						foundValidPlace = true;
+						if(view)view.removeFromParent(true );
+						dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
+						break;
+					}
+					else
+					{
+						used.push(rnd);
+						count++;
+					}
 				}
-				else
-				{
-					count++;
-				}
+				
 			}
 			
 			/*for (var i:int = 0; i < allBaseNodes.length; i++ )
@@ -201,7 +207,7 @@ package global.ui.hud
 				}
 			}*/
 			
-			trace("foundValidPlace " + foundValidPlace);
+			trace("foundValidPlace " + foundValidPlace + " " + used);
 		}
 		
 
@@ -220,14 +226,15 @@ package global.ui.hud
 						if (Parameters.boardArr[startRow + i] && Parameters.boardArr[startRow + i][startCol + j])
 						{
 							var node:Node = Parameters.boardArr[startRow + i][startCol + j];
-							if (node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
+							if (isValidTile(node))
 							{
-								valid = false;
-								q.color = COLLOR_RED;
+								q.color = COLLOR_GREEN;
 							}
 							else
 							{
-								q.color = COLLOR_GREEN;
+								valid = false;
+								q.color = COLLOR_RED;
+								
 							}
 						}
 						else
@@ -240,6 +247,36 @@ package global.ui.hud
 			isValidPlacementArea = valid;
 			return isValidPlacementArea;
 			
+		}
+		
+		private function isValidTile(node:Node):Boolean
+		{
+			var valid:Boolean = true;
+			
+			if (node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
+			{
+				valid = false;
+			}
+			/*
+			var n:Node;
+			
+			outer : for (var row:int = -1; row <= 1; row ++  )
+			{
+				for (var col:int = -1; col <= 1; col ++  )
+				{
+					if (Parameters.boardArr[node.row + row] && Parameters.boardArr[node.row + row][node.col + col])
+					{
+						n = Parameters.boardArr[node.row + row][node.col + col];
+						if (n.cliffTile || n.shoreTile || n.occupyingUnit || n.walkable == false || nodeOutSideBase(n))
+						{
+							valid = false;
+							break outer;
+						}
+					}
+				}
+			}*/
+			
+			return valid;
 		}
 		
 		private function nodeOutSideBase(node:Node):Boolean 
