@@ -1,6 +1,7 @@
 package global.ui.hud
 {
 	import flash.geom.Point;
+	import global.enums.Agent;
 	import global.enums.MouseStates;
 	import global.map.Node;
 	import global.Parameters;
@@ -90,9 +91,13 @@ package global.ui.hud
 				}
 			}
 			
-			Parameters.upperTilesLayer.addChild(view);
-			MouseStates.currentState = MouseStates.PLACE_BUILDING;
-			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
+			if (teamObj.agent == Agent.HUMAN)
+			{
+				Parameters.upperTilesLayer.addChild(view);
+				MouseStates.currentState = MouseStates.PLACE_BUILDING;
+				Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
+			}
+			
 		}
 		
 		private function onStageTouch(e:TouchEvent):void
@@ -153,11 +158,35 @@ package global.ui.hud
 			e.stopPropagation();
 		}
 		
+		//this is for AI!!!
 		public function getValidPlacement():void
 		{
 			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
 			var foundValidPlace:Boolean = false;
-			for (var i:int = 0; i < allBaseNodes.length; i++ )
+			var baseNodesLen:int = allBaseNodes.length;
+			var count:int = 0;
+			
+			while (count < baseNodesLen)
+			{
+				var rnd:int = Math.random() * baseNodesLen;
+				var n:Node = allBaseNodes[rnd];
+				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
+				if (isValidPlacementArea)
+				{
+					targetCol = n.col;
+					targetRow = n.row;
+					foundValidPlace = true;
+					if(view)view.removeFromParent(true );
+					dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
+					break;
+				}
+				else
+				{
+					count++;
+				}
+			}
+			
+			/*for (var i:int = 0; i < allBaseNodes.length; i++ )
 			{
 				var n:Node = allBaseNodes[i];
 				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
@@ -166,10 +195,11 @@ package global.ui.hud
 					targetCol = n.col;
 					targetRow = n.row;
 					foundValidPlace = true;
+					if(view)view.removeFromParent(true );
 					dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
 					break;
 				}
-			}
+			}*/
 			
 			trace("foundValidPlace " + foundValidPlace);
 		}
@@ -190,7 +220,7 @@ package global.ui.hud
 						if (Parameters.boardArr[startRow + i] && Parameters.boardArr[startRow + i][startCol + j])
 						{
 							var node:Node = Parameters.boardArr[startRow + i][startCol + j];
-							if (node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
+							if (node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
 							{
 								valid = false;
 								q.color = COLLOR_RED;

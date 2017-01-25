@@ -2,7 +2,9 @@
 	"buildQueue":[
 		"refinery",
 		"barracks",
+		"hand-of-nod",
 		"airstrip",
+		"weapons-factory",
 		"communications-center"
 	],
 	"unitQueue":{
