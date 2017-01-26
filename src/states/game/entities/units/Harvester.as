@@ -33,7 +33,7 @@ package  states.game.entities.units
 		private var isFull:Boolean = false;
 		private var loadingBegan:Boolean = false;
 		protected var storageBar:HarvesterStorage ;
-		private const HARVEST_AMOUNT:int = 6;
+		private const HARVEST_AMOUNT:int = 10;
 		
 		public function Harvester(_unitStats:VehicleStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
 		{
@@ -82,6 +82,7 @@ package  states.game.entities.units
 				FullCircleView(view).stopRotation();
 				
 				view.visible = false;
+				view.mc.visible = false;
 				storageBar.visible = false;
 				loadingBegan = true;
 			}
@@ -90,6 +91,7 @@ package  states.game.entities.units
 		private function onLoadComplete():void
 		{
 			view.visible = true;
+			view.mc.visible = true;
 			storageBar.visible = true;
 			storageBar.currentStore = 0;
 			storageBar.clearStorage()

@@ -9,6 +9,7 @@ package global.ui.hud
 	import global.utilities.DragScroll;
 	import global.utilities.GameTimer;
 	import global.GameAtlas;
+	import starling.events.EventDispatcher;
 	import states.game.stats.BuildingsStats;
 	import states.game.stats.InfantryStats;
 	import states.game.stats.TurretStats;
@@ -34,16 +35,16 @@ package global.ui.hud
 	import com.dynamicTaMaker.loaders.TemplateLoader;
 
 
-	public class HUD extends Sprite
+	public class HUD extends EventDispatcher
 	{
 		public static var hudWidth:int = 0;
 		public static var currentTeam:int = 1;
 		
-		private var miniMap:MiniMap;
+		public var miniMap:MiniMap;
 		private var powerGreenMC:Quad;
 		private var teamObj:TeamObject;
 		
-		private var ui:GameSprite;
+		public var ui:GameSprite;
 		private var cashUi:GameSprite;
 		private var powerMC:GameSprite;
 		public var buildingsContainer:PaneColumn; 
@@ -72,7 +73,6 @@ package global.ui.hud
 				Parameters.gameHolder.addChild(cashUi);
 				ui.height = Parameters.flashStage.stageHeight;
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;
-				addChildAt(ui, 0);
 				
 				ui.x = Parameters.flashStage.stageWidth - getWidth();
 				
@@ -123,7 +123,7 @@ package global.ui.hud
 			}
 		}
 		
-		override public function dispose():void
+		public function dispose():void
 		{
 			buildingsContainer.dispose();
 			unitsContainer.dispose();
@@ -184,9 +184,9 @@ package global.ui.hud
 		{
 			miniMap = MiniMap.getInstance();
 			miniMap.init(ui.nodSymbolMC.width * ui.scaleX, ui.nodSymbolMC.height * ui.scaleY);
-			miniMap.x = (ui.width - miniMap.width) / 2;
+			miniMap.x = ui.x;
 			miniMap.y = 5;
-			addChild(miniMap);
+			Parameters.gameHolder.addChild(miniMap);
 		}
 		
 		

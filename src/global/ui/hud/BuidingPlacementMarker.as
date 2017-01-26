@@ -167,7 +167,7 @@ package global.ui.hud
 			var count:int = 0;
 			var used:Array = [];
 			
-			while (count < baseNodesLen)
+			/*while (count < baseNodesLen)
 			{
 				var rnd:int = Math.random() * baseNodesLen;
 				if (used.indexOf(rnd) == -1)
@@ -190,9 +190,9 @@ package global.ui.hud
 					}
 				}
 				
-			}
+			}*/
 			
-			/*for (var i:int = 0; i < allBaseNodes.length; i++ )
+			for (var i:int = 0; i < allBaseNodes.length; i++ )
 			{
 				var n:Node = allBaseNodes[i];
 				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
@@ -205,7 +205,7 @@ package global.ui.hud
 					dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
 					break;
 				}
-			}*/
+			}
 			
 			trace("foundValidPlace " + foundValidPlace + " " + used);
 		}
@@ -257,24 +257,26 @@ package global.ui.hud
 			{
 				valid = false;
 			}
-			/*
-			var n:Node;
-			
-			outer : for (var row:int = -1; row <= 1; row ++  )
+			else
 			{
-				for (var col:int = -1; col <= 1; col ++  )
+				var n:Node;
+			
+				outer : for (var row:int = -1; row <= 1; row ++  )
 				{
-					if (Parameters.boardArr[node.row + row] && Parameters.boardArr[node.row + row][node.col + col])
+					for (var col:int = -1; col <= 1; col ++  )
 					{
-						n = Parameters.boardArr[node.row + row][node.col + col];
-						if (n.cliffTile || n.shoreTile || n.occupyingUnit || n.walkable == false || nodeOutSideBase(n))
+						if (Parameters.boardArr[node.row + row] && Parameters.boardArr[node.row + row][node.col + col])
 						{
-							valid = false;
-							break outer;
+							n = Parameters.boardArr[node.row + row][node.col + col];
+							if ( n.occupyingUnit )
+							{
+								valid = false;
+								break outer;
+							}
 						}
 					}
 				}
-			}*/
+			}
 			
 			return valid;
 		}

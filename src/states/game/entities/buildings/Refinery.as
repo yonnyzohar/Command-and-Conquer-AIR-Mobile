@@ -93,10 +93,11 @@ package  states.game.entities.buildings
 			{
 				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
 			
-				var row:int = model.row + int(occupyArray.length);
+				var row:int = model.row + int(occupyArray.length)-1;
 				var col:int = model.col;
 				
 				var n:Node = Parameters.boardArr[row][col];
+				//n.groundTile.scaleX = n.groundTile.scaleY = 1;
 			}
 			
 			

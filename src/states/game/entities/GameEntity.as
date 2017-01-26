@@ -29,7 +29,8 @@ package states.game.entities
 		private var showOccupyTiles:Boolean = false;
 		
 		private var allTilesDict:Dictionary = new Dictionary();
-		protected var aiBehaviour:int;
+		public var aiBehaviour:int;
+		public var name:String;
 		
 		public function GameEntity(_teamObj:TeamObject)
 		{

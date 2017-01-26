@@ -7,9 +7,27 @@
 		"weapons-factory",
 		"communications-center"
 	],
-	"unitQueue":{
-		"minigunner" : 5,
-		"light-tank" : 3
+	"infantryQueue":{
+		"minigunner" : 10,
+		"bazooka": 6,
+		"grenadier": 6,
+		"flame-thrower": 3
+	},
+	"vehicleQueue":{
+		"buggy":10,
+		"jeep":10,
+		"recon-bike":8,
+		"light-tank":7,
+		"medium-tank":7,
+		"flame-tank":6,
+		"stealth-tank":5,
+		"mammoth-tank":3,
+		"artillery":1,
+		"mobile-rocket-launch-system":1,
+		"ssm-launcher":1
 	},
 	"minNumOfAttackParty" :[3,5,7,10]
 }
+
+
+

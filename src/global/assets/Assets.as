@@ -945,12 +945,7 @@ package global.assets
                         [1, 1],
                         [1, 1]
                     ],
-					 gridBuildSight: [
-                        [1, 1, 0],
-                        [1, 1, 1],
-                        [1, 1, 1],
-						[1, 1, 1]
-                    ],
+
 					residents:1,
 					tech:1
                 },
@@ -1014,13 +1009,7 @@ package global.assets
                         [1, 1, 1],
                         [1, 1, 1]
                     ],
-					 gridBuildSight: [
-                        [0,0, 1, 0,0],
-                        [1,1, 1, 1,1],
-                        [1,1, 1, 1,1],
-                        [1, 1, 1, 1, 1],
-						[1,1, 1, 1,1]
-                    ],
+
 					residents:2
                 },
                 "hand-of-nod": {

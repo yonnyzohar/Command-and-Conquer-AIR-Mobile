@@ -22,6 +22,11 @@ package global.ui.hud.slotIcons
 				readyTXT.visible = true;
 			}
 			
+			if (buildCompleteFunction)
+			{
+				buildCompleteFunction(assetName);
+			}
+			
 			super.done();
 		}
 		

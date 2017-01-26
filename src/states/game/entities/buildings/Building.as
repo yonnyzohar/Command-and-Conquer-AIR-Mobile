@@ -17,7 +17,7 @@ package states.game.entities.buildings
 
 	public class Building extends GameEntity
 	{
-		public var name:String;
+		
 		public var hasBuildingClickFunction:Boolean = false;
 		
 		public function Building(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)

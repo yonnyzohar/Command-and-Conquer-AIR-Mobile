@@ -57,7 +57,8 @@ package states.game.teamsData
 			
 			buildManager = new TeamBuildManager();
 			buildManager.init(startParams, this);
-			buildManager.addEventListener("ASSET_CONSTRUCTED", onAssetContructed);
+			buildManager.addEventListener("UNIT_CONSTRUCTED", onUnitContructed);
+			buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
 			
 		}
 		
@@ -139,6 +140,25 @@ package states.game.teamsData
 			}
 		}
 		
+		public function doesBuildingExist(arr:Array):Boolean
+		{
+			var avaliable:Boolean = false;
+			outer : for (var i:int = 0; i < arr.length; i++ )
+			{
+				var name:String = arr[i];
+				for (var j:int = 0; j < team.length; j++ )
+				{
+					if (team[j].name == name)
+					{
+						avaliable = true;
+						break outer;
+					}
+				}
+			}
+			
+			return avaliable;
+		}
+		
 		public function getRefinery():Refinery 
 		{
 			var myRefinery:Refinery;
@@ -154,7 +174,7 @@ package states.game.teamsData
 			return myRefinery;
 		}
 		
-		private function onAssetContructed(e:Event):void
+		private function onUnitContructed(e:Event):void
 		{
 			var assetName:String = e.data.name;
 			var assetType:String = e.data.type;
@@ -163,68 +183,81 @@ package states.game.teamsData
 			var currenteamNum:int = 0;
 			
 			
-			if (assetType == "infantry" || assetType == "vehicle" )
+			
+			var curRowCol:Object;
+			var placementsArr:Array;
+			//is this infantry?
+			if (InfantryStats.dict[assetName])
 			{
-				var curRowCol:Object;
-				var placementsArr:Array;
-				//is this infantry?
-				if (InfantryStats.dict[assetName])
-				{
-					p = new Infantry(InfantryStats.dict[assetName], this, enemyTeam, teamNum);
-					curRowCol = buildManager.getProducingBuilding(InfantryStats.dict[assetName], team);
-					placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
-					Infantry(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
-				}
-				else
-				{
-					if (assetName == "harvester")
-					{
-						p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
-					}
-					else
-					{
-						p = new Vehicle(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
-					}
-					
-					curRowCol = buildManager.getProducingBuilding(VehicleStats.dict[assetName], team);
-					placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
-					Vehicle(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
-				}
-				
-				p.addEventListener("DEAD", onDead);
-				Parameters.mapHolder.addChild(p.view);
-				
-				team.push(p);
-				p.sayHello();
+				p = new Infantry(InfantryStats.dict[assetName], this, enemyTeam, teamNum);
+				curRowCol = buildManager.getProducingBuilding(InfantryStats.dict[assetName], team);
+				placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
+				Infantry(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
 			}
 			else
 			{
-				if (BuildingsStats.dict[assetName])
+				if (assetName == "harvester")
 				{
-					if (assetName == "refinery")
-					{
-						p = new Refinery(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
-					}
-					else
-					{
-						p = new Building(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
-					}
-					
+					p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
 				}
 				else
 				{
-					p = new Turret(TurretStats.dict[assetName], this, enemyTeam, teamNum);
+					p = new Vehicle(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
 				}
 				
-				p.addEventListener("DEAD", onDead);
-				Parameters.mapHolder.addChild(p.view);
-				team.push(p);
-				p.placeUnit(buildManager.targetRow, buildManager.targetCol);
-				buildManager.updateUnitsAndBuildings(assetName);
-				p.sayHello();
-				//this is temporary until the pc can build its own
-				updatePower();
+				curRowCol = buildManager.getProducingBuilding(VehicleStats.dict[assetName], team);
+				placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
+				Vehicle(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
 			}
+			
+			p.addEventListener("DEAD", onDead);
+			Parameters.mapHolder.addChild(p.view);
+			
+			team.push(p);
+			p.sayHello();
+			
+			
+			buildManager.assetBuildComplete(assetName);
+			
+			dispatchEvent( new Event("ASSET_CONSTRUCTED"))
+		}
+		
+		private function onBuildingContructed(e:Event):void
+		{
+			var assetName:String = e.data.name;
+			var assetType:String = e.data.type;
+			var p:GameEntity;
+			var teamObject:TeamObject;
+			var currenteamNum:int = 0;
+			
+			
+			
+			if (BuildingsStats.dict[assetName])
+			{
+				if (assetName == "refinery")
+				{
+					p = new Refinery(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
+				}
+				else
+				{
+					p = new Building(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
+				}
+				
+			}
+			else
+			{
+				p = new Turret(TurretStats.dict[assetName], this, enemyTeam, teamNum);
+			}
+			
+			p.addEventListener("DEAD", onDead);
+			Parameters.mapHolder.addChild(p.view);
+			team.push(p);
+			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
+			buildManager.updateUnitsAndBuildings(assetName);
+			p.sayHello();
+			//this is temporary until the pc can build its own
+			updatePower();
+			
 			
 			buildManager.assetBuildComplete(assetName);
 			
@@ -354,7 +387,7 @@ package states.game.teamsData
 		{	
 			targetBalance = cash - _reduceAmount;
 			cash = targetBalance;
-			trace(cash);
+			//trace(cash);
 			if (agent == Agent.HUMAN)
 			{
 				buildManager.hud.updateCashUI(cash);

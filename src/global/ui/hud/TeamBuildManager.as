@@ -168,7 +168,7 @@ package global.ui.hud
 		public function getProducingBuilding(unit:AssetStatsObj, currentTeam:Array):Object 
 		{
 			
-			var o:Object = { };
+			var o:Object;
 			var creatingBuildingArr:Array = unit.constructedIn;
 			
 
@@ -291,7 +291,7 @@ package global.ui.hud
 			
 			
 			hud.buildingsContainer.enableAllSlots();
-			dispatchEventWith("ASSET_CONSTRUCTED", false, { "name" : selectedSlot.assetName, "type" : "building" });
+			dispatchEventWith("BUILDING_CONSTRUCTED", false, { "name" : selectedSlot.assetName, "type" : "building" });
 		}
 		
 		
@@ -333,7 +333,7 @@ package global.ui.hud
 				hud.unitsContainer.enableSelectedSlots(disabledSlots);
 			}
 			
-			dispatchEventWith("ASSET_CONSTRUCTED", false, { "name" : completedActor, "type" : contextType });
+			dispatchEventWith("UNIT_CONSTRUCTED", false, { "name" : completedActor, "type" : contextType });
 		}
 		
 		public function assetBeingBuilt(assetName:String):void 

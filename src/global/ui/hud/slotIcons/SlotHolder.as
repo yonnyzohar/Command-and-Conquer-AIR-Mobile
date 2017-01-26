@@ -175,8 +175,11 @@ package global.ui.hud.slotIcons
 			else
 			{
 				if (showUI) view.addChild(loadingSquare);
+				if (buildCompleteFunction == null)
+				{
+					buildCompleteFunction = _complteFnctn;
+				}
 				
-				buildCompleteFunction = _complteFnctn;
 				buildInProgress = true;
 				currentPerNum = 0;
 				buildingDone = false;
@@ -235,10 +238,7 @@ package global.ui.hud.slotIcons
 		
 		protected function done():void{
 			buildingDone = true;
-			if (buildCompleteFunction)
-			{
-				buildCompleteFunction(assetName);
-			}
+			
 			
 		}
 		

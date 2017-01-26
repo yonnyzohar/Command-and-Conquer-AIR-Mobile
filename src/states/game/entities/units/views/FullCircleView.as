@@ -235,6 +235,7 @@ package states.game.entities.units.views
 		
 		private function doneRotate(endFrame:int):void
 		{
+			if (model == null) return;
 			////trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
 			currentFrameNum = endFrame;
 			rotI = rotArr.length - 1;

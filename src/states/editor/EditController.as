@@ -31,7 +31,7 @@ package states.editor
 	{
 		private var detailsPanel:DetailsPanelController;
 		private var baordMC:Board;
-		private var view:HUD;
+		private var hud:HUD;
 		private var model:EditModel;
 		private var currentImage:EditAssetObj;
 		private var lastLoc:Point;
@@ -53,12 +53,12 @@ package states.editor
 			model = new EditModel();
 			baordMC = Board.getInstance();
 			baordMC.init(true);
-			view = new HUD();
-			view.init();
-			view.addMiniMap();
-			view.initEdit();
-			view.unitsContainer.addEventListener("SLOT_SELECTED", onUnitSelected);
-			view.buildingsContainer.addEventListener("SLOT_SELECTED", onBuildingSelected);
+			hud = new HUD(true);
+			hud.init();
+			hud.addMiniMap();
+			hud.initEdit();
+			hud.unitsContainer.addEventListener("SLOT_SELECTED", onUnitSelected);
+			hud.buildingsContainer.addEventListener("SLOT_SELECTED", onBuildingSelected);
 			
 			Parameters.editObj = new Object();
 			Parameters.editObj.team1 = new Object();
@@ -160,9 +160,9 @@ package states.editor
 		
 		private function onBuildingSelected(e:Event):void
 		{
-			model.currentUnit = view.buildingsContainer.currentUnit;
-			model.currentUnitName = view.buildingsContainer.currentUnitName;
-			model.currentType = view.buildingsContainer.selectedSlot.contextType;
+			model.currentUnit = hud.buildingsContainer.currentUnit;
+			model.currentUnitName = hud.buildingsContainer.currentUnitName;
+			model.currentType = hud.buildingsContainer.selectedSlot.contextType;
 			
 			var gdiOrNod:String = "gdi"
 			if (HUD.currentTeam == 2)
@@ -176,9 +176,9 @@ package states.editor
 		
 		private function onUnitSelected(e:Event):void
 		{
-			model.currentUnit = view.unitsContainer.currentUnit;
-			model.currentUnitName = view.unitsContainer.currentUnitName;
-			model.currentType = view.unitsContainer.selectedSlot.contextType;
+			model.currentUnit = hud.unitsContainer.currentUnit;
+			model.currentUnitName = hud.unitsContainer.currentUnitName;
+			model.currentType = hud.unitsContainer.selectedSlot.contextType;
 			var gdiOrNod:String = "gdi"
 			if (HUD.currentTeam == 2)
 			{
@@ -234,10 +234,11 @@ package states.editor
 			//Parameters.loadingScreen.init();
 			
 					
-			view.x = Parameters.flashStage.stageWidth - view.getWidth();
+			hud.ui.x = Parameters.flashStage.stageWidth - hud.getWidth();
 			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
 			Parameters.gameHolder.addChild(Parameters.mapHolder);
-			Parameters.gameHolder.addChild(view);
+			Parameters.gameHolder.addChild(hud.ui);
+			Parameters.gameHolder.addChild(hud.miniMap);
 			
 			controlsPane = new ControlsPane();
 			
@@ -501,17 +502,17 @@ package states.editor
 			}
 			unitsArr = null;
 			
-			view.removeEventListener("UNIT_SELECTED", onUnitSelected);
-			view.removeEventListener("BUILDING_SELECTED", onUnitSelected);
+			hud.removeEventListener("UNIT_SELECTED", onUnitSelected);
+			hud.removeEventListener("BUILDING_SELECTED", onUnitSelected);
 			controlsPane.removeEventListener("GO_CLICKED", onGoClicked);
 			controlsPane.removeEventListener("EXIT_CLICKED", onExitClicked);
 			controlsPane.removeEventListener("SAVE_CLICKED", onSaveClicked);
 			controlsPane.removeEventListener("DETAILS_PANEL_CLICKED", onDetailsPanelClicked);
 			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
-			view.removeFromParent();
+			hud.ui.removeFromParent();
 
-			view.dispose();
-			view = null;
+			hud.dispose();
+			hud = null;
 			model = null;
 			
 			if(currentImage)

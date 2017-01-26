@@ -21,9 +21,9 @@ package global.ui.hud.slotIcons
 		override protected function done():void
 		{
 			buildInProgress = false;
-			loadingSquare.removeFromParent();
+			if(loadingSquare)loadingSquare.removeFromParent();
+			
 			buildCompleteFunction(assetName, contextType , disabledSlots);
-			buildCompleteFunction = null;
 			super.done();
 		}
 	}

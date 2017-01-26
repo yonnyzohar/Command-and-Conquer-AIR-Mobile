@@ -32,6 +32,7 @@ package states.game.entities.units
 		
 		public function Unit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
 		{
+			name = _unitStats.name;
 			super(teamObj);
 			model = new UnitModel();
 			model.teamName = teamObj.teamName;

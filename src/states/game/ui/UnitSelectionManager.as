@@ -427,7 +427,7 @@ package states.game.ui
 			if(KeyboardController.ctrl)
 			{
 				//HudController.completedAsset = { "name" : "minigunner", "type" : "units" };
-				//GlobalEventDispatcher.getInstance().dispatchEvent(new Event("ASSET_CONSTRUCTED"));
+				//GlobalEventDispatcher.getInstance().dispatchEvent(new Event("UNIT_CONSTRUCTED"));
 				var currentUnit:GameEntity = Parameters.currentSquad[0];
 				if (currentUnit && currentUnit.model && currentUnit.model.dead == false)
 				{
