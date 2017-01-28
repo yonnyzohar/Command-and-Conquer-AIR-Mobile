@@ -4,6 +4,7 @@ package states.game.entities.units.views
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
+	import global.GameSounds;
 	import global.Methods;
 	import global.pools.PoolElement;
 	import starling.events.Event;
@@ -12,7 +13,6 @@ package states.game.entities.units.views
 	
 	import global.Parameters;
 	import global.pools.Pool;
-	import global.sounds.GameSounds;
 	import global.utilities.CircleRadiusBuilder;
 	
 	import starling.display.MovieClip;
@@ -50,7 +50,7 @@ package states.game.entities.units.views
 		
 		
 		
-		private function createSoundModule():void
+		/*private function createSoundModule():void
 		{
 			var i:int = 0;
 			var SndClass:Class;
@@ -73,7 +73,7 @@ package states.game.entities.units.views
 				}
 			}
 			
-		}
+		}*/
 		
 		override public function addHealthBar(_healthBar:HealthBar):void
 		{
@@ -160,22 +160,6 @@ package states.game.entities.units.views
 		
 		
 		
-		
-		private function playShootSound():void
-		{
-			var rnd:int = int(shootSounds.length * Math.random());
-			
-			if(shootSounds[rnd])
-			{
-				//GameSounds.playSoundFile(shootSounds[rnd]);
-			}
-		}
-		
-		public function playOrderSound():void
-		{
-			//GameSounds.playOrderSoundFromList(model.sounds.orderSounds)
-		}
-		
 		override public function addCircle(_firstMember:Boolean):void{
 			super.addCircle(_firstMember);
 			if(_firstMember)playSelectSound();
@@ -183,20 +167,19 @@ package states.game.entities.units.views
 		
 		public function playSelectSound():void
 		{
-			//GameSounds.playSelectSoundFromList(model.sounds.selectSounds)
-		}
-		
-		public function playDeathSound():void
-		{
-			var rnd:int = int(dieSounds.length * Math.random());
 			
-			if(dieSounds[rnd])
+			if (this is FullCircleView)
 			{
-				//GameSounds.playSoundFile(dieSounds[rnd]);
+				GameSounds.playSound("vehicle-selected")
 			}
+			else
+			{
+				GameSounds.playSound("infantry-selected")
+			}
+			
+			
 		}
 		
-				
 		
 		override public function dispose():void
 		{

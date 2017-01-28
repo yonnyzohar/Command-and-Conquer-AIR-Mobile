@@ -1,5 +1,7 @@
 package global.ui.hud
 {
+	import global.enums.Agent;
+	import global.GameSounds;
 	import starling.events.EventDispatcher;
 	import states.game.entities.buildings.Building;
 	import states.game.entities.buildings.BuildingModel;
@@ -21,7 +23,7 @@ package global.ui.hud
 		}
 		
 
-		public function updatePower():Object
+		public function updatePower(_agent:int):Object
 		{
 			var totalPowerIn:int = 0;//how much it takes
 			var totalPowerOut:int = 0;//how much it gives
@@ -41,13 +43,21 @@ package global.ui.hud
 			//trace("totalPowerIn " + totalPowerIn);
 			//trace("totalPowerOut " + totalPowerOut);
 			
+			var prevPower:Boolean = POWER_SHORTAGE;
+			
 			if (totalPowerIn > totalPowerOut)
 			{
 				POWER_SHORTAGE = true;
+				if (_agent == Agent.HUMAN && prevPower == false)
+				{
+					GameSounds.playSound("low_power", "vo" );
+					GameSounds.playSound("PowerDown");
+				}
 			}
 			else
 			{
 				POWER_SHORTAGE = false;
+				
 			}
 			
 			return {totalPowerIn : totalPowerIn , totalPowerOut : totalPowerOut}

@@ -47,6 +47,7 @@ package  states.game.entities.units
 		{
 			if(model != null && model.dead == false)
 			{
+				resetRowCol();
 				switch(model.currentState)
 				{
 					case UnitStates.IDLE:
@@ -81,7 +82,7 @@ package  states.game.entities.units
 				refinery.beginLoading(storageBar.currentStore, onLoadComplete);
 				FullCircleView(view).stopRotation();
 				
-				view.visible = false;
+				view.alpha = 0;
 				view.mc.visible = false;
 				storageBar.visible = false;
 				loadingBegan = true;
@@ -90,7 +91,7 @@ package  states.game.entities.units
 		
 		private function onLoadComplete():void
 		{
-			view.visible = true;
+			view.alpha = 1;
 			view.mc.visible = true;
 			storageBar.visible = true;
 			storageBar.currentStore = 0;
@@ -205,15 +206,23 @@ package  states.game.entities.units
 			}
 			else
 			{
-				super.handleIdleState(_pulse);
-				if (model.controllingAgent == Agent.PC)
+				if (!inRefineryDock() && storageBar.currentStore == storageBar.totalStore)
 				{
-					setState(UnitStates.SEARCH_FOR_RESOURCES);
+					if (model.controllingAgent == Agent.PC)setState(UnitStates.RETURN_TO_REFINERY);
 				}
 				else
 				{
-					setState(UnitStates.HARVEST);
+					super.handleIdleState(_pulse);
+					if (model.controllingAgent == Agent.PC)
+					{
+						setState(UnitStates.SEARCH_FOR_RESOURCES);
+					}
+					else
+					{
+						setState(UnitStates.HARVEST);
+					}
 				}
+				
 			}
 		}
 		
@@ -507,6 +516,14 @@ package  states.game.entities.units
 		{
 			storageBar.dispose();
 			super.handleDeath(_pulse);
+		}
+		
+		
+		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
+		{
+		
+			dispatchEvent(new Event("UNDER_ATTACK"))
+			return super.hurt(_hitVal, _currentInfantryDeath,projectileName )
 		}
 	}
 }

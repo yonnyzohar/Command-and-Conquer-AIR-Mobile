@@ -5,7 +5,8 @@
 		"hand-of-nod",
 		"airstrip",
 		"weapons-factory",
-		"communications-center"
+		"communications-center",
+		"refinery"
 	],
 	"infantryQueue":{
 		"minigunner" : 10,
@@ -15,7 +16,7 @@
 	},
 	"vehicleQueue":{
 		"buggy":10,
-		"jeep":10,
+		"jeep":9,
 		"recon-bike":8,
 		"light-tank":7,
 		"medium-tank":7,

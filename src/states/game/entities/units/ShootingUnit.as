@@ -52,7 +52,7 @@ package  states.game.entities.units
 			}
 		}
 		
-		override protected function setState(state:int):void
+		override public function setState(state:int):void
 		{
 			if (state != UnitStates.SHOOT)
 			{
@@ -118,10 +118,21 @@ package  states.game.entities.units
 						{
 							if (aiBehaviour == AiBehaviours.SEEK_AND_DESTROY || aiBehaviour == AiBehaviours.BASE_DEFENSE)
 							{
-								var possibleEnemy:GameEntity = getTargetRange();
+								var possibleEnemy:GameEntity = Methods.findClosestTargetOnMap(this, (aiBehaviour == AiBehaviours.SEEK_AND_DESTROY))
 								if (possibleEnemy)
 								{
 									currentEnemy = possibleEnemy;
+									
+									if(isInRange(currentEnemy) && UnitModel(model).inWayPoint)
+									{
+										//switch to close guy
+										stopMovingAndSplicePath(true);
+										setState(UnitStates.SHOOT);
+									}
+									else
+									{
+										setState(UnitStates.WALK);
+									}
 								}
 							}
 							else
@@ -147,7 +158,7 @@ package  states.game.entities.units
 				//if no current enenmy
 				//is there a target in range?
 				
-				currentEnemy = getTargetRange();
+				currentEnemy = Methods.findClosestTargetOnMap(this, false)
 				
 				
 				if(currentEnemy != null && UnitModel(model).inWayPoint)
@@ -161,7 +172,7 @@ package  states.game.entities.units
 					//if i'm in seek and destroy, and i'm a computer
 					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && model.controllingAgent == Agent.PC)
 					{
-						currentEnemy = findClosestTargetOnMap();
+						currentEnemy = Methods.findClosestTargetOnMap(this, true)
 						if(currentEnemy != null)setState(UnitStates.WALK);
 					}
 					else if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
@@ -179,50 +190,7 @@ package  states.game.entities.units
 			return SightManager.getInstance().getTargetWithinBase(model.controllingAgent, myTeamObj.teamName);
 		}
 
-		protected function findClosestTargetOnMap():GameEntity
-		{
-			var p:GameEntity;
-			var closestEnemny:GameEntity;
-			
-			if(aiBehaviour != AiBehaviours.SEEK_AND_DESTROY)
-			{
-				return null;
-			}
-			
-			if(model.enemyTeam == null)
-			{
-				return null;
-			}
-			
-			if(model.enemyTeam.length == 0)
-			{
-				return null;
-			}
-			
-			var enemyTeamLength:int = model.enemyTeam.length;
-			var shortestDist:int = 100000;
-			
-			for(var i:int = enemyTeamLength -1; i >= 0; i--)
-			{
-				p = GameEntity(model.enemyTeam[i]);
-				
-				if(p.model != null)
-				{
-					if(p.model.dead == false)
-					{
-						//var dist:int = int(Math.abs(p.row - model.row) + Math.abs(p.col - model.col));
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						if (dist < shortestDist)
-						{
-							shortestDist = dist;
-							closestEnemny = p;
-						}
-					}
-				}
-			}
-			
-			return closestEnemny;
-		}
+		
 		
 		protected function isInRange(currentEnemy:GameEntity):Boolean
 		{
@@ -268,72 +236,7 @@ package  states.game.entities.units
 		}
 		
 		
-		private function getTargetRange():GameEntity 
-		{
-			if (aiBehaviour == AiBehaviours.HELPLESS) return null;
-			
-			var p:GameEntity;
-			var closestEnemny:GameEntity;
-			
-
-			if(model.enemyTeam == null)
-			{
-				return null;
-			}
-			
-			if(model.enemyTeam.length == 0)
-			{
-				return null;
-			}
-			
-			var sightRange:int = UnitModel(model).stats.weapon.range;
-			var enemyTeamLength:int = model.enemyTeam.length;
-			var shortestDist:int = 100000;
-			
-			for(var i:int = enemyTeamLength -1; i >= 0; i--)
-			{
-				p = GameEntity(model.enemyTeam[i]);
-				
-				if(p.model != null)
-				{
-					if(p.model.dead == false)
-					{
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						
-						if (p is Building)
-						{
-							var buildingTiles:Array = Building(p).getBuildingTiles();
-							var n:Node;
-							for (var j:int = 0; j < buildingTiles.length; j++ )
-							{
-								n = buildingTiles[j];
-								dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-								if (dist <= sightRange)
-								{
-									if (dist < shortestDist)
-									{
-										shortestDist = dist;
-										closestEnemny = p;
-									}
-								}
-							}
-						}
-						
-						if (dist <= sightRange)
-						{
-							if (dist < shortestDist)
-							{
-								shortestDist = dist;
-								closestEnemny = p;
-							}
-						}
-					}
-				}
-			}
-			
-			return closestEnemny;
-			//e = startSpiral(model.row, model.col, sightRange*2);
-		}
+		
 		
 		override protected function lookAround():void
 		{

@@ -75,6 +75,7 @@ package global.ui.hud
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;
 				
 				ui.x = Parameters.flashStage.stageWidth - getWidth();
+				hudWidth = getWidth();
 				
 
 				Parameters.gameHolder.addChild(ui);
@@ -190,13 +191,25 @@ package global.ui.hud
 		}
 		
 		
-		public function updateUnitsAndBuildings(infantry:Object, vehicles:Object, buildings:Object, turrets:Object):void 
+		public function updateUnitsAndBuildings(infantry:Object, vehicles:Object, buildings:Object, turrets:Object):Boolean 
 		{
-			unitsContainer.init(infantry, true, "infantry");
-			unitsContainer.init(vehicles, true, "vehicle");
+			var a:Boolean = unitsContainer.init(infantry, true, "infantry");
+			var b:Boolean = unitsContainer.init(vehicles, true, "vehicle");
+			var c:Boolean = buildingsContainer.init(buildings, true, "building");
+			var d:Boolean = buildingsContainer.init( turrets, true, "turret");
 			
-			buildingsContainer.init(buildings, true, "building");
-			buildingsContainer.init( turrets, true, "turret");
+			if (a || b|| c || d)
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+			
+			
+			
+			
 			
 		}
 		

@@ -81,6 +81,15 @@ package global.utilities
 			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
 		}
 		
+		public function freeze():void
+		{
+			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
+		}
+		public function resume():void
+		{
+			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
+		}
+		
 		/////////////////////////
 		
 		private var myTimeout:int;

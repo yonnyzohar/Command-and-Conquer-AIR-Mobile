@@ -1,0 +1,216 @@
+{
+	"infantry-selected"	: [
+		"awaiting_orders",
+		"unit_reporting",
+		"SoldierSelect",
+		"SoldierSelect1",
+		"SoldierSelect2",
+		"SoldierSelect3",
+		"SoldierSelect4", 
+		"SoldierSelect5", 
+		"SoldierSelect6", 
+		"SoldierSelect7", 
+		"SoldierSelect8", 
+		"SoldierSelect9", 
+		"SoldierSelect10"
+	],
+	"infantry-move"	: [
+		"acknowledged",
+		"affirmative",
+		"SoldierOrdered",
+		"SoldierOrdered1",
+		"SoldierOrdered2",
+		"SoldierOrdered3", 
+		"SoldierOrdered4", 
+		"SoldierOrdered5", 
+		"SoldierOrdered6",
+		"SoldierOrdered7",
+		"SoldierOrdered8",
+		"SoldierOrdered9", 
+		"SoldierOrdered10",
+		"SoldierOrdered11"
+	],
+	"minigunner-fire": [
+		"MachineGun",
+		"MachineGun1", 
+		"MachineGun3"
+	],
+	"tank-fire": [
+		"TankFire",
+		"TankFire2",
+		"tnkfire2",
+		"tnkfire6"
+	],
+	"sammot-rocket-fire": "FireRocket",
+	"bazooka-fire": "FireRocket1",
+	"mlrs-fire": "FireRocket2",
+	
+	"infantry-die": [
+		"SoldierDie",
+		"SoldierDie1",
+		"SoldierDie2",
+		"SoldierDie3",
+		"SoldierDie4",
+		"SoldierDie5",
+		"SoldierDie6",
+		"SoldierDie7",
+		"yell1"
+	],
+	"vehicle-selected": [
+		"reporting",
+		"ready_and_waiting",
+		"yes_sir",
+		"vehicle_reporting",
+		"VehicleSelected",
+		"VehicleSelected1"
+	],
+	"vehicle-move"	: [
+		"moving_out",
+		"over_and_out",
+		"right_away"
+
+	],
+	"vehicle-die": [
+		"Explosion3",
+		"Explosion2",
+		"Explosion4",
+		"xplobig4",
+		"xplobig6",
+		"xplode",
+		"xplos",
+		"xplosml2"
+	],
+	"themes": [
+		"aoi",
+		"befeared",
+		"ccthang",
+		"target",
+		"justdoit"
+	],
+	"commando-selected": [
+		"yes1",
+		"yeah1",
+		"rokroll1",
+		"yo1"
+	],
+	"commando-move": [
+		"bombit1",
+		"tuffguy1",
+		"gotit1",
+		"keepem1",
+		"laugh1",
+		"onit1",
+		"lefty1"
+	],
+	"building_sold": "buildingSold",
+	"construction": "construction",
+	"BuildingCreate": "BuildingCreate",
+	
+	"building_destroyed": 
+	[
+		"BuildingExplods",
+		"Explosion"
+	],
+	"building_damadged": [
+		"crumble"
+	],
+	"button": "button",
+	"vo": {
+		"building_in_progress": "building_in_progress",
+		"building": "building",
+		"cancelled": "cancelled",
+		"cannot_deploy_here": "cannot_deploy_here",
+		"construction_complete": "construction_complete",
+		"airstrike_ready": "airstrike_ready",
+		"battle_control_terminated": "battle_control_terminated",
+		"gdi_building_captured": "gdi_building_captured",
+		"gdi_selected": "gdi_selected",
+		"nod_selected": "nod_selected",
+		"insufficient_funds": "insufficient_funds",
+		"ion_cannon_charging": "ion_cannon_charging",
+		"ion_cannon_ready": "ion_cannon_ready",
+		"mission_accomplished": "mission_accomplished",
+		"mission_failure": "mission_failure",
+		"low_power": "low_power",
+		"new_construction_options": "new_construction_options",
+		"nod_building_captured": "nod_building_captured",
+		"not_ready": "not_ready",
+		"nuclear_warhead_approaching": "nuclear_warhead_approaching",
+		"nuclear_weapon_available": "nuclear_weapon_available",
+		"nuclear_weapon_launched": "nuclear_weapon_launched",
+		"reinforcements_have_arrived": "reinforcements_have_arrived",
+		"on_hold": "on_hold",
+		"unit_ready": "unit_ready",
+		"select_target": "select_target"
+	},
+	"communications-center-create": "comcntr1",
+	
+	"MiniMap": "MiniMap",
+	"hud_click_sounds": [
+
+		"HUD1",
+		"HUD2",
+		"HUD3",
+		"HUD4",
+		"HUD5",
+		
+		"HUD7",
+		"HUDSelect"
+	],
+	"btnClick" : "HUD8",
+	"obelisk-warm-up": "obelpowr",
+	"obelisk-warm-fire": "obelray1",
+	"PowerDown": "PowerDown",
+	"sell": "sell",
+	"cash" : "cash",
+	"others": [
+
+		"Electrify",
+		"flamer2",
+		"GUN",
+		"gun18",
+		"gun8",
+		"HeavyMG",
+		"ion1",
+		"mgun11",
+		"mgun2",
+		"nukemisl",
+		"nukexplo",
+		"nuyell1",
+		"nuyell3",
+		"nuyell4",
+		"nuyell5",
+		"Pistol",
+		"powrdn1",
+		"ramgun2",
+		"ramyell1",
+		"rocket1",
+		"rocket2",
+		"sammotr2",
+		"scold1",
+		"Squash",
+		"squish2",
+		"struggle",
+		"tone16",
+		"tone2",
+		"toss",
+		"trans1",
+		"Wall"
+	],
+	"ramgun2": "ramgun2",
+	"gun8": "gun8",
+	"mgun11": "mgun11",
+	"gun18": "gun18",
+	"mgun2": "mgun2",
+	"rocket": "rocket",
+	"flamer2": "flamer2",
+	"toss" : "toss",
+	"tnkfire3" : "tnkfire3",
+	"tnkfire4" : "tnkfire4",
+	"tnkfire6" : "tnkfire6",
+	"rocket1"  : "rocket1",
+	"tnkfire2" : "tnkfire2",
+	"rocket2"  : "rocket2",
+	"obelray1" : "obelray1",
+	"tnkfire3" : "tnkfire3"
+}

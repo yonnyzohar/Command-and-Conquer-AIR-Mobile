@@ -1,5 +1,6 @@
 package states.game.entities.units 
 {
+	import global.GameSounds;
 	import global.Parameters;
 	import global.enums.Agent;
 	import global.enums.UnitStates;
@@ -47,10 +48,6 @@ package states.game.entities.units
 			model.controllingAgent = teamObj.agent;
 			
 			
-			
-			
-			
-			
 			//if the unit can only look in 8 directions
 			if(_unitStats.rotationType == 8)
 			{
@@ -69,7 +66,10 @@ package states.game.entities.units
 		
 		override public function sayHello():void
 		{
-			UnitView(view).playSelectSound();
+			if (model.controllingAgent == Agent.HUMAN)
+			{
+				UnitView(view).playSelectSound();
+			}
 		}
 		
 		
@@ -77,16 +77,18 @@ package states.game.entities.units
 		
 		protected function resetRowCol():void
 		{
-			model.row = int(view.y/ Parameters.tileSize);
-			model.col = int(view.x/ Parameters.tileSize);
-			//view.y = model.row * Parameters.tileSize;
-			//view.x = model.col * Parameters.tileSize;
+			clearTile(model.row, model.col);
+			model.row = int((view.y ) / Parameters.tileSize);
+			model.col = int((view.x ) / Parameters.tileSize);
+			occupyTile(model.row, model.col);
 		}
 		
 		public function update(_pulse:Boolean):void
 		{
 			if(model != null && model.dead == false)
 			{
+				
+				resetRowCol();
 				switch(model.currentState)
 				{
 					case UnitStates.IDLE:
@@ -151,9 +153,24 @@ package states.game.entities.units
 			if (view)
 			{
 				UnitView(view).dir = "";
-				UnitView(view).playDeathSound();
+				playDeathSound();
 			}
 		}
+		
+		public function playDeathSound():void
+		{
+			if (this is Infantry)
+			{
+				GameSounds.playSound("infantry-die")
+			}
+			if (this is Vehicle)
+			{
+				GameSounds.playSound("vehicle-die")
+			}
+			
+			
+		}
+		
 		
 		
 		
@@ -179,7 +196,7 @@ package states.game.entities.units
 			if(model.isSelected)
 			{
 				view.traceView("walkToDestination");
-				UnitView(view).playOrderSound();
+				playOrderSound();
 				
 				userPathReached = false;
 				userDeterminedRow = targetRow;
@@ -192,12 +209,30 @@ package states.game.entities.units
 			}
 		}
 		
+		private function playOrderSound():void
+		{
+			if (model.controllingAgent == Agent.HUMAN)
+			{
+				if (this is Infantry)
+				{
+					GameSounds.playSound("infantry-move")
+				}
+				if (this is Vehicle)
+				{
+					GameSounds.playSound("vehicle-move")
+				}
+			}
+			
+			
+			
+		}
+		
 		
 		
 		protected function lookAround():void{}		
 		
 		
-		protected function getWalkPath(targetRow:int, targetCol:int):void 
+		public function getWalkPath(targetRow:int, targetCol:int):void 
 		{
 			//traceMe( "getWalkPath aStar: " + aStar + " targetRow: " + targetRow + " targetCol: " + targetCol);
 			
@@ -218,21 +253,8 @@ package states.game.entities.units
 			
 			UnitModel(model).path = aStar.getPath( Parameters.boardArr[model.row][model.col], Parameters.boardArr[targetRow][targetCol], uniqueID);
 			//after we get the path, we can return the tiles so that others wont come too close to me.
-			//occupyTile(model.row, model.col);
 			if(PathTest.showPath)PathTest.createSelectedPath(UnitModel(model).path);
-			
-			//this is for testings!
-			if(Parameters.DEBUG_MODE)
-			{
-				var n:Node = Node(Parameters.boardArr[targetRow][targetCol])
-				if (n.groundTile)
-				{
-					n.groundTile.alpha = 0.1;
-				}
-			}
-			
-			clearTile(model.prevRow, model.prevCol);
-			occupyTile(model.row, model.col);
+
 			
 			traceMe(" onPathFound");
 			UnitModel(model).moveCounter = 0;
@@ -254,11 +276,11 @@ package states.game.entities.units
 			if (_startShooting)
 			{
 				removeAllTiles();
-				var row:int = view.y / Parameters.tileSize;
+				/*var row:int = view.y / Parameters.tileSize;
 				var col:int = view.x / Parameters.tileSize;
 				model.row = row;
 				model.col = col;
-				occupyTile(row, col);
+				occupyTile(row, col);*/
 			}
 		}
 		
@@ -341,26 +363,20 @@ package states.game.entities.units
 				if(nextNodeWalkable)
 				{
 					//next node is walkable so we can clear the one we're on
-					clearTile(model.prevRow, model.prevCol);
+					//clearTile(model.prevRow, model.prevCol);
 					
-					occupyTile(model.row, model.col);
-					occupyTile(nexRow, nexCol);//also occupy the next so no one will take it from us!
+					//occupyTile(model.row, model.col);
+					//occupyTile(nexRow, nexCol);//also occupy the next so no one will take it from us!
 					
 					UnitModel(model).destX = model.col * Parameters.tileSize; //model.col
 					UnitModel(model).destY = model.row * Parameters.tileSize; //model.row
-					
-					//occupyTile(model.row, model.col);
 					
 					UnitModel(model).inWayPoint = false;
 				}
 				else
 				{
 					
-					clearTile(model.row, model.col);
-					occupyTile(model.prevRow, model.prevCol);
 					
-					model.row = model.prevRow;
-					model.col = model.prevCol;
 					
 					var destNode:Node = UnitModel(model).path[UnitModel(model).path.length -1];
 					UnitView(view).stopShootingAndStandIdlly();
@@ -377,8 +393,12 @@ package states.game.entities.units
 			if(lastStep)
 			{
 				view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
-				clearTile(model.prevRow, model.prevCol);
-				occupyTile(model.row, model.col);
+				/*clearTile(model.prevRow, model.prevCol);
+				var row:int = view.y / Parameters.tileSize;
+				var col:int = view.x / Parameters.tileSize;
+				model.row = row;
+				model.col = col;
+				occupyTile(row, col);*/
 				
 				if(model.isSelected)
 				{

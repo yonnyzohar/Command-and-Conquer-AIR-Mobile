@@ -253,7 +253,7 @@ package global.ui.hud
 		{
 			var valid:Boolean = true;
 			
-			if (node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
+			if (node.isResource || node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
 			{
 				valid = false;
 			}

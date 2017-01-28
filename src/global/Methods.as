@@ -2,6 +2,8 @@ package global
 {
 	import com.greensock.TweenLite;
 	import flash.system.Capabilities;
+	import global.enums.AiBehaviours;
+	import global.map.Node;
 	import global.pools.Pool;
 	import global.pools.PoolElement;
 	import global.ui.hud.HUD;
@@ -9,6 +11,9 @@ package global
 	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import states.game.entities.buildings.Building;
+	import states.game.entities.EntityModel;
+	import states.game.entities.EntityView;
 	import states.game.entities.GameEntity;
 	import states.game.stats.AssetStatsObj;
 	import states.game.stats.BuildingsStats;
@@ -429,6 +434,86 @@ package global
 			mc = null;
 			
 
+		}
+		
+		//use searchWholeMap for search and destroy	
+		public static function findClosestTargetOnMap(shooter:GameEntity, searcWholeMap:Boolean ):GameEntity
+		{
+			var model:EntityModel = shooter.model;
+			
+			if (shooter.aiBehaviour == AiBehaviours.HELPLESS) return null;
+			
+			var p:GameEntity;
+			var closestEnemny:GameEntity;
+			
+
+			if(model.enemyTeam == null)
+			{
+				return null;
+			}
+			
+			if(model.enemyTeam.length == 0)
+			{
+				return null;
+			}
+			
+			var sightRange:int = model.stats.weapon.range;
+			var enemyTeamLength:int = model.enemyTeam.length;
+			var shortestDist:int = 100000;
+			
+			for(var i:int = enemyTeamLength -1; i >= 0; i--)
+			{
+				p = GameEntity(model.enemyTeam[i]);
+				
+				if(p.model != null)
+				{
+					if(p.model.dead == false)
+					{
+						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
+						
+						if (p is Building)
+						{
+							var buildingTiles:Array = Building(p).getBuildingTiles();
+							var n:Node;
+							for (var j:int = 0; j < buildingTiles.length; j++ )
+							{
+								n = buildingTiles[j];
+								dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+								if (dist <= sightRange)
+								{
+									if (dist < shortestDist)
+									{
+										shortestDist = dist;
+										closestEnemny = p;
+									}
+								}
+							}
+						}
+						
+						if (searcWholeMap)
+						{
+							if (dist < shortestDist)
+							{
+								shortestDist = dist;
+								closestEnemny = p;
+							}
+						}
+						else
+						{
+							if (dist <= sightRange)
+							{
+								if (dist < shortestDist)
+								{
+									shortestDist = dist;
+									closestEnemny = p;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			return closestEnemny;
 		}
 	}
 }

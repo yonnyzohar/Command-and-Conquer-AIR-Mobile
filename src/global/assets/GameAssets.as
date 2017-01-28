@@ -11,6 +11,9 @@ package global.assets
 		[Embed(source = "../../../bin/aiFlow.json", mimeType = "application/octet-stream")]
 		public static const AIJson:Class;
 		
+		[Embed(source = "../../../bin/sounds.json", mimeType = "application/octet-stream")]
+		public static const SoundsJson:Class;
+		
 		/*//units
 		[Embed(source="units.xml",mimeType="application/octet-stream")]
 		public static const UnitsXml:Class;

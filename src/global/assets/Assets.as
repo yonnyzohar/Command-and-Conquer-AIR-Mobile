@@ -915,7 +915,7 @@ package global.assets
                     cost: 300,
                     powerOut: 100,
                     powerIn: 0,
-                    sight: 2,
+                    sight: 3,
                     hasBib: true,
                     hitPoints: 400,
                     armor: 1,
@@ -958,7 +958,7 @@ package global.assets
 					attachedUnit:"harvester",
                     powerOut: 10,
                     cost: 2000,
-                    sight: 3,
+                    sight: 4,
                     hasBib: true,
                     tiberiumStorage: 1e3,
                     armor: 1,
@@ -1018,7 +1018,7 @@ package global.assets
                     label: "Hand of Nod",
                     powerIn: 20,
                     cost: 300,
-                    sight: 3,
+                    sight: 4,
                     hasBib: true,
                     hitPoints: 800,
                     armor: 1,
@@ -1058,7 +1058,7 @@ package global.assets
                     label: "Barracks",
                     powerIn: 20,
                     cost: 300,
-                    sight: 3,
+                    sight: 4,
                     hasBib: true,
                     hitPoints: 800,
                     armor: 1,
@@ -1137,7 +1137,7 @@ package global.assets
                     powerIn: 30,
                     powerOut: 0,
                     cost: 2e3,
-                    sight: 3,
+                    sight: 4,
                     owner: "gdi",
                     dependency: ["construction-yard", "power-plant","advanced-power-plant", "refinery"],
                     armor: 2,
@@ -1191,7 +1191,7 @@ package global.assets
                     label: "Repair Facility",
                     powerIn: 30,
                     cost: 1200,
-                    sight: 3,
+                    sight: 4,
                     hasBib: true,
                     z: -1,
                     armor: 1,
@@ -1377,7 +1377,7 @@ package global.assets
                     powerIn: 15,
                     powerOut: 30,
                     cost: 5e3,
-                    sight: 3,
+                    sight: 5,
                     hitPoints: 800,
                     dependency: undefined,
                     hasBib: true,
@@ -1540,9 +1540,9 @@ package global.assets
                         [1, 1, 1, 1]
                     ],
                     gridBuild: [
-                        [1, 1, 1, 1],
-                        [1, 1, 1, 1],
-                        [1, 1, 1, 1]
+                        [1, 1, 1, 1,1],
+                        [1, 1, 1, 1,1],
+                        [1, 1, 1, 1,1]
                     ],
 					residents:3
                 }
@@ -2481,12 +2481,7 @@ package global.assets
             list: {
                 minigunner: 
 				{
-					sounds: {
-						selectSounds :['SoldierSelect', 'SoldierSelect1', 'SoldierSelect2', 'SoldierSelect3', 'SoldierSelect4', 'SoldierSelect5', 'SoldierSelect6', 'SoldierSelect7', 'SoldierSelect8', 'SoldierSelect9', 'SoldierSelect10'],
-						orderSounds  : ['SoldierOrdered', 'SoldierOrdered1', 'SoldierOrdered2', 'SoldierOrdered3', 'SoldierOrdered4', 'SoldierOrdered5', 'SoldierOrdered6', 'SoldierOrdered7', 'SoldierOrdered8', 'SoldierOrdered9', 'SoldierOrdered10', 'SoldierOrdered11'],
-						shootSounds  : ['MachineGun','MachineGun1','MachineGun3'],
-						dieSounds    : ['SoldierDie','SoldierDie1','SoldierDie2','SoldierDie3','SoldierDie4','SoldierDie5','SoldierDie6','SoldierDie7']
-					},
+					
 					tech:1,
                     name: "minigunner",
                     label: "Minigunner",
@@ -2688,13 +2683,7 @@ package global.assets
                 bazooka: 
 				{
 					tech:1,
-					sounds:
-					{
-						selectSounds : ['SoldierSelect','SoldierSelect1','SoldierSelect2','SoldierSelect3','SoldierSelect4','SoldierSelect5','SoldierSelect6','SoldierSelect7','SoldierSelect8','SoldierSelect9','SoldierSelect10'],
-						orderSounds  : ['SoldierOrdered','SoldierOrdered1','SoldierOrdered2','SoldierOrdered3','SoldierOrdered4','SoldierOrdered5','SoldierOrdered6','SoldierOrdered7','SoldierOrdered8','SoldierOrdered9','SoldierOrdered10','SoldierOrdered11'],
-						shootSounds  : ['FireRocket1'],
-						dieSounds    : ['SoldierDie','SoldierDie1','SoldierDie2','SoldierDie3','SoldierDie4','SoldierDie5','SoldierDie6','SoldierDie7']
-					},
+	
                     name: "bazooka",
                     label: "Bazooka",
                     speed: 8,
@@ -3554,7 +3543,7 @@ package global.assets
                     rateOfFire: 60,
                     secondaryRateOfFire: 10,
                     range: 4,
-                    sound: "rocket",
+                    sound: "rocket1",
                     muzzleFlash: undefined,
                     canAttackAir: true
                 },

@@ -1,11 +1,12 @@
 package states.game.entities.buildings
 {
 	import com.greensock.TweenLite;
+	import global.enums.Agent;
+	import global.GameSounds;
 	import global.Methods;
 	import global.Parameters;
 	import global.enums.UnitStates;
 	import global.map.Node;
-	import global.sounds.GameSounds;
 	import global.utilities.GlobalEventDispatcher;
 	
 	import starling.events.Event;
@@ -52,12 +53,16 @@ package states.game.entities.buildings
 		
 		override public function sayHello():void 
 		{
-			GameSounds.playSound("BuildingCreate");
+			if (model.controllingAgent == Agent.HUMAN)
+			{
+				GameSounds.playSound("BuildingCreate");
+			}
+			
 		}
 		
 		
 		
-		override protected function setState(state:int):void
+		override public function setState(state:int):void
 		{
 			super.setState(state);
 			if(state == UnitStates.DIE)
@@ -66,6 +71,7 @@ package states.game.entities.buildings
 				if (!model.dead)
 				{
 					BuildingView(view).playExplosion();
+					GameSounds.playSound("building_destroyed");
 					dispatchEvent(new Event("DEAD"));
 				}
 				
@@ -110,29 +116,7 @@ package states.game.entities.buildings
 			return sightTiles;
 		}
 		
-		override protected function occupyTile(proposedRow:int, proposedCol:int):void
-		{
-			var n:Node;
-			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-			for(var i:int = 0; i < occupyArray.length; i++)
-			{
-				for (var j:int = 0; j < occupyArray[i].length; j++ )
-				{
-					var curTile:int = occupyArray[i][j];
-					
-					if (curTile == 0) continue;//this is only for build indication
-					
-					proposedRow = model.row + j;
-					proposedCol = model.col + i;
-						
-					if(nodeExists(proposedRow, proposedCol))
-					{
-						n = Node( Parameters.boardArr[proposedRow][proposedCol] );
-						n.occupyingUnit = this;
-					}
-				}
-			}
-		}
+		
 		
 		public function getBuildingTiles():Array
 		{
@@ -208,6 +192,44 @@ package states.game.entities.buildings
 		}
 		
 		
+		override protected function occupyTile(proposedRow:int, proposedCol:int):void
+		{
+			var n:Node;
+			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+			for(var i:int = 0; i < occupyArray.length; i++)
+			{
+				for (var j:int = 0; j < occupyArray[i].length; j++ )
+				{
+					var curTile:int = occupyArray[i][j];
+					
+					if (curTile == 0) continue;//this is only for build indication
+					
+					proposedRow = model.row + i;
+					proposedCol = model.col + j;
+						
+					if(nodeExists(proposedRow, proposedCol))
+					{
+						n = Node( Parameters.boardArr[proposedRow][proposedCol] );
+						n.occupyingUnit = this;
+						
+						if (this.model.controllingAgent == Agent.HUMAN  )
+						{
+							n.seen = true;
+						}
+						
+						if (n.seen == false)
+						{
+							this.view.visible = false;
+						}
+						else
+						{
+							this.view.visible = true;
+						}
+					}
+				}
+			}
+		}
+		
 		
 		override protected function clearTile(proposedRow:int, proposedCol:int):void
 		{
@@ -221,8 +243,8 @@ package states.game.entities.buildings
 					var curTile:int = occupyArray[i][j];
 					
 					
-						proposedRow = model.row + j;
-						proposedCol = model.col + i;
+						proposedRow = model.row + i;
+						proposedCol = model.col + j;
 						
 						if(nodeExists(proposedRow, proposedCol))
 						{

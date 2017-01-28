@@ -1,11 +1,13 @@
 package  states.game.entities.buildings
 {
+	import global.enums.UnitStates;
 	import global.map.Node;
 	import global.Parameters;
 	import global.ui.hud.HUD;
 	import global.utilities.GameTimer;
 	import starling.display.Quad;
 	import starling.events.Event;
+	import states.game.entities.units.Unit;
 	import states.game.stats.BuildingsStatsObj;
 	import states.game.stats.VehicleStats;
 	import states.game.teamsData.TeamObject;
@@ -93,17 +95,48 @@ package  states.game.entities.buildings
 			{
 				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
 			
-				var row:int = model.row + int(occupyArray.length)-1;
+				var row:int = model.row + int(occupyArray.length);
 				var col:int = model.col;
 				
 				var n:Node = Parameters.boardArr[row][col];
-				//n.groundTile.scaleX = n.groundTile.scaleY = 1;
+				
+				removeBlockingUnits(n);
 			}
 			
 			
 			return n;
 			
 		}
+		
+		private function removeBlockingUnits(node:Node):void 
+		{
+			var n:Node;
+			for (var row:int = -1; row <= 1; row ++  )
+			{
+				for (var col:int = -1; col <= 1; col ++  )
+				{
+					if (Parameters.boardArr[node.row + row] && Parameters.boardArr[node.row + row][node.col + col])
+					{
+						n = Parameters.boardArr[node.row + row][node.col + col];
+						if (n.occupyingUnit &&  n.occupyingUnit is Unit && n.occupyingUnit.name != "harvester")
+						{
+							
+							var unit:Unit = Unit(n.occupyingUnit);
+							if (unit.teamNum == teamNum)
+							{
+								trace("unit blocking harvester, moving unit")
+								unit.getWalkPath(n.row + int(Math.random()*10), n.col + int(Math.random()*10));
+								unit.setState(UnitStates.WALK);
+							}
+						}
+					}
+				}
+			}
+			
+			
+			
+		}
+		
 		
 		public function onBuildingClickedFNCTN():Object
 		{

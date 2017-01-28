@@ -4,7 +4,7 @@ package global.ui.hud
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
-	import global.sounds.GameSounds;
+	import global.GameSounds;
 	import global.ui.hud.slotIcons.SlotHolder;
 	import global.ui.hud.slotIcons.UnitSlotHolder;
 	import starling.display.Quad;
@@ -64,8 +64,36 @@ package global.ui.hud
 		}
 		
 		
-		public function init(obj:Object , realGame:Boolean, assetFamily:String):void
+		public function freeze():void
 		{
+			if (ui)
+			{
+				upBTN.removeEventListener(TouchEvent.TOUCH, onUpBTNClicked);
+				downBTN.removeEventListener(TouchEvent.TOUCH, onDownBTNClicked);
+				for (var i:int = 0; i < slotsArr.length; i++ )
+				{
+					slotsArr[i].freeze();
+				}
+			}
+		}
+		
+		public function resume():void
+		{
+			if (ui)
+			{
+				upBTN.addEventListener(TouchEvent.TOUCH, onUpBTNClicked);
+				downBTN.addEventListener(TouchEvent.TOUCH, onDownBTNClicked);
+				for (var i:int = 0; i < slotsArr.length; i++ )
+				{
+					slotsArr[i].resume();
+				}
+			}
+		}
+		
+		
+		public function init(obj:Object , realGame:Boolean, assetFamily:String):Boolean
+		{
+			var newOptionsAdded:Boolean = false;
 			var i:int = slotsArr.length;
 			for (var unit:String in obj)
 			{
@@ -82,6 +110,7 @@ package global.ui.hud
 				}
 				if (!exists)
 				{
+					newOptionsAdded = true;
 					var slot = new SlotHolderCLS(unit, assetFamily, teamObj, showUI);//contextType
 				
 					if(realGame)
@@ -104,6 +133,8 @@ package global.ui.hud
 			}
 			
 			showHideButtons();
+			
+			return newOptionsAdded;
 		}
 		
 		private function onSlotSelected(e:Event):void 
@@ -250,7 +281,7 @@ package global.ui.hud
 			
 			if(end)
 			{
-				GameSounds.playSound("HUD8");
+				GameSounds.playSound("btnClick");
 				slotsArr.unshift(slotsArr.pop());
 				
 			
@@ -274,7 +305,7 @@ package global.ui.hud
 			
 			if(end)
 			{
-				GameSounds.playSound("HUD8");
+				GameSounds.playSound("btnClick");
 				
 				slotsArr.push(slotsArr.shift());
 				

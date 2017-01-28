@@ -2,6 +2,7 @@ package global.ui.hud.slotIcons
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
+	import global.GameSounds;
 	import global.ui.hud.HUD;
 	import global.utilities.GameTimer;
 	import global.utilities.GlobalEventDispatcher;
@@ -47,6 +48,7 @@ package global.ui.hud.slotIcons
 		private var showUI:Boolean;
 		
 		public var view:Sprite;
+		private var count:int = 0;
 		
 		
 		public function SlotHolder(_assetName:String, _contextType:String, _teamObj:TeamObject = null, _showUI:Boolean = true )
@@ -107,6 +109,22 @@ package global.ui.hud.slotIcons
 			
 		}
 		
+		public function freeze():void
+		{
+			if (view)
+			{
+				view.removeEventListener(TouchEvent.TOUCH, onSlotClicked);
+			}
+		}
+		
+		public function resume():void
+		{
+			if (view)
+			{
+				view.addEventListener(TouchEvent.TOUCH, onSlotClicked);
+			}
+		}
+		
 		private function onSlotClicked(e:TouchEvent):void 
 		{
 			var begin:Touch  = e.getTouch(view, TouchPhase.BEGAN);
@@ -114,10 +132,16 @@ package global.ui.hud.slotIcons
 			if(begin)
 			{
 				
+				if (buildingDone == false && buildInProgress == false)
+				{
+					if (teamObj.cash - cost >= 0)
+					{
+						GameSounds.playSound("building", "vo");
+					}
+					
+				}
 				simulateClickOnBuild();
-				
 				e.stopPropagation();
-				
 			}
 		}
 		
@@ -195,16 +219,28 @@ package global.ui.hud.slotIcons
 		{
 			if (teamObj.getBalance() > 0 )
 			{
+				count++;
 				if (currentPerNum < cost)
 				{
+					if (teamObj.powerCtrl.POWER_SHORTAGE && (count % 4 != 0))
+					{
+						return;
+					}
+
 					teamObj.reduceCash(  1 );
 					
 					var per:int = ((currentPerNum / cost) * 100);
-					if (showUI)loadingSquare.currentFrame = per;
+					if (showUI)
+					{
+						loadingSquare.currentFrame = per;
+						if(count % 4 == 0)GameSounds.playSound("cash", null, 0.1);
+					}
+					
 					currentPerNum++;
 				}
 				else
 				{
+					count = 0;
 					GameTimer.getInstance().removeUser(this);
 					done();
 				}
@@ -238,7 +274,17 @@ package global.ui.hud.slotIcons
 		
 		protected function done():void{
 			buildingDone = true;
-			
+			if (showUI)
+			{
+				if(this is UnitSlotHolder)
+				{
+					GameSounds.playSound("unit_ready", "vo");
+				}
+				else
+				{
+					GameSounds.playSound("construction_complete", "vo");
+				}
+			}
 			
 		}
 		
@@ -259,9 +305,11 @@ package global.ui.hud.slotIcons
 					}
 				}
 				a = null;
+				view.removeFromParent();
+				view = null;
 			}
 			
-			
+			GameTimer.getInstance().removeUser(this);
 			buildInProgress = false;
 			buildCompleteFunction = null;
 			

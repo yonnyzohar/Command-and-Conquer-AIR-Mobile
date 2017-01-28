@@ -90,8 +90,11 @@ package states.game.entities
 				if (n.occupyingUnit == null)
 				{
 					n.occupyingUnit = this;
-					if (this.model.controllingAgent == Agent.PC  )
-					{
+					if (this.model.controllingAgent == Agent.HUMAN  )
+						{
+							n.seen = true;
+						}
+					
 						if (n.seen == false)
 						{
 							this.view.visible = false;
@@ -101,7 +104,7 @@ package states.game.entities
 							this.view.visible = true;
 						}
 						
-					}
+					
 					showTile(proposedRow, proposedCol , n)
 					
 				}
@@ -159,6 +162,7 @@ package states.game.entities
 			
 			view.y = model.row * Parameters.tileSize;
 			view.x = model.col * Parameters.tileSize;
+			view.visible = false;
 			occupyTile(model.row, model.col);
 		}
 		
@@ -167,10 +171,16 @@ package states.game.entities
 		public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
 		{
 			currentInfantryDeath = _currentInfantryDeath;
-			changeAI(AiBehaviours.SEEK_AND_DESTROY);
+			
+			
 			var dead:Boolean = false;
 			if(model != null)
 			{
+				if (model.controllingAgent == Agent.PC)
+				{
+					changeAI(AiBehaviours.SEEK_AND_DESTROY);
+				}
+				
 				//trace"totalHealth: " + model.totalHealth + " _hitVal: " + _hitVal);
 				model.totalHealth -= _hitVal;
 				var healthScale:Number = healthBar.hurt(_hitVal);
@@ -200,7 +210,7 @@ package states.game.entities
 		
 		
 		
-		protected function setState(state:int):void
+		public function setState(state:int):void
 		{
 			model.lastState = model.currentState;
 			model.currentState = state;

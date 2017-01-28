@@ -126,7 +126,7 @@ package  states.game.entities.buildings
 				//if no current enenmy
 				//is there a target in range?
 				
-				currentEnemy = getTargetRange();
+				currentEnemy = Methods.findClosestTargetOnMap(this, false);
 				
 				
 				if(currentEnemy != null)
@@ -139,7 +139,7 @@ package  states.game.entities.buildings
 					//if i'm in seek and destroy, and i'm a computer
 					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && model.controllingAgent == Agent.PC)
 					{
-						currentEnemy = findClosestTargetOnMap();
+						currentEnemy = Methods.findClosestTargetOnMap(this, true);
 					}
 					else if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
 					{
@@ -158,50 +158,7 @@ package  states.game.entities.buildings
 			return SightManager.getInstance().getTargetWithinBase(model.controllingAgent, myTeamObj.teamName);
 		}
 
-		protected function findClosestTargetOnMap():GameEntity
-		{
-			var p:GameEntity;
-			var closestEnemny:GameEntity;
-			
-			if(aiBehaviour != AiBehaviours.SEEK_AND_DESTROY)
-			{
-				return null;
-			}
-			
-			if(model.enemyTeam == null)
-			{
-				return null;
-			}
-			
-			if(model.enemyTeam.length == 0)
-			{
-				return null;
-			}
-			
-			var enemyTeamLength:int = model.enemyTeam.length;
-			var shortestDist:int = 100000;
-			
-			for(var i:int = enemyTeamLength -1; i >= 0; i--)
-			{
-				p = GameEntity(model.enemyTeam[i]);
-				
-				if(p.model != null)
-				{
-					if(p.model.dead == false)
-					{
-						//var dist:int = int(Math.abs(p.row - model.row) + Math.abs(p.col - model.col));
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						if (dist < shortestDist)
-						{
-							shortestDist = dist;
-							closestEnemny = p;
-						}
-					}
-				}
-			}
-			
-			return closestEnemny;
-		}
+		
 		
 		protected function isInRange(currentEnemy:GameEntity):Boolean
 		{
@@ -228,53 +185,9 @@ package  states.game.entities.buildings
 		}
 		
 		
-		private function getTargetRange():GameEntity 
-		{
-			if (aiBehaviour == AiBehaviours.HELPLESS) return null;
-			
-			var p:GameEntity;
-			var closestEnemny:GameEntity;
-			
-
-			if(model.enemyTeam == null)
-			{
-				return null;
-			}
-			
-			if(model.enemyTeam.length == 0)
-			{
-				return null;
-			}
-			
-			var sightRange:int = model.stats.weapon.range;
-			var enemyTeamLength:int = model.enemyTeam.length;
-			var shortestDist:int = 100000;
-			
-			for(var i:int = enemyTeamLength -1; i >= 0; i--)
-			{
-				p = GameEntity(model.enemyTeam[i]);
-				
-				if(p.model != null)
-				{
-					if(p.model.dead == false)
-					{
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						//int(Math.abs(p.row - model.row) + Math.abs(p.col - model.col));
-						if (dist <= sightRange)
-						{
-							if (dist < shortestDist)
-							{
-								shortestDist = dist;
-								closestEnemny = p;
-							}
-						}
-					}
-				}
-			}
-			
-			return closestEnemny;
-			//e = startSpiral(model.row, model.col, sightRange*2);
-		}
+		
+		
+		
 		
 
 		protected function handleIdleState(_pulse:Boolean):void

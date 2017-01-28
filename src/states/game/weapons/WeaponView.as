@@ -6,6 +6,7 @@ package  states.game.weapons
 	import com.greensock.easing.Linear;
 	import com.greensock.TweenMax;
 	import flash.geom.Point;
+	import global.GameSounds;
 	import global.Methods;
 	import global.pools.Pool;
 	import global.utilities.CircleRadiusBuilder;
@@ -18,7 +19,6 @@ package  states.game.weapons
 	import global.Parameters;
 	import global.GameAtlas;
 	import global.pools.PoolElement;
-	import global.sounds.GameSounds;
 	
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -91,7 +91,8 @@ package  states.game.weapons
 			explosionMC.touchable = false;
 			explosionMC.scaleX = explosionMC.scaleY = Parameters.gameScale;
 			explosionMC.pivotX = explosionMC.width *  (0.5/Parameters.gameScale);
-			explosionMC.pivotY = explosionMC.height *  (0.5/Parameters.gameScale);
+			explosionMC.pivotY = explosionMC.height *  (0.5 / Parameters.gameScale);
+			
 		}
 		
 		public function shootTarget( _enemy:GameEntity, _destRow:int,       _destCol:int, shooter:EntityView,  duration:Number, 
@@ -377,6 +378,7 @@ package  states.game.weapons
 				explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
 				explosionMC.currentFrame = 0;
 				explosionMC.play();
+				GameSounds.playSound("vehicle-die", null, 0.1);
 			}
 		}
 		

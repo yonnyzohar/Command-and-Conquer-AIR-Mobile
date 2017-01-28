@@ -5,11 +5,11 @@ package
 	import flash.text.Font;
 	import flash.utils.setTimeout;
 	import global.enums.MouseStates;
+	import global.GameSounds;
 	import global.Methods;
 	import global.Parameters;
 	import global.GameAtlas;
 	import global.pools.PoolsManager;
-	import global.sounds.GameSounds;
 	import global.utilities.GlobalEventDispatcher;
 	import starling.text.TextField;
 	import states.game.stats.BuildingsStats;
@@ -77,7 +77,7 @@ package
 				BuildingsStats.init();//3
 				TurretStats.init();
 				
-				//GameSounds.init();  --deal with this later!!!
+				GameSounds.init(); // --deal with this later!!!
 				Parameters.mapHolder = new Sprite()
 				Parameters.mapHolder.scaleX = Parameters.mapHolder.scaleY = 1;
 				init();

@@ -84,6 +84,26 @@ package global.utilities
 				
 		}
 		
+		public function freezeTimer():void
+		{
+			Parameters.theStage.removeEventListener(Event.ENTER_FRAME, update);
+		}
+		
+		public function resumeTimer():void
+		{
+			var len:int = 0;
+			
+			for(var k:String in updatables)
+			{
+				len++;
+			}
+			
+			if(len == 0)
+			{
+				Parameters.theStage.addEventListener(Event.ENTER_FRAME, update);
+			}
+		}
+		
 
 	}
 }

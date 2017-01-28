@@ -3,6 +3,7 @@ package  states.game.weapons
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
 	import flash.geom.Point;
+	import global.GameSounds;
 	import global.map.Node;
 	import global.Methods;
 	import global.pools.Pool;
@@ -17,7 +18,6 @@ package  states.game.weapons
 	import global.Parameters;
 	import global.GameAtlas;
 	import global.pools.PoolElement;
-	import global.sounds.GameSounds;
 	
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -84,6 +84,20 @@ package  states.game.weapons
 			return true;
 		}
 		
+		private function playShootSound():void
+		{
+			if (weaponStats.sound)
+			{
+				GameSounds.playSound(weaponStats.sound);
+			}
+			else
+			{
+				trace("NO SOUND!!")
+			}
+			
+			
+		}
+		
 		public function shoot(enemy:GameEntity, shooterView:EntityView):void
 		{
 
@@ -96,7 +110,7 @@ package  states.game.weapons
 				
 				for(var i:int = model.stats.numOfCannons; i >= 1; i--)
 				{
-					//playShootSound();
+					playShootSound();
 					
 					if (weaponStats.projectile.name.indexOf("invisible") != -1 && weaponStats.muzzleFlash == null)
 					{

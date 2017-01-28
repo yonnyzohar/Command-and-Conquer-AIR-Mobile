@@ -3,7 +3,9 @@ package states.game.teamsData
 	import com.greensock.TweenLite;
 	import global.enums.Agent;
 	import global.enums.AiBehaviours;
+	import global.enums.UnitStates;
 	import global.GameAtlas;
+	import global.GameSounds;
 	import global.map.SpiralBuilder;
 	import global.Methods;
 	import global.Parameters;
@@ -78,7 +80,7 @@ package states.game.teamsData
 				powerCtrl = new PowerController(team)
 			}
 			
-			var powerObj:Object = powerCtrl.updatePower();
+			var powerObj:Object = powerCtrl.updatePower(agent);
 			buildManager.hud.updatePower(powerObj.totalPowerIn, powerObj.totalPowerOut);
 		}
 		
@@ -118,6 +120,7 @@ package states.game.teamsData
 					if (obj.name == "harvester")
 					{
 						ent = new Harvester(VehicleStatsObj(statsObj), this, enemyTeam, teamNum);
+						ent.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
 					}
 					else if (obj.name == "refinery")
 					{
@@ -138,6 +141,51 @@ package states.game.teamsData
 					//handleAtachedUnit(obj.name, placementsArr[0].row, placementsArr[0].col);
 				}
 			}
+		}
+		
+		private function harvesterUnderAttack(e:Event):void 
+		{
+			if (agent == Agent.PC)
+			{
+				var harvester:Harvester = Harvester(e.currentTarget);
+				if (harvester && harvester.model && harvester.model.dead == false)
+				{
+					var selRow:int = harvester.model.row;
+					var selCol:int = harvester.model.col;
+					var unit:GameEntity;
+					
+					var squadSize:int = 5;
+					var mySquad:Array = [];
+					//send help
+					for (var i:int = 0; i < team.length; i++ )
+					{
+						unit = team[i];
+						if ((!unit is Building) && !(unit is Harvester) && unit.aiBehaviour != AiBehaviours.HELPLESS)
+						{
+							if (mySquad.length <= squadSize)
+							{
+								mySquad.push(unit);
+							}
+						}
+					}
+					
+					if (mySquad.length)
+					{
+						trace("TO THE RESCUE!!!!")
+						var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
+					
+						for (i = 0; i < mySquad.length; i++ )
+						{
+							unit = mySquad[i];
+							Unit(unit).getWalkPath(placementsArr[i].row, placementsArr[i].col);
+							unit.setState(UnitStates.WALK);
+						}
+					}
+					
+					
+				}
+			}
+
 		}
 		
 		public function doesBuildingExist(arr:Array):Boolean
@@ -174,6 +222,21 @@ package states.game.teamsData
 			return myRefinery;
 		}
 		
+		public function getHarvester():Harvester 
+		{
+			var myHarvester:Harvester;
+			
+			for (var i:int = 0; i < team.length; i++ )
+			{
+				if (team[i] is Harvester)
+				{
+					myHarvester = team[i];
+					break;
+				}
+			}
+			return myHarvester;
+		}
+		
 		private function onUnitContructed(e:Event):void
 		{
 			var assetName:String = e.data.name;
@@ -199,6 +262,7 @@ package states.game.teamsData
 				if (assetName == "harvester")
 				{
 					p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
+					p.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
 				}
 				else
 				{
@@ -253,7 +317,12 @@ package states.game.teamsData
 			Parameters.mapHolder.addChild(p.view);
 			team.push(p);
 			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
-			buildManager.updateUnitsAndBuildings(assetName);
+			var newConstructionOptions:Boolean = buildManager.updateUnitsAndBuildings(assetName);
+			if (newConstructionOptions && agent == Agent.HUMAN)
+			{
+				GameSounds.playSound("new_construction_options", "vo");
+			}
+			
 			p.sayHello();
 			//this is temporary until the pc can build its own
 			updatePower();
@@ -287,6 +356,7 @@ package states.game.teamsData
 					if (attachedUnit == "harvester")
 					{
 						p = new Harvester(VehicleStats.dict[attachedUnit], this, enemyTeam, teamNum);
+						p.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
 					}
 					else
 					{
@@ -327,6 +397,7 @@ package states.game.teamsData
 			var numResidents:int = 0;
 			var i:int = 0;
 			p.removeEventListener("DEAD", onDead);
+			p.removeEventListener("UNDER_ATTACK", harvesterUnderAttack);
 			
 			if (p is Building)
 			{
@@ -385,6 +456,7 @@ package states.game.teamsData
 		
 		public function reduceCash(_reduceAmount:int):void
 		{	
+			
 			targetBalance = cash - _reduceAmount;
 			cash = targetBalance;
 			//trace(cash);

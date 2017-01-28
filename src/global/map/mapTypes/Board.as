@@ -38,24 +38,15 @@ package global.map.mapTypes
 		public static var DRAW_TYPE_ALL_TILES:int = 0;
 		public static var DRAW_TYPE_ONLY_CENTER:int = 1;
 		public static var resourceNodes:Object = { };
-		
 		private var renderTextures:Array = [];
-		
 		private var canvas:RenderTexture;
-		
-		
 		static private var instance:Board = new Board();
 		private var dragScroll:DragScroll = new DragScroll();
-		
-		
-		
 		public var treesAndRocks:Array = new Array();
-		
 		private var mapMover:MapMover;
-		
 		public var useImg:Boolean = true;
-		
 		private var textures:Vector.<Texture>;
+		
 
 		
 		public function Board()
@@ -92,17 +83,17 @@ package global.map.mapTypes
 			else
 			{}*/
 			
-			if (Parameters.DEBUG_MODE)
+			/*if (Parameters.DEBUG_MODE)
 			{
 				drawType =  Board.DRAW_TYPE_ALL_TILES;
 			}
 			else
 			{
-				drawType = Board.DRAW_TYPE_ONLY_CENTER;
-			}
+				
+			}*/
 			
 			
-			
+			drawType = Board.DRAW_TYPE_ONLY_CENTER;
 			
 			destroyMap();
 			
@@ -111,6 +102,7 @@ package global.map.mapTypes
 			
 			createNodes();
 			drawActualTiles();
+			
 		}
 		
 		
@@ -321,6 +313,7 @@ package global.map.mapTypes
 			resourceNodes = { };
 			
 			//trace"createWallsAndTrees");
+			var tiberiumTiles:Array = [];
 			var createWalls:int = 0;
 			var wallImg:Image;
 			var node:Node;
@@ -356,6 +349,13 @@ package global.map.mapTypes
 							node.obstacleTile.currentFrame = 0;
 							node.walkable = false;
 							node.obstacleTile.touchable = false;
+							
+							node.obstacleTile.loop = false;
+							node.obstacleTile.name = textureName;// + "_" + textureFrame;
+							node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
+							node.obstacleTile.x = col * Parameters.tileSize;
+							node.obstacleTile.y = row * Parameters.tileSize;
+							
 							var w:int = node.obstacleTile.width / Parameters.tileSize;
 							var h:int = node.obstacleTile.height / Parameters.tileSize;
 							
@@ -369,11 +369,6 @@ package global.map.mapTypes
 									}
 								}
 							}
-							node.obstacleTile.loop = false;
-							node.obstacleTile.name = textureName;// + "_" + textureFrame;
-							node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
-							node.obstacleTile.x = col * Parameters.tileSize;
-							node.obstacleTile.y = row * Parameters.tileSize;
 						}
 						
 						if (textureName.indexOf("tiberium") != -1)
@@ -390,6 +385,7 @@ package global.map.mapTypes
 							node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
 							node.obstacleTile.x = col * Parameters.tileSize;
 							node.obstacleTile.y = row * Parameters.tileSize;
+							tiberiumTiles.push(node);
 						}
 						
 						if (textureName.indexOf("shore") != -1)
@@ -472,6 +468,37 @@ package global.map.mapTypes
 					}
 				}
 			}
+			
+			for (var i:int = 0; i < tiberiumTiles.length; i++ )
+			{
+				var tiberiumNode:Node = tiberiumTiles[i];
+				var neighbors:int = 0;
+				var n:Node;
+				for (var _row:int = -1; _row <= 1; _row ++  )
+				{
+					for (var _col:int = -1; _col <= 1; _col ++  )
+					{
+						if (Parameters.boardArr[tiberiumNode.row + _row] && Parameters.boardArr[tiberiumNode.row + _row][tiberiumNode.col + _col])
+						{
+							if (_row == 0 && _col == 0)
+							{
+								continue;
+							}
+							n = Parameters.boardArr[tiberiumNode.row + _row][tiberiumNode.col + _col];
+							if ( n.isResource )
+							{
+								neighbors++;
+							}
+						}
+					}
+				}
+				if (neighbors != 8)
+				{
+					ResourceNode(tiberiumNode).setLowerStartPoint(8 - neighbors);
+				}
+				
+			}
+			
 		}
 		
 		private function copyNode(resourceNode:ResourceNode, node:Node):void 
@@ -526,6 +553,27 @@ package global.map.mapTypes
 		public function update(_pulse:Boolean):void
 		{
 			mapMover.update(_pulse);
+			
+			if (Parameters.DEBUG_MODE)
+			{
+				var node:Node;
+			
+				for(var row:int = 0; row < Parameters.boardArr.length; row++)
+				{
+					for(var col:int = 0; col < Parameters.boardArr[row].length; col++)
+					{
+						node = Node(Parameters.boardArr[row][col]);
+						if (node.occupyingUnit)
+						{
+							node.showDebugTile();
+						}
+						else
+						{
+							node.hideDebugTile();
+						}
+					}
+				}
+			}
 		}
 		
 		/*public function drawUnit(view:UnitView):void
@@ -570,5 +618,7 @@ package global.map.mapTypes
 			
 			line = null;
 		}
+		
+
 	}
 }

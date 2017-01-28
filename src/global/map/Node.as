@@ -4,6 +4,7 @@ package  global.map
 	import global.Parameters;
 	import starling.display.Image;
 	import starling.display.MovieClip;
+	import starling.display.Quad;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -36,10 +37,35 @@ package  global.map
 		public var withinUnitRange:int = 0;//if zero- then this tile is not within the range of any unit, else it will get the unique id of the unit
 		public static var CHANGE_MADE_TO_MAP:Boolean = true;
 		public var num:int = 0;
+		private var debugTile:Quad;
 		
 		public function Node() 
 		{
 			
+		}
+		
+		public function showDebugTile():void
+		{
+			if (debugTile == null)
+			{
+				debugTile = new Quad(Parameters.tileSize, Parameters.tileSize);
+				debugTile.x = Parameters.tileSize * col;
+				debugTile.y = Parameters.tileSize * row;
+				debugTile.touchable = false;
+				debugTile.alpha = 0.1;
+				Parameters.upperTilesLayer.addChild(debugTile);
+			}
+			
+			
+		}
+		
+		public function hideDebugTile():void
+		{
+			if (debugTile) 
+			{
+				debugTile.removeFromParent(true);
+				debugTile = null;
+			}
 		}
 		
 		/*public function listenTile():void

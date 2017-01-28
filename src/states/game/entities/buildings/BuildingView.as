@@ -1,6 +1,7 @@
 package states.game.entities.buildings
 {
 	import global.GameAtlas;
+	import global.GameSounds;
 	import global.Parameters;
 	import global.utilities.GameTimer;
 	import starling.core.Starling;
@@ -67,6 +68,7 @@ package states.game.entities.buildings
 		
 		override public function setViewByHealth(healthScale:Number):void 
 		{
+			var prevAnim:String = healthAnim;
 			if (healthScale > .5) 
 			{
 				healthAnim = "_healthy"
@@ -80,6 +82,16 @@ package states.game.entities.buildings
 			else 
 			{
 				healthAnim = "_dead"
+			}
+			
+			if (prevAnim == "_healthy" && healthAnim == "_damaged")
+			{
+				
+			}
+			
+			if (prevAnim == "_damaged" && healthAnim == "_ultra-damaged")
+			{
+				GameSounds.playSound("building_damadged");
 			}
 			
 			healthAnim = healthAnim.toLowerCase()

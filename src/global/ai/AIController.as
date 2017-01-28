@@ -28,6 +28,10 @@ package global.ai
 		private var vehiclesArr:Array = [];
 		private var minNumOfAttackParty:Array;
 		
+		private var infantryBeingBuilt:Boolean = false;
+		private var vehicleBeingBuilt:Boolean = false;
+		private var buildingBeingBuilt:Boolean = false;
+		
 		private var currentAttackPartyCount:int = 0;
 		
 		public function AIController() 
@@ -44,14 +48,19 @@ package global.ai
 			//buildQueue
 			buildBuilding();
 			//infantryQueue
-			buildInfantry();
+			
+			buildUnits();
+			
+			//buildInfantry();
 			//vehicleQueue
-			buildVehicles();
+			//buildVehicles();
 			
 			minNumOfAttackParty = aiJSON.minNumOfAttackParty;
 			
 			GameTimer.getInstance().addUser(this);
 		}
+		
+		
 		
 		
 		
@@ -102,7 +111,7 @@ package global.ai
 		{
 			myBuildSlot = null;
 			//if there are still stuff to build
-			if (aiJSON.buildQueue[buildCount])
+			if (aiJSON.buildQueue[buildCount] && buildingBeingBuilt == false)
 			{
 				var currentBuildingObj:AssetStatsObj = Methods.getCurretStatsObj(aiJSON.buildQueue[buildCount]);
 				
@@ -116,6 +125,7 @@ package global.ai
 						if (myBuildSlot)
 						{
 							myBuildSlot.simulateClickOnBuild();
+							buildingBeingBuilt = true;
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 						}
 						else
@@ -189,108 +199,162 @@ package global.ai
 			{
 				buildCount++;
 			}
+			buildingBeingBuilt = false;
 			buildBuilding();
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////
 		
-		private function buildInfantry(e:Event = null):void 
+		
+		private function buildUnits():void 
 		{
-			var myInfantrySlot:SlotHolder;
-				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", buildInfantry);
-				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", buildInfantry);
-				
-			if (Math.random() < 0.5 )
+			var infantry:Boolean = false;
+			var vehicles:Boolean = false;
+			
+			if (pcTeamObj.doesBuildingExist(["hand-of-nod", "barracks"]) && infantryBeingBuilt == false)
 			{
-				setTimeout(buildInfantry, 2000);
+				infantry = true;
 			}
-			else
+			
+			if (pcTeamObj.doesBuildingExist(["weapons-factory", "airstrip"]) && vehicleBeingBuilt == false)
 			{
-				
-				
-				if (pcTeamObj.doesBuildingExist(["hand-of-nod", "barracks"]))
+				vehicles = true;
+			}
+			
+			if (infantry && vehicles) 
+			{
+				if (pcTeamObj.getHarvester() == null)
 				{
-					var rnd:int = Math.random() * infantryArr.length;
-					var randomInfantry:String = infantryArr[rnd];
-					var currentInfantrygObj:AssetStatsObj = Methods.getCurretStatsObj(randomInfantry);
-					//var producingBuilding:Object = pcTeamObj.buildManager.getProducingBuilding(currentInfantrygObj, pcTeamObj.team);
-					
-					if (pcTeamObj.cash >= currentInfantrygObj.cost)
+					buildVehicles();
+				}
+				else 
+				{
+					if (Math.random() < 0.4 )
 					{
-						myInfantrySlot = pcTeamObj.buildManager.hud.getSlot(randomInfantry);
-						if (myInfantrySlot)
-						{
-							trace("building a " + randomInfantry)
-							myInfantrySlot.simulateClickOnBuild();
-							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", buildInfantry);
-						}
-						else
-						{
-							trace("COULD NOT FIND INFANTRY SLOT!!!")
-						}
+						buildInfantry();
 					}
 					else
 					{
-						trace("no money!, trying again")
-						setTimeout(buildInfantry, 2000);
+						buildVehicles();
+					}
+				}
+				
+			}
+			else if(infantry && !vehicles)
+			{
+				buildInfantry();
+			}
+			else if (!infantry && vehicles)
+			{
+				buildVehicles()
+			}
+			else
+			{
+				trace("no barracks or vehicle factory, try again soon");
+				setTimeout(buildUnits, 2000);
+			}
+			
+		}
+		
+		
+		private function buildInfantry(e:Event = null):void 
+		{
+			var myInfantrySlot:SlotHolder;
+			
+				
+				
+			if (pcTeamObj.doesBuildingExist(["hand-of-nod", "barracks"]))
+			{
+				var rnd:int = Math.random() * infantryArr.length;
+				var randomInfantry:String = infantryArr[rnd];
+				var currentInfantrygObj:AssetStatsObj = Methods.getCurretStatsObj(randomInfantry);
+				//var producingBuilding:Object = pcTeamObj.buildManager.getProducingBuilding(currentInfantrygObj, pcTeamObj.team);
+				
+				if (pcTeamObj.cash >= currentInfantrygObj.cost)
+				{
+					myInfantrySlot = pcTeamObj.buildManager.hud.getSlot(randomInfantry);
+					if (myInfantrySlot)
+					{
+						trace("building a " + randomInfantry)
+						myInfantrySlot.simulateClickOnBuild();
+						infantryBeingBuilt = true;
+						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+					}
+					else
+					{
+						trace("COULD NOT FIND INFANTRY SLOT!!!")
 					}
 				}
 				else
 				{
-					trace("no barracks!- waiting for it to be built!!!");
-					pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", buildInfantry);
+					trace("no money!, trying again")
+					setTimeout(buildUnits, 2000);
 				}
 			}
-			
-			
+			else
+			{
+				setTimeout(buildUnits, 2000);
+			}
+		}
+		
+		private function onInfantryComplete(e:Event):void 
+		{
+			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+			infantryBeingBuilt = false;
+			buildUnits();
 		}
 		
 		private function buildVehicles():void 
 		{
 			var myVehicleSlot:SlotHolder;
-				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", buildVehicles);
-				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", buildVehicles);
-			if (Math.random() < 0.5 )
-			{
-				setTimeout(buildVehicles, 2000);
-			}
-			else
-			{
+
 				
+			if (pcTeamObj.doesBuildingExist(["weapons-factory", "airstrip"]))
+			{
+				var rnd:int = Math.random() * vehiclesArr.length;
+				var randomVehicle:String = vehiclesArr[rnd];
 				
-				if (pcTeamObj.doesBuildingExist(["weapons-factory", "airstrip"]))
+				if (pcTeamObj.getHarvester() == null)
 				{
-					var rnd:int = Math.random() * vehiclesArr.length;
-					var randomVehicle:String = vehiclesArr[rnd];
-					var currentInfantrygObj:AssetStatsObj = Methods.getCurretStatsObj(randomVehicle);
-					
-					if (pcTeamObj.cash >= currentInfantrygObj.cost)
+					randomVehicle = "harvester";
+				}
+				
+				var currentVehicleObj:AssetStatsObj = Methods.getCurretStatsObj(randomVehicle);
+				
+				if (pcTeamObj.cash >= currentVehicleObj.cost)
+				{
+					myVehicleSlot = pcTeamObj.buildManager.hud.getSlot(randomVehicle);
+					if (myVehicleSlot)
 					{
-						myVehicleSlot = pcTeamObj.buildManager.hud.getSlot(randomVehicle);
-						if (myVehicleSlot)
-						{
-							trace("building a " + randomVehicle)
-							myVehicleSlot.simulateClickOnBuild();
-							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", buildVehicles);
-						}
-						else
-						{
-							trace("COULD NOT FIND VEHICLE SLOT!!!")
-						}
+						trace("building a " + randomVehicle)
+						vehicleBeingBuilt = true;
+						myVehicleSlot.simulateClickOnBuild();
+						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 					}
 					else
 					{
-						trace("no money!, trying again")
-						setTimeout(buildVehicles, 2000);
+						trace("COULD NOT FIND VEHICLE SLOT!!!")
 					}
 				}
 				else
 				{
-					trace("no war factory- waiting for it to be built!!!");
-					pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", buildVehicles);
+					trace("no money!, trying again")
+					setTimeout(buildUnits, 2000);
 				}
 			}
+			else
+			{
+				setTimeout(buildUnits, 2000);
+			}
 			
+			
+		}
+		
+		private function onVehicleComplete(e:Event):void 
+		{
+			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			vehicleBeingBuilt = false;
+			buildUnits();
 		}
 		
 		public function update(_pulse:Boolean):void

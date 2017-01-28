@@ -5,6 +5,7 @@ package global.ui.hud
 	import global.enums.Agent;
 	import global.enums.MouseStates;
 	import global.GameAtlas;
+	import global.GameSounds;
 	import global.map.Node;
 	import global.Parameters;
 	import global.ui.hud.HUD;
@@ -83,13 +84,15 @@ package global.ui.hud
 			
 		}
 		
-		public function updateUnitsAndBuildings(_assetName:String):void
+		public function updateUnitsAndBuildings(_assetName:String):Boolean
 		{
 			var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
 			var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
 			var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
 			var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
-			hud.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+			var newConstriuctionOptions:Boolean = hud.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+			
+			return newConstriuctionOptions;
 			
 		}
 		
@@ -271,6 +274,14 @@ package global.ui.hud
 						selectedSlot.buildMe(onBuildingComplete);
 						assetBeingBuilt(selectedSlot.assetName);
 					}
+					else
+					{
+						if (teamObj.agent == Agent.HUMAN)
+						{
+							GameSounds.playSound("insufficient_funds", "vo");
+						}
+						
+					}
 				}
 				else
 				{
@@ -313,6 +324,14 @@ package global.ui.hud
 						selectedSlot.buildMe(onUnitComplete);
 						assetBeingBuilt(selectedSlot.assetName);
 					}
+				}
+				else
+				{
+					if (teamObj.agent == Agent.HUMAN)
+					{
+						GameSounds.playSound("insufficient_funds", "vo");
+					}
+					
 				}
 			}
 		}

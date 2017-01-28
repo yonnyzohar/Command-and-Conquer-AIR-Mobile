@@ -4,7 +4,9 @@ package states.game
 	import com.greensock.TweenLite;
 	import flash.events.DataEvent;
 	import global.ai.AIController;
+	import global.BGSoundManager;
 	import global.GameAtlas;
+	import global.GameSounds;
 	import global.map.mapTypes.Board;
 	import global.map.SpiralBuilder;
 	import global.Methods;
@@ -59,11 +61,14 @@ package states.game
 		private var baordMC:Board;
 		private var teamslisting:TeamsListingWindow;
 		private var aiController:AIController;
+		private var finalMessage:MovieClip;
 		
 		
 
 		public function Game() 
 		{
+			Parameters.DEBUG_MODE = false;
+			
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
 			TeamsLoader.init();//loads in xml with num of units in each team- to be changed later
@@ -96,6 +101,10 @@ package states.game
 			
 			fixOnBase();
 			SightManager.getInstance().init();
+			BGSoundManager.playBGSound();
+			
+			
+			
 			//SightManager.getInstance().showAllSightSquares();
 			
 			
@@ -174,6 +183,50 @@ package states.game
 				endGame();
 			}
 			
+			if (Parameters.pcTeam.length == 0)
+			{
+				showMissionAccomplished();
+			}
+			if (Parameters.humanTeam.length == 0)
+			{
+				showMissionFailed();
+			}
+			
+		}
+		
+		private function freezeGame():void
+		{
+			GameTimer.getInstance().freezeTimer();
+			MapMover.getInstance().freeze();
+			UnitSelectionManager.getInstance().freeze();
+			Parameters.humaTeamObject.buildManager.hud.unitsContainer.freeze();
+			Parameters.humaTeamObject.buildManager.hud.buildingsContainer.freeze();
+		}
+		
+		
+		private function showMissionFailed():void 
+		{
+			freezeGame();
+			finalMessage = GameAtlas.createMovieClip("missionFailed");
+			Parameters.theStage.addChild(finalMessage);
+			finalMessage.scaleX = finalMessage.scaleY = Parameters.gameScale;
+			finalMessage.x = (Parameters.theStage.stageWidth - finalMessage.width) / 2;
+			finalMessage.y = (Parameters.theStage.stageHeight - finalMessage.height) / 2;
+			GameSounds.playSound("mission_failure", "vo");
+			BGSoundManager.stopBGSound();
+			
+		}
+		
+		private function showMissionAccomplished():void 
+		{
+			freezeGame();
+			finalMessage = GameAtlas.createMovieClip("missionAccomplished");
+			Parameters.theStage.addChild(finalMessage);
+			finalMessage.scaleX = finalMessage.scaleY = Parameters.gameScale;
+			finalMessage.x = (Parameters.theStage.stageWidth - finalMessage.width) / 2;
+			finalMessage.y = (Parameters.theStage.stageHeight - finalMessage.height) / 2;
+			GameSounds.playSound("mission_accomplished", "vo");
+			BGSoundManager.stopBGSound();
 		}
 		
 		
@@ -235,16 +288,12 @@ package states.game
 		}
 		
 		
-		
-		
-		
-		
 		private function endGame():void
 		{
 			//stage.removeEventListener(Event.ENTER_FRAME, loop);
 			var i:int = 0;
 			
-			for (var i:int = 0; i <  Parameters.humanTeam.length; i++ )
+			for (i = 0; i <  Parameters.humanTeam.length; i++ )
 			{
 				Parameters.humanTeam[i].end();
 			}
@@ -255,7 +304,7 @@ package states.game
 			}
 			
 			//trace"END GAME!!!")
-			
+			//GameAtlas.createMovieClip("loadingSquare");
 		}
 	}
 }

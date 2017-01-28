@@ -65,6 +65,17 @@ package states.game.ui
 			
 		}
 		
+		public function freeze():void 
+		{
+			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
+		}
+		
+		public function resume():void
+		{
+			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
+		}
+		
+		
 		private function onStageTouch(e:TouchEvent):void 
 		{
 			
@@ -254,6 +265,8 @@ package states.game.ui
 			Parameters.mapHolder.addChild(startDragCircle);
 		}
 		
+		
+		
 		private function sendUnitsToDest(targetCol:int, targetRow:int):void 
 		{
 			var i:int = 0;
@@ -279,7 +292,7 @@ package states.game.ui
 							var o:Object = u.onBuildingClickedFNCTN();
 							targetRow = o.row;
 							targetCol = o.col;
-							if (selectedAsset.model.stats.name == o.assetName)
+							if (selectedAsset && selectedAsset.model.stats.name == o.assetName)
 							{
 								selectedAsset.walkToDestination(targetRow, targetCol);
 								playHitAnim = true;

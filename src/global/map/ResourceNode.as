@@ -26,6 +26,20 @@ package global.map
 			obstacleTile.visible = true;
 		}
 		
+		public function setLowerStartPoint(_reduce:int):void
+		{
+			var totalFrames:int = (obstacleTile.numFrames - 1) ;
+			var newFrame:int = totalFrames - _reduce;
+			if (newFrame < 0)
+			{
+				newFrame = 0;
+			}
+			
+			var per:Number = newFrame / totalFrames;
+			quantity = totalQuantity * per;
+			obstacleTile.currentFrame = int(newFrame );
+		}
+		
 		public function reduceResource(_harvestAmount:int):void
 		{
 			quantity -=_harvestAmount;
