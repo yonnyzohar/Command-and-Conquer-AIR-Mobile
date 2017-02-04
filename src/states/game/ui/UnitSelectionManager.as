@@ -371,7 +371,7 @@ package states.game.ui
 						else
 						{
 							p = Parameters.currentSquad[i];
-							p.walkToDestination(placementsArr[i].row, placementsArr[i].col);
+							p.walkToDestination(placementsArr[i].row, placementsArr[i].col, (i==0));
 							playHitAnim = true;
 						}
 					}

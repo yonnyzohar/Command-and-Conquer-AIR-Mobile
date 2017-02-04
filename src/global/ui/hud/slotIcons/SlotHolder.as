@@ -233,7 +233,7 @@ package global.ui.hud.slotIcons
 					if (showUI)
 					{
 						loadingSquare.currentFrame = per;
-						if(count % 4 == 0)GameSounds.playSound("cash", null, 0.1);
+						if(count % 4 == 0)GameSounds.playSound("cash", null, 0.01);
 					}
 					
 					currentPerNum++;

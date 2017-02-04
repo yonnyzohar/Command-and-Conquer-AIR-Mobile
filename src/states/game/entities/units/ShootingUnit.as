@@ -255,7 +255,7 @@ package  states.game.entities.units
 			}
 		}	
 		
-		override public function walkToDestination(targetRow:int, targetCol:int):void
+		override public function walkToDestination(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			if(model == null)return;
 			
@@ -266,7 +266,7 @@ package  states.game.entities.units
 				UnitModel(model).userOverrideAutoShoot = true;
 				currentEnemy = null;
 			}
-			super.walkToDestination(targetRow, targetCol);
+			super.walkToDestination(targetRow, targetCol,_first);
 		}
 		
 		override protected function handleIdleState(_pulse:Boolean):void

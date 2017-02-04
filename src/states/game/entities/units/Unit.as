@@ -189,14 +189,14 @@ package states.game.entities.units
 			doNothing();
 		}
 
-		override public function walkToDestination(targetRow:int, targetCol:int):void
+		override public function walkToDestination(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			////trace"override walk to dest!!!");
 			removeAllTiles();
 			if(model.isSelected)
 			{
 				view.traceView("walkToDestination");
-				playOrderSound();
+				if(_first)playOrderSound();
 				
 				userPathReached = false;
 				userDeterminedRow = targetRow;

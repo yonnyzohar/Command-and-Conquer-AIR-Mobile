@@ -296,7 +296,7 @@ package states.game.entities
 		
 		public function end():void{}
 		
-		public function walkToDestination(targetRow:int, targetCol:int):void{}
+		public function walkToDestination(targetRow:int, targetCol:int,_first:Boolean = true):void{}
 		
 		
 	}

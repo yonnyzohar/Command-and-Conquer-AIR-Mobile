@@ -284,10 +284,10 @@ package  states.game.entities.units
 			return closestResource;
 		}
 		
-		override public function walkToDestination(targetRow:int, targetCol:int):void
+		override public function walkToDestination(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			returnRegHarvester()
-			super.walkToDestination(targetRow, targetCol);
+			super.walkToDestination(targetRow, targetCol,_first);
 		}
 		
 		protected function findResources(_pulse:Boolean):void
