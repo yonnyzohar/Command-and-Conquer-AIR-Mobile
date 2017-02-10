@@ -316,14 +316,15 @@ package states.game.entities.units
 		
 		private function calculateNextStep():void
 		{
-			traceMe( " calculateNextStep: moveCounter - > " + UnitModel(model).moveCounter + " path.length: " + UnitModel(model).path.length);
+			var model:UnitModel = UnitModel(model);
+			traceMe( " calculateNextStep: moveCounter - > " + model.moveCounter + " path.length: " + model.path.length);
 			var n:Node;
 			
 			var lastStep:Boolean = false;
 			
-			if (UnitModel(model).moveCounter < UnitModel(model).path.length)
+			if (model.moveCounter < model.path.length)
 			{
-				view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
+				if(Parameters.DEBUG_MODE)view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
 
 				UnitView(view).run();
 				traceMe("run");
@@ -331,23 +332,23 @@ package states.game.entities.units
 				
 				var nextNodeWalkable:Boolean = true;
 				
-				if (UnitModel(model).path[UnitModel(model).moveCounter])
+				if (model.path[model.moveCounter])
 				{
 					model.prevRow = model.row;
 					model.prevCol = model.col;
 					
-					model.row = UnitModel(model).path[UnitModel(model).moveCounter].row;//this starts at 0
-					model.col = UnitModel(model).path[UnitModel(model).moveCounter].col;
+					model.row = model.path[model.moveCounter].row;//this starts at 0
+					model.col = model.path[model.moveCounter].col;
 					var nexRow:int;
 					var nexCol:int; 
 					
-					if(UnitModel(model).path[UnitModel(model).moveCounter+1] != undefined)
+					if(model.path[model.moveCounter+1] != undefined)
 					{
-						nexRow = UnitModel(model).path[UnitModel(model).moveCounter+1].row;
-						nexCol = UnitModel(model).path[UnitModel(model).moveCounter+1].col;
+						nexRow = model.path[model.moveCounter+1].row;
+						nexCol = model.path[model.moveCounter+1].col;
 						
 						n = Node(Parameters.boardArr[nexRow][nexCol]);
-						//|| n.withinUnitRange != 0
+						
 						if(n.occupyingUnit != null ||n.walkable == false )
 						{
 							nextNodeWalkable = false;
@@ -362,23 +363,17 @@ package states.game.entities.units
 
 				if(nextNodeWalkable)
 				{
-					//next node is walkable so we can clear the one we're on
-					//clearTile(model.prevRow, model.prevCol);
 					
-					//occupyTile(model.row, model.col);
-					//occupyTile(nexRow, nexCol);//also occupy the next so no one will take it from us!
-					
-					UnitModel(model).destX = model.col * Parameters.tileSize; //model.col
-					UnitModel(model).destY = model.row * Parameters.tileSize; //model.row
-					
-					UnitModel(model).inWayPoint = false;
+					model.destX = model.col * Parameters.tileSize; //model.col
+					model.destY = model.row * Parameters.tileSize; //model.row
+					model.inWayPoint = false;
 				}
 				else
 				{
 					
 					
 					
-					var destNode:Node = UnitModel(model).path[UnitModel(model).path.length -1];
+					var destNode:Node = model.path[model.path.length -1];
 					UnitView(view).stopShootingAndStandIdlly();
 					stopMovingAndSplicePath();
 					getWalkPath(destNode.row, destNode.col);
@@ -392,13 +387,8 @@ package states.game.entities.units
 			
 			if(lastStep)
 			{
-				view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
-				/*clearTile(model.prevRow, model.prevCol);
-				var row:int = view.y / Parameters.tileSize;
-				var col:int = view.x / Parameters.tileSize;
-				model.row = row;
-				model.col = col;
-				occupyTile(row, col);*/
+				if(Parameters.DEBUG_MODE)view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
+
 				
 				if(model.isSelected)
 				{
@@ -410,7 +400,7 @@ package states.game.entities.units
 				setState(UnitStates.IDLE);
 			}
 			//update to next node!
-			UnitModel(model).moveCounter++;
+			model.moveCounter++;
 		}
 		
 		

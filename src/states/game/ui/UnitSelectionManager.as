@@ -57,8 +57,8 @@ package states.game.ui
 			
 			hitMC = GameAtlas.createMovieClip("hitMC");
 			hitMC.scaleX = hitMC.scaleY = 1;
-			hitMC.pivotX =  hitMC.width * (0.5/Parameters.gameScale);
-			hitMC.pivotY =  hitMC.height* (0.5/Parameters.gameScale);
+			hitMC.pivotX =  hitMC.width * (0.5);
+			hitMC.pivotY =  hitMC.height* (0.5);
 			Starling.juggler.add(hitMC);
 			hitMC.stop();
 			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
