@@ -93,7 +93,7 @@ package global.ai
 				{
 					var probabilityNum:int = allVehicles[k];
 					
-					for (var i:int = 0; i <  probabilityNum; i++ )
+					for (var i:int = 0; i < probabilityNum; i++ )
 					{
 						vehiclesArr.push(k);
 					}

@@ -47,7 +47,7 @@ package  states.game.entities.units
 		{
 			if(model != null && model.dead == false)
 			{
-				resetRowCol();
+				resetRowCol()
 				switch(model.currentState)
 				{
 					case UnitStates.IDLE:
@@ -208,7 +208,7 @@ package  states.game.entities.units
 			{
 				if (!inRefineryDock() && storageBar.currentStore == storageBar.totalStore)
 				{
-					if (model.controllingAgent == Agent.PC)setState(UnitStates.RETURN_TO_REFINERY);
+					setState(UnitStates.RETURN_TO_REFINERY);
 				}
 				else
 				{
@@ -238,6 +238,15 @@ package  states.game.entities.units
 			super.handleWalkState(_pulse);
 			
 		}
+		
+		
+		override protected function onDoneRotating(e:Event):void 
+		{
+			view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			
+			
+		}
+		
 		
 		override protected function lookAround():void
 		{
@@ -284,10 +293,10 @@ package  states.game.entities.units
 			return closestResource;
 		}
 		
-		override public function walkToDestination(targetRow:int, targetCol:int, _first:Boolean = true):void
+		override public function onDestinationReceived(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			returnRegHarvester()
-			super.walkToDestination(targetRow, targetCol,_first);
+			super.onDestinationReceived(targetRow, targetCol,_first);
 		}
 		
 		protected function findResources(_pulse:Boolean):void
@@ -404,7 +413,7 @@ package  states.game.entities.units
 			}
 			
 			//south_east
-			if(_degrees == 225 && _degrees <= 269)
+			if(_degrees >= 225 && _degrees <= 269)
 			{
 				textureName = "_SOUTH_east";
 			}

@@ -294,7 +294,7 @@ package states.game.ui
 							targetCol = o.col;
 							if (selectedAsset && selectedAsset.model.stats.name == o.assetName)
 							{
-								selectedAsset.walkToDestination(targetRow, targetCol);
+								selectedAsset.onDestinationReceived(targetRow, targetCol);
 								playHitAnim = true;
 								playDefault = false;
 							}
@@ -353,7 +353,7 @@ package states.game.ui
 						//trace"alright already!");
 						p = Parameters.currentSquad[0];
 						playHitAnim = true;
-						p.walkToDestination(targetRow, targetCol);
+						p.onDestinationReceived(targetRow, targetCol);
 					}
 				}
 				else
@@ -371,7 +371,7 @@ package states.game.ui
 						else
 						{
 							p = Parameters.currentSquad[i];
-							p.walkToDestination(placementsArr[i].row, placementsArr[i].col, (i==0));
+							p.onDestinationReceived(placementsArr[i].row, placementsArr[i].col, (i==0));
 							playHitAnim = true;
 						}
 					}

@@ -546,8 +546,14 @@ package  global
 				}
 			}
 			
-			var mc:MovieClip = new MovieClip(textures, 10);
-			return mc;
+			if (textures)
+			{
+				return new MovieClip(textures, 10)
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 }

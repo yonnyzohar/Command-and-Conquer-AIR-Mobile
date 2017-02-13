@@ -10,6 +10,7 @@ package states.game.entities.units.views
 	import starling.events.Event;
 	import states.game.entities.EntityModel;
 	import states.game.entities.GunTurretView;
+	import states.game.entities.units.Unit;
 	
 	import global.Parameters;
 	import global.pools.Pool;
@@ -45,35 +46,16 @@ package states.game.entities.units.views
 		{
 			model = _model;
 
-			 //createSoundModule();
 		}
 		
 		
-		
-		/*private function createSoundModule():void
+		protected function createView():void
 		{
-			var i:int = 0;
-			var SndClass:Class;
-			
-			if(model.sounds.shootSounds != null)
-			{
-				for(i = 0; i < model.sounds.shootSounds.length; i++)
-				{
-					SndClass = GameSounds.dict[model.sounds.shootSounds[i]];
-					shootSounds.push(new SndClass());
-				}
-			}
-			
-			if(model.sounds.dieSounds != null)
-			{
-				for(i = 0; i < model.sounds.dieSounds.length; i++)
-				{
-					SndClass = GameSounds.dict[model.sounds.dieSounds[i]];
-					dieSounds.push(new SndClass());
-				}
-			}
-			
-		}*/
+			//var q:Quad = new Quad(5, 5, 0x000000);
+			//addChild(q);
+			//q.x += Parameters.tileSize / 2;
+			//q.y += Parameters.tileSize / 2;
+		}
 		
 		override public function addHealthBar(_healthBar:HealthBar):void
 		{
@@ -103,27 +85,23 @@ package states.game.entities.units.views
 		
 		
 		
-		public function run():void
+		public function run(_plusNum:int = 1):void
 		{
+			var model:UnitModel = UnitModel(model);
 			traceView("animate run");
 			state = "_run";
 			
 			mc.loop = true;
 			
-			var realRow:int = int(y/Parameters.tileSize);
-			var realCol:int = int(x/Parameters.tileSize);
+			var realRow:int = int(y + (Parameters.tileSize/2)) / Parameters.tileSize;
+			var realCol:int = int(x + (Parameters.tileSize/2)) / Parameters.tileSize ;
+
 			
-			//model.row, model.col
 			
-			if (realRow == UnitModel(model).path[ UnitModel(model).moveCounter].row && realCol == UnitModel(model).path[ UnitModel(model).moveCounter].col )
+			if ( model.path[ model.moveCounter+_plusNum])
 			{
-				 UnitModel(model).moveCounter++;
-			}
-			
-			if ( UnitModel(model).path[ UnitModel(model).moveCounter])
-			{
-				var nextRow:int =  UnitModel(model).path[ UnitModel(model).moveCounter].row;
-				var nextCol:int =  UnitModel(model).path[ UnitModel(model).moveCounter].col
+				var nextRow:int =  model.path[ model.moveCounter+_plusNum].row;
+				var nextCol:int =  model.path[ model.moveCounter+_plusNum].col
 				
 				setDirection(realRow, realCol, nextRow, nextCol);
 				animatelayer();

@@ -178,7 +178,7 @@ package global.ui.hud
 					{
 						delete unitsDict[unit];
 						slot.dispose();
-						slot.view.removeFromParent(true);
+						if(slot.view)slot.view.removeFromParent(true);
 						slot = null;
 						slotsArr.splice(i, 1 );
 					}

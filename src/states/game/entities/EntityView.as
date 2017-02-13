@@ -23,7 +23,7 @@ package states.game.entities
 		public var model:EntityModel;
 		public var explosionAnim:MovieClip;
 		public var shootAnimPlaying:Boolean = false;
-		protected var recoilAnimating:Boolean = false;
+		public var recoilAnimating:Boolean = false;
 		public var texturesDict:Dictionary = new Dictionary();
 		
 		public function EntityView()
@@ -49,7 +49,7 @@ package states.game.entities
 		
 		public function drawRange(_prevRow:int, _prevCol:int, _row:int, _col:int):void 
 		{
-			if(Parameters.DEBUG_MODE && model.stats.weapon && model.stats.weapon.range)
+			if(model.stats.weapon && model.stats.weapon.range)
 			{
 				var node:Node;
 				var _shootRange:int = model.stats.weapon.range;

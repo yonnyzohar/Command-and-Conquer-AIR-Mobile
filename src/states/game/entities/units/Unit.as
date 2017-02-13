@@ -1,6 +1,7 @@
 package states.game.entities.units 
 {
 	import global.GameSounds;
+	import global.map.SpiralBuilder;
 	import global.Parameters;
 	import global.enums.Agent;
 	import global.enums.UnitStates;
@@ -28,7 +29,8 @@ package states.game.entities.units
 		private var userDeterminedRow:int;
 		private var userDeterminedCol:int;
 		private var userPathReached:Boolean = false;
-		
+		private var handlingError:Boolean = false;
+		private var finalNodeAfterError:Node;
 		
 		
 		public function Unit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
@@ -64,6 +66,8 @@ package states.game.entities.units
 			
 		}
 		
+		
+		
 		override public function sayHello():void
 		{
 			if (model.controllingAgent == Agent.HUMAN)
@@ -72,23 +76,12 @@ package states.game.entities.units
 			}
 		}
 		
-		
-	
-		
-		protected function resetRowCol():void
-		{
-			clearTile(model.row, model.col);
-			model.row = int((view.y ) / Parameters.tileSize);
-			model.col = int((view.x ) / Parameters.tileSize);
-			occupyTile(model.row, model.col);
-		}
-		
+
 		public function update(_pulse:Boolean):void
 		{
 			if(model != null && model.dead == false)
 			{
-				
-				resetRowCol();
+				resetRowCol()
 				switch(model.currentState)
 				{
 					case UnitStates.IDLE:
@@ -98,7 +91,11 @@ package states.game.entities.units
 						handleWalkState(_pulse);
 						break;
 					case UnitStates.SHOOT:
+						
 						handleShootState(_pulse);
+						break;
+					case UnitStates.WALK_ERROR:
+						handleWalkError(_pulse);
 						break;
 					case UnitStates.DIE:
 						handleDeath(_pulse);
@@ -108,6 +105,90 @@ package states.game.entities.units
 			else
 			{
 				handleDeath(_pulse);
+			}
+		}
+		
+		protected function resetRowCol():void
+		{
+			if (view.recoilAnimating)
+			{
+				return;
+			}
+			//clearTile(model.prevRow, model.prevCol);
+			//occupyTile(model.row, model.col);
+			
+			clearTile(model.row, model.col);
+			occupyTile( int(view.y + (Parameters.tileSize/2)) / Parameters.tileSize ,  int(view.x + (Parameters.tileSize/2)) / Parameters.tileSize );
+			
+		}
+		
+		private function handleWalkError(pulse:Boolean):void 
+		{
+			var model:UnitModel = UnitModel(model);
+			var backToRow:int =  model.row;
+			var backToCol:int = model.col;
+			if (model.path && model.path.length )
+			{
+				
+				finalNodeAfterError = model.path[model.path.length-1]
+				
+				
+				if (UnitModel(model).inWayPoint)
+				{
+					
+				}
+				else
+				{
+					
+					//go back one step
+					backToRow = model.path[model.moveCounter].row;
+					backToCol = model.path[model.moveCounter].col;
+					
+					var n:Node = Parameters.boardArr[backToRow][backToCol];
+				
+					model.moveCounter = 0;
+					handlingError = true;
+					if (n.occupyingUnit == null)
+					{
+						getWalkPath(backToRow, backToCol);
+					}
+					else
+					{
+						var placementsArr:Array = SpiralBuilder.getSpiral(backToRow, backToCol, 1);
+						getWalkPath(placementsArr[0].row, placementsArr[0].col);
+					}
+					
+					backToRow = model.path[model.moveCounter].row;
+					backToCol = model.path[model.moveCounter].col;
+					
+					UnitView(view).run();
+
+					addEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
+					trace("TRYING TO HANDLE ERROR")
+				}
+				
+				
+				
+				
+				setState(UnitStates.WALK);
+			}
+
+		}
+	
+		
+		private function onWayPointReachedFromError(e:Event):void 
+		{
+			trace("REACHED WAYPOINT ERROR")
+			var model:UnitModel = UnitModel(model);
+			removeEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
+			handlingError = false;
+			if (finalNodeAfterError)
+			{
+				trace("MOVING TO NEW DEST")
+				model.moveCounter = 0;
+				var placementsArr:Array = SpiralBuilder.getSpiral(finalNodeAfterError.row, finalNodeAfterError.col, 1);
+				getWalkPath(placementsArr[0].row, placementsArr[0].col);
+				setState(UnitStates.WALK);
 			}
 		}
 		
@@ -133,6 +214,7 @@ package states.game.entities.units
 		
 		protected function handleIdleState(_pulse:Boolean):void
 		{
+			//resetRowCol();
 			stopMovingAndSplicePath();
 			UnitView(view).stand();
 			traceMe("handleIdleState");
@@ -173,9 +255,6 @@ package states.game.entities.units
 		
 		
 		
-		
-		
-		
 		protected function doNothing():void
 		{
 			UnitModel(model).shootCount = 0;
@@ -189,24 +268,41 @@ package states.game.entities.units
 			doNothing();
 		}
 
-		override public function walkToDestination(targetRow:int, targetCol:int, _first:Boolean = true):void
+		override public function onDestinationReceived(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			////trace"override walk to dest!!!");
 			removeAllTiles();
+			removeEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
+			handlingError = false;
+			
 			if(model.isSelected)
 			{
-				view.traceView("walkToDestination");
+				view.traceView("onDestinationReceived");
 				if(_first)playOrderSound();
 				
 				userPathReached = false;
 				userDeterminedRow = targetRow;
 				userDeterminedCol = targetCol;
 				
-				stopMovingAndSplicePath();
-				
-				getWalkPath(targetRow, targetCol);
-				setState(UnitStates.WALK);
+				if (UnitModel(model).inWayPoint)
+				{
+					stopMovingAndSplicePath();
+					getWalkPath(targetRow, targetCol);
+					setState(UnitStates.WALK);
+				}
+				else
+				{
+					addEventListener("WAYPOINT_REACHED", onWayPointReached);
+				}
 			}
+		}
+		
+		private function onWayPointReached(e:Event):void 
+		{
+			removeEventListener("WAYPOINT_REACHED", onWayPointReached);
+			stopMovingAndSplicePath();
+			getWalkPath(userDeterminedRow, userDeterminedCol);
+			setState(UnitStates.WALK);
 		}
 		
 		private function playOrderSound():void
@@ -222,19 +318,25 @@ package states.game.entities.units
 					GameSounds.playSound("vehicle-move")
 				}
 			}
-			
-			
-			
 		}
 		
-		
+		protected function onDoneRotating(e:Event):void 
+		{
+			view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			
+			if (model.currentState == UnitStates.WALK)
+			{
+				stopMovingAndSplicePath();
+				getWalkPath(userDeterminedRow, userDeterminedCol);
+			}
+		}
 		
 		protected function lookAround():void{}		
 		
 		
 		public function getWalkPath(targetRow:int, targetCol:int):void 
 		{
-			//traceMe( "getWalkPath aStar: " + aStar + " targetRow: " + targetRow + " targetCol: " + targetCol);
+			var model:UnitModel = UnitModel(model);
 			
 			if(aStar == null)return;
 			
@@ -247,23 +349,17 @@ package states.game.entities.units
 			if(Parameters.boardArr[targetRow][targetCol] == undefined ||  Parameters.boardArr[targetRow][targetCol] == null)return;
 			
 			
-			//i'm surrounded by tiles that cannot be steeped on, i need to clear them in order to be able to move!
-			//clearTile(model.prevRow, model.prevCol);
-			//clearTile(model.row, model.col);
-			
-			UnitModel(model).path = aStar.getPath( Parameters.boardArr[model.row][model.col], Parameters.boardArr[targetRow][targetCol], uniqueID);
+			model.path = aStar.getPath( Parameters.boardArr[model.row][model.col], Parameters.boardArr[targetRow][targetCol], uniqueID);
 			//after we get the path, we can return the tiles so that others wont come too close to me.
-			if(PathTest.showPath)PathTest.createSelectedPath(UnitModel(model).path);
+			if(PathTest.showPath)PathTest.createSelectedPath(model.path);
 
-			
-			traceMe(" onPathFound");
-			UnitModel(model).moveCounter = 0;
-			UnitModel(model).moving = true;
-			UnitModel(model).inWayPoint = true;
+
+			model.moveCounter = 0;
+			model.moving = true;
+			model.inWayPoint = true;
 			
 		}
 		
-		var oldVersion:Boolean = true;
 		
 		protected function stopMovingAndSplicePath(_startShooting:Boolean = false):void
 		{
@@ -272,15 +368,10 @@ package states.game.entities.units
 			UnitModel(model).moving = false;
 			UnitModel(model).inWayPoint = true;
 			UnitModel(model).moveCounter = 0;
-			
+			//resetRowCol();
 			if (_startShooting)
 			{
 				removeAllTiles();
-				/*var row:int = view.y / Parameters.tileSize;
-				var col:int = view.x / Parameters.tileSize;
-				model.row = row;
-				model.col = col;
-				occupyTile(row, col);*/
 			}
 		}
 		
@@ -320,13 +411,25 @@ package states.game.entities.units
 			traceMe( " calculateNextStep: moveCounter - > " + model.moveCounter + " path.length: " + model.path.length);
 			var n:Node;
 			
+			resetRowCol();
+			
 			var lastStep:Boolean = false;
 			
-			if (model.moveCounter < model.path.length)
+			if (model.moveCounter < model.path.length-1)
 			{
 				if(Parameters.DEBUG_MODE)view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
 
 				UnitView(view).run();
+				//in case this is a rotating unit we need to make sure the path is still valid after rotation is done
+				//this should ONLY happen with USER SELECTED UNITS!
+				if (view is FullCircleView)
+				{
+					if (UnitModel(model).rotating)
+					{
+						view.addEventListener("DONE_ROTATING", onDoneRotating);
+					}
+					
+				}
 				traceMe("run");
 				
 				
@@ -337,15 +440,14 @@ package states.game.entities.units
 					model.prevRow = model.row;
 					model.prevCol = model.col;
 					
-					model.row = model.path[model.moveCounter].row;//this starts at 0
-					model.col = model.path[model.moveCounter].col;
 					var nexRow:int;
 					var nexCol:int; 
 					
 					if(model.path[model.moveCounter+1] != undefined)
 					{
 						nexRow = model.path[model.moveCounter+1].row;
-						nexCol = model.path[model.moveCounter+1].col;
+						nexCol = model.path[model.moveCounter + 1].col;
+						
 						
 						n = Node(Parameters.boardArr[nexRow][nexCol]);
 						
@@ -363,21 +465,17 @@ package states.game.entities.units
 
 				if(nextNodeWalkable)
 				{
-					
-					model.destX = model.col * Parameters.tileSize; //model.col
-					model.destY = model.row * Parameters.tileSize; //model.row
+					model.destX = nexCol * Parameters.tileSize;
+					model.destY = nexRow * Parameters.tileSize;
 					model.inWayPoint = false;
 				}
 				else
 				{
-					
-					
-					
-					var destNode:Node = model.path[model.path.length -1];
+					/*var destNode:Node = model.path[model.path.length-1];
 					UnitView(view).stopShootingAndStandIdlly();
 					stopMovingAndSplicePath();
 					getWalkPath(destNode.row, destNode.col);
-					//currentState = UnitStates.IDLE;
+					setState(UnitStates.WALK);*/
 				}
 			}
 			else
@@ -395,8 +493,12 @@ package states.game.entities.units
 					userPathReached = true;
 					traceMe( " finished walking - > IDLE");
 				}
+				UnitModel(model).inWayPoint = true;
 				UnitView(view).stopShootingAndStandIdlly();
 				stopMovingAndSplicePath();
+				//clearTile(model.row, model.col);
+				//occupyTile(  int(view.y / Parameters.tileSize) , int(view.x / Parameters.tileSize) );
+				dispatchEvent(new Event("WAYPOINT_REACHED"));
 				setState(UnitStates.IDLE);
 			}
 			//update to next node!
@@ -409,12 +511,24 @@ package states.game.entities.units
 		
 		protected function travel():void 
 		{
-			if(!UnitModel(model).inWayPoint)
+			var model:UnitModel = UnitModel(model);
+			if(!model.inWayPoint)
 			{
-				var dx:Number = UnitModel(model).destX - view.x;
-				var dy:Number = UnitModel(model).destY - view.y;
+				var path:Array = UnitModel(model).path;
+				var currNode:Node = path[model.moveCounter];
+				
+				if (currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
+				{
+					trace("found the bug in time!!");
+					setState(UnitStates.WALK_ERROR);
+					return;
+				}
+				
+				
+				var dx:Number = model.destX - view.x;
+				var dy:Number = model.destY - view.y;
 				var angle:Number = Math.atan2(dy, dx);
-				var speed:Number = UnitModel(model).stats.speed;
+				var speed:Number = model.stats.speed;
 				
 				if (speed <= 0)
 				{
@@ -426,20 +540,44 @@ package states.game.entities.units
 				view.x += vx;
 				view.y += vy;
 				
-				var distX:Number = Math.abs(UnitModel(model).destX - view.x);
-				var distY:Number = Math.abs(UnitModel(model).destY - view.y);
+				var distX:Number = Math.abs(model.destX - view.x);
+				var distY:Number = Math.abs(model.destY - view.y);
 				
 					
-				if(distX < speed &&distY < speed)
+				if(distX < speed &&distY < speed )
 				{
-					traceMe( "inWayPoint");
-					clearTile(model.prevRow, model.prevCol);
-					clearTile(model.row, model.col);	
-					view.x = UnitModel(model).destX;
-					view.y = UnitModel(model).destY;
-					UnitModel(model).inWayPoint = true;
+					clearTile(model.row, model.col);
+					occupyTile(  currNode.row , currNode.col );
+					
+					if (!inFirstNodeOfPath())
+					{
+						trace( "inWayPoint");
+
+						view.x = model.destX;
+						view.y = model.destY;
+						
+					}
+					else
+					{
+						trace("bug!")
+					}
+					
+					model.inWayPoint = true;
+					dispatchEvent(new Event("WAYPOINT_REACHED"));
+					
 				}
 			}
+		}
+		
+		private function inFirstNodeOfPath():Boolean 
+		{
+			var inFirstNodeOfPath:Boolean = false;
+			var firstNode:Node = UnitModel(model).path[0];
+			if (model.row == firstNode.row && model.col == firstNode.col)
+			{
+				inFirstNodeOfPath = true;
+			}
+			return inFirstNodeOfPath
 		}
 		
 		private var prevMsg:String = "";

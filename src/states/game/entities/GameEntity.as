@@ -8,6 +8,8 @@ package states.game.entities
 	import global.enums.UnitStates;
 	import global.map.Node;
 	import starling.display.Quad;
+	import starling.events.Event;
+	import states.game.entities.units.Unit;
 	import states.game.teamsData.TeamObject;
 	
 	import starling.events.EventDispatcher;
@@ -26,11 +28,12 @@ package states.game.entities
 		public var myTeamObj:TeamObject;
 		protected var currentInfantryDeath:String;
 		
-		private var showOccupyTiles:Boolean = false;
+		private var showOccupyTiles:Boolean = true;
 		
 		private var allTilesDict:Dictionary = new Dictionary();
 		public var aiBehaviour:int;
 		public var name:String;
+		private var myColor:uint; 
 		
 		public function GameEntity(_teamObj:TeamObject)
 		{
@@ -39,6 +42,7 @@ package states.game.entities
 			uniqueID = GLOBAL_UNIQUE_ID;
 			GLOBAL_UNIQUE_ID++;
 			aiBehaviour = myTeamObj.ai;
+			myColor = Math.random() * 0xFFFFFF;
 			//trace"uniqueID: " + uniqueID);
 		}
 		
@@ -91,19 +95,20 @@ package states.game.entities
 				{
 					n.occupyingUnit = this;
 					if (this.model.controllingAgent == Agent.HUMAN  )
-						{
-							n.seen = true;
-						}
+					{
+						n.seen = true;
+					}
 					
-						if (n.seen == false)
-						{
-							this.view.visible = false;
-						}
-						else
-						{
-							this.view.visible = true;
-						}
-						
+					if (n.seen == false)
+					{
+						this.view.visible = false;
+					}
+					else
+					{
+						this.view.visible = true;
+					}
+					model.row = proposedRow;
+					model.col = proposedCol;	
 					
 					showTile(proposedRow, proposedCol , n)
 					
@@ -112,7 +117,8 @@ package states.game.entities
 				{
 					if (n.occupyingUnit != this)
 					{
-						////trace("TILE ALREADY OCCUPIED")
+						trace("TILE ALREADY OCCUPIED " + uniqueID);
+						//setState(UnitStates.WALK_ERROR)
 					}
 				}
 			}
@@ -120,7 +126,10 @@ package states.game.entities
 		
 		private function hideTile(proposedRow:int, proposedCol:int):void 
 		{
-			if(showOccupyTiles)allTilesDict[proposedRow + "_" + proposedCol].quad.removeFromParent(true);
+			if (showOccupyTiles)
+			{
+				allTilesDict[proposedRow + "_" + proposedCol].quad.removeFromParent(true);
+			}
 			delete allTilesDict[proposedRow + "_" + proposedCol];
 		}
 		
@@ -129,11 +138,11 @@ package states.game.entities
 			var q:Quad;
 			if (showOccupyTiles)
 			{
-				q = new Quad(Parameters.tileSize, Parameters.tileSize);
+				q = new Quad(Parameters.tileSize, Parameters.tileSize, myColor);
 				q.x = Parameters.tileSize * proposedCol;
 				q.y = Parameters.tileSize * proposedRow;
 				q.touchable = false;
-				q.alpha = 0.1;
+				q.alpha = 0.2;
 				Parameters.upperTilesLayer.addChild(q);
 			}
 
@@ -296,7 +305,7 @@ package states.game.entities
 		
 		public function end():void{}
 		
-		public function walkToDestination(targetRow:int, targetCol:int,_first:Boolean = true):void{}
+		public function onDestinationReceived(targetRow:int, targetCol:int,_first:Boolean = true):void{}
 		
 		
 	}

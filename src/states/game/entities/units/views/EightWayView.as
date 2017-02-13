@@ -4,6 +4,7 @@ package states.game.entities.units.views
 	import global.Parameters;
 	import starling.display.BlendMode;
 	import starling.display.MovieClip;
+	import starling.display.Quad;
 	import starling.events.Event;
 	import states.game.entities.units.views.UnitView;
 	
@@ -123,9 +124,15 @@ package states.game.entities.units.views
 			lastFrame = frameName;
 		}
 		
-		protected function createView():void
+		override protected function createView():void
 		{
+			
 			mc = GameAtlas.createMovieClip(frameName, this.model.teamName);
+			if (mc == null)
+			{
+				return;
+			}
+			
 			//mc.blendMode = BlendMode.NONE;
 			
 			mc.scaleX = mc.scaleY = Parameters.gameScale;
@@ -135,7 +142,9 @@ package states.game.entities.units.views
 			mc.touchable = false;
 			mc.loop = true;
 			addChild(mc);
+			
 			Starling.juggler.add(MovieClip(mc));
+			super.createView();
 		}
 		
 		override public function setDirection(curRow:int, curCol:int, destRow:int, destCol:int, targetObj:Object = null):void

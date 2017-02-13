@@ -11,6 +11,7 @@ package states.game.entities.units.views
 	import starling.display.MovieClip;
 	import starling.events.Event;
 	import states.game.entities.EntityModel;
+	import states.game.entities.GameEntity;
 	import states.game.entities.GunTurretView;
 	import states.game.stats.VehicleStatsObj;
 	
@@ -76,7 +77,7 @@ package states.game.entities.units.views
 			addChild(turretMC);
 		}
 		
-		protected function createView():void
+		override protected function createView():void
 		{
 			if (mc != null) return;
 			var defaultTextures:Vector.<Texture>  = GameAtlas.getTextures(model.stats.name+"_move", model.teamName);
@@ -88,6 +89,7 @@ package states.game.entities.units.views
 			mc.touchable = false;
 			mc.currentFrame = currentFrameNum;
 			addChild(mc);
+			super.createView();
 		}
 		
 		override public function setDirection(curRow:int, curCol:int, destRow:int, destCol:int, targetObj:Object = null):void
@@ -222,10 +224,6 @@ package states.game.entities.units.views
 					
 					rotI += turnSpeed;
 				}
-				else
-				{
-					////trace("REACHED THE END OF THE ROTATION")
-				}
 			}
 			else
 			{
@@ -261,14 +259,18 @@ package states.game.entities.units.views
 			
 			 UnitModel(model).rotating = false;
 			 if (model.currentState == UnitStates.SHOOT)
-			 {
-				 dispatchEvent(new starling.events.Event("DONE_ROTATING"))
-			 }
+			 {}
+			dispatchEvent(new starling.events.Event("DONE_ROTATING"))
+			 
 			
 		}
 		
 		
-		
+		override public function shoot(enemy:GameEntity, eRow:int, eCol:int):void
+		{
+			super.shoot(enemy, eRow, eCol);
+			shootAnimPlaying = false;
+		}
 		
 		
 		override public function dispose():void

@@ -3,6 +3,7 @@ package global.ui.hud.slotIcons
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
 	import global.GameSounds;
+	import global.Parameters;
 	import global.ui.hud.HUD;
 	import global.utilities.GameTimer;
 	import global.utilities.GlobalEventDispatcher;
@@ -134,10 +135,14 @@ package global.ui.hud.slotIcons
 				
 				if (buildingDone == false && buildInProgress == false)
 				{
-					if (teamObj.cash - cost >= 0)
+					if (!Parameters.editMode)
 					{
-						GameSounds.playSound("building", "vo");
+						if (teamObj.cash - cost >= 0)
+						{
+							GameSounds.playSound("building", "vo");
+						}
 					}
+					
 					
 				}
 				simulateClickOnBuild();

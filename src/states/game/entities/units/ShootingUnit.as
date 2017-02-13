@@ -39,7 +39,7 @@ package  states.game.entities.units
 		protected var tileFound:Boolean = false;
 		protected var foundEnemy:GameEntity;
 		private var weapon:Weapon;
-		
+		private var shootCount:int;
 		
 		
 		public function ShootingUnit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
@@ -50,10 +50,13 @@ package  states.game.entities.units
 			{
 				weapon = new Weapon(_unitStats.weapon, model);
 			}
+			
+			shootCount = UnitModel(model).shootCount;
 		}
 		
 		override public function setState(state:int):void
 		{
+			
 			if (state != UnitStates.SHOOT)
 			{
 				if (view)
@@ -103,8 +106,6 @@ package  states.game.entities.units
 				}
 				else
 				{
-					//currentEnemy = getTargetsInSight();
-					
 					//yes
 					if(currentEnemy != null)
 					{
@@ -255,7 +256,7 @@ package  states.game.entities.units
 			}
 		}	
 		
-		override public function walkToDestination(targetRow:int, targetCol:int, _first:Boolean = true):void
+		override public function onDestinationReceived(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			if(model == null)return;
 			
@@ -266,7 +267,7 @@ package  states.game.entities.units
 				UnitModel(model).userOverrideAutoShoot = true;
 				currentEnemy = null;
 			}
-			super.walkToDestination(targetRow, targetCol,_first);
+			super.onDestinationReceived(targetRow, targetCol,_first);
 		}
 		
 		override protected function handleIdleState(_pulse:Boolean):void
@@ -277,12 +278,25 @@ package  states.game.entities.units
 		
 		override protected function handleWalkState(_pulse:Boolean):void
 		{
+			//if unit is shooting let the animation finish
+			if (model && model.currentState != UnitStates.DIE && UnitView(view).shootAnimPlaying)
+			{
+				return;
+			}
+			else
+			{
+				shootCount = 0;
+			}
 			if(view is FullCircleView)
 			{
 				if(UnitModel(model).rotating)
 				{
 					return;
 				}
+			}
+			if (UnitView(view).shootAnimPlaying)
+			{
+				return;
 			}
 			super.handleWalkState(_pulse);
 			findATarget(_pulse);
@@ -300,11 +314,12 @@ package  states.game.entities.units
 		{
 			if (model.dead == false)
 			{
+				
 				if (Methods.isValidEnemy(currentEnemy, teamNum) && isInRange(currentEnemy))
 				{
 					
 					var rateOfFire:int = UnitModel(model).stats.weapon.rateOfFire;
-					if(UnitModel(model).shootCount == rateOfFire)
+					if(shootCount == rateOfFire)
 					{
 						UnitView(view).shoot(currentEnemy , currentEnemy.model.row, currentEnemy.model.col);
 						
@@ -324,8 +339,14 @@ package  states.game.entities.units
 						{
 							UnitView(view).stopShootingAndStandIdlly();
 						}
+						else
+						{
+							trace("shoot anim is playing")
+						}
 					}
-					UnitModel(model).shootCount++;
+					
+					shootCount++;
+					trace(shootCount)
 				}
 				else
 				{
@@ -335,12 +356,13 @@ package  states.game.entities.units
 			
 		}
 		
-		private function onDoneRotating(e:Event):void 
+		override protected function onDoneRotating(e:Event):void 
 		{
-			view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			super.onDoneRotating(e);
 			if (model.currentState == UnitStates.SHOOT)
 			{
-				UnitModel(model).shootCount = 0;// UnitModel(model).stats.weapon.rateOfFire;
+				shootCount = 0;
+				trace("shootCount 0 done rotating")
 			}
 		}
 		
@@ -351,13 +373,19 @@ package  states.game.entities.units
 			{
 				UnitView(view).recoil( currentEnemy);
 			}
-			UnitModel(model).shootCount = 0;
+			shootCount = 0;
+			trace("shootCount 0 fireWeaponActual")
 		}
 		
 		override protected function doNothing():void
 		{
 			currentEnemy = null;
-			UnitModel(model).shootCount = 0;
+			if (UnitView(view).shootAnimPlaying == false)
+			{
+				shootCount = 0;
+				trace("shootCount 0 doNothing")
+			}
+			
 			super.doNothing();
 		}
 		
