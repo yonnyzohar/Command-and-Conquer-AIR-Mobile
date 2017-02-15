@@ -4,6 +4,7 @@ package global.ai
 	import global.assets.GameAssets;
 	import global.enums.AiBehaviours;
 	import global.Methods;
+	import global.ui.hud.slotIcons.BuildingSlotHolder;
 	import global.ui.hud.slotIcons.SlotHolder;
 	import global.utilities.GameTimer;
 	import starling.events.Event;
@@ -23,6 +24,9 @@ package global.ai
 		private var pcTeamObj:TeamObject;
 		private var buildCount:int = 0;
 		private var myBuildSlot:SlotHolder;
+		
+		private var myUnitSlotbj:Object;
+		
 		
 		private var infantryArr:Array = [];
 		private var vehiclesArr:Array = [];
@@ -46,14 +50,10 @@ package global.ai
 			createProbabilityArr();
 			
 			//buildQueue
-			buildBuilding();
-			//infantryQueue
+			buildBuilding(true);
 			
 			buildUnits();
 			
-			//buildInfantry();
-			//vehicleQueue
-			//buildVehicles();
 			
 			minNumOfAttackParty = aiJSON.minNumOfAttackParty;
 			
@@ -100,23 +100,29 @@ package global.ai
 				}
 			}
 			
-			trace("infantryArr: " + infantryArr);
-			trace("vehiclesArr: " + vehiclesArr);
+			//trace("infantryArr: " + infantryArr);
+			//trace("vehiclesArr: " + vehiclesArr);
 			
 		}
 		
 		
 		
-		private function buildBuilding():void 
+		private function buildBuilding(_firstTime:Boolean = false):void 
 		{
 			myBuildSlot = null;
 			//if there are still stuff to build
 			if (aiJSON.buildQueue[buildCount] && buildingBeingBuilt == false)
 			{
 				var currentBuildingObj:AssetStatsObj = Methods.getCurretStatsObj(aiJSON.buildQueue[buildCount]);
+				var buildPowerPlant:Boolean = false;
+				if (_firstTime || pcTeamObj.powerCtrl.POWER_SHORTAGE)
+				{
+					buildPowerPlant = true;
+				}
+				
 				
 				//if we have power - proceed
-				if (pcTeamObj.powerCtrl.POWER_SHORTAGE == false)
+				if (!buildPowerPlant)
 				{
 					//if we have money - build, on complete come back to here
 					if (pcTeamObj.cash >= currentBuildingObj.cost)
@@ -125,12 +131,13 @@ package global.ai
 						if (myBuildSlot)
 						{
 							myBuildSlot.simulateClickOnBuild();
+							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							buildingBeingBuilt = true;
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 						}
 						else
 						{
-							trace(currentBuildingObj.name + " slot does not exist");
+							//trace(currentBuildingObj.name + " slot does not exist");
 							buildCount++;
 							buildBuilding();
 						}
@@ -150,11 +157,12 @@ package global.ai
 						if (myBuildSlot)
 						{
 							myBuildSlot.simulateClickOnBuild();
+							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 						}
 						else
 						{
-							trace(currentBuildingObj.name + " slot does not exist");
+							//trace(currentBuildingObj.name + " slot does not exist");
 						}
 					}
 					else
@@ -173,7 +181,7 @@ package global.ai
 				}
 				else
 				{
-					trace("NOTHING MORE TO BUILD")
+					//trace("NOTHING MORE TO BUILD")
 				}
 				
 			}
@@ -182,7 +190,7 @@ package global.ai
 		
 		private function placeBuilding(e:Event):void 
 		{
-			trace("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
+			//trace("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
 			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 			pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
 			pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myBuildSlot.assetName);
@@ -191,9 +199,9 @@ package global.ai
 		
 
 		
-		private function onBuildingContructed(e:Event):void 
+		private function onBuildingContructed(e:Event = null):void 
 		{
-			trace("ASSET_CONSTRUCTED, move on");
+			//trace("ASSET_CONSTRUCTED, move on");
 			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
 			if (myBuildSlot.assetName != "power-plant")
 			{
@@ -221,39 +229,88 @@ package global.ai
 				vehicles = true;
 			}
 			
-			if (infantry && vehicles) 
+			if (myUnitSlotbj == null)
 			{
-				if (pcTeamObj.getHarvester() == null)
+				if (infantry && vehicles) 
 				{
-					buildVehicles();
-				}
-				else 
-				{
-					if (Math.random() < 0.4 )
-					{
-						buildInfantry();
-					}
-					else
+					if (pcTeamObj.getHarvester() == null)
 					{
 						buildVehicles();
 					}
+					else 
+					{
+						if (Math.random() < 0.4 )
+						{
+							buildInfantry();
+						}
+						else
+						{
+							buildVehicles();
+						}
+					}
+					
 				}
-				
-			}
-			else if(infantry && !vehicles)
-			{
-				buildInfantry();
-			}
-			else if (!infantry && vehicles)
-			{
-				buildVehicles()
+				else if(infantry && !vehicles)
+				{
+					buildInfantry();
+				}
+				else if (!infantry && vehicles)
+				{
+					buildVehicles()
+				}
+				else
+				{
+					//trace("no barracks or vehicle factory, try again soon");
+					setTimeout(buildUnits, 2000);
+				}
 			}
 			else
 			{
-				trace("no barracks or vehicle factory, try again soon");
-				setTimeout(buildUnits, 2000);
+				//we saved on to a desired unit, try to build it
+				//trace("trying to build saved unit " + myUnitSlotbj.name);
+				if (pcTeamObj.cash >= myUnitSlotbj.cost)
+				{
+					if (myUnitSlotbj.type == "vehicle" )
+					{
+						if (vehicles == true)
+						{
+							vehicleBeingBuilt = true;
+							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
+							myUnitSlotbj.slot.simulateClickOnBuild();
+							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+						}
+						else
+						{
+							myUnitSlotbj = null;
+							buildUnits();
+						}
+						
+					}
+					
+					if (myUnitSlotbj.type == "infantry")
+					{
+						if (infantry == true)
+						{
+							infantryBeingBuilt = true;
+							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
+							myUnitSlotbj.slot.simulateClickOnBuild();
+							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+						}
+						else
+						{
+							myUnitSlotbj = null;
+							buildUnits();
+						}
+					}
+				}
+				else
+				{
+					//trace("no money!, trying again")
+					setTimeout(buildUnits, 2000);
+				}
 			}
-			
 		}
 		
 		
@@ -261,39 +318,40 @@ package global.ai
 		{
 			var myInfantrySlot:SlotHolder;
 			
-				
-				
 			if (pcTeamObj.doesBuildingExist(["hand-of-nod", "barracks"]))
 			{
 				var rnd:int = Math.random() * infantryArr.length;
 				var randomInfantry:String = infantryArr[rnd];
 				var currentInfantrygObj:AssetStatsObj = Methods.getCurretStatsObj(randomInfantry);
-				//var producingBuilding:Object = pcTeamObj.buildManager.getProducingBuilding(currentInfantrygObj, pcTeamObj.team);
 				
-				if (pcTeamObj.cash >= currentInfantrygObj.cost)
+				myInfantrySlot = pcTeamObj.buildManager.hud.getSlot(randomInfantry);
+				
+				if (myInfantrySlot)
 				{
-					myInfantrySlot = pcTeamObj.buildManager.hud.getSlot(randomInfantry);
-					if (myInfantrySlot)
+					
+					if ( pcTeamObj.cash >= currentInfantrygObj.cost)
 					{
-						trace("building a " + randomInfantry)
+						//trace("building a " + randomInfantry)
 						myInfantrySlot.simulateClickOnBuild();
+						myInfantrySlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 						infantryBeingBuilt = true;
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 					}
 					else
 					{
-						trace("COULD NOT FIND INFANTRY SLOT!!!")
+						myUnitSlotbj = { slot : pcTeamObj.buildManager.hud.getSlot(randomInfantry), cost : currentInfantrygObj.cost , type : "infantry" , name : randomInfantry};
+						//trace("no money!, trying again")
+						setTimeout(buildUnits, 2000);
 					}
 				}
 				else
 				{
-					trace("no money!, trying again")
-					setTimeout(buildUnits, 2000);
+					
 				}
 			}
 			else
 			{
-				setTimeout(buildUnits, 2000);
+				setTimeout(buildUnits, 1000);
 			}
 		}
 		
@@ -301,6 +359,7 @@ package global.ai
 		{
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 			infantryBeingBuilt = false;
+			myUnitSlotbj = null;
 			buildUnits();
 		}
 		
@@ -318,42 +377,77 @@ package global.ai
 				{
 					randomVehicle = "harvester";
 				}
+				else
+				{
+					var numHarvesters:int = pcTeamObj.getNumOfHarvesters();
+					if (numHarvesters < 4)
+					{
+						if (Math.random() < 0.15)
+						{
+							randomVehicle = "harvester";
+						}
+					}
+					
+				}
 				
 				var currentVehicleObj:AssetStatsObj = Methods.getCurretStatsObj(randomVehicle);
+				myVehicleSlot = pcTeamObj.buildManager.hud.getSlot(randomVehicle);
 				
-				if (pcTeamObj.cash >= currentVehicleObj.cost)
+				if ( myVehicleSlot )
 				{
-					myVehicleSlot = pcTeamObj.buildManager.hud.getSlot(randomVehicle);
-					if (myVehicleSlot)
+					
+					if (pcTeamObj.cash >= currentVehicleObj.cost)
 					{
-						trace("building a " + randomVehicle)
+						//trace("building a " + randomVehicle)
 						vehicleBeingBuilt = true;
 						myVehicleSlot.simulateClickOnBuild();
+						myVehicleSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 					}
 					else
 					{
-						trace("COULD NOT FIND VEHICLE SLOT!!!")
+						//trace("COULD NOT FIND VEHICLE SLOT!!!")
+						myUnitSlotbj = { slot : pcTeamObj.buildManager.hud.getSlot(randomVehicle), cost : currentVehicleObj.cost , type : "vehicle", name : randomVehicle };
+						//trace("no money!, trying again")
+						setTimeout(buildUnits, 2000);
 					}
 				}
 				else
 				{
-					trace("no money!, trying again")
-					setTimeout(buildUnits, 2000);
+					
 				}
 			}
 			else
 			{
-				setTimeout(buildUnits, 2000);
+				setTimeout(buildUnits, 1000);
 			}
 			
 			
+		}
+		
+		private function onBuildCancelledAbruptly(e:Event):void 
+		{
+			var slot:SlotHolder = SlotHolder(e.target);
+			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+			if (slot is BuildingSlotHolder)
+			{
+				onBuildingContructed()
+			}
+			else
+			{
+				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+				infantryBeingBuilt = false;
+				vehicleBeingBuilt = false;
+				myUnitSlotbj = null;
+				buildUnits();
+			}
 		}
 		
 		private function onVehicleComplete(e:Event):void 
 		{
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 			vehicleBeingBuilt = false;
+			myUnitSlotbj = null;
 			buildUnits();
 		}
 		
@@ -382,7 +476,7 @@ package global.ai
 						var p:GameEntity = myTeam[i];
 						p.changeAI(AiBehaviours.SEEK_AND_DESTROY);
 					}
-					trace("sendin " + minNumOfAttackParty[currentAttackPartyCount] + " to attack!")
+					//trace("sendin " + minNumOfAttackParty[currentAttackPartyCount] + " to attack!")
 					currentAttackPartyCount++;
 					
 					if (currentAttackPartyCount > minNumOfAttackParty.length)

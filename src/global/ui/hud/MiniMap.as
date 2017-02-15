@@ -312,6 +312,7 @@ package global.ui.hud
 		private function shutDownMap():void 
 		{
 			map.visible = false;
+			mapImage.removeFromParent();
 			selectionArea.visible = false;
 			
 		}

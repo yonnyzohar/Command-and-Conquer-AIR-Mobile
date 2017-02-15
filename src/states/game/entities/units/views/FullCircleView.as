@@ -126,7 +126,7 @@ package states.game.entities.units.views
 			
 			degrees = Math.ceil(degrees);
 			
-			////trace(degrees);
+			//////trace(degrees);
 
 			//taking this out of the if statement solved the animation bug...
 			swapMCTextures(degrees);
@@ -140,7 +140,7 @@ package states.game.entities.units.views
 			if(mc != null &&  UnitModel(model).rotating == false)
 			{
 				 UnitModel(model).rotating = true;
-				// //trace("_degrees, oldDegrees " + _degrees, oldDegrees)
+				// ////trace("_degrees, oldDegrees " + _degrees, oldDegrees)
 				endFrame = Methods.degreesToFrame(_degrees, oldDegrees);
 			}
 			else
@@ -159,7 +159,7 @@ package states.game.entities.units.views
 				return;
 			}
 			rotArr = Methods.getShortestPath(currentFrameNum, endFrame);
-			////trace("rotArr " + rotArr)
+			//////trace("rotArr " + rotArr)
 			rotI = 0;
 			
 			framesToPlay = rotArr.length;
@@ -234,7 +234,7 @@ package states.game.entities.units.views
 		private function doneRotate(endFrame:int):void
 		{
 			if (model == null) return;
-			////trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
+			//////trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
 			currentFrameNum = endFrame;
 			rotI = rotArr.length - 1;
 			if (rotArr.length != 0)

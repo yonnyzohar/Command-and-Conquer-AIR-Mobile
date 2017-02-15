@@ -71,6 +71,9 @@ package  states.game.entities.units
 					case UnitStates.LOADING_RESOURCES:
 						handleLoadingResources(_pulse);
 						break
+					case UnitStates.WALK_ERROR:
+						handleWalkError(_pulse);
+						break;
 				}
 			}
 		}

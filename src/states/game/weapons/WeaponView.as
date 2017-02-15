@@ -285,7 +285,7 @@ package  states.game.weapons
 				var distX:Number = Math.abs(b.x - targetX);
 				var distY:Number = Math.abs(b.y - targetY);
 				
-				////trace("dist " + distX + "," + distY);
+				//////trace("dist " + distX + "," + distY);
 				
 				if((distX < 5 && distY < 5) || passedTarget(distX,distY ))
 				{

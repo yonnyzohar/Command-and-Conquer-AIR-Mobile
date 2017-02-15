@@ -314,6 +314,11 @@ package global.ui.hud.slotIcons
 				view = null;
 			}
 			
+			if (buildInProgress)
+			{
+				dispatchEvent(new Event("BUILD_CANCELLED_ABRUPTLY"));
+			}
+			
 			GameTimer.getInstance().removeUser(this);
 			buildInProgress = false;
 			buildCompleteFunction = null;

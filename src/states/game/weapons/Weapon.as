@@ -92,7 +92,7 @@ package  states.game.weapons
 			}
 			else
 			{
-				trace("NO SOUND!!")
+				//trace("NO SOUND!!")
 			}
 			
 			
@@ -227,7 +227,7 @@ package  states.game.weapons
 			}
 
 			
-			////trace("trying to hit " + u + " at row: " + hitRow + " col: " + hitCol )
+			//////trace("trying to hit " + u + " at row: " + hitRow + " col: " + hitCol )
 			
 			return u
 		}

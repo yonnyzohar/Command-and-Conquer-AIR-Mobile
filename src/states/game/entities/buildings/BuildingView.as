@@ -104,7 +104,7 @@ package states.game.entities.buildings
 		public function playState():void 
 		{
 			var newStateName:String = model.stats.name + state + healthAnim;
-			////trace("newStateName " + newStateName)
+			//////trace("newStateName " + newStateName)
 			
 			if (currentState != newStateName)
 			{

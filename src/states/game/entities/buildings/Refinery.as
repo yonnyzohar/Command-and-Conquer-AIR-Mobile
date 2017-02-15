@@ -43,7 +43,7 @@ package  states.game.entities.buildings
 		{
 			loadCompleteFNCTB = _loadCompleteFNCTB;
 			currentStore = _currentStore;
-			////trace("adding " + currentStore + " CASH!")
+			//////trace("adding " + currentStore + " CASH!")
 			//refinery_healthy-docking
 			BuildingView(view).state = "-docking";
 			BuildingView(view).mc.loop = false;
@@ -66,7 +66,7 @@ package  states.game.entities.buildings
 			{
 				myTeamObj.addCash(  1 );
 				currentStore--;
-				////trace(currentStore);
+				//////trace(currentStore);
 			}
 			else
 			{
@@ -124,7 +124,7 @@ package  states.game.entities.buildings
 							var unit:Unit = Unit(n.occupyingUnit);
 							if (unit.teamNum == teamNum)
 							{
-								trace("unit blocking harvester, moving unit")
+								//trace("unit blocking harvester, moving unit")
 								unit.getWalkPath(n.row + int(Math.random()*10), n.col + int(Math.random()*10));
 								unit.setState(UnitStates.WALK);
 							}

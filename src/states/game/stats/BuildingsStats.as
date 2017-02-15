@@ -36,6 +36,7 @@ package states.game.stats
 				buildingObj.connectedSprites = curBuilding.connectedSprites;
 				buildingObj.attachedUnit = curBuilding.attachedUnit;
 				buildingObj.hasBaseIMG = curBuilding.hasBaseIMG;
+				buildingObj.buildingType = curBuilding.buildingType;
 				
 				if (curBuilding.residents)
 				{

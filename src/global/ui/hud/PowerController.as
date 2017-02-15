@@ -40,8 +40,8 @@ package global.ui.hud
 				}
 			}
 			
-			//trace("totalPowerIn " + totalPowerIn);
-			//trace("totalPowerOut " + totalPowerOut);
+			////trace("totalPowerIn " + totalPowerIn);
+			////trace("totalPowerOut " + totalPowerOut);
 			
 			var prevPower:Boolean = POWER_SHORTAGE;
 			

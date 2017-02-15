@@ -191,7 +191,7 @@ package global.utilities
 				
 				diffX = Parameters.mapHolder.x - lastX;
 				diffY = Parameters.mapHolder.y - lastY;
-				//trace("diffX " + diffX, "diffY " + diffY);
+				////trace("diffX " + diffX, "diffY " + diffY);
 				clearTimeout(myTimeout);
 				MouseStates.currentState = MouseStates.REG_PLAY;
 				if (diffX != 0 && diffY != 0)
@@ -212,7 +212,7 @@ package global.utilities
 		
 		private function changeToSelect(_x:int, _y:int):void
 		{
-			//trace("SELECT")
+			////trace("SELECT")
 			MouseStates.currentState = MouseStates.SELECT;
 			UnitSelectionManager.getInstance().beginDrawingRectangle(_x, _y);
 			
@@ -238,7 +238,7 @@ package global.utilities
 				if (Math.abs(diffX) < 1 && Math.abs(diffY) < 1)
 				{
 					easeMe = false;
-					//trace("STOP EASE!")
+					////trace("STOP EASE!")
 				}
 				
 			}

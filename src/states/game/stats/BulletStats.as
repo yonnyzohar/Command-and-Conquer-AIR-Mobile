@@ -24,7 +24,7 @@ package states.game.stats
 				bulletObj.warhead 		 = WarheadStats.dict[curBullet.warhead]	;	                  //:WarheadStatsObj;// "highexplosive",
 				if (bulletObj.warhead == null)
 				{
-					////trace("yo");
+					//////trace("yo");
 				}
 				
 				bulletObj.ballisticCurve = curBullet.ballisticCurve  ;                //:Boolean;// true,

@@ -84,7 +84,7 @@ package states.game.stats
 							var curDict:Dictionary = stats[i];					
 							if (curDict[n].tech > levelTech)
 							{
-								//trace(n + " tech is " + curDict[n].tech + " current " + levelTech)
+								////trace(n + " tech is " + curDict[n].tech + " current " + levelTech)
 							}
 						}
 					}

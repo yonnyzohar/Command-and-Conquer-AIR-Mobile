@@ -200,7 +200,7 @@ package  states.game.entities.units
 			if(currentEnemy.model == null)return false;
 			if(currentEnemy.model.dead == true)return false;
 			var shootRange:int = UnitModel(model).stats.weapon.range;
-			////trace("shootRange " + shootRange);
+			//////trace("shootRange " + shootRange);
 			
 			var rowDiff:int;
 			var colDiff:int;
@@ -341,12 +341,12 @@ package  states.game.entities.units
 						}
 						else
 						{
-							trace("shoot anim is playing")
+							////trace("shoot anim is playing")
 						}
 					}
 					
 					shootCount++;
-					trace(shootCount)
+					//trace(shootCount)
 				}
 				else
 				{
@@ -362,7 +362,7 @@ package  states.game.entities.units
 			if (model.currentState == UnitStates.SHOOT)
 			{
 				shootCount = 0;
-				trace("shootCount 0 done rotating")
+				//trace("shootCount 0 done rotating")
 			}
 		}
 		
@@ -374,7 +374,7 @@ package  states.game.entities.units
 				UnitView(view).recoil( currentEnemy);
 			}
 			shootCount = 0;
-			trace("shootCount 0 fireWeaponActual")
+			//trace("shootCount 0 fireWeaponActual")
 		}
 		
 		override protected function doNothing():void
@@ -383,7 +383,7 @@ package  states.game.entities.units
 			if (UnitView(view).shootAnimPlaying == false)
 			{
 				shootCount = 0;
-				trace("shootCount 0 doNothing")
+				//trace("shootCount 0 doNothing")
 			}
 			
 			super.doNothing();
@@ -408,7 +408,7 @@ package  states.game.entities.units
 				var e:GameEntity;
 				var n:Node;
 				
-				////trace("moveUp " + currentI);
+				//////trace("moveUp " + currentI);
 				for (i = 0; i <= currentI; i++)
 				{
 					if (Methods.validTile(row - i, col))
@@ -458,7 +458,7 @@ package  states.game.entities.units
 								//moveDown(row, col, _range);
 								dir = "down";
 								currentI++;
-								////trace("moveDown " + currentI);
+								//////trace("moveDown " + currentI);
 								for (i = 0; i < currentI; i++)
 								{
 									if (Methods.validTile(row + i, col))
@@ -484,7 +484,7 @@ package  states.game.entities.units
 										row = row + currentI;
 										//moveLeft(row, col, _range);
 										dir = "left";
-										////trace("moveLeft " + currentI);
+										//////trace("moveLeft " + currentI);
 										for (i = 0; i <= currentI; i++)
 										{
 											if (Methods.validTile(row, col - i))

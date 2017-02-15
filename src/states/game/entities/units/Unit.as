@@ -122,7 +122,7 @@ package states.game.entities.units
 			
 		}
 		
-		private function handleWalkError(pulse:Boolean):void 
+		protected function handleWalkError(pulse:Boolean):void 
 		{
 			var model:UnitModel = UnitModel(model);
 			var backToRow:int =  model.row;
@@ -164,7 +164,7 @@ package states.game.entities.units
 					UnitView(view).run();
 
 					addEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
-					trace("TRYING TO HANDLE ERROR")
+					//trace("TRYING TO HANDLE ERROR")
 				}
 				
 				
@@ -178,13 +178,13 @@ package states.game.entities.units
 		
 		private function onWayPointReachedFromError(e:Event):void 
 		{
-			trace("REACHED WAYPOINT ERROR")
+			//trace("REACHED WAYPOINT ERROR")
 			var model:UnitModel = UnitModel(model);
 			removeEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
 			handlingError = false;
 			if (finalNodeAfterError)
 			{
-				trace("MOVING TO NEW DEST")
+				//trace("MOVING TO NEW DEST")
 				model.moveCounter = 0;
 				var placementsArr:Array = SpiralBuilder.getSpiral(finalNodeAfterError.row, finalNodeAfterError.col, 1);
 				getWalkPath(placementsArr[0].row, placementsArr[0].col);
@@ -226,7 +226,7 @@ package states.game.entities.units
 		{
 			if (model)
 			{
-				trace(model.stats.name + " " + this.model.teamName + " is dead!")
+				//trace(model.stats.name + " " + this.model.teamName + " is dead!")
 				model.dead = true;
 				UnitModel(model).moving = false;
 			}
@@ -519,7 +519,7 @@ package states.game.entities.units
 				
 				if (currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
 				{
-					trace("found the bug in time!!");
+					//trace("found the bug in time!!");
 					setState(UnitStates.WALK_ERROR);
 					return;
 				}
@@ -551,7 +551,7 @@ package states.game.entities.units
 					
 					if (!inFirstNodeOfPath())
 					{
-						trace( "inWayPoint");
+						//trace( "inWayPoint");
 
 						view.x = model.destX;
 						view.y = model.destY;
@@ -559,7 +559,7 @@ package states.game.entities.units
 					}
 					else
 					{
-						trace("bug!")
+						//trace("bug!")
 					}
 					
 					model.inWayPoint = true;
@@ -593,7 +593,7 @@ package states.game.entities.units
 					var myMessage:String = "team: " + model.teamName + " state : " +  getCurrentState(currentState) + " msg : " + msg + " / row " + model.row + " , col " + model.col;
 					if (prevMsg != myMessage)
 					{
-						//trace(myMessage);
+						////trace(myMessage);
 						prevMsg = myMessage;
 					}
 					

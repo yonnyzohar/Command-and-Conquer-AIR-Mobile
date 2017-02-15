@@ -67,8 +67,6 @@ package states.game
 
 		public function Game() 
 		{
-			Parameters.DEBUG_MODE = false;
-			
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
 			TeamsLoader.init();//loads in xml with num of units in each team- to be changed later

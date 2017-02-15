@@ -46,7 +46,7 @@ package states.game.entities.buildings
 		{
 			var targetObj:Object = Methods.getTargetLocation(enemy);
 			
-			//trace("turret shoot")
+			////trace("turret shoot")
 			setDirection(model.row, model.col,eRow, eCol, targetObj);
 
 		}
@@ -129,7 +129,7 @@ package states.game.entities.buildings
 				rotArr = Methods.getShortestPath(currentFrameNum, endFrame);
 				rotI = 0;
 				framesToPlay = rotArr.length;
-				//trace("framesToPlay " + framesToPlay)
+				////trace("framesToPlay " + framesToPlay)
 				GameTimer.getInstance().addUser(this);
 			}
 			
@@ -181,11 +181,11 @@ package states.game.entities.buildings
 						}
 						catch (e:Error)
 						{
-							trace(e.message)
+							//trace(e.message)
 						}
 						
 					}
-					//trace(rotI + " / " + rotArr.length)
+					////trace(rotI + " / " + rotArr.length)
 					rotI += turnSpeed;
 				}
 				else
@@ -201,7 +201,7 @@ package states.game.entities.buildings
 		
 		private function doneRotate(endFrame:int):void
 		{
-			//trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
+			////trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
 			currentFrameNum = endFrame;
 			
 			if (mc && endFrame <= mc.numFrames)

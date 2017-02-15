@@ -17,7 +17,7 @@ package global
 		public function GameLoadManager() 
 		{
 			super();
-			//trace("isPrimordial: " + Worker.current.isPrimordial)
+			////trace("isPrimordial: " + Worker.current.isPrimordial)
 			//queue = new LoaderMax( { name:"mainQueue", onProgress:progressHandler, onComplete:completeHandler, onError:errorHandler, onChildOpen:childOpened } );
 			
 		}

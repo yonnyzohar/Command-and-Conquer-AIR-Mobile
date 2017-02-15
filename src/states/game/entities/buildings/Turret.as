@@ -167,7 +167,7 @@ package  states.game.entities.buildings
 			if(currentEnemy.model == null)return false;
 			if(currentEnemy.model.dead == true)return false;
 			var shootRange:int = model.stats.weapon.range;
-			////trace("shootRange " + shootRange);
+			//////trace("shootRange " + shootRange);
 			
 			var rowDiff:int;
 			var colDiff:int;

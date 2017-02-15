@@ -28,7 +28,7 @@ package states.game.entities
 		public var myTeamObj:TeamObject;
 		protected var currentInfantryDeath:String;
 		
-		private var showOccupyTiles:Boolean = true;
+		private var showOccupyTiles:Boolean = false;
 		
 		private var allTilesDict:Dictionary = new Dictionary();
 		public var aiBehaviour:int;
@@ -117,7 +117,7 @@ package states.game.entities
 				{
 					if (n.occupyingUnit != this)
 					{
-						trace("TILE ALREADY OCCUPIED " + uniqueID);
+						//trace("TILE ALREADY OCCUPIED " + uniqueID);
 						//setState(UnitStates.WALK_ERROR)
 					}
 				}

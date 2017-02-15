@@ -216,7 +216,7 @@ package global.map.mapTypes
 			img.x -= (1024 * colPer )
 			img.y -= (1024 *rowPer )
 			
-			////trace(rowPer + " " + colPer );
+			//////trace(rowPer + " " + colPer );
 			var renderTex:RenderTexture = renderTextures[rowPer][colPer];
 			renderTex.draw(img);
 		}

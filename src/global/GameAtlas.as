@@ -165,7 +165,7 @@ package  global
 								if (assetDir.name == mustMap[currentTypeName][g])
 								{
 									loadedAssets[assetDir.name] = true;
-									//trace(assetDir.name);
+									////trace(assetDir.name);
 									
 									var obj:Object = 
 									{
@@ -217,7 +217,7 @@ package  global
 			
 			if (loadingInProgress)
 			{
-				//trace("waiting")
+				////trace("waiting")
 				GlobalEventDispatcher.getInstance().addEventListener("WORKER_DONE", runMe);
 			}
 			else
@@ -227,7 +227,7 @@ package  global
 			
 			function runMe(e:starling.events.Event = null):void
 			{
-				//trace("running!");
+				////trace("running!");
 				callback = _callback;
 				assetNames.splice(0);
 
@@ -257,7 +257,7 @@ package  global
 									//this is to make sure we haven't loaded this asset already
 									if(dirsToLoadMap[assetDir.name] && loadedAssets[assetDir.name] == undefined)
 									{
-										//trace("----------adding " + assetDir.name + " TA")
+										////trace("----------adding " + assetDir.name + " TA")
 										loadedAssets[assetDir.name] = true;
 										var obj:Object = {
 											
@@ -295,7 +295,7 @@ package  global
 		{
 			if (worker.state == WorkerState.RUNNING) 
             {
-				//trace("ASSET NAMES!!!!!");
+				////trace("ASSET NAMES!!!!!");
                 mainToBack.send(assetNames);
             }
 		}
@@ -403,7 +403,7 @@ package  global
 		
 		static private function killWorker():void 
 		{
-			//trace("killWorker");
+			////trace("killWorker");
 			worker.removeEventListener(flash.events.Event.WORKER_STATE, handleBGWorkerStateChange);
 			worker.terminate();
 			worker = null;

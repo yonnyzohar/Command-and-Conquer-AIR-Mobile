@@ -35,6 +35,7 @@ package global.ui.hud
 		private var teamObj:TeamObject;
 		
 		public static const BUILDNG_SPOT_FOUND:String = "BUILDNG_SPOT_FOUND"
+		static public const FORBID_PADDING:Boolean = true;
 		
 		public function BuidingPlacementMarker(_teamObj:TeamObject) 
 		{
@@ -207,7 +208,7 @@ package global.ui.hud
 				}
 			}
 			
-			trace("foundValidPlace " + foundValidPlace + " " + used);
+			//trace("foundValidPlace " + foundValidPlace + " " + used);
 		}
 		
 
@@ -259,23 +260,28 @@ package global.ui.hud
 			}
 			else
 			{
-				var n:Node;
-			
-				outer : for (var row:int = -1; row <= 1; row ++  )
+				if (FORBID_PADDING)
 				{
-					for (var col:int = -1; col <= 1; col ++  )
+					var n:Node;
+			
+					outer : for (var row:int = -1; row <= 1; row ++  )
 					{
-						if (Parameters.boardArr[node.row + row] && Parameters.boardArr[node.row + row][node.col + col])
+						for (var col:int = -1; col <= 1; col ++  )
 						{
-							n = Parameters.boardArr[node.row + row][node.col + col];
-							if ( n.occupyingUnit )
+							if (Parameters.boardArr[node.row + row] && Parameters.boardArr[node.row + row][node.col + col])
 							{
-								valid = false;
-								break outer;
+								n = Parameters.boardArr[node.row + row][node.col + col];
+								if ( n.occupyingUnit )
+								{
+									valid = false;
+									break outer;
+								}
 							}
 						}
 					}
 				}
+				
+				
 			}
 			
 			return valid;

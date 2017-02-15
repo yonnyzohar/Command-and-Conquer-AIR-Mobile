@@ -24,7 +24,7 @@ package states.game.stats
 				warheadObj.infantryDeath =  curWarhead.infantryDeath;
 				dict[curWarhead.name] = warheadObj;
 			}
-			//trace("fsdfsdf");
+			////trace("fsdfsdf");
 		}
 		
 	}

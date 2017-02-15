@@ -8,6 +8,7 @@ package states.game.stats
 		public var residents:int = 0;
 		public var attachedUnit:String;
 		public var hasBaseIMG:Boolean;
+		public var buildingType:String;
 		
 	}
 }

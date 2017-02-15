@@ -46,12 +46,12 @@ package global.pools
 			endFrame = Methods.degreesToFrame(degrees, 0);
 			//taking this out of the if statement solved the animation bug...
 			
-			////trace("shooting at " + degrees + " degrees, frame " + endFrame)
+			//////trace("shooting at " + degrees + " degrees, frame " + endFrame)
 			
 			if (endFrame <= numFrames)
 			{
 				this.currentFrame = endFrame;
-				////trace("set at " + this.currentFrame)
+				//////trace("set at " + this.currentFrame)
 			}
 			
 		}
@@ -178,7 +178,7 @@ package global.pools
 			
 			dir =  firstDir + "" + secondDir;
 			
-			//trace(_assetName + ": " + dir + " / " + "curRow " + curRow + " curCol " + curCol + " destRow " + destRow + " destCol " + destCol)
+			////trace(_assetName + ": " + dir + " / " + "curRow " + curRow + " curCol " + curCol + " destRow " + destRow + " destCol " + destCol)
 			
 			animatelayer(_assetName);
 			

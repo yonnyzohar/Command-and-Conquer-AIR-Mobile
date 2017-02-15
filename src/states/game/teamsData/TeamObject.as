@@ -1,6 +1,7 @@
 package states.game.teamsData
 {
 	import com.greensock.TweenLite;
+	import flash.utils.Dictionary;
 	import global.enums.Agent;
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
@@ -46,6 +47,7 @@ package states.game.teamsData
 		public var powerCtrl:PowerController;
 		private var startParams:Object;
 		private var enemyTeam1Obj:TeamObject;
+		public var teamBuildingsDict:Dictionary = new Dictionary();
 		
 		public function TeamObject(_startParams:Object, _teamNum:int)
 		{
@@ -57,10 +59,7 @@ package states.game.teamsData
 			
 			teamNum = _teamNum;
 			
-			buildManager = new TeamBuildManager();
-			buildManager.init(startParams, this);
-			buildManager.addEventListener("UNIT_CONSTRUCTED", onUnitContructed);
-			buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			
 			
 		}
 		
@@ -138,7 +137,43 @@ package states.game.teamsData
 					ent.placeUnit(placementsArr[0].row, placementsArr[0].col);
 					team.push(ent);
 					
+					if (curType == "startBuildings")
+					{
+						addBuildingToDict(BuildingsStats.dict[obj.name].buildingType);
+					}
+					
+					
 					//handleAtachedUnit(obj.name, placementsArr[0].row, placementsArr[0].col);
+				}
+			}
+			
+			buildManager = new TeamBuildManager();
+			buildManager.init(startParams, this);
+			buildManager.addEventListener("UNIT_CONSTRUCTED", onUnitContructed);
+			buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+		}
+		
+		private function addBuildingToDict(_buildingName:String):void 
+		{
+			if (teamBuildingsDict[_buildingName] == undefined)
+			{
+				teamBuildingsDict[_buildingName] = 1;
+			}
+			else
+			{
+				teamBuildingsDict[_buildingName]++;
+			}
+		}
+		
+		private function removeBuildingFromDict(_buildingName:String):void 
+		{
+			if (teamBuildingsDict[_buildingName])
+			{
+				teamBuildingsDict[_buildingName]--;
+				
+				if (teamBuildingsDict[_buildingName] <= 0)
+				{
+					delete teamBuildingsDict[_buildingName];
 				}
 			}
 		}
@@ -171,7 +206,7 @@ package states.game.teamsData
 					
 					if (mySquad.length)
 					{
-						trace("TO THE RESCUE!!!!")
+						//trace("TO THE RESCUE!!!!")
 						var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
 					
 						for (i = 0; i < mySquad.length; i++ )
@@ -307,6 +342,8 @@ package states.game.teamsData
 					p = new Building(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
 				}
 				
+				addBuildingToDict(BuildingsStats.dict[assetName].buildingType);
+				
 			}
 			else
 			{
@@ -317,6 +354,7 @@ package states.game.teamsData
 			Parameters.mapHolder.addChild(p.view);
 			team.push(p);
 			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
+			
 			var newConstructionOptions:Boolean = buildManager.updateUnitsAndBuildings(assetName);
 			if (newConstructionOptions && agent == Agent.HUMAN)
 			{
@@ -422,6 +460,7 @@ package states.game.teamsData
 					
 				}
 
+				removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
 				
 				//this is temporary until the pc can build its own
 				updatePower();
@@ -436,12 +475,14 @@ package states.game.teamsData
 					team.splice(team.indexOf(p), 1);
 				}
 			}
-			trace(p.model.stats.name + " " + p.model.teamName + " is removed: " + removed)
+			//trace(p.model.stats.name + " " + p.model.teamName + " is removed: " + removed)
 			p.dispose();
 			p = null;
 			
 			dispatchEventWith("ASSET_DESTROYED", false, {numResidents: numResidents});
 		}
+		
+		
 		
 		public function spawnSoldier(row:int, col:int, searchAndDestroy:Boolean = true):void 
 		{
@@ -459,7 +500,7 @@ package states.game.teamsData
 			
 			targetBalance = cash - _reduceAmount;
 			cash = targetBalance;
-			//trace(cash);
+			////trace(cash);
 			if (agent == Agent.HUMAN)
 			{
 				buildManager.hud.updateCashUI(cash);
@@ -480,6 +521,20 @@ package states.game.teamsData
 		public function getBalance():int
 		{
 			return cash;
+		}
+		
+		public function getNumOfHarvesters():int 
+		{
+			var numOfHarvesters:int = 0;
+			
+			for (var i:int = 0; i < team.length; i++ )
+			{
+				if (team[i] is Harvester)
+				{
+					numOfHarvesters++;
+				}
+			}
+			return numOfHarvesters;
 		}
 	}
 }

@@ -80,10 +80,10 @@ package  global.map
 			
 			if(end)
 			{
-				//trace("isResource " + isResource);
-				//trace("regionNum " + regionNum);
-				//trace("walkable " + walkable);
-				//trace("occupyingUnit " + occupyingUnit)
+				////trace("isResource " + isResource);
+				////trace("regionNum " + regionNum);
+				////trace("walkable " + walkable);
+				////trace("occupyingUnit " + occupyingUnit)
 			}
 		}*/
 		

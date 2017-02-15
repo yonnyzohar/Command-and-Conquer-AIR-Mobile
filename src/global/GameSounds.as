@@ -118,7 +118,7 @@ package global
 				}
 				catch(e:Error)
 				{
-					trace(e.name + " " + e.message)
+					//trace(e.name + " " + e.message)
 				}
 				return ch;
 			}

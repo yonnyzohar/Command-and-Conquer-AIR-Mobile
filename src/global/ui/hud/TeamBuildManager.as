@@ -122,11 +122,28 @@ package global.ui.hud
 					{
 						if (curUnit.tech <= LevelManager.currentlevelData.tech)
 						{
-							if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+							var allBuildingsExist:Boolean = true;
+							
+							for (var j:int = 0; j < curUnit.dependency.length; j++ )
 							{
-								units[k] = curUnit;
+								if (teamObj.teamBuildingsDict[curUnit.dependency[j]])
+								{
+									
+								}
+								else
+								{
+									allBuildingsExist = false;
+									break;
+								}
 							}
 							
+							if (allBuildingsExist)
+							{
+								if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+								{
+									units[k] = curUnit;
+								}
+							}
 						}
 					}
 				}
@@ -154,9 +171,27 @@ package global.ui.hud
 						{
 							if (curVehicle.tech <= LevelManager.currentlevelData.tech)
 							{
-								if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+								var allBuildingsExist:Boolean = true;
+							
+								for (var j:int = 0; j < curVehicle.dependency.length; j++ )
 								{
-									units[k] = curVehicle;
+									if (teamObj.teamBuildingsDict[curVehicle.dependency[j]])
+									{
+										
+									}
+									else
+									{
+										allBuildingsExist = false;
+										break;
+									}
+								}
+							
+								if (allBuildingsExist)
+								{
+									if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+									{
+										units[k] = curVehicle;
+									}
 								}
 							}
 						}
@@ -214,9 +249,27 @@ package global.ui.hud
 					{
 						if (curTurret.tech <= LevelManager.currentlevelData.tech)
 						{
-							if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
+							var allBuildingsExist:Boolean = true;
+							
+							for (var j:int = 0; j < curTurret.dependency.length; j++ )
 							{
-								buildings[k] = curTurret;
+								if (teamObj.teamBuildingsDict[curTurret.dependency[j]])
+								{
+									
+								}
+								else
+								{
+									allBuildingsExist = false;
+									break;
+								}
+							}
+							
+							if (allBuildingsExist)
+							{
+								if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
+								{
+									buildings[k] = curTurret;
+								}
 							}
 						}
 					}
@@ -247,9 +300,27 @@ package global.ui.hud
 						{
 							if (curBuilding.tech <= LevelManager.currentlevelData.tech)
 							{
-								if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
+								var allBuildingsExist:Boolean = true;
+							
+								for (var j:int = 0; j < curBuilding.dependency.length; j++ )
 								{
-									buildings[k] = curBuilding;
+									if (teamObj.teamBuildingsDict[curBuilding.dependency[j]])
+									{
+										
+									}
+									else
+									{
+										allBuildingsExist = false;
+										break;
+									}
+								}
+								
+								if (allBuildingsExist)
+								{
+									if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
+									{
+										buildings[k] = curBuilding;
+									}
 								}
 							}
 						}

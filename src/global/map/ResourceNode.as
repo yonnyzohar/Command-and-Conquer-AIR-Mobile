@@ -50,7 +50,7 @@ package global.map
 				var decreasedPer:Number = decreased / totalQuantity;
 				var frame:int  = totalFrames  * decreasedPer;
 
-				////trace(frame)
+				//////trace(frame)
 				obstacleTile.currentFrame = int(frame );
 			}
 			else

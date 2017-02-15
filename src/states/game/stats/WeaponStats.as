@@ -47,7 +47,7 @@ package states.game.stats
 						weaponObj.projectile.directions = currEffect.directions;
 					}
 					
-					////trace(weaponObj.projectile.directions);
+					//////trace(weaponObj.projectile.directions);
 				}
 				dict[weaponObj.name] = weaponObj;
 			}

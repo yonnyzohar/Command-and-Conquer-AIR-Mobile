@@ -86,7 +86,7 @@ package states.editor
 			
 			setInterval(function():void
 			{
-				trace("saving!")
+				//trace("saving!")
 				onSaveClicked();
 			},30000);
 		}
@@ -411,7 +411,7 @@ package states.editor
 			Parameters.editObj.numTiles = Parameters.numRows;
 			Parameters.editObj.map = getMap();
 			
-			//trace(JSON.stringify(Parameters.editObj));
+			////trace(JSON.stringify(Parameters.editObj));
 			
 		}
 		
@@ -456,7 +456,7 @@ package states.editor
 						var texName:String = node.obstacleTile.name;
 						
 						var nme:String = texName.substr(0, texName.indexOf("_"))
-						trace(texName, nme, node.num);
+						//trace(texName, nme, node.num);
 						mapNode.textureFrame = node.num;
 						mapNode.obstacleTextureName = texName;
 						a.push(mapNode);

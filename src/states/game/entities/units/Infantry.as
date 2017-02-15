@@ -81,7 +81,7 @@ package states.game.entities.units
 		{
 			if (deathMC == null)
 			{
-				trace(_deathStateName)
+				//trace(_deathStateName)
 				deathMC = GameAtlas.createMovieClip(_deathStateName, this.model.teamName);
 				deathMC.loop = false;
 				deathMC.touchable = false;
@@ -99,7 +99,7 @@ package states.game.entities.units
 			}
 			else
 			{
-				trace("GTO HERE TWICE!!!!");
+				//trace("GTO HERE TWICE!!!!");
 			}
 		}
 		
