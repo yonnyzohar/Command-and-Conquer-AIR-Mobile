@@ -60,9 +60,9 @@ package states.game.entities.units.views
 		override public function setViewByHealth(healthScale:Number):void 
 		{
 			super.setViewByHealth(healthScale);
-			if (healthScale > .25)
+			if (healthScale < .25)
 			{
-				Methods.createSmoke(0, 0, this);
+				Methods.createSmoke(((model.stats.pixelOffsetX*Parameters.gameScale)/2), ((model.stats.pixelOffsetY * Parameters.gameScale) / 2), this);
 			}
 		}
 		

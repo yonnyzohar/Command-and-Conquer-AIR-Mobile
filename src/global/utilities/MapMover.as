@@ -505,6 +505,8 @@ package global.utilities
 		private function showHideUnits(team:Array):void
 		{
 			var i:int = 0;
+			
+			
 			var l:int = team.length;
 			for (i = 0; i < l; i++)
 			{
@@ -517,12 +519,16 @@ package global.utilities
 					
 					if (entViewAbsY > (Parameters.flashStage.stageHeight - Parameters.tileSize) || (entViewAbsY + entView.height) < 0 || (entViewAbsX + entView.width) < 0 || entViewAbsX > (Parameters.flashStage.stageWidth - HUD.hudWidth - Parameters.tileSize))
 					{
-						if (entView.parent)
-							entView.removeFromParent();
+						if (entView.parent)entView.removeFromParent();
+							
 					}
 					else
 					{
-						Parameters.mapHolder.addChild(entView);
+						if (entView.parent == null)
+						{
+							Parameters.mapHolder.addChild(entView);
+						}
+						
 					}
 				}
 			}

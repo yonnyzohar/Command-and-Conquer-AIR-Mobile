@@ -533,8 +533,7 @@ package  states.game.entities.units
 		
 		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
 		{
-		
-			dispatchEvent(new Event("UNDER_ATTACK"))
+			dispatchEvent(new Event("UNDER_ATTACK"));
 			return super.hurt(_hitVal, _currentInfantryDeath,projectileName )
 		}
 	}

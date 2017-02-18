@@ -35,6 +35,7 @@ package states.game.entities
 		public var name:String;
 		private var myColor:uint; 
 		
+		
 		public function GameEntity(_teamObj:TeamObject)
 		{
 			myTeamObj = _teamObj;
@@ -53,6 +54,19 @@ package states.game.entities
 		
 		public function sayHello():void 
 		{
+			
+		}
+		
+		public function get row():int
+		{
+			if (model)
+			{
+				return model.row;
+			}
+			else
+			{
+				return 0;
+			}
 			
 		}
 

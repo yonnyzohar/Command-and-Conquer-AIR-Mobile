@@ -41,6 +41,19 @@ package states.game.entities.buildings
 			healthBar.visible = false;
 		}
 		
+		override public function get row():int
+		{
+			if (model)
+			{
+				return model.row + BuildingsStatsObj(model.stats).gridShape.length;
+			}
+			else
+			{
+				return 0;
+			}
+			
+		}
+		
 		protected function initModel():void 
 		{
 			model = new BuildingModel();
@@ -196,16 +209,19 @@ package states.game.entities.buildings
 		{
 			var n:Node;
 			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-			for(var i:int = 0; i < occupyArray.length; i++)
+			var rowLen:int = occupyArray.length;
+			var colLen:int = occupyArray[0].length;
+			
+			for(var _row:int = 0; _row < rowLen; _row++)
 			{
-				for (var j:int = 0; j < occupyArray[i].length; j++ )
+				for (var _col:int = 0; _col < colLen; _col++ )
 				{
-					var curTile:int = occupyArray[i][j];
+					var curTile:int = occupyArray[_row][_col];
 					
 					if (curTile == 0) continue;//this is only for build indication
 					
-					proposedRow = model.row + i;
-					proposedCol = model.col + j;
+					proposedRow = model.row + _row;
+					proposedCol = model.col + _col;
 						
 					if(nodeExists(proposedRow, proposedCol))
 					{
@@ -236,15 +252,18 @@ package states.game.entities.buildings
 			var n:Node;
 			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
 			
-			for(var i:int = 0; i < occupyArray.length; i++)
+			var rowLen:int = occupyArray.length;
+			var colLen:int = occupyArray[0].length;
+			
+			for(var _row:int = 0; _row < rowLen; _row++)
 			{
-				for (var j:int = 0; j < occupyArray[i].length; j++ )
+				for (var _col:int = 0; _col < colLen; _col++ )
 				{
-					var curTile:int = occupyArray[i][j];
+					var curTile:int = occupyArray[_row][_col];
 					
 					
-						proposedRow = model.row + i;
-						proposedCol = model.col + j;
+						proposedRow = model.row + _row;
+						proposedCol = model.col + _col;
 						
 						if(nodeExists(proposedRow, proposedCol))
 						{

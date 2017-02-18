@@ -359,7 +359,7 @@ package global
 		
 		static public function createSmoke(_X:Number, _Y:Number, cont:Sprite = null):void
 		{
-			if (Math.random() < 0.4)
+			if (Math.random() < 0.3)
 			{
 			
 				if (!smokePool)

@@ -114,13 +114,14 @@ package states.game.entities.units
 			{
 				return;
 			}
-			//clearTile(model.prevRow, model.prevCol);
-			//occupyTile(model.row, model.col);
+
 			
 			clearTile(model.row, model.col);
 			occupyTile( int(view.y + (Parameters.tileSize/2)) / Parameters.tileSize ,  int(view.x + (Parameters.tileSize/2)) / Parameters.tileSize );
 			
 		}
+		
+		
 		
 		protected function handleWalkError(pulse:Boolean):void 
 		{

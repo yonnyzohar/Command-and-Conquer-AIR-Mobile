@@ -280,7 +280,9 @@ package states.game
 			if (_pulse)
 			{
 				
-				ZindexManager.setIndices([Parameters.humanTeam, Parameters.pcTeam, baordMC.treesAndRocks]);
+				ZindexManager.setIndices(Parameters.humanTeam);
+				ZindexManager.setIndices(Parameters.pcTeam);
+				//ZindexManager.setIndices(baordMC.treesAndRocks);
 			}
 			
 		}
