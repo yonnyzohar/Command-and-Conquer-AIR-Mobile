@@ -5,7 +5,7 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\StrategyGame.swf" />
-    <movie fps="30" />
+    <movie fps="60" />
     <movie width="480" />
     <movie height="762" />
     <movie version="18" />

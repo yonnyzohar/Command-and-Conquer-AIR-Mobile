@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2/18/2017'</value>
+      <value>'2/19/2017'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -43,7 +43,7 @@
     <path-element>C:\Users\User\Google Drive\My apps\strategyGame\App\src\RTS.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
-  <default-frame-rate>30</default-frame-rate>
+  <default-frame-rate>60</default-frame-rate>
   <default-size>
     <width>480</width>
     <height>762</height>

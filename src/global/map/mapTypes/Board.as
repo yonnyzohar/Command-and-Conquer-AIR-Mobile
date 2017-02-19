@@ -263,7 +263,7 @@ package global.map.mapTypes
 					
 					if (drawType == Board.DRAW_TYPE_ALL_TILES)
 					{
-						Parameters.mapHolder.addChild(n.groundTile);
+						Parameters.mapHolder.addChildAt(n.groundTile,0);
 					}
 					
 				}

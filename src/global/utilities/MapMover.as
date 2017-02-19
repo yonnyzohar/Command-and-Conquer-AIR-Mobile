@@ -483,15 +483,24 @@ package global.utilities
 					{
 						if (n.groundTile)
 						{
-							groundHolder.addChild(n.groundTile);
+							groundHolder.addChildAt(n.groundTile,0);
 						}
 						if (n.obstacleTile)
 						{
-							Parameters.mapHolder.addChild(n.obstacleTile);
+							if (n.isResource)
+							{
+								Parameters.mapHolder.addChildAt(n.obstacleTile,1);
+							}
+							else
+							{
+								Parameters.mapHolder.addChild(n.obstacleTile);
+							}
+							
+							
 						}
 						if (n.shoreTile && n.seen)
 						{
-							Parameters.mapHolder.addChild(n.shoreTile);
+							Parameters.mapHolder.addChildAt(n.shoreTile, 1);
 						}
 						
 						if (n.cliffTile && n.seen)

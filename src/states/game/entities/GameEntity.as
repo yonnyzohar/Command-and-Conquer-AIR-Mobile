@@ -9,6 +9,7 @@ package states.game.entities
 	import global.map.Node;
 	import starling.display.Quad;
 	import starling.events.Event;
+	import states.game.entities.units.Harvester;
 	import states.game.entities.units.Unit;
 	import states.game.teamsData.TeamObject;
 	
@@ -199,10 +200,17 @@ package states.game.entities
 			var dead:Boolean = false;
 			if(model != null)
 			{
-				if (model.controllingAgent == Agent.PC)
+				//if (model.controllingAgent == Agent.PC){}
+				if (this is Harvester)
+				{
+					
+				}
+				else
 				{
 					changeAI(AiBehaviours.SEEK_AND_DESTROY);
 				}
+				
+				
 				
 				//trace"totalHealth: " + model.totalHealth + " _hitVal: " + _hitVal);
 				model.totalHealth -= _hitVal;

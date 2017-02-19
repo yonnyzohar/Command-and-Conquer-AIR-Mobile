@@ -2,6 +2,7 @@ package global
 {
 	import com.greensock.TweenLite;
 	import flash.system.Capabilities;
+	import flash.utils.Dictionary;
 	import global.enums.AiBehaviours;
 	import global.map.Node;
 	import global.pools.Pool;
@@ -12,6 +13,7 @@ package global
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import states.game.entities.buildings.Building;
+	import states.game.entities.buildings.Turret;
 	import states.game.entities.EntityModel;
 	import states.game.entities.EntityView;
 	import states.game.entities.GameEntity;
@@ -357,6 +359,15 @@ package global
 			return true;
 		}
 		
+		public static function countKeysInDict(myDictionary:flash.utils.Dictionary):int 
+		{
+			var n:int = 0;
+			for (var key:* in myDictionary) {
+				n++;
+			}
+			return n;
+		}
+		
 		static public function createSmoke(_X:Number, _Y:Number, cont:Sprite = null):void
 		{
 			if (Math.random() < 0.3)
@@ -437,7 +448,7 @@ package global
 		}
 		
 		//use searchWholeMap for search and destroy	
-		public static function findClosestTargetOnMap(shooter:GameEntity, searcWholeMap:Boolean ):GameEntity
+		public static function findClosestTargetOnMap(shooter:GameEntity, searcWholeMap:Boolean, dontTargetBuildings:Boolean = false ):GameEntity
 		{
 			var model:EntityModel = shooter.model;
 			
@@ -473,6 +484,17 @@ package global
 						
 						if (p is Building)
 						{
+							if (dontTargetBuildings)
+							{
+								if (p is Turret)
+								{
+									
+								}
+								else
+								{
+									continue;
+								}
+							}
 							var buildingTiles:Array = Building(p).getBuildingTiles();
 							var n:Node;
 							for (var j:int = 0; j < buildingTiles.length; j++ )

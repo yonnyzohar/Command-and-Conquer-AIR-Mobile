@@ -27,7 +27,7 @@
 		"mobile-rocket-launch-system":1,
 		"ssm-launcher":1
 	},
-	"minNumOfAttackParty" :[3,5,7,10]
+	"minNumOfAttackParty" :[3,15,7,10,5]
 }
 
 

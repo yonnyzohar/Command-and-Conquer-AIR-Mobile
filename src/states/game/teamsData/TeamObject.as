@@ -145,12 +145,32 @@ package states.game.teamsData
 					
 					//handleAtachedUnit(obj.name, placementsArr[0].row, placementsArr[0].col);
 				}
+				
+				
+				
 			}
 			
 			buildManager = new TeamBuildManager();
 			buildManager.init(startParams, this);
 			buildManager.addEventListener("UNIT_CONSTRUCTED", onUnitContructed);
 			buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			handleHud();
+		}
+		
+		private function handleHud():void 
+		{
+			if (agent == Agent.HUMAN)
+			{
+				var numBuildings:int = Methods.countKeysInDict(teamBuildingsDict);
+				if (numBuildings)
+				{
+					buildManager.hud.enterHud();
+				}
+				else
+				{
+					buildManager.hud.exitHud();
+				}
+			}
 		}
 		
 		private function addBuildingToDict(_buildingName:String):void 
@@ -195,13 +215,24 @@ package states.game.teamsData
 					for (var i:int = 0; i < team.length; i++ )
 					{
 						unit = team[i];
-						if ((!unit is Building) && !(unit is Harvester) && unit.aiBehaviour != AiBehaviours.HELPLESS)
+						if (unit is Building)  
 						{
-							if (mySquad.length <= squadSize)
-							{
-								mySquad.push(unit);
-							}
+							continue;
 						}
+						if (unit is Harvester)
+						{
+							continue;
+						}
+						if (unit.aiBehaviour == AiBehaviours.HELPLESS)
+						{
+							continue;
+						}
+						
+						if (mySquad.length <= squadSize)
+						{
+							mySquad.push(unit);
+						}
+						
 					}
 					
 					if (mySquad.length)
@@ -343,6 +374,7 @@ package states.game.teamsData
 				}
 				
 				addBuildingToDict(BuildingsStats.dict[assetName].buildingType);
+				handleHud();
 				
 			}
 			else
@@ -461,6 +493,7 @@ package states.game.teamsData
 				}
 
 				removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
+				handleHud();
 				
 				//this is temporary until the pc can build its own
 				updatePower();

@@ -37,6 +37,7 @@ package global.ai
 		private var buildingBeingBuilt:Boolean = false;
 		
 		private var currentAttackPartyCount:int = 0;
+		private var PRINT_AI_FLOW:Boolean = true;
 		
 		public function AIController() 
 		{
@@ -124,12 +125,31 @@ package global.ai
 				//if we have power - proceed
 				if (!buildPowerPlant)
 				{
+					var proceed:Boolean = true;
+					if (pcTeamObj.doesBuildingExist(["refinery"]))
+					{
+						if (Math.random() > 0.3)
+						{
+							proceed = true;
+						}
+						else
+						{
+							proceed = false;
+						}
+					}
+					else
+					{
+						proceed = true;
+					}
+					
+					
 					//if we have money - build, on complete come back to here
-					if (pcTeamObj.cash >= currentBuildingObj.cost)
+					if (proceed && pcTeamObj.cash >= currentBuildingObj.cost)
 					{
 						myBuildSlot = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
 						if (myBuildSlot)
 						{
+							printAI("building " + currentBuildingObj.name);
 							myBuildSlot.simulateClickOnBuild();
 							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							buildingBeingBuilt = true;
@@ -144,6 +164,7 @@ package global.ai
 					}
 					else
 					{
+						setTimeout(buildBuilding, 2000);
 						//if no money, wait x seconds then check again
 					}
 				}
@@ -156,6 +177,7 @@ package global.ai
 						myBuildSlot = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
 						if (myBuildSlot)
 						{
+							printAI("building " + currentBuildingObj.name);
 							myBuildSlot.simulateClickOnBuild();
 							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
@@ -277,6 +299,7 @@ package global.ai
 							vehicleBeingBuilt = true;
 							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
 							myUnitSlotbj.slot.simulateClickOnBuild();
+							printAI("training " + myUnitSlotbj.name);
 							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 						}
@@ -295,6 +318,7 @@ package global.ai
 							infantryBeingBuilt = true;
 							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
 							myUnitSlotbj.slot.simulateClickOnBuild();
+							printAI("training " + myUnitSlotbj.name);
 							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 						}
@@ -335,6 +359,7 @@ package global.ai
 						myInfantrySlot.simulateClickOnBuild();
 						myInfantrySlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 						infantryBeingBuilt = true;
+						printAI("training " + randomInfantry);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 					}
 					else
@@ -382,7 +407,7 @@ package global.ai
 					var numHarvesters:int = pcTeamObj.getNumOfHarvesters();
 					if (numHarvesters < 4)
 					{
-						if (Math.random() < 0.15)
+						if (Math.random() < 0.1)
 						{
 							randomVehicle = "harvester";
 						}
@@ -401,6 +426,7 @@ package global.ai
 						//trace("building a " + randomVehicle)
 						vehicleBeingBuilt = true;
 						myVehicleSlot.simulateClickOnBuild();
+						printAI("training " + randomVehicle);
 						myVehicleSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 					}
@@ -476,7 +502,7 @@ package global.ai
 						var p:GameEntity = myTeam[i];
 						p.changeAI(AiBehaviours.SEEK_AND_DESTROY);
 					}
-					//trace("sendin " + minNumOfAttackParty[currentAttackPartyCount] + " to attack!")
+					printAI("sendin " + minNumOfAttackParty[currentAttackPartyCount] + " to attack!")
 					currentAttackPartyCount++;
 					
 					if (currentAttackPartyCount > minNumOfAttackParty.length)
@@ -484,6 +510,14 @@ package global.ai
 						currentAttackPartyCount = 0;
 					}
 				}
+			}
+		}
+		
+		private function printAI(_str:String):void
+		{
+			if (PRINT_AI_FLOW)
+			{
+				trace(_str);
 			}
 		}
 	}

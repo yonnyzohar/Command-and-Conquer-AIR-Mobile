@@ -101,7 +101,7 @@ package  global.map
 			{
 				if (prevSeen == false && shoreTile)
 				{
-					Parameters.mapHolder.addChild(shoreTile);
+					Parameters.mapHolder.addChildAt(shoreTile,1);
 				}
 				if (prevSeen == false && cliffTile)
 				{

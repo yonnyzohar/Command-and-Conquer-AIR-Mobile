@@ -171,12 +171,13 @@ package  states.game.entities.units
 				{
 					////trace"there is no target in range!");
 					//if i'm in seek and destroy, and i'm a computer
-					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && model.controllingAgent == Agent.PC)
+					//&& model.controllingAgent == Agent.PC
+					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
 					{
 						currentEnemy = Methods.findClosestTargetOnMap(this, true)
 						if(currentEnemy != null)setState(UnitStates.WALK);
 					}
-					else if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
+					if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
 					{
 						currentEnemy = findEnemyWithinBase();
 						if(currentEnemy != null)setState(UnitStates.WALK);
@@ -189,6 +190,15 @@ package  states.game.entities.units
 		private function findEnemyWithinBase():GameEntity 
 		{
 			return SightManager.getInstance().getTargetWithinBase(model.controllingAgent, myTeamObj.teamName);
+		}
+		
+		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
+		{
+			if (model.stats.weapon)
+			{
+				currentEnemy = Methods.findClosestTargetOnMap(this, false, true)
+			}
+			return super.hurt(_hitVal, _currentInfantryDeath, projectileName);
 		}
 
 		
@@ -258,14 +268,22 @@ package  states.game.entities.units
 		
 		override public function onDestinationReceived(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
-			if(model == null)return;
+			if (model == null) return;
+			
 			
 			if(model.isSelected)
 			{
+				
+				if (currentEnemy)
+				{
+					currentEnemy.removeEventListener("DEAD", onEnemyDead);
+					currentEnemy = null;
+				}
+				
+				
 				dontShootCounter = 0;
 				UnitView(view).standCount = 0;
 				UnitModel(model).userOverrideAutoShoot = true;
-				currentEnemy = null;
 			}
 			super.onDestinationReceived(targetRow, targetCol,_first);
 		}
@@ -323,6 +341,12 @@ package  states.game.entities.units
 					{
 						UnitView(view).shoot(currentEnemy , currentEnemy.model.row, currentEnemy.model.col);
 						
+						if(model.controllingAgent == Agent.HUMAN && aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
+						{
+							currentEnemy.addEventListener("DEAD", onEnemyDead);
+						}
+						
+						
 						if(UnitModel(model).stats.weapon != null && UnitModel(model).rotating == false)
 						{
 							fireWeaponActual(currentEnemy)
@@ -354,6 +378,19 @@ package  states.game.entities.units
 				}
 			}
 			
+		}
+		
+
+		
+		private function onEnemyDead(e:Event):void 
+		{
+			var enemyUnit:GameEntity = GameEntity(e.currentTarget);
+			enemyUnit.removeEventListener("DEAD", onEnemyDead);
+			
+			if (model && model.controllingAgent == Agent.HUMAN && aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
+			{
+				aiBehaviour = AiBehaviours.SELF_DEFENSE;
+			}
 		}
 		
 		override protected function onDoneRotating(e:Event):void 

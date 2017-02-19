@@ -1,5 +1,6 @@
 package states.game.entities.units 
 {
+	import global.enums.AiBehaviours;
 	import global.GameSounds;
 	import global.map.SpiralBuilder;
 	import global.Parameters;
@@ -159,8 +160,13 @@ package states.game.entities.units
 						getWalkPath(placementsArr[0].row, placementsArr[0].col);
 					}
 					
-					backToRow = model.path[model.moveCounter].row;
-					backToCol = model.path[model.moveCounter].col;
+					if (model.path && model.path.length)
+					{
+						backToRow = model.path[model.moveCounter].row;
+						backToCol = model.path[model.moveCounter].col;
+					}
+					
+					
 					
 					UnitView(view).run();
 
@@ -278,6 +284,16 @@ package states.game.entities.units
 			
 			if(model.isSelected)
 			{
+				//a unit which has been shot will go after it's attacker and it's up to us to get it back in line
+				if(model.controllingAgent == Agent.HUMAN)
+				{
+					if (aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
+					{
+						aiBehaviour = AiBehaviours.SELF_DEFENSE;
+					}
+					
+				}
+				
 				view.traceView("onDestinationReceived");
 				if(_first)playOrderSound();
 				

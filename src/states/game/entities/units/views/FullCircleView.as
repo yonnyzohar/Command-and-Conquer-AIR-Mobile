@@ -72,7 +72,7 @@ package states.game.entities.units.views
 		{
 			turretMC = _turretMC;
 			turretMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
-			turretMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale) / 2);
+			turretMC.y += ((model.stats.pixelOffsetY * Parameters.gameScale)/2);
 			turretMC.currentFrame = 0;
 			addChild(turretMC);
 		}
@@ -282,9 +282,5 @@ package states.game.entities.units.views
 				turretMC = null;
 			}
 		}
-		
-		
-		
-		
 	}
 }

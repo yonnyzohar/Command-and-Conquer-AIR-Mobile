@@ -55,7 +55,7 @@ package states.game.stats
 				infantryObj.dependency			= curUnit.dependency;//what buildiings in need to build this unit
                 infantryObj.constructedIn		= curUnit.constructedIn; // what buildings can build this unit
                 infantryObj.owner				= curUnit.owner; // gdi, nod or both
-				infantryObj.cost				= curUnit.cost;
+				infantryObj.cost				= curUnit.cost / 3;
 				infantryObj.fireIndex			= curUnit.fireIndex;
 				
 				infantryObj.pixelOffsetX  = curUnit.pixelOffsetX;

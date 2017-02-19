@@ -76,6 +76,9 @@ package  states.game.entities.units
 						break;
 				}
 			}
+			
+			//model.lastState - HANDLE HARVESTER WALK ERROR
+			//ALL COSTS / 3
 		}
 		
 		private function handleLoadingResources(pulse:Boolean):void

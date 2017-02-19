@@ -50,8 +50,8 @@ package global.ui.hud
 		public var buildingsContainer:PaneColumn; 
 		public var unitsContainer:PaneColumn; 
 		private var showUI:Boolean;
+		private var hudIn:Boolean;
 		
-	
 		
 		public function HUD(_showUI:Boolean = false, _teamObj:TeamObject = null)
 		{
@@ -74,14 +74,42 @@ package global.ui.hud
 				ui.height = Parameters.flashStage.stageHeight;
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;
 				
-				ui.x = Parameters.flashStage.stageWidth - getWidth();
-				hudWidth = getWidth();
-				
-
-				Parameters.gameHolder.addChild(ui);
+				hudIn = true;
+				exitHud();
 			}
 			
 			initPanelColumns();
+		}
+		
+		public function exitHud():void
+		{
+			if (hudIn)
+			{
+				ui.x = Parameters.flashStage.stageWidth;
+				hudWidth = 0;
+				if (ui.parent) ui.removeFromParent();
+				hudIn = false;
+				if(miniMap)miniMap.x = ui.x;
+			}
+			
+		}
+		
+		public function enterHud():void
+		{
+			if (hudIn == false)
+			{
+				hudIn = true;
+				hudWidth = getWidth();
+				ui.x = Parameters.flashStage.stageWidth - getWidth();
+				Parameters.gameHolder.addChild(ui);
+				if (miniMap)
+				{
+					miniMap.x = ui.x;
+					Parameters.gameHolder.addChild(miniMap);
+				}
+			}
+			
+				
 		}
 		
 		public function updateCashUI(_cash:int):void

@@ -84,7 +84,6 @@ package global.ui.hud
 			var ratioH:Number = Parameters.flashStage.stageHeight / (Parameters.numRows * Parameters.tileSize)
 			
 			addChild(map);
-			//if(!Parameters.editMode)addChild(contructMap(map))
 			selectionArea = new MiniMapSelectionAreaView(mapWidth * ratioW, mapHeight * ratioH); 
 			addChild(selectionArea);
 			
@@ -291,11 +290,7 @@ package global.ui.hud
 				mapImage = new Image(texture);
 			}
 			mapImage.texture = texture;
-			//mapImage.touchable = false;
-			//var scale:Number = Parameters.numCols / map.width;
-			//mapImage.scaleX = mapImage.scaleY = 1;
-			//mapImage.scaleX /= scale;
-			//mapImage.scaleY /= scale;
+			map.visible = true;
 			addChild(mapImage)
 			mapImage.width = mapWidth;
 			mapImage.height = mapHeight;

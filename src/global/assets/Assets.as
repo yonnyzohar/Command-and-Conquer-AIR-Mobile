@@ -2180,8 +2180,8 @@ package global.assets
                         name: "turret",
                         count: 32
                     }],
-                    pixelOffsetX: -12,
-                    pixelOffsetY: -12,
+                    pixelOffsetX: -6,//-12
+                    pixelOffsetY: -6,//-12
                     selectOffsetX: -14,
                     selectOffsetY: -10,
                     pixelHeight: 24,
