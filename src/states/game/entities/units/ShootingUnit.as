@@ -180,7 +180,10 @@ package  states.game.entities.units
 					if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
 					{
 						currentEnemy = findEnemyWithinBase();
-						if(currentEnemy != null)setState(UnitStates.WALK);
+						if (currentEnemy != null)
+						{
+							setState(UnitStates.WALK);
+						}
 					}
 					
 				}

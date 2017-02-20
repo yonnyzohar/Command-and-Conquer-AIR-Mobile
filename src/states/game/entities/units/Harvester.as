@@ -283,7 +283,7 @@ package  states.game.entities.units
 			for (var k:String in Board.resourceNodes)
 			{
 				var n:Node = Board.resourceNodes[k];
-				if (n.isResource)
+				if (n.isResource && n.occupyingUnit == null)
 				{
 					var dist:int = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
 					if (dist < shortestDist)
@@ -326,6 +326,10 @@ package  states.game.entities.units
 				if (model.row == destResourceNode.row && model.col == destResourceNode.col)
 				{
 					setState(UnitStates.HARVEST);
+				}
+				else
+				{
+					setState(UnitStates.WALK);
 				}
 				
 			}

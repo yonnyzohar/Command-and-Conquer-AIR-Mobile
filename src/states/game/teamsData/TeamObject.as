@@ -491,8 +491,11 @@ package states.game.teamsData
 					}
 					
 				}
-
-				removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
+				if (BuildingsStats.dict[p.name])
+				{
+					removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
+				}
+				
 				handleHud();
 				
 				//this is temporary until the pc can build its own

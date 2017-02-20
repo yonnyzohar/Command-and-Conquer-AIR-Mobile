@@ -371,7 +371,7 @@ package global.ai
 				}
 				else
 				{
-					
+					setTimeout(buildUnits, 2000);
 				}
 			}
 			else
@@ -440,7 +440,7 @@ package global.ai
 				}
 				else
 				{
-					
+					setTimeout(buildUnits, 2000);
 				}
 			}
 			else
@@ -505,10 +505,11 @@ package global.ai
 					printAI("sendin " + minNumOfAttackParty[currentAttackPartyCount] + " to attack!")
 					currentAttackPartyCount++;
 					
-					if (currentAttackPartyCount > minNumOfAttackParty.length)
+					if (minNumOfAttackParty[currentAttackPartyCount+1] == undefined)
 					{
 						currentAttackPartyCount = 0;
 					}
+					
 				}
 			}
 		}
