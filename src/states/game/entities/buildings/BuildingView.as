@@ -104,7 +104,6 @@ package states.game.entities.buildings
 		public function playState():void 
 		{
 			var newStateName:String = model.stats.name + state + healthAnim;
-			//////trace("newStateName " + newStateName)
 			
 			if (currentState != newStateName)
 			{
@@ -135,6 +134,37 @@ package states.game.entities.buildings
 			
 			playMC();
 			currentState = newStateName;
+		}
+		
+		public function playSellAnimation():void
+		{
+			var sellState:String = model.stats.name + "_build";
+			
+			while(mc.numFrames > 1)
+			{
+				mc.removeFrameAt(0);
+			}
+			
+			var textures:Vector.<Texture> = GameAtlas.getTextures(sellState, this.model.teamName);
+			textures.reverse();
+			
+			
+			for each (var texture:SubTexture in textures)
+			{
+				mc.addFrame(texture);
+			}
+			
+			if (mc.numFrames != 1) mc.removeFrameAt(0);
+			mc.loop = false;
+			mc.addEventListener(Event.COMPLETE, onSellAnimComplete)
+			playMC();	
+			
+		}
+		
+		private function onSellAnimComplete(e:Event):void 
+		{
+			mc.removeEventListener(Event.COMPLETE, onSellAnimComplete);
+			dispatchEvent(new Event("SELL_ANIM_COMPLETE"));
 		}
 		
 		protected function playMC():void
@@ -234,6 +264,21 @@ package states.game.entities.buildings
 			healthAnim = healthAnim.toLowerCase()
 			mc.loop = true;
 			playState();
+		}
+		
+		override public function dispose():void
+		{
+			if (mc)
+			{
+				mc.removeEventListener(Event.COMPLETE, onConstructAnimComplete);
+				mc.removeEventListener(Event.COMPLETE, onSellAnimComplete);
+				mc.removeEventListener(Event.COMPLETE, onBuildAnimComplete);
+			}
+			if (explosionAnim)
+			{
+				explosionAnim.removeEventListener(Event.COMPLETE, onExplosionComplte);
+			}
+			super.dispose();
 		}
 	}
 }

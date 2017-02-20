@@ -9,6 +9,7 @@ package global.ui.hud
 	import global.utilities.DragScroll;
 	import global.utilities.GameTimer;
 	import global.GameAtlas;
+	import global.utilities.GlobalEventDispatcher;
 	import starling.events.EventDispatcher;
 	import states.game.stats.BuildingsStats;
 	import states.game.stats.InfantryStats;
@@ -52,6 +53,9 @@ package global.ui.hud
 		private var showUI:Boolean;
 		private var hudIn:Boolean;
 		
+		//sell and repair
+		private var sellOn:Boolean = false;
+		private var repairOn:Boolean = false;
 		
 		public function HUD(_showUI:Boolean = false, _teamObj:TeamObject = null)
 		{
@@ -73,12 +77,84 @@ package global.ui.hud
 				Parameters.gameHolder.addChild(cashUi);
 				ui.height = Parameters.flashStage.stageHeight;
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;
+				ButtonManager.setButton(ui.sellBTN, "TOUCH", onSellClicked);
+				ButtonManager.setButton(ui.repairBTN, "TOUCH", onRepairClicked);
+				GlobalEventDispatcher.getInstance().addEventListener("GAME_STATE_CHANGED", onGameStateChanged);
+				
 				
 				hudIn = true;
 				exitHud();
 			}
 			
 			initPanelColumns();
+		}
+		
+		private function onGameStateChanged(e:Event):void 
+		{
+			//this means we were on repair and are not anymore
+			if (repairOn && MouseStates.currentState != MouseStates.REPAIR)
+			{
+				onRepairClicked();
+			}
+			
+			if (sellOn && MouseStates.currentState != MouseStates.SELL)
+			{
+				onSellClicked();
+			}
+		}
+		
+		private function onRepairClicked(caller:GameSprite = null):void
+		{
+			if (ui.repairBTN.blackCover == undefined)
+			{
+				ui.repairBTN.blackCover = createBlackCover(ui.repairBTN);
+			}
+			
+			repairOn = !repairOn;
+			if (repairOn)
+			{
+				ui.repairBTN.addChild(ui.repairBTN.blackCover);
+				MouseStates.currentState = MouseStates.REPAIR;
+			}
+			else
+			{
+				ui.repairBTN.blackCover.removeFromParent();
+				MouseStates.currentState = MouseStates.REG_PLAY;
+			}
+			
+			trace(repairOn);
+		}
+		
+		private function onSellClicked(caller:GameSprite = null):void
+		{
+			if (ui.sellBTN.blackCover == undefined)
+			{
+				ui.sellBTN.blackCover = createBlackCover(ui.sellBTN);
+			}
+			
+			sellOn = !sellOn;
+			if (sellOn)
+			{
+				ui.sellBTN.addChild(ui.sellBTN.blackCover);
+				MouseStates.currentState = MouseStates.SELL;
+			}
+			else
+			{
+				ui.sellBTN.blackCover.removeFromParent();
+				MouseStates.currentState = MouseStates.REG_PLAY;
+			}
+			
+			trace(sellOn);
+		}
+		
+		private function createBlackCover(btn:GameSprite):Quad 
+		{
+			var blackCover:Quad = new Quad(btn.width / btn.scaleX, btn.height / btn.scaleY, 0x000000);
+			blackCover.alpha = 0.5;
+			blackCover.touchable = false;
+			blackCover.pivotX = blackCover.width * 0.5;
+			blackCover.pivotY = blackCover.height * 0.5;
+			return blackCover;
 		}
 		
 		public function exitHud():void

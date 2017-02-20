@@ -88,7 +88,10 @@ package states.game.entities.buildings
 					dispatchEvent(new Event("DEAD"));
 				}
 				
-				if(model)model.dead = true;
+				if (model)
+				{
+					model.dead = true;
+				}
 				
 			}
 		}
@@ -136,9 +139,11 @@ package states.game.entities.buildings
 			var n:Node;
 			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
 			var buildingTiles:Array = [];
-			for(var i:int = 0; i < occupyArray.length; i++)
+			var occupyArrayRowsLength:int = occupyArray.length;
+			var occupyArrayColsLength:int = occupyArray[0].length;
+			for(var i:int = 0; i < occupyArrayRowsLength; i++)
 			{
-				for (var j:int = 0; j < occupyArray[i].length; j++ )
+				for (var j:int = 0; j < occupyArrayColsLength; j++ )
 				{
 					var curTile:int = occupyArray[i][j];
 					
@@ -246,6 +251,30 @@ package states.game.entities.buildings
 			}
 		}
 		
+		public function buildingSold():void
+		{
+			view.addEventListener("SELL_ANIM_COMPLETE", onSellAnimComplete);
+			BuildingView(view).playSellAnimation();
+		}
+		
+		private function onSellAnimComplete(e:Event):void 
+		{
+			
+			view.removeEventListener("SELL_ANIM_COMPLETE", onSellAnimComplete);
+			if (model)
+			{
+				model.dead = true;
+			}
+			dispatchEvent(new Event("SOLD"));
+		}
+		
+		
+		override public function dispose():void
+		{
+			if(view)view.removeEventListener("SELL_ANIM_COMPLETE", onSellAnimComplete);
+			super.dispose()
+		}
+		
 		
 		override protected function clearTile(proposedRow:int, proposedCol:int):void
 		{
@@ -260,26 +289,20 @@ package states.game.entities.buildings
 				for (var _col:int = 0; _col < colLen; _col++ )
 				{
 					var curTile:int = occupyArray[_row][_col];
-					
-					
-						proposedRow = model.row + _row;
-						proposedCol = model.col + _col;
-						
-						if(nodeExists(proposedRow, proposedCol))
-						{
-							n = Node( Parameters.boardArr[proposedRow][proposedCol] );
-							//not the unit's tile itself
 
-							//n.withinUnitRange = 0;
-							n.occupyingUnit = null;
-						}
+					proposedRow = model.row + _row;
+					proposedCol = model.col + _col;
 					
-					
+					if(nodeExists(proposedRow, proposedCol))
+					{
+						n = Node( Parameters.boardArr[proposedRow][proposedCol] );
+						//not the unit's tile itself
+
+						//n.withinUnitRange = 0;
+						n.occupyingUnit = null;
+					}
 				}
 			}
 		}
-		
-		
-		
 	}
 }

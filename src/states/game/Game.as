@@ -27,6 +27,7 @@ package states.game
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.UnitModel;
 	import states.game.entities.units.*;
+	import states.game.ui.SellRepairManager;
 	
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
@@ -93,6 +94,7 @@ package states.game
 			addTeams();
 			
 			UnitSelectionManager.getInstance().init();
+			SellRepairManager.getInstance().init();
 			GameTimer.getInstance().addUser(this);
 			Parameters.theStage.addChild(teamslisting.view);
 			teamslisting.view.x = Parameters.theStage.stageWidth - teamslisting.view.width;

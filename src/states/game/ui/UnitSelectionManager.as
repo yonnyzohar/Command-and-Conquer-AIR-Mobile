@@ -78,7 +78,6 @@ package states.game.ui
 		
 		private function onStageTouch(e:TouchEvent):void 
 		{
-			
 			//var start:Touch  = e.getTouch(this, TouchPhase.BEGAN);
 			//var moving:Touch = e.getTouch(this, TouchPhase.MOVED);
 			//var end:Touch    = e.getTouch(this, TouchPhase.ENDED);
@@ -213,6 +212,11 @@ package states.game.ui
 					if((endTouchTime - startTouchTime) < 200)
 					{
 						click = true;
+						if (MouseStates.currentState == MouseStates.REPAIR || MouseStates.currentState == MouseStates.SELL)
+						{
+							return;
+						}
+						
 						var targetCol:int = location.x / Parameters.tileSize;
 						var targetRow:int = location.y / Parameters.tileSize;
 						sendUnitsToDest(targetCol, targetRow);	
@@ -416,25 +420,13 @@ package states.game.ui
 				
 			}
 			
-			/*for(var i:int = 0; i <Parameters.humanTeam.length; i++)
-			{
-				touchedUnit = Parameters.humanTeam[i];
-				
-				if(currentPlayer.hasBeenTouched(targetRow,targetCol))
-				{
-					break;
-				}
-				else
-				{
-					touchedUnit = null;
-				}
-			}*/
 			
 			return touchedUnit;
 		}
 		
 		private function onRightMouseBTNClicked():void
 		{
+			MouseStates.currentState = MouseStates.REG_PLAY;
 			if (Parameters.currentSquad == null) return;
 			
 			if(KeyboardController.ctrl)

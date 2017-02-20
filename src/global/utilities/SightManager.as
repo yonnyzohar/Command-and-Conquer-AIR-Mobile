@@ -181,23 +181,6 @@ package global.utilities
 			}
 			
 			
-			/*outer : for (var i:int = 0; i < callerTeam.length; i++ )
-			{
-				p = callerTeam[i];
-				if (p is Building)
-				{
-					sightArray = p.getSight();
-					for (var g:int = 0; g < sightArray.length; g++ )
-					{
-						n = sightArray[g];
-						if (n.occupyingUnit && n.occupyingUnit.teamNum !=teamNum )
-						{
-							enemy = n.occupyingUnit;
-							break outer;
-						}
-					}
-				}
-			}*/
 			
 			return enemy;
 		}

@@ -66,7 +66,6 @@ package  states.game.entities.buildings
 			{
 				myTeamObj.addCash(  1 );
 				currentStore--;
-				//////trace(currentStore);
 			}
 			else
 			{
@@ -86,6 +85,7 @@ package  states.game.entities.buildings
 			BuildingView(view).mc.loop = true;
 			BuildingView(view).playState();
 			loadCompleteFNCTB();
+			loadCompleteFNCTB = null;
 		}
 		
 		public function getLoadingLoacation():Node
@@ -152,6 +152,18 @@ package  states.game.entities.buildings
 				return null;
 			}
 			
+		}
+		
+		override public function dispose():void
+		{
+			GameTimer.getInstance().removeUser(this);
+			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onunLoadComplete);
+			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
+			if (loadCompleteFNCTB)
+			{
+				loadCompleteFNCTB();
+			}
+			super.dispose()
 		}
 	}
 }

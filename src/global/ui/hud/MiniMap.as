@@ -123,8 +123,9 @@ package global.ui.hud
 				
 				var hasCommCenter:Boolean = false;
 				var g = null;
+				var humanTeamLength:int = Parameters.humanTeam.length;
 				
-				for (var i:int = 0; i < Parameters.humanTeam.length; i++ )
+				for (var i:int = 0; i < humanTeamLength; i++ )
 				{
 					g = Parameters.humanTeam[i];
 					
@@ -211,8 +212,9 @@ package global.ui.hud
 			}
 			
 
+			var humanTeamLength:int =  Parameters.humanTeam.length;
 			
-			for (var i:int = 0; i < Parameters.humanTeam.length; i++ )
+			for (var i:int = 0; i < humanTeamLength; i++ )
 			{
 				g = Parameters.humanTeam[i];
 				

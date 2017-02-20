@@ -2,6 +2,7 @@ package states.game.teamsData
 {
 	import com.greensock.TweenLite;
 	import flash.utils.Dictionary;
+	import flash.utils.setTimeout;
 	import global.enums.Agent;
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
@@ -12,6 +13,7 @@ package states.game.teamsData
 	import global.Parameters;
 	import global.ui.hud.PowerController;
 	import global.ui.hud.TeamBuildManager;
+	import global.utilities.GameTimer;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.events.Event;
@@ -48,6 +50,7 @@ package states.game.teamsData
 		private var startParams:Object;
 		private var enemyTeam1Obj:TeamObject;
 		public var teamBuildingsDict:Dictionary = new Dictionary();
+		private var cashToAdd:int = 0;
 		
 		public function TeamObject(_startParams:Object, _teamNum:int)
 		{
@@ -133,6 +136,11 @@ package states.game.teamsData
 					ent.addEventListener("DEAD", onDead);
 					Parameters.mapHolder.addChild(ent.view);
 					
+					if (curType == "startBuildings" || curType == "startTurrets")
+					{
+						ent.addEventListener("SOLD", onSold);
+					}
+					
 					placementsArr = SpiralBuilder.getSpiral(selRow, selCol, 1);
 					ent.placeUnit(placementsArr[0].row, placementsArr[0].col);
 					team.push(ent);
@@ -198,69 +206,95 @@ package states.game.teamsData
 			}
 		}
 		
+		private var harvesterCalledForHelp:Boolean = false;
+		private var timeoutRunning:Boolean = false;
+		
 		private function harvesterUnderAttack(e:Event):void 
 		{
 			if (agent == Agent.PC)
 			{
-				var harvester:Harvester = Harvester(e.currentTarget);
-				if (harvester && harvester.model && harvester.model.dead == false)
+				if (harvesterCalledForHelp)
 				{
-					var selRow:int = harvester.model.row;
-					var selCol:int = harvester.model.col;
-					var unit:GameEntity;
-					
-					var squadSize:int = 5;
-					var mySquad:Array = [];
-					//send help
-					for (var i:int = 0; i < team.length; i++ )
+					if (timeoutRunning == false)
 					{
-						unit = team[i];
-						if (unit is Building)  
+						trace("setting harvester timeout");
+						timeoutRunning = true;
+						setTimeout(function():void
 						{
-							continue;
-						}
-						if (unit is Harvester)
-						{
-							continue;
-						}
-						if (unit.aiBehaviour == AiBehaviours.HELPLESS)
-						{
-							continue;
-						}
-						
-						if (mySquad.length <= squadSize)
-						{
-							mySquad.push(unit);
-						}
-						
-					}
-					
-					if (mySquad.length)
-					{
-						//trace("TO THE RESCUE!!!!")
-						var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
-					
-						for (i = 0; i < mySquad.length; i++ )
-						{
-							unit = mySquad[i];
-							Unit(unit).getWalkPath(placementsArr[i].row, placementsArr[i].col);
-							unit.setState(UnitStates.WALK);
-						}
+							timeoutRunning = false;
+							harvesterCalledForHelp = false;
+						},5000);
 					}
 					
 					
+					return;
+				}
+				else
+				{
+					trace("calling for help!")
+					harvesterCalledForHelp = true;
+					var harvester:Harvester = Harvester(e.currentTarget);
+					if (harvester && harvester.model && harvester.model.dead == false)
+					{
+						var selRow:int = harvester.model.row;
+						var selCol:int = harvester.model.col;
+						var unit:GameEntity;
+						
+						var squadSize:int = 5;
+						var mySquad:Array = [];
+						var teamLength:int = team.length; 
+						//send help
+						for (var i:int = 0; i < teamLength; i++ )
+						{
+							unit = team[i];
+							if (unit is Building)  
+							{
+								continue;
+							}
+							if (unit is Harvester)
+							{
+								continue;
+							}
+							if (unit.aiBehaviour == AiBehaviours.HELPLESS)
+							{
+								continue;
+							}
+							
+							if (mySquad.length <= squadSize)
+							{
+								mySquad.push(unit);
+							}
+							
+						}
+						
+						if (mySquad.length)
+						{
+							//trace("TO THE RESCUE!!!!")
+							var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
+							var squadLength:int = mySquad.length;
+						
+							for (i = 0; i < squadLength; i++ )
+							{
+								unit = mySquad[i];
+								Unit(unit).getWalkPath(placementsArr[i].row, placementsArr[i].col);
+								unit.setState(UnitStates.WALK);
+							}
+						}
+					}
 				}
 			}
-
 		}
 		
 		public function doesBuildingExist(arr:Array):Boolean
 		{
 			var avaliable:Boolean = false;
-			outer : for (var i:int = 0; i < arr.length; i++ )
+			var l:int = arr.length
+			var teamLength:int = team.length;
+			
+			outer : for (var i:int = 0; i < l; i++ )
 			{
 				var name:String = arr[i];
-				for (var j:int = 0; j < team.length; j++ )
+				for (var j:int = 0; j < teamLength; j++ )
 				{
 					if (team[j].name == name)
 					{
@@ -276,8 +310,9 @@ package states.game.teamsData
 		public function getRefinery():Refinery 
 		{
 			var myRefinery:Refinery;
+			var teamLength:int = team.length;
 			
-			for (var i:int = 0; i < team.length; i++ )
+			for (var i:int = 0; i < teamLength; i++ )
 			{
 				if (team[i] is Refinery)
 				{
@@ -291,8 +326,9 @@ package states.game.teamsData
 		public function getHarvester():Harvester 
 		{
 			var myHarvester:Harvester;
+			var teamLength:int = team.length;
 			
-			for (var i:int = 0; i < team.length; i++ )
+			for (var i:int = 0; i < teamLength; i++ )
 			{
 				if (team[i] is Harvester)
 				{
@@ -383,6 +419,7 @@ package states.game.teamsData
 			}
 			
 			p.addEventListener("DEAD", onDead);
+			p.addEventListener("SOLD", onSold);
 			Parameters.mapHolder.addChild(p.view);
 			team.push(p);
 			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
@@ -455,6 +492,30 @@ package states.game.teamsData
 		public function spawnEnemyUnit(row:int, col:int, searchAndDestroy:Boolean = true):void 
 		{
 			enemyTeam1Obj.spawnSoldier(row, col, searchAndDestroy);
+		}
+		
+		private function onSold(e:Event):void
+		{
+			var p = e.target;
+			p.removeEventListener("SOLD", onSold);
+			var cost:int = BuildingsStatsObj(BuildingModel(p.model).stats).cost;
+			cashToAdd = cost / 2;
+			GameTimer.getInstance().addUser(this);
+			
+			onDead(e);
+		}
+		
+		public function update(_pulse:Boolean):void
+		{
+			if (cashToAdd > 0)
+			{
+				addCash(  1 );
+				cashToAdd--;
+			}
+			else
+			{
+				GameTimer.getInstance().removeUser(this);
+			}
 		}
 		
 		private function onDead(e:Event):void
@@ -562,8 +623,9 @@ package states.game.teamsData
 		public function getNumOfHarvesters():int 
 		{
 			var numOfHarvesters:int = 0;
+			var teamLength:int = team.length;
 			
-			for (var i:int = 0; i < team.length; i++ )
+			for (var i:int = 0; i < teamLength; i++ )
 			{
 				if (team[i] is Harvester)
 				{

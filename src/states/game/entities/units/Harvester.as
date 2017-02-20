@@ -47,7 +47,10 @@ package  states.game.entities.units
 		{
 			if(model != null && model.dead == false)
 			{
-				resetRowCol()
+				if (loadingBegan == false)
+				{
+					resetRowCol()
+				}
 				switch(model.currentState)
 				{
 					case UnitStates.IDLE:
@@ -92,21 +95,26 @@ package  states.game.entities.units
 				view.mc.visible = false;
 				storageBar.visible = false;
 				loadingBegan = true;
+				clearTile(model.row, model.col);
 			}
 		}
 		
 		private function onLoadComplete():void
 		{
-			view.alpha = 1;
-			view.mc.visible = true;
-			storageBar.visible = true;
-			storageBar.currentStore = 0;
-			storageBar.clearStorage()
-			loadingBegan = false;
-			isFull = false;
-			harvestAnimPlaying = false;
-			destResourceNode = null;
-			searchForResources();
+			if (view)
+			{
+				view.alpha = 1;
+				view.mc.visible = true;
+				storageBar.visible = true;
+				storageBar.currentStore = 0;
+				storageBar.clearStorage()
+				loadingBegan = false;
+				isFull = false;
+				harvestAnimPlaying = false;
+				destResourceNode = null;
+				searchForResources();
+			}
+			
 		}
 		
 		private function inRefineryDock():Boolean 
