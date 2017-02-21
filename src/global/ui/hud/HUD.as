@@ -1,4 +1,4 @@
-package global.ui.hud
+﻿package global.ui.hud
 {
 	
 	import com.dynamicTaMaker.utils.ButtonManager;
@@ -269,7 +269,7 @@ package global.ui.hud
 			{
 				for (i = 0; i < unitsContainer.slotsArr.length; i++ )
 				{
-					var slot:SlotHolder = unitsContainer.slotsArr[i];
+					slot = unitsContainer.slotsArr[i];
 					
 					if (slot && slot.assetName == _name)
 					{

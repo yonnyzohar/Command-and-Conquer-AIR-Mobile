@@ -62,7 +62,7 @@ package
 			{
 				var origWidth:int = 400//480;
 				MouseStates.currentState = MouseStates.REG_PLAY;
-				Parameters.gameScale = Parameters.flashStage.fullScreenWidth / origWidth ; //stage.stageWidth / origWidth;
+				Parameters.gameScale = Parameters.flashStage.stageWidth / origWidth ; //stage.stageWidth / origWidth; fullScreenWidth
 				Parameters.theStage = stage;
 				Methods.isAndroid();
 				Methods.isIOS();
@@ -117,8 +117,6 @@ package
 			Parameters.loadingScreen = new LoadingScreen();
 			Parameters.loadingScreen.init();
 			GameAtlas.initGlobalAssets();
-			//trace"flash stage " , Parameters.flashStage.stageWidth,  Parameters.flashStage.stageHeight);
-			//trace"starling stage " , Parameters.theStage.stageWidth,  Parameters.theStage.stageHeight);
 		}
 		
 		

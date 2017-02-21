@@ -1,4 +1,4 @@
-package  states.game.entities.buildings
+﻿package  states.game.entities.buildings
 {
 	import global.enums.UnitStates;
 	import global.map.Node;
@@ -98,7 +98,7 @@ package  states.game.entities.buildings
 				var row:int = model.row + int(occupyArray.length);
 				var col:int = model.col;
 				
-				var n:Node = Parameters.boardArr[row][col];
+				n = Parameters.boardArr[row][col];
 				
 				removeBlockingUnits(n);
 			}
@@ -159,7 +159,7 @@ package  states.game.entities.buildings
 			GameTimer.getInstance().removeUser(this);
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onunLoadComplete);
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
-			if (loadCompleteFNCTB)
+			if (loadCompleteFNCTB != null)
 			{
 				loadCompleteFNCTB();
 			}

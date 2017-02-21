@@ -1,4 +1,4 @@
-package states.game.entities.units
+﻿package states.game.entities.units
 {
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
@@ -44,7 +44,7 @@ package states.game.entities.units
 						
 							if (view.mc && view.mc.currentFrame == InfantryStatsObj(model.stats).fireIndex)
 							{
-								if (fnctn)
+								if (fnctn != null)
 								{
 									fnctn(currentEnemy);
 								}

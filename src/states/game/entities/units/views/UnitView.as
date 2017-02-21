@@ -1,4 +1,4 @@
-package states.game.entities.units.views
+﻿package states.game.entities.units.views
 {
 	
 	import flash.geom.Point;
@@ -87,7 +87,6 @@ package states.game.entities.units.views
 		
 		public function run(_plusNum:int = 1):void
 		{
-			var model:UnitModel = UnitModel(model);
 			traceView("animate run");
 			state = "_run";
 			
@@ -98,10 +97,10 @@ package states.game.entities.units.views
 
 			
 			
-			if ( model.path[ model.moveCounter+_plusNum])
+			if ( UnitModel(model).path[ UnitModel(model).moveCounter+_plusNum])
 			{
-				var nextRow:int =  model.path[ model.moveCounter+_plusNum].row;
-				var nextCol:int =  model.path[ model.moveCounter+_plusNum].col
+				var nextRow:int =  UnitModel(model).path[ UnitModel(model).moveCounter+_plusNum].row;
+				var nextCol:int =  UnitModel(model).path[ UnitModel(model).moveCounter+_plusNum].col
 				
 				setDirection(realRow, realCol, nextRow, nextCol);
 				animatelayer();

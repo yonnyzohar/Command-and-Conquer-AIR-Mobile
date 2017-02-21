@@ -1,4 +1,4 @@
-package global.utilities
+﻿package global.utilities
 {
 	import flash.geom.Point;
 	import flash.text.TextField;
@@ -117,7 +117,7 @@ package global.utilities
 			if (checkMove)
 			{
 			
-				var p:Point = checkMove.getLocation(Parameters.theStage);
+				p = checkMove.getLocation(Parameters.theStage);
 		
 				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
@@ -181,7 +181,7 @@ package global.utilities
 			
 			if (endMulti && endMulti.length != 0)
 			{
-				var p:Point = endMulti[0].getLocation(Parameters.theStage);
+				p = endMulti[0].getLocation(Parameters.theStage);
 				
 				if (p.x >= (stageWidth - HUD.hudWidth))
 				{

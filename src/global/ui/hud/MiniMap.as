@@ -1,4 +1,4 @@
-package global.ui.hud
+﻿package global.ui.hud
 {
 	import com.greensock.TweenLite;
 	import flash.display.Bitmap;
@@ -123,9 +123,9 @@ package global.ui.hud
 				
 				var hasCommCenter:Boolean = false;
 				var g = null;
-				var humanTeamLength:int = Parameters.humanTeam.length;
+				humanTeamLength = Parameters.humanTeam.length;
 				
-				for (var i:int = 0; i < humanTeamLength; i++ )
+				for (i = 0; i < humanTeamLength; i++ )
 				{
 					g = Parameters.humanTeam[i];
 					
@@ -235,7 +235,7 @@ package global.ui.hud
 					{
 						for (col = 0; col < occupyArray[row].length; col++ )
 						{
-							var curTile:int = occupyArray[row][col];
+							curTile = occupyArray[row][col];
 							
 							if (curTile == 1)
 							{

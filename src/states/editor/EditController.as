@@ -1,4 +1,4 @@
-package states.editor
+﻿package states.editor
 {
 	import com.codeazur.as3swf.tags.ITag;
 	import flash.geom.Point;
@@ -231,9 +231,7 @@ package states.editor
 			
 		public function init():void
 		{
-			//Parameters.loadingScreen.init();
 			
-					
 			hud.ui.x = Parameters.flashStage.stageWidth - hud.getWidth();
 			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
 			Parameters.gameHolder.addChild(Parameters.mapHolder);
@@ -444,7 +442,7 @@ package states.editor
 					if ( node.cliffTile)
 					{
 						mapNode.groundTileTexture = "grass";
-						var texName:String = node.cliffTile.name;
+						texName = node.cliffTile.name;
 						mapNode.obstacleTextureName = texName;
 						a.push(mapNode);
 					}
@@ -453,7 +451,7 @@ package states.editor
 					if (node.obstacleTile)
 					{
 						mapNode.groundTileTexture = "grass";
-						var texName:String = node.obstacleTile.name;
+						texName = node.obstacleTile.name;
 						
 						var nme:String = texName.substr(0, texName.indexOf("_"))
 						//trace(texName, nme, node.num);

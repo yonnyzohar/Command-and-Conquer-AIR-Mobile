@@ -4,6 +4,7 @@ package global.ai
 	import global.assets.GameAssets;
 	import global.enums.AiBehaviours;
 	import global.Methods;
+	import global.Parameters;
 	import global.ui.hud.slotIcons.BuildingSlotHolder;
 	import global.ui.hud.slotIcons.SlotHolder;
 	import global.utilities.GameTimer;
@@ -59,6 +60,7 @@ package global.ai
 			minNumOfAttackParty = aiJSON.minNumOfAttackParty;
 			
 			GameTimer.getInstance().addUser(this);
+			//Parameters.loadingScreen.init();
 		}
 		
 		
@@ -92,9 +94,9 @@ package global.ai
 				currentObj = Methods.getCurretStatsObj(k);
 				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.teamName)
 				{
-					var probabilityNum:int = allVehicles[k];
+					probabilityNum = allVehicles[k];
 					
-					for (var i:int = 0; i < probabilityNum; i++ )
+					for (i = 0; i < probabilityNum; i++ )
 					{
 						vehiclesArr.push(k);
 					}
@@ -150,10 +152,11 @@ package global.ai
 						if (myBuildSlot)
 						{
 							printAI("building " + currentBuildingObj.name);
-							myBuildSlot.simulateClickOnBuild();
 							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							buildingBeingBuilt = true;
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+							myBuildSlot.simulateClickOnBuild();
+							
 						}
 						else
 						{
@@ -178,18 +181,21 @@ package global.ai
 						if (myBuildSlot)
 						{
 							printAI("building " + currentBuildingObj.name);
-							myBuildSlot.simulateClickOnBuild();
 							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+							myBuildSlot.simulateClickOnBuild();
+							
 						}
 						else
 						{
 							//trace(currentBuildingObj.name + " slot does not exist");
+							setTimeout(buildBuilding, 2000);
 						}
 					}
 					else
 					{
 						//if no money, wait x seconds then check again
+						setTimeout(buildBuilding, 2000);
 					}
 					
 				}
@@ -223,7 +229,7 @@ package global.ai
 		
 		private function onBuildingContructed(e:Event = null):void 
 		{
-			//trace("ASSET_CONSTRUCTED, move on");
+			printAI("onBuildingContructed " + myBuildSlot.assetName);
 			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
 			if (myBuildSlot.assetName != "power-plant")
 			{
@@ -238,6 +244,7 @@ package global.ai
 		
 		private function buildUnits():void 
 		{
+			printAI("buildUnits " + infantryBeingBuilt + " " + vehicleBeingBuilt);
 			var infantry:Boolean = false;
 			var vehicles:Boolean = false;
 			
@@ -282,8 +289,8 @@ package global.ai
 				}
 				else
 				{
-					//trace("no barracks or vehicle factory, try again soon");
-					setTimeout(buildUnits, 2000);
+					printAI("no barracks or vehicle factory, try again soon " + Math.random());
+					setTimeout(buildUnits, 5000);
 				}
 			}
 			else
@@ -298,10 +305,11 @@ package global.ai
 						{
 							vehicleBeingBuilt = true;
 							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
-							myUnitSlotbj.slot.simulateClickOnBuild();
-							printAI("training " + myUnitSlotbj.name);
 							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+							myUnitSlotbj.slot.simulateClickOnBuild();
+							printAI("training " + myUnitSlotbj.name);
+							
 						}
 						else
 						{
@@ -317,10 +325,11 @@ package global.ai
 						{
 							infantryBeingBuilt = true;
 							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
-							myUnitSlotbj.slot.simulateClickOnBuild();
-							printAI("training " + myUnitSlotbj.name);
 							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+							myUnitSlotbj.slot.simulateClickOnBuild();
+							printAI("training " + myUnitSlotbj.name);
+							
 						}
 						else
 						{
@@ -331,7 +340,7 @@ package global.ai
 				}
 				else
 				{
-					//trace("no money!, trying again")
+					printAI("no money for " + myUnitSlotbj.name + "!, trying again")
 					setTimeout(buildUnits, 2000);
 				}
 			}
@@ -355,27 +364,30 @@ package global.ai
 					
 					if ( pcTeamObj.cash >= currentInfantrygObj.cost)
 					{
-						//trace("building a " + randomInfantry)
-						myInfantrySlot.simulateClickOnBuild();
 						myInfantrySlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+						myInfantrySlot.simulateClickOnBuild();
+						
 						infantryBeingBuilt = true;
 						printAI("training " + randomInfantry);
-						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+						
 					}
 					else
 					{
 						myUnitSlotbj = { slot : pcTeamObj.buildManager.hud.getSlot(randomInfantry), cost : currentInfantrygObj.cost , type : "infantry" , name : randomInfantry};
-						//trace("no money!, trying again")
+						printAI("no money for " + randomInfantry + " trying again");
 						setTimeout(buildUnits, 2000);
 					}
 				}
 				else
 				{
+					printAI(randomInfantry + " does not exist");
 					setTimeout(buildUnits, 2000);
 				}
 			}
 			else
 			{
+				printAI("no barracks");
 				setTimeout(buildUnits, 1000);
 			}
 		}
@@ -385,7 +397,8 @@ package global.ai
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 			infantryBeingBuilt = false;
 			myUnitSlotbj = null;
-			buildUnits();
+			printAI("onInfantryComplete");
+			setTimeout(buildUnits, 1000);
 		}
 		
 		private function buildVehicles():void 
@@ -423,28 +436,29 @@ package global.ai
 					
 					if (pcTeamObj.cash >= currentVehicleObj.cost)
 					{
-						//trace("building a " + randomVehicle)
 						vehicleBeingBuilt = true;
-						myVehicleSlot.simulateClickOnBuild();
-						printAI("training " + randomVehicle);
 						myVehicleSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+						myVehicleSlot.simulateClickOnBuild();
+						printAI("training " + randomVehicle);
+						
 					}
 					else
 					{
-						//trace("COULD NOT FIND VEHICLE SLOT!!!")
 						myUnitSlotbj = { slot : pcTeamObj.buildManager.hud.getSlot(randomVehicle), cost : currentVehicleObj.cost , type : "vehicle", name : randomVehicle };
-						//trace("no money!, trying again")
+						printAI("no money for " + randomVehicle + " trying again");
 						setTimeout(buildUnits, 2000);
 					}
 				}
 				else
 				{
+					printAI(randomVehicle + " does not exist");
 					setTimeout(buildUnits, 2000);
 				}
 			}
 			else
 			{
+				printAI("no weapons-factory");
 				setTimeout(buildUnits, 1000);
 			}
 			
@@ -453,11 +467,13 @@ package global.ai
 		
 		private function onBuildCancelledAbruptly(e:Event):void 
 		{
+			
 			var slot:SlotHolder = SlotHolder(e.target);
 			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 			if (slot is BuildingSlotHolder)
 			{
-				onBuildingContructed()
+				printAI("onBuildCancelledAbruptly - building");
+				onBuildingContructed();
 			}
 			else
 			{
@@ -465,6 +481,7 @@ package global.ai
 				infantryBeingBuilt = false;
 				vehicleBeingBuilt = false;
 				myUnitSlotbj = null;
+				printAI("onBuildCancelledAbruptly - units");
 				buildUnits();
 			}
 		}
@@ -474,7 +491,8 @@ package global.ai
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 			vehicleBeingBuilt = false;
 			myUnitSlotbj = null;
-			buildUnits();
+			printAI("onVehicleComplete");
+			setTimeout(buildUnits, 1000);
 		}
 		
 		public function update(_pulse:Boolean):void
@@ -499,7 +517,7 @@ package global.ai
 				{
 					for (i = 0; i < minNumOfAttackParty[currentAttackPartyCount]; i++ )
 					{
-						var p:GameEntity = myTeam[i];
+						p = myTeam[i];
 						p.changeAI(AiBehaviours.SEEK_AND_DESTROY);
 					}
 					printAI("sendin " + minNumOfAttackParty[currentAttackPartyCount] + " to attack!")
@@ -516,9 +534,11 @@ package global.ai
 		
 		private function printAI(_str:String):void
 		{
+			return;
 			if (PRINT_AI_FLOW)
 			{
 				trace(_str);
+				Parameters.loadingScreen.displayMessage(_str);
 			}
 		}
 	}

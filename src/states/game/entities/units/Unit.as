@@ -126,13 +126,12 @@ package states.game.entities.units
 		
 		protected function handleWalkError(pulse:Boolean):void 
 		{
-			var model:UnitModel = UnitModel(model);
-			var backToRow:int =  model.row;
-			var backToCol:int = model.col;
-			if (model.path && model.path.length )
+			var backToRow:int =  UnitModel(model).row;
+			var backToCol:int = UnitModel(model).col;
+			if (UnitModel(model).path && UnitModel(model).path.length )
 			{
 				
-				finalNodeAfterError = model.path[model.path.length-1]
+				finalNodeAfterError = UnitModel(model).path[UnitModel(model).path.length-1]
 				
 				
 				if (UnitModel(model).inWayPoint)
@@ -143,12 +142,12 @@ package states.game.entities.units
 				{
 					
 					//go back one step
-					backToRow = model.path[model.moveCounter].row;
-					backToCol = model.path[model.moveCounter].col;
+					backToRow = UnitModel(model).path[UnitModel(model).moveCounter].row;
+					backToCol = UnitModel(model).path[UnitModel(model).moveCounter].col;
 					
 					var n:Node = Parameters.boardArr[backToRow][backToCol];
 				
-					model.moveCounter = 0;
+					UnitModel(model).moveCounter = 0;
 					handlingError = true;
 					if (n.occupyingUnit == null)
 					{
@@ -160,10 +159,10 @@ package states.game.entities.units
 						getWalkPath(placementsArr[0].row, placementsArr[0].col);
 					}
 					
-					if (model.path && model.path.length)
+					if (UnitModel(model).path && UnitModel(model).path.length)
 					{
-						backToRow = model.path[model.moveCounter].row;
-						backToCol = model.path[model.moveCounter].col;
+						backToRow = UnitModel(model).path[UnitModel(model).moveCounter].row;
+						backToCol = UnitModel(model).path[UnitModel(model).moveCounter].col;
 					}
 					
 					
@@ -186,13 +185,12 @@ package states.game.entities.units
 		private function onWayPointReachedFromError(e:Event):void 
 		{
 			//trace("REACHED WAYPOINT ERROR")
-			var model:UnitModel = UnitModel(model);
 			removeEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
 			handlingError = false;
 			if (finalNodeAfterError)
 			{
 				//trace("MOVING TO NEW DEST")
-				model.moveCounter = 0;
+				UnitModel(model).moveCounter = 0;
 				var placementsArr:Array = SpiralBuilder.getSpiral(finalNodeAfterError.row, finalNodeAfterError.col, 1);
 				getWalkPath(placementsArr[0].row, placementsArr[0].col);
 				setState(UnitStates.WALK);
@@ -353,27 +351,26 @@ package states.game.entities.units
 		
 		public function getWalkPath(targetRow:int, targetCol:int):void 
 		{
-			var model:UnitModel = UnitModel(model);
 			
 			if(aStar == null)return;
 			
 			if(Parameters.boardArr == null)return;
-			if(Parameters.boardArr[model.row] == undefined ||  Parameters.boardArr[model.row] == null)return;
-			if(Parameters.boardArr[model.row][model.col] == undefined ||  Parameters.boardArr[model.row][model.col] == null)return;
+			if(Parameters.boardArr[UnitModel(model).row] == undefined ||  Parameters.boardArr[UnitModel(model).row] == null)return;
+			if(Parameters.boardArr[UnitModel(model).row][UnitModel(model).col] == undefined ||  Parameters.boardArr[UnitModel(model).row][UnitModel(model).col] == null)return;
 			
 			if(Parameters.boardArr == null)return;
 			if(Parameters.boardArr[targetRow] == undefined ||  Parameters.boardArr[targetRow] == null)return;
 			if(Parameters.boardArr[targetRow][targetCol] == undefined ||  Parameters.boardArr[targetRow][targetCol] == null)return;
 			
 			
-			model.path = aStar.getPath( Parameters.boardArr[model.row][model.col], Parameters.boardArr[targetRow][targetCol], uniqueID);
+			UnitModel(model).path = aStar.getPath( Parameters.boardArr[UnitModel(model).row][UnitModel(model).col], Parameters.boardArr[targetRow][targetCol], uniqueID);
 			//after we get the path, we can return the tiles so that others wont come too close to me.
-			if(PathTest.showPath)PathTest.createSelectedPath(model.path);
+			if(PathTest.showPath)PathTest.createSelectedPath(UnitModel(model).path);
 
 
-			model.moveCounter = 0;
-			model.moving = true;
-			model.inWayPoint = true;
+			UnitModel(model).moveCounter = 0;
+			UnitModel(model).moving = true;
+			UnitModel(model).inWayPoint = true;
 			
 		}
 		
@@ -424,17 +421,16 @@ package states.game.entities.units
 		
 		private function calculateNextStep():void
 		{
-			var model:UnitModel = UnitModel(model);
-			traceMe( " calculateNextStep: moveCounter - > " + model.moveCounter + " path.length: " + model.path.length);
+			traceMe( " calculateNextStep: moveCounter - > " + UnitModel(model).moveCounter + " path.length: " + UnitModel(model).path.length);
 			var n:Node;
 			
 			resetRowCol();
 			
 			var lastStep:Boolean = false;
 			
-			if (model.moveCounter < model.path.length-1)
+			if (UnitModel(model).moveCounter < UnitModel(model).path.length-1)
 			{
-				if(Parameters.DEBUG_MODE)view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
+				if(Parameters.DEBUG_MODE)view.drawRange(UnitModel(model).prevRow, UnitModel(model).prevCol, UnitModel(model).row, UnitModel(model).col);
 
 				UnitView(view).run();
 				//in case this is a rotating unit we need to make sure the path is still valid after rotation is done
@@ -452,18 +448,18 @@ package states.game.entities.units
 				
 				var nextNodeWalkable:Boolean = true;
 				
-				if (model.path[model.moveCounter])
+				if (UnitModel(model).path[UnitModel(model).moveCounter])
 				{
-					model.prevRow = model.row;
-					model.prevCol = model.col;
+					UnitModel(model).prevRow = UnitModel(model).row;
+					UnitModel(model).prevCol = UnitModel(model).col;
 					
 					var nexRow:int;
 					var nexCol:int; 
 					
-					if(model.path[model.moveCounter+1] != undefined)
+					if(UnitModel(model).path[UnitModel(model).moveCounter+1] != undefined)
 					{
-						nexRow = model.path[model.moveCounter+1].row;
-						nexCol = model.path[model.moveCounter + 1].col;
+						nexRow = UnitModel(model).path[UnitModel(model).moveCounter+1].row;
+						nexCol = UnitModel(model).path[UnitModel(model).moveCounter + 1].col;
 						
 						
 						n = Node(Parameters.boardArr[nexRow][nexCol]);
@@ -482,9 +478,9 @@ package states.game.entities.units
 
 				if(nextNodeWalkable)
 				{
-					model.destX = nexCol * Parameters.tileSize;
-					model.destY = nexRow * Parameters.tileSize;
-					model.inWayPoint = false;
+					UnitModel(model).destX = nexCol * Parameters.tileSize;
+					UnitModel(model).destY = nexRow * Parameters.tileSize;
+					UnitModel(model).inWayPoint = false;
 				}
 				else
 				{
@@ -502,10 +498,10 @@ package states.game.entities.units
 			
 			if(lastStep)
 			{
-				if(Parameters.DEBUG_MODE)view.drawRange(model.prevRow, model.prevCol, model.row, model.col);
+				if(Parameters.DEBUG_MODE)view.drawRange(UnitModel(model).prevRow, UnitModel(model).prevCol, UnitModel(model).row, UnitModel(model).col);
 
 				
-				if(model.isSelected)
+				if(UnitModel(model).isSelected)
 				{
 					userPathReached = true;
 					traceMe( " finished walking - > IDLE");
@@ -519,7 +515,7 @@ package states.game.entities.units
 				setState(UnitStates.IDLE);
 			}
 			//update to next node!
-			model.moveCounter++;
+			UnitModel(model).moveCounter++;
 		}
 		
 		
@@ -528,11 +524,10 @@ package states.game.entities.units
 		
 		protected function travel():void 
 		{
-			var model:UnitModel = UnitModel(model);
-			if(!model.inWayPoint)
+			if(!UnitModel(model).inWayPoint)
 			{
 				var path:Array = UnitModel(model).path;
-				var currNode:Node = path[model.moveCounter];
+				var currNode:Node = path[UnitModel(model).moveCounter];
 				
 				if (currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
 				{
@@ -542,10 +537,10 @@ package states.game.entities.units
 				}
 				
 				
-				var dx:Number = model.destX - view.x;
-				var dy:Number = model.destY - view.y;
+				var dx:Number = UnitModel(model).destX - view.x;
+				var dy:Number = UnitModel(model).destY - view.y;
 				var angle:Number = Math.atan2(dy, dx);
-				var speed:Number = model.stats.speed;
+				var speed:Number = UnitModel(model).stats.speed;
 				
 				if (speed <= 0)
 				{
@@ -557,8 +552,8 @@ package states.game.entities.units
 				view.x += vx;
 				view.y += vy;
 				
-				var distX:Number = Math.abs(model.destX - view.x);
-				var distY:Number = Math.abs(model.destY - view.y);
+				var distX:Number = Math.abs(UnitModel(model).destX - view.x);
+				var distY:Number = Math.abs(UnitModel(model).destY - view.y);
 				
 					
 				if(distX < speed &&distY < speed )
@@ -570,8 +565,8 @@ package states.game.entities.units
 					{
 						//trace( "inWayPoint");
 
-						view.x = model.destX;
-						view.y = model.destY;
+						view.x = UnitModel(model).destX;
+						view.y = UnitModel(model).destY;
 						
 					}
 					else
@@ -579,7 +574,7 @@ package states.game.entities.units
 						//trace("bug!")
 					}
 					
-					model.inWayPoint = true;
+					UnitModel(model).inWayPoint = true;
 					dispatchEvent(new Event("WAYPOINT_REACHED"));
 					
 				}

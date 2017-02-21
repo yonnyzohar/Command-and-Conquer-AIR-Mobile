@@ -1,4 +1,4 @@
-package global.ui.hud.slotIcons
+﻿package global.ui.hud.slotIcons
 {
 	import global.GameAtlas;
 	import states.game.teamsData.TeamObject;
@@ -22,7 +22,7 @@ package global.ui.hud.slotIcons
 				readyTXT.visible = true;
 			}
 			
-			if (buildCompleteFunction)
+			if (buildCompleteFunction != null)
 			{
 				buildCompleteFunction(assetName);
 			}

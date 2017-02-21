@@ -1,4 +1,4 @@
-package global.map.mapTypes
+﻿package global.map.mapTypes
 {
 	
 	import flash.display3D.textures.RectangleTexture;
@@ -230,7 +230,7 @@ package global.map.mapTypes
 			{
 				textures = GameAtlas.getTextures("grass");
 			}
-			var rndImg:int = Math.random() * textures.length; 
+			rndImg = Math.random() * textures.length; 
 			var img:Image = new Image(textures[rndImg]);
 			img.scaleX = img.scaleY = (Parameters.gameScale);
 			img.width = int(img.width);
@@ -424,7 +424,7 @@ package global.map.mapTypes
 						
 						if (textureName.indexOf("ridges") != -1)
 						{
-							var o:Array = Assets.ridges.list[textureName].gridBuild;
+							o = Assets.ridges.list[textureName].gridBuild;
 							node.cliffTile = new Image(GameAtlas.getTexture(textureName));
 							node.cliffTile.x = node.col * Parameters.tileSize;
 							node.cliffTile.y = node.row * Parameters.tileSize;
@@ -433,9 +433,9 @@ package global.map.mapTypes
 							node.cliffTile.height = o.length * Parameters.tileSize;  // * Parameters.gameScale;
 							node.cliffTile.name = textureName;
 							
-							for (var _row:int = 0; _row < o.length ; _row++ )
+							for (_row = 0; _row < o.length ; _row++ )
 							{
-								for (var _col:int = 0; _col < o[_row].length; _col++ )
+								for (_col = 0; _col < o[_row].length; _col++ )
 								{
 									if (Parameters.boardArr[node.row + _row] && Parameters.boardArr[node.row + _row][node.col + _col])
 									{
@@ -469,14 +469,14 @@ package global.map.mapTypes
 				}
 			}
 			
-			for (var i:int = 0; i < tiberiumTiles.length; i++ )
+			for (i = 0; i < tiberiumTiles.length; i++ )
 			{
 				var tiberiumNode:Node = tiberiumTiles[i];
 				var neighbors:int = 0;
 				var n:Node;
-				for (var _row:int = -1; _row <= 1; _row ++  )
+				for (_row = -1; _row <= 1; _row ++  )
 				{
-					for (var _col:int = -1; _col <= 1; _col ++  )
+					for (_col = -1; _col <= 1; _col ++  )
 					{
 						if (Parameters.boardArr[tiberiumNode.row + _row] && Parameters.boardArr[tiberiumNode.row + _row][tiberiumNode.col + _col])
 						{

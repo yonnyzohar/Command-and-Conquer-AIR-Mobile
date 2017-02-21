@@ -1,4 +1,4 @@
-package states.game.ui
+﻿package states.game.ui
 {
 	import flash.geom.Point;
 	import flash.utils.getTimer;
@@ -207,7 +207,7 @@ package states.game.ui
 					killSelectionCircle()
 					location = endMulti[0].getLocation(Parameters.mapHolder);
 					endTouchTime = getTimer();
-					var click:Boolean = false;
+					click = false;
 						
 					if((endTouchTime - startTouchTime) < 200)
 					{
@@ -217,8 +217,8 @@ package states.game.ui
 							return;
 						}
 						
-						var targetCol:int = location.x / Parameters.tileSize;
-						var targetRow:int = location.y / Parameters.tileSize;
+						targetCol = location.x / Parameters.tileSize;
+						targetRow = location.y / Parameters.tileSize;
 						sendUnitsToDest(targetCol, targetRow);	
 					}
 				}

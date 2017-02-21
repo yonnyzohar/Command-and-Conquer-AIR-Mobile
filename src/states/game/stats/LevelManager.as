@@ -1,4 +1,4 @@
-package states.game.stats
+﻿package states.game.stats
 {
 	import flash.utils.Dictionary;
 	import global.assets.GameAssets;
@@ -81,7 +81,7 @@ package states.game.stats
 							}
 							
 							
-							var curDict:Dictionary = stats[i];					
+							curDict = stats[i];					
 							if (curDict[n].tech > levelTech)
 							{
 								////trace(n + " tech is " + curDict[n].tech + " current " + levelTech)

@@ -25,7 +25,7 @@ package states.game.stats
 				buildingObj.totalHealth = curBuilding.hitPoints;
 				buildingObj.dependency  = curBuilding.dependency;
 				buildingObj.owner 		= curBuilding.owner;
-				buildingObj.cost		= curBuilding.cost / 3;
+				buildingObj.cost		= curBuilding.cost ;
 				buildingObj.powerIn		= curBuilding.powerIn;
 				buildingObj.powerOut	= curBuilding.powerOut;
 				buildingObj.sight		= curBuilding.sight;

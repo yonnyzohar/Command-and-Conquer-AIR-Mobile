@@ -1,4 +1,4 @@
-package  global 
+﻿package  global 
 {
 	
 	import com.greensock.loading.display.ContentDisplay;
@@ -93,7 +93,8 @@ package  global
 		static private var backToMain:MessageChannel;
 		static private var mainToBack:MessageChannel;
 		static private var loadingInProgress:Boolean = false;
-		static private var loadedAssets:Object = {};
+		static private var loadedAssets:Object = { };
+		private static var stopMe:Boolean = false;
 		
 		
 		public static function initGlobalAssets():void
@@ -303,15 +304,13 @@ package  global
 		static private function onBackgroundMessageToMain(e:flash.events.Event):void 
 		{
 			var result:Object = backToMain.receive() as Object;
-			if (result.message != "asset")
+			if (result.message != "asset" )
 			{
-				//Parameters.tf.text = result.message;
-				Parameters.loadingScreen.progress(counter, assetNames.length, result.message)
+				if(!stopMe)Parameters.loadingScreen.progress(counter, assetNames.length, result.message)
 			}
 			else
 			{
-				//sent an object
-				Parameters.loadingScreen.progress(assetNames.length, assetNames.length, "DONE!")
+				if(!stopMe)Parameters.loadingScreen.progress(assetNames.length, assetNames.length, "DONE!")
 				createAtlases(result.data);
 			}
 		}
@@ -392,8 +391,9 @@ package  global
 			if (counter >= assetNames.length)
 			{
 			
-				if (callback)
+				if (callback != null)
 				{
+					stopMe = true;
 					Parameters.loadingScreen.remove();
 					callback();
 				}

@@ -1,4 +1,4 @@
-package states.editor
+﻿package states.editor
 {
 	import com.dynamicTaMaker.loaders.TemplateLoader;
 	import com.dynamicTaMaker.utils.ButtonManager;
@@ -817,7 +817,7 @@ package states.editor
 							node.num = currentCornerRidge;
 						}
 						
-						var o:Array = Assets.ridges.list[n].gridBuild;
+						o = Assets.ridges.list[n].gridBuild;
 						
 						node.cliffTile = new Image(GameAtlas.getTexture(n));
 						node.cliffTile.x = node.col * Parameters.tileSize;
@@ -858,7 +858,7 @@ package states.editor
 							n = getShoreN("shore_corner_low_", currentCornerShore);
 						}
 						
-						var o:Array = Assets.shores.list[n].gridBuild;
+						o = Assets.shores.list[n].gridBuild;
 						shoreCliffObstacle = GameAtlas.createMovieClip(n);
 						shoreCliffObstacle.x = node.col * Parameters.tileSize;
 						shoreCliffObstacle.y = node.row * Parameters.tileSize;
@@ -911,7 +911,7 @@ package states.editor
 							node.num = currentCornerShore;
 						}
 						
-						var o:Array = Assets.shores.list[n].gridBuild;
+						o = Assets.shores.list[n].gridBuild;
 						
 						node.shoreTile = new Image(GameAtlas.getTexture(n));
 						node.shoreTile.x = node.col * Parameters.tileSize;

@@ -1,4 +1,4 @@
-package global.utilities
+﻿package global.utilities
 {
 	import global.enums.Agent;
 	import global.map.Node;
@@ -135,7 +135,7 @@ package global.utilities
 					var len4:int = sightArray.length;
 					for (g = 0; g < len4; g++ )
 					{
-						var n:Node = sightArray[g];
+						n = sightArray[g];
 						if (Parameters.DEBUG_MODE)
 						{
 							n.seen = true;// -- setting this to true will make pc units appear in the minimap!

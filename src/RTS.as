@@ -1,4 +1,4 @@
-package
+﻿package
 {
 	import flash.desktop.NativeApplication;
 	import flash.desktop.SystemIdleMode;
@@ -60,7 +60,7 @@ package
 					ScaleMode.SHOW_ALL);*/
 					
 					Starling.handleLostContext = true;  //- Starling 1_7;
-					Starling.multitouchEnabled = true;
+					//Starling.multitouchEnabled = true;
 					//
 					_starling = new Starling(Main, stage, viewPort);
 					_starling.showStats=false;
@@ -80,7 +80,7 @@ package
 		{
 			// TODO Auto-generated method stub
 			//trace"RIGHT CLICKED!!!");
-			Methods.rightClickFNCTN();
+			if(Methods.rightClickFNCTN != null)Methods.rightClickFNCTN();
 			
 		}
 		

@@ -31,7 +31,7 @@ package states.game.stats
 				vehicleObj.dependency     = curUnit.dependency  ; 
 				vehicleObj.constructedIn  = curUnit.constructedIn;
 				vehicleObj.owner 		  = curUnit.owner 	;	
-				vehicleObj.cost 		  = curUnit.cost /3	;	
+				vehicleObj.cost 		  = curUnit.cost	;	
 				vehicleObj.crusher 		  = curUnit.crusher 	;	
 				vehicleObj.numOfCannons   = 1;
 				vehicleObj.hasTurret	  = curUnit.hasTurret;

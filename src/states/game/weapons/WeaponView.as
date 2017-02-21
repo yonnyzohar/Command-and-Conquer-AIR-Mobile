@@ -1,4 +1,4 @@
-
+﻿
 package  states.game.weapons
 {
 	import com.greensock.easing.Expo;
@@ -151,7 +151,7 @@ package  states.game.weapons
 					{
 						var halfX:int = 0;
 						var halfy:int = 0;
-						var speed:Number = model.stats.weapon.projectile.bulletSpeed;
+						speed = model.stats.weapon.projectile.bulletSpeed;
 						
 						if (projectileMC.x > targetX)
 						{
