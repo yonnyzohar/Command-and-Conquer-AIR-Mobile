@@ -103,18 +103,19 @@ package global.ai
 				}
 			}
 			
-			//trace("infantryArr: " + infantryArr);
-			//trace("vehiclesArr: " + vehiclesArr);
-			
 		}
 		
-		
+		////////////////////////////////////////////---BILDINGS---------/////////////////////////////////////
 		
 		private function buildBuilding(_firstTime:Boolean = false):void 
 		{
-			myBuildSlot = null;
+			
 			//if there are still stuff to build
-			if (aiJSON.buildQueue[buildCount] && buildingBeingBuilt == false)
+			if (buildingBeingBuilt)
+			{
+				return;
+			}
+			if (aiJSON.buildQueue[buildCount])
 			{
 				var currentBuildingObj:AssetStatsObj = Methods.getCurretStatsObj(aiJSON.buildQueue[buildCount]);
 				var buildPowerPlant:Boolean = false;
@@ -128,7 +129,7 @@ package global.ai
 				if (!buildPowerPlant)
 				{
 					var proceed:Boolean = true;
-					if (pcTeamObj.doesBuildingExist(["refinery"]))
+					if (pcTeamObj.doesBuildingExist("refinery"))
 					{
 						if (Math.random() > 0.3)
 						{
@@ -162,13 +163,7 @@ package global.ai
 						{
 							//trace(currentBuildingObj.name + " slot does not exist");
 							buildCount++;
-							buildBuilding();
 						}
-					}
-					else
-					{
-						setTimeout(buildBuilding, 2000);
-						//if no money, wait x seconds then check again
 					}
 				}
 				else
@@ -184,34 +179,12 @@ package global.ai
 							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 							myBuildSlot.simulateClickOnBuild();
+							buildingBeingBuilt = true;
 							
 						}
-						else
-						{
-							//trace(currentBuildingObj.name + " slot does not exist");
-							setTimeout(buildBuilding, 2000);
-						}
-					}
-					else
-					{
-						//if no money, wait x seconds then check again
-						setTimeout(buildBuilding, 2000);
 					}
 					
 				}
-			}
-			else
-			{
-				if (buildCount < aiJSON.buildQueue.length)
-				{
-					buildCount++;
-					buildBuilding();
-				}
-				else
-				{
-					//trace("NOTHING MORE TO BUILD")
-				}
-				
 			}
 		}
 		
@@ -236,24 +209,51 @@ package global.ai
 				buildCount++;
 			}
 			buildingBeingBuilt = false;
-			buildBuilding();
 		}
 		
-		////////////////////////////////////////////////////////////////////////////////////
+		
+		private function onBuildCancelledAbruptly(e:Event):void 
+		{
+			var slot:SlotHolder = SlotHolder(e.target);
+			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			printAI("onBuildCancelledAbruptly - building");
+			buildingBeingBuilt = false;
+		}
+		
+		//////////////////////////////////////////--------------------UNITS------//////////////////////////////////////////
 		
 		
 		private function buildUnits():void 
 		{
 			printAI("buildUnits " + infantryBeingBuilt + " " + vehicleBeingBuilt);
+			
+			
+			if (infantryBeingBuilt && vehicleBeingBuilt)
+			{
+				return;
+			}
+			
 			var infantry:Boolean = false;
 			var vehicles:Boolean = false;
 			
-			if (pcTeamObj.doesBuildingExist(["hand-of-nod", "barracks"]) && infantryBeingBuilt == false)
+			if (infantryBeingBuilt)
+			{
+				infantry = true;
+			}
+			if (vehicleBeingBuilt)
+			{
+				vehicles = true;
+			}
+			
+			
+			if (pcTeamObj.doesBuildingExist("barracks") && infantryBeingBuilt == false)
 			{
 				infantry = true;
 			}
 			
-			if (pcTeamObj.doesBuildingExist(["weapons-factory", "airstrip"]) && vehicleBeingBuilt == false)
+			if (pcTeamObj.doesBuildingExist("vehicle-factory") && vehicleBeingBuilt == false)
 			{
 				vehicles = true;
 			}
@@ -264,48 +264,47 @@ package global.ai
 				{
 					if (pcTeamObj.getHarvester() == null)
 					{
-						buildVehicles();
+						if(!vehicleBeingBuilt)buildVehicles();
 					}
 					else 
 					{
 						if (Math.random() < 0.4 )
 						{
-							buildInfantry();
+							if(!infantryBeingBuilt)buildInfantry();
 						}
 						else
 						{
-							buildVehicles();
+							if(!vehicleBeingBuilt)buildVehicles();
 						}
 					}
 					
 				}
 				else if(infantry && !vehicles)
 				{
-					buildInfantry();
+					if(!infantryBeingBuilt)buildInfantry();
 				}
 				else if (!infantry && vehicles)
 				{
-					buildVehicles()
+					if(!vehicleBeingBuilt)buildVehicles()
 				}
 				else
 				{
 					printAI("no barracks or vehicle factory, try again soon " + Math.random());
-					setTimeout(buildUnits, 5000);
 				}
 			}
 			else
 			{
 				//we saved on to a desired unit, try to build it
-				//trace("trying to build saved unit " + myUnitSlotbj.name);
+				printAI("trying to build saved unit " + myUnitSlotbj.name);
 				if (pcTeamObj.cash >= myUnitSlotbj.cost)
 				{
 					if (myUnitSlotbj.type == "vehicle" )
 					{
-						if (vehicles == true)
+						if (vehicles == true && !vehicleBeingBuilt)
 						{
 							vehicleBeingBuilt = true;
 							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
-							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onVehicleBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 							myUnitSlotbj.slot.simulateClickOnBuild();
 							printAI("training " + myUnitSlotbj.name);
@@ -314,18 +313,18 @@ package global.ai
 						else
 						{
 							myUnitSlotbj = null;
-							buildUnits();
 						}
-						
 					}
 					
 					if (myUnitSlotbj.type == "infantry")
 					{
-						if (infantry == true)
+						if (infantry == true && !infantryBeingBuilt)
 						{
-							infantryBeingBuilt = true;
+							
 							myUnitSlotbj.slot = pcTeamObj.buildManager.hud.getSlot(myUnitSlotbj.name);
-							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+							infantryBeingBuilt = true;
+							
+							myUnitSlotbj.slot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onInfantryBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 							myUnitSlotbj.slot.simulateClickOnBuild();
 							printAI("training " + myUnitSlotbj.name);
@@ -334,24 +333,25 @@ package global.ai
 						else
 						{
 							myUnitSlotbj = null;
-							buildUnits();
 						}
 					}
 				}
 				else
 				{
 					printAI("no money for " + myUnitSlotbj.name + "!, trying again")
-					setTimeout(buildUnits, 2000);
 				}
 			}
 		}
+		
+		
+		
 		
 		
 		private function buildInfantry(e:Event = null):void 
 		{
 			var myInfantrySlot:SlotHolder;
 			
-			if (pcTeamObj.doesBuildingExist(["hand-of-nod", "barracks"]))
+			if (pcTeamObj.doesBuildingExist("barracks"))
 			{
 				var rnd:int = Math.random() * infantryArr.length;
 				var randomInfantry:String = infantryArr[rnd];
@@ -364,11 +364,10 @@ package global.ai
 					
 					if ( pcTeamObj.cash >= currentInfantrygObj.cost)
 					{
-						myInfantrySlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+						infantryBeingBuilt = true;
+						myInfantrySlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onInfantryBuildCancelledAbruptly);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 						myInfantrySlot.simulateClickOnBuild();
-						
-						infantryBeingBuilt = true;
 						printAI("training " + randomInfantry);
 						
 					}
@@ -376,37 +375,49 @@ package global.ai
 					{
 						myUnitSlotbj = { slot : pcTeamObj.buildManager.hud.getSlot(randomInfantry), cost : currentInfantrygObj.cost , type : "infantry" , name : randomInfantry};
 						printAI("no money for " + randomInfantry + " trying again");
-						setTimeout(buildUnits, 2000);
 					}
 				}
 				else
 				{
 					printAI(randomInfantry + " does not exist");
-					setTimeout(buildUnits, 2000);
 				}
 			}
 			else
 			{
 				printAI("no barracks");
-				setTimeout(buildUnits, 1000);
 			}
 		}
 		
 		private function onInfantryComplete(e:Event):void 
 		{
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+			myUnitSlotbj = null;
+			infantryBeingBuilt = false;
+			
+			printAI("	onInfantryComplete");
+		}
+		
+		private function onInfantryBuildCancelledAbruptly(e:Event):void 
+		{
+			var slot:SlotHolder = SlotHolder(e.target);
+			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onInfantryBuildCancelledAbruptly);
+			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 			infantryBeingBuilt = false;
 			myUnitSlotbj = null;
-			printAI("onInfantryComplete");
-			setTimeout(buildUnits, 1000);
 		}
+		
+		
+		/////////////////////////////-----------------------VEHICLES-------////////////////////////
+		
+		
+		
 		
 		private function buildVehicles():void 
 		{
 			var myVehicleSlot:SlotHolder;
 
 				
-			if (pcTeamObj.doesBuildingExist(["weapons-factory", "airstrip"]))
+			if (pcTeamObj.doesBuildingExist("vehicle-factory"))
 			{
 				var rnd:int = Math.random() * vehiclesArr.length;
 				var randomVehicle:String = vehiclesArr[rnd];
@@ -436,10 +447,10 @@ package global.ai
 					
 					if (pcTeamObj.cash >= currentVehicleObj.cost)
 					{
-						vehicleBeingBuilt = true;
-						myVehicleSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+						myVehicleSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onVehicleBuildCancelledAbruptly);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 						myVehicleSlot.simulateClickOnBuild();
+						vehicleBeingBuilt = true;
 						printAI("training " + randomVehicle);
 						
 					}
@@ -447,43 +458,18 @@ package global.ai
 					{
 						myUnitSlotbj = { slot : pcTeamObj.buildManager.hud.getSlot(randomVehicle), cost : currentVehicleObj.cost , type : "vehicle", name : randomVehicle };
 						printAI("no money for " + randomVehicle + " trying again");
-						setTimeout(buildUnits, 2000);
 					}
 				}
 				else
 				{
 					printAI(randomVehicle + " does not exist");
-					setTimeout(buildUnits, 2000);
 				}
 			}
 			else
 			{
 				printAI("no weapons-factory");
-				setTimeout(buildUnits, 1000);
 			}
-			
-			
-		}
-		
-		private function onBuildCancelledAbruptly(e:Event):void 
-		{
-			
-			var slot:SlotHolder = SlotHolder(e.target);
-			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
-			if (slot is BuildingSlotHolder)
-			{
-				printAI("onBuildCancelledAbruptly - building");
-				onBuildingContructed();
-			}
-			else
-			{
-				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
-				infantryBeingBuilt = false;
-				vehicleBeingBuilt = false;
-				myUnitSlotbj = null;
-				printAI("onBuildCancelledAbruptly - units");
-				buildUnits();
-			}
+
 		}
 		
 		private function onVehicleComplete(e:Event):void 
@@ -491,17 +477,33 @@ package global.ai
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 			vehicleBeingBuilt = false;
 			myUnitSlotbj = null;
-			printAI("onVehicleComplete");
-			setTimeout(buildUnits, 1000);
+			printAI("	onVehicleComplete");
 		}
+		
+		private function onVehicleBuildCancelledAbruptly(e:Event):void 
+		{
+			var slot:SlotHolder = SlotHolder(e.target);
+			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onVehicleBuildCancelledAbruptly);
+			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			vehicleBeingBuilt = false;
+			myUnitSlotbj = null;
+		}
+		
+		
+		///////////////////////////////----------UPDATE-------//////////////////////////////
+		
 		
 		public function update(_pulse:Boolean):void
 		{
 			if (_pulse)
 			{
+				buildUnits();
+				buildBuilding();
+				
 				var numUnits:int = 0;
 				var myTeam:Array = [];
-				for (var i:int = 0; i < pcTeamObj.team.length; i++ )
+				var teamLen:int = pcTeamObj.team.length;
+				for (var i:int = 0; i < teamLen; i++ )
 				{
 					var p:GameEntity = pcTeamObj.team[i];
 					if (p is Unit && p != null && p.model != null && p.model.dead == false && !(p is Harvester))
@@ -529,16 +531,16 @@ package global.ai
 					}
 					
 				}
+				
 			}
 		}
 		
 		private function printAI(_str:String):void
 		{
-			return;
 			if (PRINT_AI_FLOW)
 			{
 				trace(_str);
-				Parameters.loadingScreen.displayMessage(_str);
+				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}
 	}

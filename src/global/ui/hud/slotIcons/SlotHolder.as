@@ -232,7 +232,7 @@ package global.ui.hud.slotIcons
 						return;
 					}
 
-					teamObj.reduceCash(  1 );
+					teamObj.reduceCash(  Parameters.CASH_INCREMENT );
 					
 					var per:int = ((currentPerNum / cost) * 100);
 					if (showUI)
@@ -241,7 +241,7 @@ package global.ui.hud.slotIcons
 						if(count % 4 == 0)GameSounds.playSound("cash", null, 0.01);
 					}
 					
-					currentPerNum++;
+					currentPerNum += Parameters.CASH_INCREMENT;
 				}
 				else
 				{

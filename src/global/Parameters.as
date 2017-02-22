@@ -17,6 +17,7 @@ package global
 	 */
 	public class Parameters 
 	{
+		public static var CASH_INCREMENT:int = 2;
 		public static var mapMoveSpeed:int = 5;
 		
 		public static var DEBUG_MODE:Boolean = false;

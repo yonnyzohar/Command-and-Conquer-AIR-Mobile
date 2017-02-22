@@ -64,8 +64,8 @@
 		{
 			if (currentStore > 0)
 			{
-				myTeamObj.addCash(  1 );
-				currentStore--;
+				myTeamObj.addCash(  Parameters.CASH_INCREMENT );
+				currentStore -= Parameters.CASH_INCREMENT;
 			}
 			else
 			{

@@ -10,7 +10,7 @@ package states.game.stats
 		public var name:String;
 		public var totalHealth:int;
 		public var sight:int;
-		public var cost:int;
+		private var _cost:int;
 		public var dependency:Array;
 		public var owner:String;
 		public var rotationType:int = 8;
@@ -30,6 +30,19 @@ package states.game.stats
 		public var pixelHeight:int;
 		public var pixelWidth:int;
 		public var tech:int = 0;
+		
+		public function get cost():int 
+		{
+			return _cost;
+		}
+		
+		public function set cost(value:int):void 
+		{
+			_cost = value ;
+		}
+		
+		
+		
 	}
 
 }

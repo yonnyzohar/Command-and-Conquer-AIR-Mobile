@@ -285,25 +285,14 @@ package states.game.teamsData
 			}
 		}
 		
-		public function doesBuildingExist(arr:Array):Boolean
+		public function doesBuildingExist(_buildingName:String):Boolean
 		{
 			var avaliable:Boolean = false;
-			var l:int = arr.length
-			var teamLength:int = team.length;
-			
-			outer : for (var i:int = 0; i < l; i++ )
+			if (teamBuildingsDict[_buildingName])
 			{
-				var name:String = arr[i];
-				for (var j:int = 0; j < teamLength; j++ )
-				{
-					if (team[j].name == name)
-					{
-						avaliable = true;
-						break outer;
-					}
-				}
+				avaliable = true;
 			}
-			
+
 			return avaliable;
 		}
 		
@@ -509,8 +498,8 @@ package states.game.teamsData
 		{
 			if (cashToAdd > 0)
 			{
-				addCash(  1 );
-				cashToAdd--;
+				addCash(  Parameters.CASH_INCREMENT );
+				cashToAdd -= Parameters.CASH_INCREMENT;
 			}
 			else
 			{
