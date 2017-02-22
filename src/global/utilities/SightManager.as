@@ -196,5 +196,11 @@
 				return pc_buildingsSight;
 			}
 		}
+		
+		public function dispose():void 
+		{
+			human_buildingsSight = null;
+			pc_buildingsSight = null;
+		}
 	}
 }

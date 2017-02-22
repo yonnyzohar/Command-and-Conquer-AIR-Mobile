@@ -18,7 +18,6 @@
 	
 	import global.Parameters;
 	import global.GameAtlas;
-	import global.utilities.DragScroll;
 	import global.utilities.GameTimer;
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.MapMover;
@@ -39,10 +38,7 @@
 		public static var DRAW_TYPE_ONLY_CENTER:int = 1;
 		public static var resourceNodes:Object = { };
 		private var renderTextures:Array = [];
-		private var canvas:RenderTexture;
 		static private var instance:Board = new Board();
-		private var dragScroll:DragScroll = new DragScroll();
-		public var treesAndRocks:Array = new Array();
 		private var mapMover:MapMover;
 		public var useImg:Boolean = true;
 		private var textures:Vector.<Texture>;
@@ -76,21 +72,6 @@
 			Parameters.mapWidth = Parameters.numCols * Parameters.tileSize;
 			Parameters.mapHeight = Parameters.numRows * Parameters.tileSize;
 			
-			/*if (editMode)
-			{
-				drawType = Board.DRAW_TYPE_ALL_TILES;
-			}
-			else
-			{}*/
-			
-			/*if (Parameters.DEBUG_MODE)
-			{
-				drawType =  Board.DRAW_TYPE_ALL_TILES;
-			}
-			else
-			{
-				
-			}*/
 			
 			
 			drawType = Board.DRAW_TYPE_ONLY_CENTER;
@@ -114,8 +95,6 @@
 		
 		private function destroyMap():void 
 		{
-			treesAndRocks.splice(0);
-			
 			var n:Node;
 			if (Parameters.boardArr)
 			{
@@ -127,14 +106,33 @@
 						if (n.groundTile)
 						{
 							n.groundTile.dispose();
-							n.groundTile.removeFromParent(true);
+							n.groundTile.removeFromParent();
+							n.groundTile = null;
 						}
 						
 						if (n.obstacleTile)
 						{
 							n.obstacleTile.dispose();
-							n.obstacleTile.removeFromParent(true);
+							n.obstacleTile.removeFromParent();
+							n.obstacleTile = null;
 						}
+						
+						if (n.shoreTile)
+						{
+							n.shoreTile.dispose();
+							n.shoreTile.removeFromParent();
+							n.shoreTile = null;
+						}
+						
+						if (n.cliffTile)
+						{
+							n.cliffTile.dispose();
+							n.cliffTile.removeFromParent();
+							n.cliffTile = null;
+						}
+						
+						
+						
 						n.occupyingUnit = null;
 						n = null;
 					}
@@ -147,8 +145,6 @@
 		
 		private function onMapLoadDone(e:starling.events.Event):void
 		{
-			
-			
 			
 			GlobalEventDispatcher.getInstance().removeEventListener("MAP_LOAD_DONE", onMapLoadDone);
 
@@ -258,8 +254,6 @@
 					n.groundTile = getGrassTile();  
 					n.groundTile.y = n.row * Parameters.tileSize;
 					n.groundTile.x = n.col * Parameters.tileSize;
-					//n.groundTile.scaleX += 0.5;
-					//n.groundTile.scaleY += 0.5;
 					
 					if (drawType == Board.DRAW_TYPE_ALL_TILES)
 					{
@@ -576,11 +570,6 @@
 			}
 		}
 		
-		/*public function drawUnit(view:UnitView):void
-		{
-			//canvas.draw(view);
-		}*/
-		
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -594,11 +583,7 @@
 				line.x = 0;
 				line.y = Parameters.tileSize * i;
 				line.touchable = false;
-				
-				if(useImg)
-				{
-					//canvas.draw(line);
-				}
+
 
 			}
 			
@@ -608,15 +593,19 @@
 				line.x = Parameters.tileSize * i;
 				line.y = 0;
 				line.touchable = false;
-				
-				if(useImg)
-				{
-					//canvas.draw(line);
-				}
+
 			}
 			
 			
 			line = null;
+		}
+		
+		
+		public function dispose():void 
+		{
+			GameTimer.getInstance().removeUser(this);
+			destroyMap()
+			mapMover.dispose();
 		}
 		
 

@@ -55,8 +55,6 @@ package  global.map
 				debugTile.alpha = 0.1;
 				Parameters.upperTilesLayer.addChild(debugTile);
 			}
-			
-			
 		}
 		
 		public function hideDebugTile():void

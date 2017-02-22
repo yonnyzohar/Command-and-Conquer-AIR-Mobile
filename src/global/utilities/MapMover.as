@@ -593,6 +593,12 @@
 			moveMiniMap();
 		}
 		
+		public function dispose():void 
+		{
+			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
+			
+		}
+		
 		
 	}
 }

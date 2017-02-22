@@ -228,21 +228,7 @@
 			}
 		}
 		
-		public function dispose():void
-		{
-			buildingsContainer.dispose();
-			unitsContainer.dispose();
-			
-			if (miniMap)
-			{
-				miniMap.dispose();
-				miniMap.removeFromParent(true)
-			}
-			
-			miniMap = null;
-			
-
-		}
+		
 		
 		public function getWidth():int
 		{
@@ -360,6 +346,23 @@
 					powerGreenMC.color = 0x00cc00;//green
 				}
 			}
+		}
+		
+		public function dispose():void
+		{
+			buildingsContainer.dispose();
+			unitsContainer.dispose();
+			
+			if (miniMap)
+			{
+				miniMap.dispose();
+				miniMap.removeFromParent(true)
+			}
+			
+			miniMap = null;
+			buildingsContainer = null;
+			unitsContainer = null;
+
 		}
 	}
 }

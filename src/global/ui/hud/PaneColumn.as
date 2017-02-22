@@ -331,15 +331,27 @@ package global.ui.hud
 			{
 				for(var i:int = 0; i < slotsArr.length; i++)
 				{
-					
-					slotsArr[i].view.removeFromParent(true);
+					slotsArr[i].removeEventListener("SLOT_SELECTED", onSlotSelected);
+					slotsArr[i].dispose();
 					slotsArr[i] = null;
 				}
 				slotsArr.splice(0);
 			}
 			
+			if (upBTN)
+			{
+				upBTN.removeEventListener(TouchEvent.TOUCH, onUpBTNClicked);
+				downBTN.removeEventListener(TouchEvent.TOUCH, onDownBTNClicked);
+			}
+			teamObj = null;
+			if (ui)
+			{
+				ui.removeFromParent();
+				ui = null;
+			}
+			unitsDict = null;
+			SlotHolderCLS = null;
+			selectedSlot = null;
 		}
-		
-		
 	}
 }

@@ -32,5 +32,17 @@ package states.game.ui
 			team1TF.text = String(team1);
 			team2TF.text = String(team2);
 		}
+		
+		public function dispose():void 
+		{
+			bg.removeFromParent();
+			bg = null;
+			team1TF.removeFromParent();
+			team2TF.removeFromParent();
+			team1TF= null;
+			team2TF= null;
+			view.removeFromParent();
+			view = null;
+		}
 	}
 }

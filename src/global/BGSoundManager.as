@@ -32,10 +32,21 @@ package global
 			}
 		}
 		
+		
+		
 		static private function onBGSndComplete(e:Event):void 
 		{
 			bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
 			playBGSound();
+		}
+		
+		static public function stopAllSounds():void 
+		{
+			if (bgSoundChannel)
+			{
+				bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
+				bgSoundChannel = null;
+			}
 		}
 		
 	}

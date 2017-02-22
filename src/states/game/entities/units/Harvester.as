@@ -510,9 +510,6 @@ package  states.game.entities.units
 					}
 				}
 			}
-			
-			
-			
 		}
 		
 		private function returnRegHarvester():void
@@ -550,6 +547,23 @@ package  states.game.entities.units
 		{
 			dispatchEvent(new Event("UNDER_ATTACK"));
 			return super.hurt(_hitVal, _currentInfantryDeath,projectileName )
+		}
+		
+		override public function dispose():void
+		{
+			GameTimer.getInstance().removeUser(view);
+			view.mc.removeEventListener(Event.COMPLETE, onHarvestLoopComplete);
+			Starling.juggler.remove(MovieClip(view.mc));
+			destResourceNode = null;
+			refinery = null;
+			if (storageBar)
+			{
+				storageBar.removeFromParent();
+				storageBar.dispose();
+				storageBar = null;
+			}
+			
+			super.dispose();
 		}
 	}
 }

@@ -225,8 +225,17 @@ package
 			Parameters.editLoad = false;
 			game = new Game();
 			//if(e != null)game.randomPlacement = true;
-			game.init();
+			game.init(0);
 			addChild(Parameters.mapHolder);
+			game.addEventListener("LEAVE_MISSION", onLeaveMission);
+		}
+		
+		private function onLeaveMission(e:starling.events.Event):void 
+		{
+			game.removeEventListener("LEAVE_MISSION", onLeaveMission);
+			game.dispose();
+			game = null;
+			initStartScreen(); 
 		}
 		
 		private function removeStartScreen():void

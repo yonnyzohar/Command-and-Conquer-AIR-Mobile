@@ -121,14 +121,7 @@ package states.game.entities
 			}
 		}
 		
-		override public function dispose():void
-		{
-			if (mc is MovieClip) Starling.juggler.remove(MovieClip(mc));
-			mc.visible = false;
-			mc.removeFromParent();
-			mc = null;
-			if(circle != null)circle.removeFromParent();
-		}
+		
 		
 		public function setViewByHealth(healthScale:Number):void 
 		{
@@ -202,6 +195,32 @@ package states.game.entities
 				y -= vy;
 				setTimeout(function():void{recoilAnimating = false; x = origX; y = origY; },100);
 			}
+		}
+		
+		override public function dispose():void
+		{
+			if (mc is MovieClip) Starling.juggler.remove(MovieClip(mc));
+			mc.visible = false;
+			mc.removeFromParent();
+			mc = null;
+			if (circle != null) 
+			{
+				circle.removeFromParent();
+				circle = null;
+			}
+			
+			blocksArr = null;
+			model = null;
+			
+			if (explosionAnim)
+			{
+				explosionAnim.removeFromParent();
+				explosionAnim = null;
+			}
+
+			texturesDict = null;
+			
+			
 		}
 		
 	}

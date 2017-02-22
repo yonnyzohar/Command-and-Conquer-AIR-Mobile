@@ -63,7 +63,8 @@ package states.game
 		private var teamslisting:TeamsListingWindow;
 		private var aiController:AIController;
 		private var finalMessage:MovieClip;
-		
+		private var team1Obj:TeamObject;
+		private var team2Obj:TeamObject;
 		
 
 		public function Game() 
@@ -73,9 +74,9 @@ package states.game
 			TeamsLoader.init();//loads in xml with num of units in each team- to be changed later
 		}
 		
-		public function init():void 
+		public function init(_levelNum:int):void 
 		{
-			LevelManager.currentlevelData = LevelManager.getLevelData(0);
+			LevelManager.currentlevelData = LevelManager.getLevelData(_levelNum);
 			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
 
 		}
@@ -130,8 +131,8 @@ package states.game
 			
 			
 			
-			var team1Obj:TeamObject = new TeamObject(LevelManager.currentlevelData.team1, 1);
-			var team2Obj:TeamObject = new TeamObject(LevelManager.currentlevelData.team2, 2);
+			team1Obj = new TeamObject(LevelManager.currentlevelData.team1, 1);
+			team2Obj = new TeamObject(LevelManager.currentlevelData.team2, 2);
 			
 			team1Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
 			team2Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
@@ -178,10 +179,7 @@ package states.game
 			
 			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
 			
-			if(Parameters.pcTeam.length == 0 || Parameters.humanTeam.length == 0)
-			{
-				endGame();
-			}
+			
 			
 			if (Parameters.pcTeam.length == 0)
 			{
@@ -190,6 +188,17 @@ package states.game
 			if (Parameters.humanTeam.length == 0)
 			{
 				showMissionFailed();
+				
+			}
+			
+			if(Parameters.pcTeam.length == 0 || Parameters.humanTeam.length == 0)
+			{
+				endGame();
+				setTimeout(function():void
+				{
+					dispatchEvent(new Event("LEAVE_MISSION"));
+				},2000);
+				
 			}
 			
 		}
@@ -295,7 +304,7 @@ package states.game
 			}
 			
 		}
-		
+
 		
 		private function endGame():void
 		{
@@ -311,9 +320,39 @@ package states.game
 			{
 				Parameters.pcTeam[i].end();
 			}
+		}
+		
+		
+		public function dispose():void 
+		{
+			GameTimer.getInstance().removeUser(this);
+			baordMC.dispose();
+			Parameters.mapHolder.removeFromParent();
+			Parameters.upperTilesLayer.removeFromParent();
+			Parameters.humaTeamObject = null;
+			teamslisting.dispose();
+			teamslisting = null;
+			aiController.dispose();
+			team1Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
+			team2Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
+			team1Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+			team2Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+			team1Obj.dispose();
+			team2Obj.dispose();
 			
-			//trace"END GAME!!!")
-			//GameAtlas.createMovieClip("loadingSquare");
+			team2Obj = null;
+			team1Obj = null;
+			aiController = null;
+			
+			Parameters.humanTeam = null;
+			Parameters.pcTeam = null;
+			UnitSelectionManager.getInstance().dispose();
+			SellRepairManager.getInstance().dispose();
+			SightManager.getInstance().dispose();
+			BGSoundManager.stopAllSounds();
+			Parameters.currentSquad = null;
+			
+			
 		}
 	}
 }

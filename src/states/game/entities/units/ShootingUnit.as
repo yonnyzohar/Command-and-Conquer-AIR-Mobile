@@ -580,12 +580,20 @@ package  states.game.entities.units
 		}
 		
 
-
-		
-		
 		
 		override public function dispose():void
 		{
+			closestEnemyArr = null;
+			enemiesInSight = null;
+			if (currentEnemy)
+			{
+				currentEnemy.removeEventListener("DEAD", onEnemyDead);
+				currentEnemy = null;
+			}
+			foundEnemy = null;
+			weapon.dispose();
+			
+			
 			if (view)
 			{
 				view.removeEventListener("DONE_ROTATING", onDoneRotating);

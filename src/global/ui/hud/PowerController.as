@@ -63,5 +63,10 @@ package global.ui.hud
 			return {totalPowerIn : totalPowerIn , totalPowerOut : totalPowerOut}
 			
 		}
+		
+		public function dispose():void 
+		{
+			team = null;
+		}
 	}
 }

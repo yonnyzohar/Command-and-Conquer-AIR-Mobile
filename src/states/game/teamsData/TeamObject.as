@@ -630,5 +630,30 @@ package states.game.teamsData
 			}
 			return numOfHarvesters;
 		}
+		
+		public function dispose():void 
+		{
+			GameTimer.getInstance().removeUser(this);
+			powerCtrl.dispose();
+			buildManager.dispose();
+			buildManager.removeEventListener("UNIT_CONSTRUCTED", onUnitContructed);
+			buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			
+			for (var i:int = 0; i < team.length; i++ )
+			{
+				team[i].removeEventListener("DEAD", onDead);
+				team[i].removeEventListener("UNDER_ATTACK", harvesterUnderAttack);
+				team[i].removeEventListener("SOLD", onSold);
+				team[i].dispose();
+				team[i] = null;
+			}
+			
+			team = null;
+			enemyTeam = null;
+			powerCtrl = null;
+			enemyTeam1Obj = null;
+			teamBuildingsDict = null;
+			
+		}
 	}
 }

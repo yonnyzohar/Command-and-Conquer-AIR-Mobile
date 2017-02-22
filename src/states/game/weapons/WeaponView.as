@@ -382,6 +382,8 @@ package  states.game.weapons
 			}
 		}
 		
+		
+		
 		private function onTrailComplete(e:Event):void 
 		{
 			var mc:PoolElement = PoolElement(e.currentTarget);
@@ -396,6 +398,35 @@ package  states.game.weapons
 			Starling.juggler.remove(explosionMC);
 			explosionMC.removeEventListener(Event.COMPLETE, onExplosionComplete);
 			Parameters.upperTilesLayer.removeChild(explosionMC);
+		}
+		
+		public function dispose():void 
+		{
+			if (explosionMC)
+			{
+				Starling.juggler.remove(explosionMC);
+				explosionMC.removeEventListener(Event.COMPLETE, onExplosionComplete);
+				explosionMC.removeFromParent();
+				explosionMC = null;
+			}
+			GameTimer.getInstance().removeUser(this);
+			
+			if (projectileMC)
+			{
+				Starling.juggler.remove(projectileMC);
+				projectileMC.returnMe();
+				projectileMC.removeEventListener(Event.COMPLETE, onMCComplte);
+				projectileMC = null;
+			}
+			
+			TweenMax.killAll();
+			
+			pool = null;
+			trailPool = null;
+			currentBullets = null;
+			model = null;
+			enemy = null;
+			
 		}
 	}
 }

@@ -210,6 +210,8 @@ package  states.game.weapons
 			}
 		}
 		
+		
+		
 		private function getHitUnit():GameEntity 
 		{
 			var u:GameEntity;
@@ -282,6 +284,26 @@ package  states.game.weapons
 			var mc:MovieClip = MovieClip(e.currentTarget);
 			mc.removeEventListener(Event.COMPLETE, onTreeBurnComplete);
 			Starling.juggler.remove(mc);
+		}
+		
+		public function dispose():void 
+		{
+			weaponStats = null;
+			model = null;
+			if (piffPiff)
+			{
+				piffPiff.stop();
+				piffPiff.removeEventListener(Event.COMPLETE, onPiffPiffComplete);
+				piffPiff.removeFromParent();
+				Starling.juggler.remove(piffPiff);
+			}
+			currentTarget = null;
+			shape = null;
+			if (view)
+			{
+				view.dispose();
+				view = null;
+			}
 		}
 		
 		

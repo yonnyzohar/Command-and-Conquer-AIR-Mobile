@@ -20,10 +20,6 @@ package states.game.entities.units.views
 	{
 		private var standInterval:int = 100;
 		private var lastFrame:String;
-		//private var textures:Vector.<Texture>;
-		
-		
-		
 		
 		public function EightWayView(_model:UnitModel)
 		{
@@ -227,6 +223,7 @@ package states.game.entities.units.views
 		
 		override public function dispose():void
 		{
+			Starling.juggler.remove(MovieClip(mc));
 			texturesDict = null;
 			super.dispose();
 		}

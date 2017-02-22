@@ -46,6 +46,11 @@ package states.game.ui
 			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
 		}
 		
+		public function dispose():void 
+		{
+			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
+		}
+		
 		private function onStageTouch(e:TouchEvent):void 
 		{
 			var start:Touch  = e.getTouch(Parameters.theStage, TouchPhase.BEGAN);

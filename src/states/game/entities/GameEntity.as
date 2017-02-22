@@ -339,7 +339,6 @@ package states.game.entities
 		
 		public function dispose():void
 		{
-			//trace"dispose game entity");
 			healthBar.removeFromParent(true);
 			healthBar = null;
 			clearTile(model.prevRow, model.prevCol);
@@ -349,7 +348,8 @@ package states.game.entities
 			model.dead = true;
 			model.dispose();
 			model = null;
-			
+			myTeamObj = null;
+			allTilesDict = null;
 		}
 		
 		public function end():void{}

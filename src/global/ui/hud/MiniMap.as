@@ -32,9 +32,6 @@
 		private var yOffset:int;
 		
 		private var map:Quad ;
-		private var canvas:RenderTexture;
-		private var warCanvas:RenderTexture;
-		private var unitsImg:Image;
 		private var mapImage:Image;
 		
 		
@@ -320,15 +317,7 @@
 		}
 	
 		
-		private function addTexture(canvas:RenderTexture, t:Image, texture:Texture,tileSize:Number, row:int, col:int):void 
-		{
-			t = new Image(texture);
-			t.width = tileSize;
-			t.height = tileSize;
-			t.y = tileSize * row;
-			t.x = tileSize * col;
-			canvas.draw(t);
-		}
+
 		
 		private function onTouch(e:TouchEvent):void
 		{
@@ -417,24 +406,49 @@
 
 		}
 		
-		override public function dispose():void
-		{
-			removeEventListener(TouchEvent.TOUCH, onTouch);
-			if (selectionArea)
-			{
-				
-				selectionArea.dispose();
-				selectionArea.removeFromParent(true);
-			}
-			
-			selectionArea = null;
-		}
+		
 		
 		public function moveMiniMap(rowsPer:Number, colsPer:Number):void 
 		{
 			selectionArea.x = (mapWidth - selectionArea.width) * colsPer;
 			selectionArea.y = (mapHeight - selectionArea.height) * rowsPer;
 			
+		}
+		
+		override public function dispose():void
+		{
+			removeEventListener(TouchEvent.TOUCH, onTouch);
+			if (selectionArea)
+			{
+				selectionArea.dispose();
+				selectionArea.removeFromParent(true);
+			}
+			
+			selectionArea = null;
+			if (mapImage)
+			{
+				mapImage.removeFromParent();
+			}
+			mapImage = null;
+			if (map)
+			{
+				map.removeFromParent();
+				map = null;
+				
+			}
+			mapMover = null;
+			
+			GameTimer.getInstance().removeUser(this);
+			if (mapBd)
+			{
+				mapBd.dispose();
+				mapBd = null;
+			}
+			if (unitsBd)
+			{
+				unitsBd.dispose();
+				unitsBd = null;
+			}
 		}
 		
 	}

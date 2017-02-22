@@ -26,7 +26,6 @@ package global.ui.hud.slotIcons
 	public class SlotHolder extends EventDispatcher
 	{
 		protected var loadingSquare:MovieClip;
-		//protected var bg:Quad;
 		protected var mc:Image;
 		public var assetName:String;
 		
@@ -322,7 +321,19 @@ package global.ui.hud.slotIcons
 			GameTimer.getInstance().removeUser(this);
 			buildInProgress = false;
 			buildCompleteFunction = null;
-			
+			disabledSlots = null;
+			teamObj = null;
+			if (costBg) 
+			{
+				costBg.removeFromParent();
+				costBg.dispose();
+			}
+			costBg = null;
+			if (bgQuad) 
+			{
+				bgQuad.removeFromParent();
+				bgQuad.dispose();
+			}
 		}
 	}
 }

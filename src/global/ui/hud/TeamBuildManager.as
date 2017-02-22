@@ -42,10 +42,6 @@ package global.ui.hud
 		public var targetCol:int;
 		public var hud:HUD;
 		public var completedAsset:Object;
-		
-		
-		
-		
 		public var buildingPlacementMarker:BuidingPlacementMarker;
 		
 		
@@ -537,6 +533,19 @@ package global.ui.hud
 				BuildingView(curBuilding.view).setConstructAnimation();
 			}
 
+		}
+		
+		public function dispose():void 
+		{
+			hud.unitsContainer.removeEventListener("SLOT_SELECTED", onUnitSelected);
+			hud.buildingsContainer.removeEventListener("SLOT_SELECTED", onBuildingSelected);
+			buildingPlacementMarker.removeEventListener(BuidingPlacementMarker.BUILDNG_SPOT_FOUND, onSpotFound);
+			
+			buildingPlacementMarker.dispose();
+			hud.dispose();
+			teamObj = null;
+			hud = null;
+			buildingPlacementMarker = null;
 		}
 	}
 }

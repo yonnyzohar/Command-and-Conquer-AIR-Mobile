@@ -211,6 +211,8 @@ package global.ui.hud
 			//trace("foundValidPlace " + foundValidPlace + " " + used);
 		}
 		
+		
+		
 
 		
 		private function setCorrectColors(startRow:int, startCol:int):Boolean 
@@ -298,6 +300,14 @@ package global.ui.hud
 			{
 				return false;
 			}
+		}
+		
+		
+		public function dispose():void 
+		{
+			if (view) view.removeFromParent();
+			teamObj = null;
+			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
 		}
 		
 	}

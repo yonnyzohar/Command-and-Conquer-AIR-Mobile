@@ -222,6 +222,7 @@ package states.game.entities.buildings
 		
 		override public function dispose():void
 		{
+			GameTimer.getInstance().removeUser(this);
 			super.dispose();
 		}
 		

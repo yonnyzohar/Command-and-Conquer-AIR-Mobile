@@ -27,7 +27,8 @@ package states.game.entities
 		
 		public function dispose():void
 		{
-			
+			enemyTeam = null;
+			stats = null;
 		}
 	}
 }

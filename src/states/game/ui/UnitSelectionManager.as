@@ -271,6 +271,8 @@
 		
 		
 		
+		
+		
 		private function sendUnitsToDest(targetCol:int, targetRow:int):void 
 		{
 			var i:int = 0;
@@ -452,6 +454,24 @@
 			{
 				currentPlayer = Parameters.humanTeam[i];
 				currentPlayer.deselect();
+			}
+		}
+		
+		public function dispose():void 
+		{
+			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
+			if (hitMC)
+			{
+				hitMC.dispose();
+				hitMC.removeFromParent();
+				hitMC = null;
+			}
+			
+			if (startDragCircle)
+			{
+				startDragCircle.dispose();
+				startDragCircle.removeFromParent();
+				startDragCircle = null;
 			}
 		}
 	}

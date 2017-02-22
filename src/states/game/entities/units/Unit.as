@@ -639,7 +639,13 @@ package states.game.entities.units
 		
 		override public function dispose():void
 		{
+			removeEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
+			if (view)
+			{
+				view.removeEventListener("DONE_ROTATING", onDoneRotating);
+			}
 			aStar = null;
+			finalNodeAfterError = null;
 			super.dispose();
 		}
 	}

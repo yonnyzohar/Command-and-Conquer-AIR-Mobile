@@ -24,7 +24,7 @@ package global.ai
 		private var aiJSON:Object;
 		private var pcTeamObj:TeamObject;
 		private var buildCount:int = 0;
-		private var myBuildSlot:SlotHolder;
+		
 		
 		private var myUnitSlotbj:Object;
 		
@@ -39,6 +39,10 @@ package global.ai
 		
 		private var currentAttackPartyCount:int = 0;
 		private var PRINT_AI_FLOW:Boolean = true;
+		
+		private var myInfantrySlot:SlotHolder;
+		private var myVehicleSlot:SlotHolder;
+		private var myBuildSlot:SlotHolder;
 		
 		public function AIController() 
 		{
@@ -192,10 +196,14 @@ package global.ai
 		private function placeBuilding(e:Event):void 
 		{
 			//trace("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
-			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
-			pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
-			pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myBuildSlot.assetName);
-			pcTeamObj.buildManager.buildingPlacementMarker.getValidPlacement()
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+				pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+				pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myBuildSlot.assetName);
+				pcTeamObj.buildManager.buildingPlacementMarker.getValidPlacement()
+			}
+			
 		}
 		
 
@@ -203,7 +211,7 @@ package global.ai
 		private function onBuildingContructed(e:Event = null):void 
 		{
 			printAI("onBuildingContructed " + myBuildSlot.assetName);
-			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			if (pcTeamObj)pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
 			if (myBuildSlot.assetName != "power-plant")
 			{
 				buildCount++;
@@ -216,8 +224,12 @@ package global.ai
 		{
 			var slot:SlotHolder = SlotHolder(e.target);
 			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
-			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
-			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			}
+			
 			printAI("onBuildCancelledAbruptly - building");
 			buildingBeingBuilt = false;
 		}
@@ -349,7 +361,7 @@ package global.ai
 		
 		private function buildInfantry(e:Event = null):void 
 		{
-			var myInfantrySlot:SlotHolder;
+			myInfantrySlot = null;
 			
 			if (pcTeamObj.doesBuildingExist("barracks"))
 			{
@@ -401,7 +413,11 @@ package global.ai
 		{
 			var slot:SlotHolder = SlotHolder(e.target);
 			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onInfantryBuildCancelledAbruptly);
-			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+			}
+			
 			infantryBeingBuilt = false;
 			myUnitSlotbj = null;
 		}
@@ -414,7 +430,7 @@ package global.ai
 		
 		private function buildVehicles():void 
 		{
-			var myVehicleSlot:SlotHolder;
+			myVehicleSlot = null;
 
 				
 			if (pcTeamObj.doesBuildingExist("vehicle-factory"))
@@ -484,7 +500,11 @@ package global.ai
 		{
 			var slot:SlotHolder = SlotHolder(e.target);
 			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onVehicleBuildCancelledAbruptly);
-			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			}
+			
 			vehicleBeingBuilt = false;
 			myUnitSlotbj = null;
 		}
@@ -535,6 +555,7 @@ package global.ai
 			}
 		}
 		
+		
 		private function printAI(_str:String):void
 		{
 			if (PRINT_AI_FLOW)
@@ -542,6 +563,41 @@ package global.ai
 				trace(_str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
+		}
+		
+		public function dispose():void 
+		{
+			GameTimer.getInstance().removeUser(this);
+			if (myVehicleSlot)
+			{
+				myVehicleSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onVehicleBuildCancelledAbruptly);
+			}
+			myVehicleSlot = null;
+			
+			if (myInfantrySlot)
+			{
+				myInfantrySlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onInfantryBuildCancelledAbruptly);
+			}
+			myInfantrySlot = null;
+			
+			if (myBuildSlot)
+			{
+				myBuildSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+			}
+			myBuildSlot = null;
+			
+			
+			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			
+			pcTeamObj = null;
+			
+			infantryArr = null;
+            vehiclesArr = null;
+			myUnitSlotbj = null;
+
 		}
 	}
 }
