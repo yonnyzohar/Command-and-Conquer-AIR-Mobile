@@ -3048,8 +3048,9 @@ package global.assets
                         direction: true,
                         spriteCount: 160
                     }]
-                },
-                engineer: {
+                }
+                /*engineer: 
+				{
 					tech:3,
                     name: "engineer",
                     label: "Engineer",
@@ -3130,10 +3131,9 @@ package global.assets
                         spriteCount: 66,
                         direction: true
                     }]
-                }
+                }*/
 			}
-			
-                
+  
         }
 
         public static var effects: Object = {
