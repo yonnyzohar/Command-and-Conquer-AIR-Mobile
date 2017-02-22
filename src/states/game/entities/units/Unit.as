@@ -78,7 +78,7 @@ package states.game.entities.units
 		}
 		
 
-		public function update(_pulse:Boolean):void
+		override public function update(_pulse:Boolean):void
 		{
 			if(model != null && model.dead == false)
 			{

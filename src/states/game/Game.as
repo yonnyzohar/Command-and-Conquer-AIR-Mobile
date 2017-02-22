@@ -261,23 +261,30 @@ package states.game
 
 		public function update(_pulse:Boolean):void
 		{
-			
-				var i:int = 0;
-				for (i = 0; i <  Parameters.humanTeam.length; i++ )
+			var p:GameEntity;
+			var i:int = 0;
+			var len:int = Parameters.humanTeam.length;
+			for (i = 0; i <  len; i++ )
+			{
+				p = Parameters.humanTeam[i];
+				if (p)
 				{
-					if(Parameters.humanTeam[i] is Unit  || Parameters.humanTeam[i] is Turret )
-					{
-						Parameters.humanTeam[i].update(_pulse);
-					}
+					p.update(_pulse);
 				}
 				
-				for (i = 0; i <   Parameters.pcTeam.length; i++ )
+
+			}
+			
+			len = Parameters.pcTeam.length;
+			for (i = 0; i <   len; i++ )
+			{
+				p = Parameters.pcTeam[i];
+				if (p)
 				{
-					if(Parameters.pcTeam[i] is Unit || Parameters.pcTeam[i] is Turret )
-					{
-						Parameters.pcTeam[i].update(_pulse);
-					}
+					p.update(_pulse);
 				}
+				
+			}
 				
 			if (_pulse)
 			{

@@ -62,8 +62,10 @@ package  states.game.entities.buildings
 		}
 		
 		
-		public function update(_pulse:Boolean):void
+		override public function update(_pulse:Boolean):void
 		{
+			super.update(_pulse);
+			
 			if(model != null && model.dead == false)
 			{
 				switch(model.currentState)

@@ -35,7 +35,7 @@ package states.game.entities
 		public var aiBehaviour:int;
 		public var name:String;
 		private var myColor:uint; 
-		
+		protected var ENTITY_BEING_REPAIRED:Boolean = false;
 		
 		public function GameEntity(_teamObj:TeamObject)
 		{
@@ -51,6 +51,33 @@ package states.game.entities
 		public function changeAI(_newAi:int):void
 		{
 			aiBehaviour = _newAi;
+		}
+		
+		public function update(_pulse:Boolean):void
+		{
+			if (model != null && model.dead == false)
+			{
+				if (ENTITY_BEING_REPAIRED)
+				{
+					var moreTHanZero:Boolean = myTeamObj.reduceCash(Parameters.CASH_INCREMENT);
+					if (moreTHanZero)
+					{
+						if (healthBar.addHealth())
+						{
+							ENTITY_BEING_REPAIRED = false;
+						}
+					}
+					else
+					{
+						ENTITY_BEING_REPAIRED = false;
+					}
+					
+				}
+			}
+			else
+			{
+				ENTITY_BEING_REPAIRED = false;
+			}
 		}
 		
 		public function sayHello():void 

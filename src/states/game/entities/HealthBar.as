@@ -33,20 +33,31 @@ package  states.game.entities
 			
 			greenMC.y -= greenMC.height;
 			frameMC.y -= frameMC.height;
-			
-			
-			
+		}
 		
-			
+		public function addHealth():Boolean
+		{
+			var healthy:Boolean = false;
+			if (currentHealth < totalHealth)
+			{
+				hurt(-1);
+			}
+			else
+			{
+				healthy = true;
+			}
+			return healthy;
 		}
 		
 		public function hurt(hitVal:int):Number 
 		{
 			currentHealth -= hitVal;
+			if (currentHealth > totalHealth)
+			{
+				currentHealth = totalHealth;
+			}
 			
 			greenMC.scaleX = currentHealth / totalHealth;
-			
-			////trace"currentHealth: " + currentHealth + " totalHealth: " + totalHealth + " " + greenMC.scaleX);
 			
 			if (greenMC.scaleX < 0.5)
 			{

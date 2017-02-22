@@ -581,9 +581,9 @@ package states.game.teamsData
 			if(searchAndDestroy)soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);
 		}
 		
-		public function reduceCash(_reduceAmount:int):void
+		public function reduceCash(_reduceAmount:int):Boolean
 		{	
-			
+			var moreThanZero:Boolean = true;
 			targetBalance = cash - _reduceAmount;
 			cash = targetBalance;
 			////trace(cash);
@@ -591,6 +591,13 @@ package states.game.teamsData
 			{
 				buildManager.hud.updateCashUI(cash);
 			}
+			
+			if (cash <= 0)
+			{
+				moreThanZero = false;
+			}
+			
+			return moreThanZero;
 			
 		}
 		

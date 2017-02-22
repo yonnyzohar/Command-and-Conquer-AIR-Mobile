@@ -80,6 +80,30 @@ package states.game.ui
 					}
 				}
 			}
+			if (MouseStates.currentState == MouseStates.REPAIR)
+			{
+				if (end)
+				{
+					location = end.getLocation(Parameters.mapHolder);
+					var targetCol:int = location.x / Parameters.tileSize;
+					var targetRow:int = location.y / Parameters.tileSize;
+					if (Parameters.boardArr[targetRow] && Parameters.boardArr[targetRow][targetCol])
+					{
+						var n:Node = Node(Parameters.boardArr[targetRow][targetCol]);
+						if (n.occupyingUnit)
+						{
+							var occupyingUnit:GameEntity = GameEntity(n.occupyingUnit);
+							if (occupyingUnit is Building)
+							{
+								if(occupyingUnit.model.controllingAgent == Agent.HUMAN)
+								{
+									Building(occupyingUnit).buildingRepaired();
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

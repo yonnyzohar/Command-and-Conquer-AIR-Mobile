@@ -60,8 +60,9 @@
 			
 		}
 		
-		public function update(_pulse:Boolean):void
+		override public function update(_pulse:Boolean):void
 		{
+			super.update(_pulse);
 			if (currentStore > 0)
 			{
 				myTeamObj.addCash(  Parameters.CASH_INCREMENT );
@@ -84,7 +85,7 @@
 			BuildingView(view).state = "";
 			BuildingView(view).mc.loop = true;
 			BuildingView(view).playState();
-			loadCompleteFNCTB();
+			if(loadCompleteFNCTB)loadCompleteFNCTB();
 			loadCompleteFNCTB = null;
 		}
 		

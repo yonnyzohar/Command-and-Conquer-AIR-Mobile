@@ -21,6 +21,7 @@ package states.game.entities.buildings
 		
 		public var hasBuildingClickFunction:Boolean = false;
 		
+		
 		public function Building(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
 		{
 			super(teamObj);
@@ -41,6 +42,7 @@ package states.game.entities.buildings
 			healthBar.visible = false;
 		}
 		
+
 		override public function get row():int
 		{
 			if (model)
@@ -273,6 +275,12 @@ package states.game.entities.buildings
 		{
 			if(view)view.removeEventListener("SELL_ANIM_COMPLETE", onSellAnimComplete);
 			super.dispose()
+		}
+		
+		public function buildingRepaired():void 
+		{
+			BuildingView(view).highlightBuilding();
+			ENTITY_BEING_REPAIRED = !ENTITY_BEING_REPAIRED;
 		}
 		
 		
