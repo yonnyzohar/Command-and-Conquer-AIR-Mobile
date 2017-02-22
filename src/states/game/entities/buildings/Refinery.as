@@ -20,6 +20,7 @@
 	{
 		private var currentStore:int;
 		private var loadCompleteFNCTB:Function;
+		private var HARVESTER_DOCKED:Boolean = false;
 		
 		public function Refinery(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
 		{
@@ -55,7 +56,7 @@
 		private function onLoadComplete(e:Event):void 
 		{
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
-			GameTimer.getInstance().addUser(this);
+			HARVESTER_DOCKED = true;
 			
 			
 		}
@@ -63,20 +64,23 @@
 		override public function update(_pulse:Boolean):void
 		{
 			super.update(_pulse);
-			if (currentStore > 0)
+			if (HARVESTER_DOCKED)
 			{
-				myTeamObj.addCash(  Parameters.CASH_INCREMENT );
-				currentStore -= Parameters.CASH_INCREMENT;
+				if (currentStore > 0)
+				{
+					myTeamObj.addCash(  Parameters.CASH_INCREMENT );
+					currentStore -= Parameters.CASH_INCREMENT;
+				}
+				else
+				{
+					BuildingView(view).state = "-undocking";
+					BuildingView(view).mc.loop = false;
+					BuildingView(view).mc.addEventListener(Event.COMPLETE, onunLoadComplete);
+					BuildingView(view).playState();
+					HARVESTER_DOCKED = false;
+				}
 			}
-			else
-			{
-				GameTimer.getInstance().removeUser(this);
-				BuildingView(view).state = "-undocking";
-				BuildingView(view).mc.loop = false;
-				BuildingView(view).mc.addEventListener(Event.COMPLETE, onunLoadComplete);
-				BuildingView(view).playState();
-				
-			}
+			
 		}
 		
 		private function onunLoadComplete(e:Event):void 
@@ -157,7 +161,7 @@
 		
 		override public function dispose():void
 		{
-			GameTimer.getInstance().removeUser(this);
+			HARVESTER_DOCKED = false;
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onunLoadComplete);
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
 			if (loadCompleteFNCTB != null)

@@ -63,7 +63,7 @@
 					//Starling.multitouchEnabled = true;
 					//
 					_starling = new Starling(Main, stage, viewPort);
-					_starling.showStats=false;
+					_starling.showStats=true;
 					
 					_starling.simulateMultitouch = true;
 					
