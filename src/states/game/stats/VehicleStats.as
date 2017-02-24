@@ -9,10 +9,11 @@ package states.game.stats
 	 */
 	public class VehicleStats 
 	{
-		public static var dict:Dictionary = new Dictionary();
+		public static var dict:Dictionary;
 
 		public static function init():void
 		{
+			dict = new Dictionary();
 			for (var vehicle:String in Assets.vehicles.list)
 			{
 				var curUnit:Object = Assets.vehicles.list[vehicle];

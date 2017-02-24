@@ -8,12 +8,11 @@ package states.game.stats
 
 	public class BuildingsStats
 	{
-		public static var dict:Dictionary = new Dictionary();
+		public static var dict:Dictionary; 
 		
 		public static function init():void
 		{
-			//var buildingsJson:Object= JSON.parse(new GameAssets.UnitsAndBuildingsJson());
-			//buildings = buildingsJson.buildings;
+			dict = new Dictionary();
 			
 			for (var building:String in Assets.buildings.list)
 			{

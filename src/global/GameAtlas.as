@@ -51,23 +51,6 @@
 
 	public class GameAtlas extends EventDispatcher
 	{
-		/*private static var unitsTexture:Texture;
-		private static var unitsAtlas:starling.textures.TextureAtlas;
-		
-		private static var buildingsTexture:Texture;
-		private static var buildingsAtlas:starling.textures.TextureAtlas;
-		
-		private static var mapTexture:Texture;
-		private static var mapAtlas:starling.textures.TextureAtlas;
-		
-		private static var uiTexture:Texture;
-		private static var uiAtlas:starling.textures.TextureAtlas;
-		
-		private static var hitTexture:Texture;
-		private static var hitAtlas:starling.textures.TextureAtlas;
-		
-		private static var buildQueTexture:Texture;
-		private static var buildQueAtlas:starling.textures.TextureAtlas;*/
 		
 		[Embed(source="../../bin/GameLoaderWorker.swf", mimeType="application/octet-stream")]
         private static var GameLoaderWorker:Class;
@@ -78,14 +61,12 @@
 		private static var bmp:Bitmap;
 		private static var counter:int = 0;
 		
-		private static var sharedTextures:Vector.<starling.textures.TextureAtlas> = new Vector.<starling.textures.TextureAtlas>();
-		private static var nodTextures:Vector.<starling.textures.TextureAtlas> = new Vector.<starling.textures.TextureAtlas>();
-		private static var gdiTextures:Vector.<starling.textures.TextureAtlas> = new Vector.<starling.textures.TextureAtlas>();
+		private static var sharedTextures:Vector.<starling.textures.TextureAtlas> 
+		private static var nodTextures:Vector.<starling.textures.TextureAtlas>
+		private static var gdiTextures:Vector.<starling.textures.TextureAtlas>
 		
 		private static var callback:Function;
 		private static var assetNames:Array = [];
-		private static var xmlArr:Array = [];
-		private static var imgArr:Array = [];
 		private static var loadManager:GameLoadManager;
 		
 		private static var atlasDicts:Dictionary = new Dictionary();
@@ -95,26 +76,59 @@
 		static public var loadingInProgress:Boolean = false;
 		static private var loadedAssets:Object = { };
 		private static var stopMe:Boolean = false;
+		private static var workerInstance:ByteArray;
+		
+		private static var mapMC:MapMC;
+		private static var uiMC:UIAssets;
+		
+		public static function reset():void
+		{
+			sharedTextures = new Vector.<starling.textures.TextureAtlas>();
+			nodTextures = new Vector.<starling.textures.TextureAtlas>();
+			gdiTextures = new Vector.<starling.textures.TextureAtlas>();
+			callback = null;
+			assetNames.splice(0);
+			atlasDicts = new Dictionary();
+			loadingInProgress = false;
+			loadedAssets = { };
+			if (workerInstance)
+			{
+				workerInstance = null;
+			}
+			if (backToMain)
+			{
+				backToMain.removeEventListener(flash.events.Event.CHANNEL_MESSAGE, onBackgroundMessageToMain);
+			}
+			backToMain = null;
+			
+			if (worker)
+			{
+				worker.removeEventListener(flash.events.Event.WORKER_STATE, handleBGWorkerStateChange);
+			}
+			worker = null;
+			
+		}
 		
 		
 		public static function initGlobalAssets():void
 		{
+			reset();
+			
 			var scale:Number = 1;
-			var mc:flash.display.MovieClip;
 			
 			//load the map - currently from FLA
-			mc = new MapMC();
-			var b:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(mc, 1, 0, true, true);
+			mapMC = new MapMC();
+			var b:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(mapMC, 1, 0, true, true);
 			sharedTextures.push(b);
 			b = null;
 			
 			//load the left side ui - currently from FLA
-			mc = new UIAssets()
-			var d:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(mc, 1, 0, true, true);
+			uiMC = new UIAssets()
+			var d:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(uiMC, 1, 0, true, true);
 			sharedTextures.push(d);
 			d = null;
-		
-			mc = null;
+			mapMC = null;
+			uiMC = null;
 			
 			assetNames.splice(0);
 			
@@ -196,7 +210,8 @@
 		
 		static private function initWorker():void 
 		{
-			worker = WorkerDomain.current.createWorker(new GameLoaderWorker(), true);
+			workerInstance = new GameLoaderWorker()
+			worker = WorkerDomain.current.createWorker(workerInstance, true);
 			//this is a message channel between the worker to main thread
 			backToMain = worker.createMessageChannel(Worker.current);
 			//this is a message channel between the main to worker thread

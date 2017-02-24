@@ -30,5 +30,14 @@ package  com.dynamicTaMaker.atlases
 			}
 			ta = null;
 		}
+		
+		public static function dispose():void
+		{
+			if (ta)
+			{
+				ta.dispose();
+			}
+			ta = null;
+		}
 	}
 }

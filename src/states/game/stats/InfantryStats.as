@@ -15,18 +15,13 @@ package states.game.stats
 		//public static var units:XMLList;
 		
 		//public static var units:Object;
-		public static var dict:Dictionary = new Dictionary();
+		public static var dict:Dictionary;
 		
 		
 		//these are default values
 		public static function init():void
 		{
-			//xml = XML(new GameAssets.UnitsXml());
-			//units = xml.units.unit;
-			
-			//var unitsJson:Object= JSON.parse(new GameAssets.UnitsAndBuildingsJson());
-			
-			//units = unitsJson.units;
+			dict = new Dictionary();
 			
 			for (var infantry:String in Assets.infantry.list)
 			{

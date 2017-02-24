@@ -10,6 +10,7 @@
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
+	import global.GameAtlas;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
 	
@@ -47,43 +48,69 @@
 			NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 			stage.addEventListener(flash.events.MouseEvent.RIGHT_CLICK, onRightMouseClicked);
 			
-			setTimeout(
-				function():void
-				{
-					var screenWidth:int = stage.stageWidth;//fullScreenWidth;
-					var screenHeight:int = stage.stageHeight;//fullScreenHeight;
-					var viewPort:Rectangle = new Rectangle(0, 0, screenWidth, screenHeight);
-					
-					/*var viewPort:Rectangle = RectangleUtil.fit(
-					new Rectangle(0, 0, stage.stageWidth, stage.stageHeight), 
-					new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), 
-					ScaleMode.SHOW_ALL);*/
-					
-					Starling.handleLostContext = true;  //- Starling 1_7;
-					//Starling.multitouchEnabled = true;
-					//
-					_starling = new Starling(Main, stage, viewPort);
-					//_starling.showStats=true;
-					
-					_starling.simulateMultitouch = true;
-					
-					_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreated );
-				},1000);
+			setTimeout(initStarlingContext,1000);
+		}
+		
+		private function initStarlingContext():void
+		{
+			var screenWidth:int = stage.stageWidth;//fullScreenWidth;
+			var screenHeight:int = stage.stageHeight;//fullScreenHeight;
+			var viewPort:Rectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+			
+			/*var viewPort:Rectangle = RectangleUtil.fit(
+			new Rectangle(0, 0, stage.stageWidth, stage.stageHeight), 
+			new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), 
+			ScaleMode.SHOW_ALL);*/
+			
+			Starling.handleLostContext = true;  //- Starling 1_7;
+			//Starling.multitouchEnabled = true;
+			//
+			_starling = new Starling(Main, stage, viewPort);
+			//_starling.showStats=true;
+			
+			_starling.simulateMultitouch = true;
+			
+			_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreated );
 		}
 		
 		private function onRootCreated(e:starling.events.Event):void 
 		{
 			_starling.start();
+			Starling.current.addEventListener(starling.events.Event.CONTEXT3D_CREATE, onContext3DEventCreate);
 		}
 		
 		protected function onRightMouseClicked(event:MouseEvent):void
 		{
 			// TODO Auto-generated method stub
 			//trace"RIGHT CLICKED!!!");
-			if(Methods.rightClickFNCTN != null)Methods.rightClickFNCTN();
+			if (Methods.rightClickFNCTN != null)
+			{
+				Methods.rightClickFNCTN();
+			}
+			onContext3DEventCreate();
 			
 		}
 		
+		
+ 
+		private function onContext3DEventCreate():void
+		{
+			Starling.current.removeEventListener(starling.events.Event.CONTEXT3D_CREATE, onContext3DEventCreate);
+			Starling.current.removeEventListener(starling.events.Event.ROOT_CREATED, onRootCreated );
+			if (Main(Parameters.gameHolder).game)
+			{
+				Main(Parameters.gameHolder).disposeGame();
+			}
+			Starling.current.dispose();
+			GameAtlas.reset();
+			initStarlingContext();
+		}
+		 
+		private function onAssetManagerEventTexturesRestored():void
+		{
+			//remove loading (texture restoration)screen
+		}
+				
 
 			
 	}

@@ -9,10 +9,12 @@ package states.game.stats
 	 */
 	public class TurretStats 
 	{
-		public static var dict:Dictionary = new Dictionary();
+		public static var dict:Dictionary;
 		
 		public static function init():void
 		{
+			dict = new Dictionary();
+			
 			for (var turret:String in Assets.turrets.list)
 			{
 				var curTurret:Object = Assets.turrets.list[turret];

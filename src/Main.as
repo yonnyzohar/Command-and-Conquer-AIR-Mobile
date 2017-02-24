@@ -41,7 +41,7 @@ package
 		private var q:Quad;
 		private var startScreen:StartScreen;
 		private var chooseSizeView:EditMenuScreen;
-		private var game:Game;
+		public var game:Game;
 		private var edit:EditController;
 		private var dymanicTaCreator:DynamicTaCreator;
 		
@@ -91,14 +91,6 @@ package
 		private function init():void
 		{
 			Parameters.gameHolder = this;
-			//get fonts
-			/*var embeddedFont1:Font = new OCRAStd();
-			var chars2Add:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			chars2Add += chars2Add.toLowerCase() + ",.-_!?1234567890: ";
-			//trace"ADDING " + embeddedFont1.fontName);
-			
-			DynamicAtlas.bitmapFontFromString(chars2Add, embeddedFont1.fontName, 16, false, false, -2);
-			DynamicAtlas.bitmapFontFromString(chars2Add, "_sans", 16, false, false, -2);*/
 			
 			dymanicTaCreator = new DynamicTaCreator();
 			dymanicTaCreator.addEventListener("TA_CREATED", onTACreated);
@@ -123,7 +115,7 @@ package
 		private function initStartScreen():void
 		{
 			startScreen = new StartScreen();
-			startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
+			//startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
 			startScreen.addEventListener("GAME_CLICKED", onGameClicked);
 			
 			addChild(startScreen.view);
@@ -235,6 +227,13 @@ package
 			game.dispose();
 			game = null;
 			initStartScreen(); 
+		}
+		
+		public function disposeGame():void 
+		{
+			game.removeEventListener("LEAVE_MISSION", onLeaveMission);
+			game.dispose();
+			MyTA.dispose();
 		}
 		
 		private function removeStartScreen():void

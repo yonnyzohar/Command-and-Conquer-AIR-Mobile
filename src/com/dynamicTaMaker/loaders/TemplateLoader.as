@@ -35,6 +35,7 @@ package com.dynamicTaMaker.loaders
 		
 		public static function init(_ta:TextureAtlas, _placementsObj:Object):void
 		{
+			valsToSetArr = [];
 			ta = _ta;
 			placementsObj = _placementsObj;
 			
