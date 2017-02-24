@@ -184,8 +184,7 @@
 					Parameters.gameHolder.addChild(miniMap);
 				}
 			}
-			
-				
+
 		}
 		
 		public function updateCashUI(_cash:int):void
@@ -356,13 +355,36 @@
 			if (miniMap)
 			{
 				miniMap.dispose();
-				miniMap.removeFromParent(true)
+				miniMap.removeFromParent()
 			}
+			if (cashUi)
+			{
+				cashUi.removeFromParent();
+			}
+			cashUi = null;
+			if (powerGreenMC)
+			{
+				powerGreenMC.removeFromParent();
+			}
+			if (powerMC)
+			{
+				powerMC.removeFromParent();
+			}
+			if (ui)
+			{
+				ButtonManager.removeButtonEvents(ui.sellBTN);
+				ButtonManager.removeButtonEvents(ui.repairBTN);
+				ui.removeFromParent();
+			}
+			ui = null;
+			powerMC = null;
+			
+			powerGreenMC = null;
 			
 			miniMap = null;
 			buildingsContainer = null;
 			unitsContainer = null;
-
+			GlobalEventDispatcher.getInstance().removeEventListener("GAME_STATE_CHANGED", onGameStateChanged);
 		}
 	}
 }

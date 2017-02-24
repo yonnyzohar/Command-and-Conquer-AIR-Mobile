@@ -46,7 +46,39 @@ package global.ai
 		
 		public function AIController() 
 		{
-			aiJSON = JSON.parse(new GameAssets.AIJson());
+			aiJSON = {
+					"buildQueue":[
+						"refinery",
+						"barracks",
+						"hand-of-nod",
+						"airstrip",
+						"weapons-factory",
+						"communications-center",
+						"refinery"
+					],
+					"infantryQueue":{
+						"minigunner" : 10,
+						"bazooka": 6,
+						"grenadier": 6,
+						"flame-thrower": 3
+					},
+					"vehicleQueue":{
+						"buggy":10,
+						"jeep":9,
+						"recon-bike":8,
+						"light-tank":7,
+						"medium-tank":7,
+						"flame-tank":6,
+						"stealth-tank":5,
+						"mammoth-tank":3,
+						"artillery":1,
+						"mobile-rocket-launch-system":1,
+						"ssm-launcher":1
+					},
+					"minNumOfAttackParty" :[3,8,7,10,5]
+				};
+
+			//JSON.parse(new GameAssets.AIJson());
 		}
 		
 		public function applyAI(teamObj:TeamObject):void 
@@ -109,14 +141,16 @@ package global.ai
 			
 		}
 		
-		////////////////////////////////////////////---BILDINGS---------/////////////////////////////////////
+		////////////////////////////////////////////---BUILDINGS---------/////////////////////////////////////
 		
 		private function buildBuilding(_firstTime:Boolean = false):void 
 		{
 			
 			//if there are still stuff to build
+			
 			if (buildingBeingBuilt)
 			{
+				printAI(myBuildSlot.assetName + " buing built!!");
 				return;
 			}
 			if (aiJSON.buildQueue[buildCount])
@@ -132,26 +166,13 @@ package global.ai
 				//if we have power - proceed
 				if (!buildPowerPlant)
 				{
-					var proceed:Boolean = true;
-					if (pcTeamObj.doesBuildingExist("refinery"))
+					if (pcTeamObj.doesBuildingExist("refinery") == false)
 					{
-						if (Math.random() > 0.3)
-						{
-							proceed = true;
-						}
-						else
-						{
-							proceed = false;
-						}
+						currentBuildingObj = Methods.getCurretStatsObj("refinery");
 					}
-					else
-					{
-						proceed = true;
-					}
-					
-					
+
 					//if we have money - build, on complete come back to here
-					if (proceed && pcTeamObj.cash >= currentBuildingObj.cost)
+					if (pcTeamObj.cash >= currentBuildingObj.cost)
 					{
 						myBuildSlot = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
 						if (myBuildSlot)
@@ -165,7 +186,7 @@ package global.ai
 						}
 						else
 						{
-							//trace(currentBuildingObj.name + " slot does not exist");
+							printAI(currentBuildingObj.name + " slot does not exist");
 							buildCount++;
 						}
 					}
@@ -186,8 +207,11 @@ package global.ai
 							buildingBeingBuilt = true;
 							
 						}
+						else
+						{
+							printAI(currentBuildingObj.name + " slot does not exist");
+						}
 					}
-					
 				}
 			}
 		}
@@ -195,7 +219,7 @@ package global.ai
 		
 		private function placeBuilding(e:Event):void 
 		{
-			//trace("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
+			printAI("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
@@ -310,7 +334,7 @@ package global.ai
 				printAI("trying to build saved unit " + myUnitSlotbj.name);
 				if (pcTeamObj.cash >= myUnitSlotbj.cost)
 				{
-					if (myUnitSlotbj.type == "vehicle" )
+					if (myUnitSlotbj && myUnitSlotbj.type == "vehicle" )
 					{
 						if (vehicles == true && !vehicleBeingBuilt)
 						{
@@ -328,7 +352,7 @@ package global.ai
 						}
 					}
 					
-					if (myUnitSlotbj.type == "infantry")
+					if (myUnitSlotbj && myUnitSlotbj.type == "infantry")
 					{
 						if (infantry == true && !infantryBeingBuilt)
 						{
@@ -447,7 +471,7 @@ package global.ai
 					var numHarvesters:int = pcTeamObj.getNumOfHarvesters();
 					if (numHarvesters < 4)
 					{
-						if (Math.random() < 0.1)
+						if (Math.random() < 0.05)
 						{
 							randomVehicle = "harvester";
 						}

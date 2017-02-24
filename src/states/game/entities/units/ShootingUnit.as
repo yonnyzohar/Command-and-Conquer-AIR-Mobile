@@ -96,96 +96,65 @@ package  states.game.entities.units
 				return;
 			}
 			
-			
+			//if valid enemy
 			if(Methods.isValidEnemy(currentEnemy, teamNum))
 			{
-				if(isInRange(currentEnemy) && UnitModel(model).inWayPoint)
+				//in range
+				if(isInRange(currentEnemy) )
 				{
-					stopMovingAndSplicePath(true);
-					setState(UnitStates.SHOOT);
+					if (UnitModel(model).inWayPoint)
+					{
+						stopMovingAndSplicePath(true);
+						setState(UnitStates.SHOOT);
+					}
+					else
+					{
+						setState(UnitStates.WALK);
+					}
 				}
 				else
 				{
-					//yes
-					if(currentEnemy != null)
+					//if not in range and there is a pulse (one each second)
+					if (_pulse)
 					{
-						if(isInRange(currentEnemy) && UnitModel(model).inWayPoint)
+						//look for CLOSER enemies
+						if (aiBehaviour == AiBehaviours.SELF_DEFENSE )
 						{
-							//switch to close guy
-							stopMovingAndSplicePath(true);
-							setState(UnitStates.SHOOT);
+							currentEnemy = Methods.findClosestTargetOnMap(this, false)
 						}
-						else
+						
+						if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
 						{
-							if (aiBehaviour == AiBehaviours.SEEK_AND_DESTROY || aiBehaviour == AiBehaviours.BASE_DEFENSE)
-							{
-								var possibleEnemy:GameEntity = Methods.findClosestTargetOnMap(this, (aiBehaviour == AiBehaviours.SEEK_AND_DESTROY))
-								if (possibleEnemy)
-								{
-									currentEnemy = possibleEnemy;
-									
-									if(isInRange(currentEnemy) && UnitModel(model).inWayPoint)
-									{
-										//switch to close guy
-										stopMovingAndSplicePath(true);
-										setState(UnitStates.SHOOT);
-									}
-									else
-									{
-										setState(UnitStates.WALK);
-									}
-								}
-							}
-							else
-							{
-								//run to him, he's still closeer
-								setState(UnitStates.WALK);
-							}
+							currentEnemy = Methods.findClosestTargetOnMap(this, true)
 							
-							
+						}
+						if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
+						{
+							currentEnemy = findEnemyWithinBase();
 						}
 					}
 					else
 					{
-						//no one closer in sight - pursue!!!
-						//walk towards the enemy!!!
-						if(aiBehaviour != AiBehaviours.SEEK_AND_DESTROY)currentEnemy = null;
+						//go towards current enemy
 						setState(UnitStates.WALK);
 					}
 				}
 			}
 			else
 			{
-				//if no current enenmy
-				//is there a target in range?
 				
-				currentEnemy = Methods.findClosestTargetOnMap(this, false)
-				
-				
-				if(currentEnemy != null && UnitModel(model).inWayPoint)
+				if (aiBehaviour == AiBehaviours.SELF_DEFENSE )
 				{
-					stopMovingAndSplicePath(true);
-					setState(UnitStates.SHOOT);
+					currentEnemy = Methods.findClosestTargetOnMap(this, false)
 				}
-				else
+				
+				if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
 				{
-					////trace"there is no target in range!");
-					//if i'm in seek and destroy, and i'm a computer
-					//&& model.controllingAgent == Agent.PC
-					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
-					{
-						currentEnemy = Methods.findClosestTargetOnMap(this, true)
-						if(currentEnemy != null)setState(UnitStates.WALK);
-					}
-					if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
-					{
-						currentEnemy = findEnemyWithinBase();
-						if (currentEnemy != null)
-						{
-							setState(UnitStates.WALK);
-						}
-					}
-					
+					currentEnemy = Methods.findClosestTargetOnMap(this, true)
+				}
+				if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
+				{
+					currentEnemy = findEnemyWithinBase();
 				}
 			}
 		}
@@ -230,7 +199,8 @@ package  states.game.entities.units
 					var buildingTiles:Array = Building(currentEnemy).getBuildingTiles();
 					var n:Node;
 					var inRange:Boolean = false;
-					for (var j:int = 0; j < buildingTiles.length; j++ )
+					var buildingTilesLen:int = buildingTiles.length;
+					for (var j:int = 0; j < buildingTilesLen; j++ )
 					{
 						n = buildingTiles[j];
 						dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
@@ -591,7 +561,10 @@ package  states.game.entities.units
 				currentEnemy = null;
 			}
 			foundEnemy = null;
-			weapon.dispose();
+			if (weapon)
+			{
+				weapon.dispose();
+			}
 			
 			
 			if (view)

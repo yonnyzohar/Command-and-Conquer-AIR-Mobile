@@ -415,13 +415,13 @@ package global
 			{
 				x:origPosX + (Math.random() * numResidents), 
 				y:origPosY + (Math.random() * numResidents), 
-				onComplete:function()
+				onComplete:function():void
 				{
 					TweenLite.to(Parameters.gameHolder, 0.1, 
 					{ 
 						x:origPosX - (Math.random() * numResidents), 
 						y: origPosY - (Math.random() * numResidents), 
-						onComplete:function()
+						onComplete:function():void
 						{
 							TweenLite.to(Parameters.gameHolder, 0.1, 
 							{ 
@@ -497,7 +497,8 @@ package global
 							}
 							var buildingTiles:Array = Building(p).getBuildingTiles();
 							var n:Node;
-							for (var j:int = 0; j < buildingTiles.length; j++ )
+							var buildingTilesLen:int = buildingTiles.length;
+							for (var j:int = 0; j < buildingTilesLen; j++ )
 							{
 								n = buildingTiles[j];
 								dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);

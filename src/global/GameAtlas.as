@@ -92,7 +92,7 @@
 		private static var worker:Worker;
 		static private var backToMain:MessageChannel;
 		static private var mainToBack:MessageChannel;
-		static private var loadingInProgress:Boolean = false;
+		static public var loadingInProgress:Boolean = false;
 		static private var loadedAssets:Object = { };
 		private static var stopMe:Boolean = false;
 		
@@ -148,8 +148,9 @@
 			{
 				//get all files
 				var assetTypesDir:Array = gameAssetsDir.getDirectoryListing();
+				var assetTypesDirLen:int = assetTypesDir.length;
 				
-				for (var i:int = 0; i < assetTypesDir.length; i++ )
+				for (var i:int = 0; i < assetTypesDirLen; i++ )
 				{
 					var currentTypeName:String = assetTypesDir[i].name;
 					
@@ -157,10 +158,12 @@
 					{
 						var dir:File = assetTypesDir[i];
 						var assets:Array = dir.getDirectoryListing();
+						var len:int =  mustMap[currentTypeName].length; 
 						
-						for (var g:int = 0; g < mustMap[currentTypeName].length; g++ )
+						for (var g:int = 0; g < len; g++ )
 						{
-							for (var j:int = 0; j < assets.length; j++ )
+							var len1:int = assets.length;
+							for (var j:int = 0; j < len1; j++ )
 							{
 								var assetDir:File = assets[j];
 								if (assetDir.name == mustMap[currentTypeName][g])
@@ -239,8 +242,9 @@
 				{
 					//get all files
 					var assetTypesDir:Array = gameAssetsDir.getDirectoryListing();
+					var assetTypesDirLen:int = assetTypesDir.length;
 					
-					for (var i:int = 0; i < assetTypesDir.length; i++ )
+					for (var i:int = 0; i < assetTypesDirLen; i++ )
 					{
 						var assetType:File = assetTypesDir[i];
 						
@@ -248,8 +252,9 @@
 						{
 							//go over all subdirs in type
 							var assets:Array = assetType.getDirectoryListing();
+							var len:int = assets.length;
 							
-							for (var j:int = 0; j < assets.length; j++ )
+							for (var j:int = 0; j < len; j++ )
 							{
 								var assetDir:File = assets[j];
 								
@@ -287,6 +292,13 @@
 				if (assetNames.length)
 				{
 					initWorker();
+				}
+				else
+				{
+					if (_callback != null)
+					{
+						_callback();
+					}
 				}
 				
 			}
@@ -427,7 +439,8 @@
 			var textures:Vector.<Texture>;
 			var texture:Texture;
 			var image:Image;
-			for(var i:int = 0; i < curTexturesArr.length; i++)
+			var curTexturesArrLen:int = curTexturesArr.length;
+			for(var i:int = 0; i < curTexturesArrLen; i++)
 			{
 				var ta:starling.textures.TextureAtlas = curTexturesArr[i];
 				
@@ -451,7 +464,8 @@
 			var stats:Array = [BuildingsStats.dict, VehicleStats.dict, InfantryStats.dict, TurretStats.dict];
 			var owner:String = "none";
 			
-			for (var i:int = 0; i < stats.length; i++ )
+			var statsLen:int = stats.length;
+			for (var i:int = 0; i < statsLen; i++ )
 			{
 				var curDict:Dictionary = stats[i];	
 				if (curDict[_assetName])
@@ -475,10 +489,10 @@
 			var curTexturesArr:Vector.<starling.textures.TextureAtlas>;
 			var textures:Vector.<Texture>;
 			
-
-			curTexturesArr = atlasDicts[owner];
 			
-			for(i = 0; i < curTexturesArr.length; i++)
+			curTexturesArr = atlasDicts[owner];
+			var curTexturesArrLen:int = curTexturesArr.length;
+			for(i = 0; i < curTexturesArrLen; i++)
 			{
 				var ta:starling.textures.TextureAtlas = curTexturesArr[i];
 				if(ta.getTextures(itemName).length != 0)
@@ -496,10 +510,10 @@
 		static public function getTextures(type:String , owner:String = "none"):Vector.<Texture> 
 		{
 			var curTexturesArr:Vector.<starling.textures.TextureAtlas> = atlasDicts[owner];
-			////trace"getTextures: " + type );
+			var curTexturesArrLen:int = curTexturesArr.length;
 			
 			var textures:Vector.<Texture>;
-			for(var i:int = 0; i < curTexturesArr.length; i++)
+			for(var i:int = 0; i < curTexturesArrLen; i++)
 			{
 				if(curTexturesArr[i].getTextures(type).length != 0)
 				{
@@ -514,7 +528,8 @@
 		static public function getMultipleTextureArrays(type:String):Array
 		{
 			var a:Array = [];
-			for(var i:int = 0; i < sharedTextures.length; i++)
+			var len:int = sharedTextures.length;
+			for(var i:int = 0; i < len; i++)
 			{
 				if(sharedTextures[i].getTextures(type).length != 0)
 				{
@@ -527,17 +542,16 @@
 		
 		static public function createMovieClip(itemName:String, owner:String = "none"):starling.display.MovieClip 
 		{
-			//trace"createMovieClip: " + itemName );
+
 			var curTexturesArr:Vector.<starling.textures.TextureAtlas> = atlasDicts[owner];
 			var textures:Vector.<Texture>;
+			var curTexturesArrLen:int = curTexturesArr.length;
 			
-			for(var i:int = 0; i < curTexturesArr.length; i++)
+			for(var i:int = 0; i < curTexturesArrLen; i++)
 			{
-				////trace"sharedTextures[i]: " + sharedTextures[i]);
 				if(curTexturesArr[i].getTextures(itemName))
 				{
 					textures = curTexturesArr[i].getTextures(itemName);
-					////trace"found: "  + textures + " l: " + textures.length);
 					
 					if(textures.length != 0)
 					{
@@ -558,37 +572,3 @@
 	}
 }
 
-
-//queue.append( new SWFLoader("swf/child.swf", {name:"childClip", estimatedBytes:3000, container:this, x:250, autoPlay:false}) );
-//queue.append( new MP3Loader("mp3/audio.mp3", {name:"audio", repeat:2, autoPlay:true}) );
-
-
-//start loading
-
-/*var assets:Array = [
-	//{"img" : new GameAssets.UnitsAtlas(), 		"xml" : new GameAssets.UnitsXml()},
-	//{"img" : new GameAssets.BuildingsAtlas(), 	"xml" : new GameAssets.BuildingsXml()},
-	//{"img" : new GameAssets.MapAtlas(), 		"xml" : new GameAssets.MapXml()},
-	//{"img" : new GameAssets.HitAtlas(), 		"xml" : new GameAssets.HitXml() },
-	//{"img" : new GameAssets.UIAtlas(), 			"xml" : new GameAssets.UIXml() },
-	//{"img" : new GameAssets.AllAssetsAtlas(), 	"xml" : new GameAssets.AllAssetsXML() },
-	//{"img" : new GameAssets.BuildQueAtlas(), 	"xml" : new GameAssets.BuildQueXml()}
-];
-
-
-var bmp:Bitmap;
-var xml:XML;
-var texture:Texture;
-var atlas:starling.textures.TextureAtlas;
-for(var i:int = 0; i < assets.length; i++)
-{
-	bmp = assets[i].img;
-	xml = XML(assets[i].xml);
-	texture = Texture.fromBitmap(bmp);
-	atlas = new starling.textures.TextureAtlas(texture, xml);
-	
-	
-	bmp.bitmapData.dispose();
-	bmp = null;
-	sharedTextures.push(atlas);
-}*/

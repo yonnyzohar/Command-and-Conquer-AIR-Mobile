@@ -299,6 +299,7 @@ package states.game.entities.units
 				userDeterminedRow = targetRow;
 				userDeterminedCol = targetCol;
 				
+				
 				if (UnitModel(model).inWayPoint)
 				{
 					stopMovingAndSplicePath();
@@ -532,8 +533,13 @@ package states.game.entities.units
 				if (currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
 				{
 					//trace("found the bug in time!!");
-					setState(UnitStates.WALK_ERROR);
+					//setState(UnitStates.WALK_ERROR);
+					UnitView(view).stopShootingAndStandIdlly();
 					return;
+				}
+				else
+				{
+					UnitView(view).runIfNoAready()
 				}
 				
 				

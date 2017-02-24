@@ -2,6 +2,7 @@ package states.game
 {
 	
 	import com.greensock.TweenLite;
+	import com.greensock.TweenMax;
 	import flash.events.DataEvent;
 	import global.ai.AIController;
 	import global.BGSoundManager;
@@ -49,7 +50,6 @@ package states.game
 	import states.game.stats.*;
 	import states.game.entities.units.*;
 	import states.game.teamsData.TeamObject;
-	import states.game.teamsData.TeamsLoader;
 	import states.game.ui.TeamsListingWindow;
 	import states.game.ui.UnitSelectionManager;
 
@@ -71,14 +71,25 @@ package states.game
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			TeamsLoader.init();//loads in xml with num of units in each team- to be changed later
+			setSpeed(10);
+		}
+		
+		private function setSpeed(number:Number):void 
+		{
+			//unit move
+			Parameters.CASH_INCREMENT *= number;
+			Harvester.HARVEST_AMOUNT *= number;
+			Parameters.UNIT_MOVE_FACTOR  /= number;
+			
+			trace("CASH_INCREMENT " + Parameters.CASH_INCREMENT);
+			trace("HARVEST_AMOUNT " + Harvester.HARVEST_AMOUNT);
+			trace("UNIT_MOVE_FACTOR " + Parameters.UNIT_MOVE_FACTOR);
 		}
 		
 		public function init(_levelNum:int):void 
 		{
 			LevelManager.currentlevelData = LevelManager.getLevelData(_levelNum);
 			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
-
 		}
 		
 		private function onLoadAssetsComplete():void
@@ -91,7 +102,6 @@ package states.game
 			baordMC = Board.getInstance();
 			baordMC.init(false);
 			
-			//Parameters.gameHolder.addChild(Parameters.mapHolder);
 			addTeams();
 			
 			UnitSelectionManager.getInstance().init();
@@ -105,10 +115,7 @@ package states.game
 			BGSoundManager.playBGSound();
 			
 			
-			
 			//SightManager.getInstance().showAllSightSquares();
-			
-			
 		}
 		
 		
@@ -123,14 +130,6 @@ package states.game
 			var teamsData:Object;
 			var b:Building;
 			
-			///the teams!//
-			var teamObjects:Array = [];
-			
-			var numTeams:int = TeamsLoader.numTeams();
-			
-			
-			
-			
 			team1Obj = new TeamObject(LevelManager.currentlevelData.team1, 1);
 			team2Obj = new TeamObject(LevelManager.currentlevelData.team2, 2);
 			
@@ -139,8 +138,10 @@ package states.game
 			team1Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
 			team2Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
 			
-			teamObjects.push( team1Obj );
-			teamObjects.push( team2Obj );
+			
+			team1Obj.setEnemyTeamObj(team2Obj);
+			team2Obj.setEnemyTeamObj(team1Obj);
+			
 			
 			aiController = new AIController();
 			
@@ -162,8 +163,7 @@ package states.game
 			
 			
 			
-			team1Obj.setEnemyTeamObj(team2Obj);
-			team2Obj.setEnemyTeamObj(team1Obj);
+			
 			
 			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
 		}
@@ -246,7 +246,8 @@ package states.game
 			
 			if (Parameters.humanTeam)
 			{
-				for (var i:int = 0; i < Parameters.humanTeam.length; i++ )
+				var len:int = Parameters.humanTeam.length;
+				for (var i:int = 0; i < len; i++ )
 				{
 					if (Parameters.humanTeam[i] is Building)
 					{
@@ -325,6 +326,10 @@ package states.game
 		
 		public function dispose():void 
 		{
+			if (finalMessage)
+			{
+				finalMessage.removeFromParent();
+			}
 			GameTimer.getInstance().removeUser(this);
 			baordMC.dispose();
 			Parameters.mapHolder.removeFromParent();
@@ -344,13 +349,14 @@ package states.game
 			team1Obj = null;
 			aiController = null;
 			
-			Parameters.humanTeam = null;
-			Parameters.pcTeam = null;
+			Parameters.humanTeam = [];
+			Parameters.pcTeam = [];
 			UnitSelectionManager.getInstance().dispose();
 			SellRepairManager.getInstance().dispose();
 			SightManager.getInstance().dispose();
 			BGSoundManager.stopAllSounds();
 			Parameters.currentSquad = null;
+			TweenMax.killAll();
 			
 			
 		}

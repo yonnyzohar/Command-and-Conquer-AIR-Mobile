@@ -68,11 +68,13 @@ package global.ui.hud
 				occupyArray = TurretStats.dict[_buildingName].gridShape;
 			}
 			
-			
-			for(var i:int = 0; i < occupyArray.length; i++)
+			var len:int = occupyArray.length;
+			var len1:int = 0;
+			for(var i:int = 0; i < len; i++)
 			{
 				tilesArr[i] = [];
-				for (var j:int = 0; j < occupyArray[i].length; j++ )
+				len1 = occupyArray[i].length;
+				for (var j:int = 0; j < len1; j++ )
 				{
 					var curTile:int = occupyArray[i][j];
 					
@@ -167,33 +169,9 @@ package global.ui.hud
 			var baseNodesLen:int = allBaseNodes.length;
 			var count:int = 0;
 			var used:Array = [];
+
 			
-			/*while (count < baseNodesLen)
-			{
-				var rnd:int = Math.random() * baseNodesLen;
-				if (used.indexOf(rnd) == -1)
-				{
-					var n:Node = allBaseNodes[rnd];
-					var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
-					if (isValidPlacementArea)
-					{
-						targetCol = n.col;
-						targetRow = n.row;
-						foundValidPlace = true;
-						if(view)view.removeFromParent(true );
-						dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
-						break;
-					}
-					else
-					{
-						used.push(rnd);
-						count++;
-					}
-				}
-				
-			}*/
-			
-			for (var i:int = 0; i < allBaseNodes.length; i++ )
+			for (var i:int = 0; i < baseNodesLen; i++ )
 			{
 				var n:Node = allBaseNodes[i];
 				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
@@ -208,6 +186,12 @@ package global.ui.hud
 				}
 			}
 			
+			if (!foundValidPlace)
+			{
+				//Parameters.loadingScreen.displayMessage("HOLY SHIT!!! " + allBaseNodes.length);
+				throw new Error("HOLY SHIT!!!");
+			}
+			
 			//trace("foundValidPlace " + foundValidPlace + " " + used);
 		}
 		
@@ -218,10 +202,13 @@ package global.ui.hud
 		private function setCorrectColors(startRow:int, startCol:int):Boolean 
 		{
 			var valid:Boolean = true;
+			var len:int = tilesArr.length;
+			var len1:int = 0;
 			
-			for(var i:int = 0; i < tilesArr.length; i++)
+			for(var i:int = 0; i < len; i++)
 			{
-				for (var j:int = 0; j < tilesArr[i].length; j++ )
+				len1 = tilesArr[i].length;
+				for (var j:int = 0; j < len1; j++ )
 				{
 					if (tilesArr[i][j] is Quad)
 					{

@@ -33,7 +33,7 @@ package  states.game.entities.units
 		private var isFull:Boolean = false;
 		private var loadingBegan:Boolean = false;
 		protected var storageBar:HarvesterStorage ;
-		private const HARVEST_AMOUNT:int = 10;
+		public static var HARVEST_AMOUNT:int = 10;
 		
 		public function Harvester(_unitStats:VehicleStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
 		{
@@ -393,7 +393,7 @@ package  states.game.entities.units
 			var south_east:int = 20;
 			var south:int = 16;
 			var south_west:int = 12;
-			var _degrees = FullCircleView(view).degrees;
+			var _degrees:int = FullCircleView(view).degrees;
 			
 			currentFrame = view.mc.currentFrame;
 			

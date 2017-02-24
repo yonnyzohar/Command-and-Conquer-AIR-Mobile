@@ -98,9 +98,11 @@
 			var n:Node;
 			if (Parameters.boardArr)
 			{
-				for (var row:int = 0; row < Parameters.boardArr.length; row++ )
+				var boardLen:int = Parameters.boardArr.length;
+				for (var row:int = 0; row < boardLen; row++ )
 				{
-					for (var col:int = 0; col < Parameters.boardArr[row].length; col++ )
+					var boardLen1:int = Parameters.boardArr[row].length;
+					for (var col:int = 0; col < boardLen1; col++ )
 					{
 						n =  Parameters.boardArr[row][col];
 						if (n.groundTile)
@@ -246,7 +248,7 @@
 			
 			for (var row:int = 0; row <  len; row++ )
 			{
-				var len1:int = Parameters.boardArr[row].length
+				var len1:int = Parameters.boardArr[row].length;
 				for (var col:int = 0; col <  len1; col++ )
 				{
 					n =  Parameters.boardArr[row][col];
@@ -272,7 +274,8 @@
 			var waterTiles:Array = [];
 			var mapObj:Object;
 			//create all water tiles
-			for (var i:int = 0; i < LevelManager.currentlevelData.map.length; i++ )
+			var currentLevelDataLen:int = LevelManager.currentlevelData.map.length;
+			for (var i:int = 0; i < currentLevelDataLen; i++ )
 			{
 				mapObj = LevelManager.currentlevelData.map[i];
 				n =  Parameters.boardArr[mapObj.row][mapObj.col];
@@ -314,8 +317,8 @@
 			var resourceTextures:Vector.<Texture> = GameAtlas.getTextures("tiberium");
 			var resourceNode:ResourceNode;
 	
-
-			for (var i:int = 0; i < LevelManager.currentlevelData.map.length; i++ )
+			var mapLen:int = LevelManager.currentlevelData.map.length;
+			for (var i:int = 0; i < mapLen; i++ )
 			{
 				var obj:Object = LevelManager.currentlevelData.map[i];
 				
@@ -551,10 +554,13 @@
 			if (Parameters.DEBUG_MODE)
 			{
 				var node:Node;
+				var len:int = Parameters.boardArr.length;
+				var len1:int = 0;
 			
-				for(var row:int = 0; row < Parameters.boardArr.length; row++)
+				for(var row:int = 0; row < len; row++)
 				{
-					for(var col:int = 0; col < Parameters.boardArr[row].length; col++)
+					len1 = Parameters.boardArr[row].length;
+					for(var col:int = 0; col < len1; col++)
 					{
 						node = Node(Parameters.boardArr[row][col]);
 						if (node.occupyingUnit)

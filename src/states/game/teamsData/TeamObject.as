@@ -343,38 +343,51 @@ package states.game.teamsData
 			//is this infantry?
 			if (InfantryStats.dict[assetName])
 			{
-				p = new Infantry(InfantryStats.dict[assetName], this, enemyTeam, teamNum);
 				curRowCol = buildManager.getProducingBuilding(InfantryStats.dict[assetName], team);
-				placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
-				Infantry(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
+				if (curRowCol)
+				{
+					placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
+					p = new Infantry(InfantryStats.dict[assetName], this, enemyTeam, teamNum);
+					Infantry(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
+				}
+				
 			}
 			else
 			{
-				if (assetName == "harvester")
-				{
-					p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
-					p.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
-				}
-				else
-				{
-					p = new Vehicle(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
-				}
-				
 				curRowCol = buildManager.getProducingBuilding(VehicleStats.dict[assetName], team);
 				placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
-				Vehicle(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
+				if (curRowCol)
+				{
+					if (assetName == "harvester")
+					{
+						p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
+						p.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
+					}
+					else
+					{
+						p = new Vehicle(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
+					}
+					
+					
+					Vehicle(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
+				}
+				
+				
 			}
-			
-			p.addEventListener("DEAD", onDead);
-			Parameters.mapHolder.addChild(p.view);
-			
-			team.push(p);
-			p.sayHello();
-			
 			
 			buildManager.assetBuildComplete(assetName);
 			
-			dispatchEvent( new Event("ASSET_CONSTRUCTED"))
+			if (p)
+			{
+				p.addEventListener("DEAD", onDead);
+				Parameters.mapHolder.addChild(p.view);
+				
+				team.push(p);
+				p.sayHello();
+				dispatchEvent( new Event("ASSET_CONSTRUCTED"))
+			}
+			
+			
 		}
 		
 		private function onBuildingContructed(e:Event):void
@@ -485,7 +498,7 @@ package states.game.teamsData
 		
 		private function onSold(e:Event):void
 		{
-			var p = e.target;
+			var p:Building = Building(e.target);
 			p.removeEventListener("SOLD", onSold);
 			var cost:int = BuildingsStatsObj(BuildingModel(p.model).stats).cost;
 			cashToAdd = cost / 2;
@@ -510,7 +523,7 @@ package states.game.teamsData
 		private function onDead(e:Event):void
 		{
 			var residentSoldiersArr:Array = [];
-			var p = e.target;
+			var p:GameEntity = GameEntity(e.target);
 			var row:int;
 			var col:int;
 			var currentTeamObj:TeamObject = GameEntity(p).myTeamObj;
@@ -518,6 +531,7 @@ package states.game.teamsData
 			var i:int = 0;
 			p.removeEventListener("DEAD", onDead);
 			p.removeEventListener("UNDER_ATTACK", harvesterUnderAttack);
+			p.removeEventListener("SOLD", onSold);
 			
 			if (p is Building)
 			{
@@ -638,8 +652,9 @@ package states.game.teamsData
 			buildManager.dispose();
 			buildManager.removeEventListener("UNIT_CONSTRUCTED", onUnitContructed);
 			buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			var teamLen:int = team.length;
 			
-			for (var i:int = 0; i < team.length; i++ )
+			for (var i:int = 0; i < teamLen; i++ )
 			{
 				team[i].removeEventListener("DEAD", onDead);
 				team[i].removeEventListener("UNDER_ATTACK", harvesterUnderAttack);

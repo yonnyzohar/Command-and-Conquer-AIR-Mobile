@@ -48,7 +48,7 @@
 			stage.addEventListener(flash.events.MouseEvent.RIGHT_CLICK, onRightMouseClicked);
 			
 			setTimeout(
-				function()
+				function():void
 				{
 					var screenWidth:int = stage.stageWidth;//fullScreenWidth;
 					var screenHeight:int = stage.stageHeight;//fullScreenHeight;
@@ -63,7 +63,7 @@
 					//Starling.multitouchEnabled = true;
 					//
 					_starling = new Starling(Main, stage, viewPort);
-					_starling.showStats=true;
+					//_starling.showStats=true;
 					
 					_starling.simulateMultitouch = true;
 					

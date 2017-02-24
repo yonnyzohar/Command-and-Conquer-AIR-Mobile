@@ -56,6 +56,11 @@ package states.game.ui
 			var start:Touch  = e.getTouch(Parameters.theStage, TouchPhase.BEGAN);
 			var moving:Touch = e.getTouch(Parameters.theStage, TouchPhase.MOVED);
 			var end:Touch    = e.getTouch(Parameters.theStage, TouchPhase.ENDED);
+			var targetCol:int;
+			var targetRow:int;
+			var n:Node;
+			var occupyingUnit:GameEntity;
+			
 			var location:Point;
 			
 
@@ -66,14 +71,14 @@ package states.game.ui
 				if (end)
 				{
 					location = end.getLocation(Parameters.mapHolder);
-					var targetCol:int = location.x / Parameters.tileSize;
-					var targetRow:int = location.y / Parameters.tileSize;
+					targetCol = location.x / Parameters.tileSize;
+					targetRow = location.y / Parameters.tileSize;
 					if (Parameters.boardArr[targetRow] && Parameters.boardArr[targetRow][targetCol])
 					{
-						var n:Node = Node(Parameters.boardArr[targetRow][targetCol]);
+						n = Node(Parameters.boardArr[targetRow][targetCol]);
 						if (n.occupyingUnit)
 						{
-							var occupyingUnit:GameEntity = GameEntity(n.occupyingUnit);
+							occupyingUnit = GameEntity(n.occupyingUnit);
 							if (occupyingUnit is Building)
 							{
 								if(occupyingUnit.model.controllingAgent == Agent.HUMAN)
@@ -90,14 +95,14 @@ package states.game.ui
 				if (end)
 				{
 					location = end.getLocation(Parameters.mapHolder);
-					var targetCol:int = location.x / Parameters.tileSize;
-					var targetRow:int = location.y / Parameters.tileSize;
+					targetCol = location.x / Parameters.tileSize;
+					targetRow = location.y / Parameters.tileSize;
 					if (Parameters.boardArr[targetRow] && Parameters.boardArr[targetRow][targetCol])
 					{
-						var n:Node = Node(Parameters.boardArr[targetRow][targetCol]);
+						n = Node(Parameters.boardArr[targetRow][targetCol]);
 						if (n.occupyingUnit)
 						{
-							var occupyingUnit:GameEntity = GameEntity(n.occupyingUnit);
+							occupyingUnit = GameEntity(n.occupyingUnit);
 							if (occupyingUnit is Building)
 							{
 								if(occupyingUnit.model.controllingAgent == Agent.HUMAN)

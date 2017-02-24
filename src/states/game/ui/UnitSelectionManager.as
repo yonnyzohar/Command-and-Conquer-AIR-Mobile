@@ -87,6 +87,7 @@
 			var endMulti:Vector.<Touch> = e.getTouches(Parameters.theStage, TouchPhase.ENDED);
 			var location:Point;
 			var i:int = 0;
+			var len:int = 0;
 			
 			//PAN!!!
 			if (MouseStates.currentState == MouseStates.SELECT)
@@ -175,15 +176,15 @@
 							
 							var currentPlayer:GameEntity;
 							
-							
-							for(i = 0; i < Parameters.humanTeam.length; i++)
+							len = Parameters.humanTeam.length;
+							for(i = 0; i < len; i++)
 							{
 								currentPlayer = Parameters.humanTeam[i];
 								currentPlayer.deselect();
 							}
 							
-							
-							for(i = 0; i <Parameters.currentSquad.length; i++)
+							len = Parameters.currentSquad.length;
+							for(i = 0; i < len; i++)
 							{
 								currentPlayer = Parameters.currentSquad[i];
 								currentPlayer.selected(i==0);
@@ -278,6 +279,8 @@
 			var i:int = 0;
 			var playHitAnim:Boolean = false;
 			var p:GameEntity = getSelectedPlayer(targetCol, targetRow);
+			var len:int = 0;
+			var u:GameEntity;
 			
 			//trace"p: " + p);
 			
@@ -291,11 +294,11 @@
 					var n:Node = Node(Parameters.boardArr[targetRow][targetCol])
 					if(n.occupyingUnit)
 					{
-						var u = n.occupyingUnit;
+						u = n.occupyingUnit;
 						
-						if (u is Building && u.hasBuildingClickFunction)
+						if (u is Building && Building(u).hasBuildingClickFunction)
 						{
-							var o:Object = u.onBuildingClickedFNCTN();
+							var o:Object = Building(u).onBuildingClickedFNCTN();
 							targetRow = o.row;
 							targetCol = o.col;
 							if (selectedAsset && selectedAsset.model.stats.name == o.assetName)
@@ -319,8 +322,8 @@
 					PoolsManager.selectorCirclesPool.returnAllAssets();
 								
 					var currentPlayer:GameEntity;
-					
-					for(i = 0; i < Parameters.humanTeam.length; i++)
+					len = Parameters.humanTeam.length;
+					for(i = 0; i < len; i++)
 					{
 						currentPlayer = Parameters.humanTeam[i];
 						currentPlayer.deselect();
@@ -368,7 +371,8 @@
 					//trace"placementsArr: " + placementsArr);
 					
 					//NEED TO DEFINE PEREMITER AROUND POINT FOR SPREAD OF UNITS!
-					for(i = 0; i < Parameters.currentSquad.length; i++)
+					len = Parameters.currentSquad.length;
+					for(i = 0; i < len ; i++)
 					{
 						if(Parameters.currentSquad[i] is Building)
 						{
@@ -449,8 +453,8 @@
 			recSelector.unitsArray.splice(0);
 			PoolsManager.selectorCirclesPool.returnAllAssets();
 			var currentPlayer:GameEntity;
-			
-			for(var i:int = 0; i <Parameters.humanTeam.length; i++)
+			var len:int = Parameters.humanTeam.length;
+			for(var i:int = 0; i < len; i++)
 			{
 				currentPlayer = Parameters.humanTeam[i];
 				currentPlayer.deselect();

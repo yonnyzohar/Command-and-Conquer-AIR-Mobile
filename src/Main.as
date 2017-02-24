@@ -224,9 +224,8 @@ package
 			if (e != null) Parameters.editMode = false;
 			Parameters.editLoad = false;
 			game = new Game();
-			//if(e != null)game.randomPlacement = true;
 			game.init(0);
-			addChild(Parameters.mapHolder);
+			addChildAt(Parameters.mapHolder,0);
 			game.addEventListener("LEAVE_MISSION", onLeaveMission);
 		}
 		

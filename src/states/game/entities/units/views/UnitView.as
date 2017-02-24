@@ -69,10 +69,21 @@
 		
 		public function stopShootingAndStandIdlly():void
 		{
-			traceView("animate stand stopShootingAndStandIdlly");
-			state = "_stand";
-			animatelayer();
-			
+			if (state != "_stand")
+			{
+				traceView("animate stand stopShootingAndStandIdlly");
+				state = "_stand";
+				animatelayer();
+			}
+		}
+		
+		public function runIfNoAready():void
+		{
+			if (state != "_run")
+			{
+				state = "_run";
+				animatelayer();
+			}
 		}
 		
 		public function stand():void

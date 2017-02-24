@@ -14,7 +14,7 @@ package global.map
 			
 			var l:int = allUnits.length;
 			
-			for(var i:int = 0; i < allUnits.length; i++)
+			for(var i:int = 0; i < l; i++)
 			{
 				if (allUnits[i] is GameEntity)
 				{

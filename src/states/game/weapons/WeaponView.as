@@ -59,6 +59,7 @@ package  states.game.weapons
 		private var enemy:GameEntity;
 		private var animDirections:int;
 		private var isMuzzleFlash:Boolean = false;
+		private var myTween:TweenMax;
 		
 		public function WeaponView(_model:EntityModel, _explosionAnimName:String, _projectileImgName:String, _smokeTrail:Boolean, _movingProjectile:Boolean, _animDirections:int) 
 		{
@@ -177,7 +178,7 @@ package  states.game.weapons
 						halfy -= (dist * 0.2);
 						var time:Number = (speed * dist * 0.002);
 						
-						TweenMax.to(projectileMC, time, 
+						myTween = TweenMax.to(projectileMC, time, 
 									{
 										ease: Linear.easeNone,
 										bezier: { 
@@ -244,7 +245,8 @@ package  states.game.weapons
 		
 		public function update(_pulse:Boolean):void
 		{
-			for (var i:int = 0; i < currentBullets.length; i++ )
+			var currentBulletsLen:int = currentBullets.length;
+			for (var i:int = 0; i < currentBulletsLen; i++ )
 			{
 				var b:PoolElement = currentBullets[i];
 				var angle:Number = Math.atan2(dy, dx);
@@ -330,6 +332,7 @@ package  states.game.weapons
 		
 		private function onDone(b:PoolElement):void
 		{
+			myTween = null;
 			if(!isMuzzleFlash)Methods.shakeMap(1);
 			
 			if (enemy && enemy.model)
@@ -345,15 +348,20 @@ package  states.game.weapons
 			Starling.juggler.remove(b);
 			b.returnMe();
 			
-			if (currentBullets.indexOf(b) != -1)
+			if (currentBullets)
 			{
-				currentBullets.splice(currentBullets.indexOf(b), 1);
+				if (currentBullets.indexOf(b) != -1)
+				{
+					currentBullets.splice(currentBullets.indexOf(b), 1);
+				}
+				
+				if (currentBullets.length == 0)
+				{
+					GameTimer.getInstance().removeUser(this);
+				}
 			}
 			
-			if (currentBullets.length == 0)
-			{
-				GameTimer.getInstance().removeUser(this);
-			}
+			
 			
 			inflictDamadgeFnctn();
 			
@@ -419,8 +427,12 @@ package  states.game.weapons
 				projectileMC = null;
 			}
 			
-			TweenMax.killAll();
+			if (myTween)
+			{
+				myTween.kill();
+			}
 			
+			myTween = null;
 			pool = null;
 			trailPool = null;
 			currentBullets = null;

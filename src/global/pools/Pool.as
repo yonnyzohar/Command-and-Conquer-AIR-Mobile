@@ -32,8 +32,8 @@ package global.pools
 		{
 			var b:PoolElement = null;
 			var found:Boolean = false;
-			
-			for (var i:int = 0; i < pool.length; i++ )
+			var poolLen:int = pool.length;
+			for (var i:int = 0; i < poolLen; i++ )
 			{
 				b = pool[i];
 				
@@ -71,8 +71,8 @@ package global.pools
 		public function returnAllAssets():void
 		{
 			var b:PoolElement;
-			
-			for (var i:int = 0; i < pool.length; i++ )
+			var poolLen:int = pool.length;
+			for (var i:int = 0; i < poolLen; i++ )
 			{
 				b = pool[i];
 				b.inUse = false;

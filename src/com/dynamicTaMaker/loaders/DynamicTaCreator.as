@@ -106,7 +106,8 @@ package com.dynamicTaMaker.loaders
 		
 		private function displayImages():void 
 		{
-			for (var i:int = 0; i < chosenArr.length; i++ )
+			var chosenArrLen:int = chosenArr.length;
+			for (var i:int = 0; i < chosenArrLen; i++ )
 			{
 				var bmp:Bitmap = new Bitmap(chosenArr[i].img);
 				var m_name:String = chosenArr[i].parentLikage;
@@ -142,7 +143,8 @@ package com.dynamicTaMaker.loaders
 		{
 			view.gotoAndStop(1);
 			var child : MovieClip;
-			for (var i : int = 0; i < view.numChildren; ++i)
+			var numOfChildren:int = view.numChildren
+			for (var i : int = 0; i < numOfChildren; ++i)
 			{
 				child = view.getChildAt(i) as MovieClip;
 				if (child)

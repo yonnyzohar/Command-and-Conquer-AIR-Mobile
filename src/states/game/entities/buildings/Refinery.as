@@ -89,7 +89,10 @@
 			BuildingView(view).state = "";
 			BuildingView(view).mc.loop = true;
 			BuildingView(view).playState();
-			if(loadCompleteFNCTB)loadCompleteFNCTB();
+			if (loadCompleteFNCTB != null)
+			{
+				loadCompleteFNCTB();
+			}
 			loadCompleteFNCTB = null;
 		}
 		
@@ -143,7 +146,7 @@
 		}
 		
 		
-		public function onBuildingClickedFNCTN():Object
+		override public function onBuildingClickedFNCTN():Object
 		{
 			
 			var locNode:Node = getLoadingLoacation();

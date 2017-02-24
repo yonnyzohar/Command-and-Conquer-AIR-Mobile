@@ -212,11 +212,7 @@ package states.game.entities
 			blocksArr = null;
 			model = null;
 			
-			if (explosionAnim)
-			{
-				explosionAnim.removeFromParent();
-				explosionAnim = null;
-			}
+			
 
 			texturesDict = null;
 			

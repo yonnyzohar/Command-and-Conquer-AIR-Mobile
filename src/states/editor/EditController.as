@@ -1,6 +1,5 @@
 ﻿package states.editor
 {
-	import com.codeazur.as3swf.tags.ITag;
 	import flash.geom.Point;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
@@ -9,7 +8,6 @@
 	import global.map.SpiralBuilder;
 	import starling.textures.Texture;
 	import states.game.stats.LevelManager;
-	import states.game.teamsData.TeamsLoader;
 	
 	import global.Parameters;
 	import global.GameAtlas;
@@ -42,7 +40,6 @@
 		public function EditController()
 		{
 			//LevelManager.init();
-			TeamsLoader.init();
 			//LevelManager.currentlevelData = LevelManager.getLevelData(0);
 			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
 		}

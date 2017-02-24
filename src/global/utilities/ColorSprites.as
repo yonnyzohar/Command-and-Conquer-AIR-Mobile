@@ -36,11 +36,12 @@ package global.utilities
 			var rThreshold:int = 25;
 			var gThreshold:int = 25;
 			var bThreshold:int = 25;
-			   
-			   
-			for(var col:int = 0; col < bd.width; col++)
+			var bdWidth:int = bd.width;
+			var bdHeight:int = bd.height;
+			  
+			for(var col:int = 0; col < bdWidth; col++)
 			{
-				 for(var row:int = 0; row < bd.height; row++)
+				 for(var row:int = 0; row < bdHeight; row++)
 				 {
 					 var pixel:uint = bd.getPixel(col, row);
 					 //if pixel si not transparent

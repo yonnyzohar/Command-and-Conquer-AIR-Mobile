@@ -112,9 +112,11 @@ package states.game.entities.buildings
 				var sight:int = model.stats.sight;
 				
 				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-				for(var i:int = -sight; i <= occupyArray.length + sight; i++)
+				var occupyArrayLen:int = occupyArray.length + sight;
+				var occuPyArrayLenZero:int = occupyArray[0].length;
+				for(var i:int = -sight; i <=occupyArrayLen + sight; i++)
 				{
-					for (var j:int = -sight; j <= occupyArray[0].length + sight; j++ )
+					for (var j:int = -sight; j <= occuPyArrayLenZero + sight; j++ )
 					{
 						//i don't care about the building itself
 						/*if (i >= 0 && i < occupyArray.length && j >= 0 && j < occupyArray[0].length )
@@ -187,13 +189,13 @@ package states.game.entities.buildings
 				{
 					x:origPosX + (Math.random() /2), 
 					y:origPosY + (Math.random() /2 ), 
-					onComplete:function()
+					onComplete:function():void
 					{
 						TweenLite.to(Parameters.gameHolder, 0.1, 
 						{ 
 							x:origPosX - (Math.random() /2 ), 
 							y: origPosY - (Math.random() /2 ), 
-							onComplete:function()
+							onComplete:function():void
 							{
 								TweenLite.to(Parameters.gameHolder, 0.1, 
 								{ 
@@ -211,6 +213,7 @@ package states.game.entities.buildings
 			return super.hurt(_hitVal, _currentInfantryDeath, projectileName)
 		}
 		
+		public function onBuildingClickedFNCTN():Object{return null}
 		
 		override protected function occupyTile(proposedRow:int, proposedCol:int):void
 		{

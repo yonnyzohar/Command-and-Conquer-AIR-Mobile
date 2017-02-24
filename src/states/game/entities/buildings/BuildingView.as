@@ -131,6 +131,7 @@ package states.game.entities.buildings
 				if(mc.numFrames != 1)mc.removeFrameAt(0);
 				
 			}
+			//trace("currentState " + currentState + " newStateName " + newStateName);
 			
 			playMC();
 			currentState = newStateName;
@@ -156,7 +157,12 @@ package states.game.entities.buildings
 			
 			if (mc.numFrames != 1) mc.removeFrameAt(0);
 			mc.loop = false;
-			mc.addEventListener(Event.COMPLETE, onSellAnimComplete)
+			mc.addEventListener(Event.COMPLETE, onSellAnimComplete);
+			if (baseIMG)
+			{
+				baseIMG.removeFromParent();
+			}
+			baseIMG = null;
 			playMC();	
 			
 		}
@@ -189,6 +195,11 @@ package states.game.entities.buildings
 				explosionAnim.x = x;// + (width / 2);
 				explosionAnim.y = y;// + (height / 2);
 			}
+			if (baseIMG)
+			{
+				baseIMG.removeFromParent();
+			}
+			baseIMG = null;
 		}
 		
 		
@@ -274,10 +285,23 @@ package states.game.entities.buildings
 				mc.removeEventListener(Event.COMPLETE, onSellAnimComplete);
 				mc.removeEventListener(Event.COMPLETE, onBuildAnimComplete);
 			}
+			if (baseIMG)
+			{
+				baseIMG.removeFromParent();
+			}
+			baseIMG = null;
 			if (explosionAnim)
 			{
 				explosionAnim.removeEventListener(Event.COMPLETE, onExplosionComplte);
+				
+				if (explosionAnim.isPlaying == false)
+				{
+					explosionAnim.removeFromParent();
+					explosionAnim = null;
+				}
 			}
+			
+			
 			super.dispose();
 		}
 	}

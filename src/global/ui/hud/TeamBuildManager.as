@@ -2,6 +2,7 @@ package global.ui.hud
 {
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
+	import flash.utils.setTimeout;
 	import global.enums.Agent;
 	import global.enums.MouseStates;
 	import global.GameAtlas;
@@ -105,7 +106,8 @@ package global.ui.hud
 		{
 			var k:String;
 			var units:Object = { };
-			for(var i:int = 0; i < _buildings.length; i++)
+			var buildingsLen:int = _buildings.length;
+			for(var i:int = 0; i < buildingsLen; i++)
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
@@ -152,7 +154,8 @@ package global.ui.hud
 		{
 			var k:String;
 			var units:Object = { };
-			for(var i:int = 0; i < _buildings.length; i++)
+			var buildingsLen:int = _buildings.length;
+			for(var i:int = 0; i < buildingsLen; i++)
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
@@ -231,7 +234,9 @@ package global.ui.hud
 		{
 			var k:String;
 			var buildings:Object = { };
-			for(var i:int = 0; i < _buildings.length; i++)
+			var buildingsLen:int = _buildings.length;
+			
+			for(var i:int = 0; i < buildingsLen; i++)
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
@@ -280,7 +285,9 @@ package global.ui.hud
 		{
 			var k:String;
 			var buildings:Object = { };
-			for(var i:int = 0; i < _buildings.length; i++)
+			var buildingsLen:int = _buildings.length;
+			
+			for(var i:int = 0; i <buildingsLen; i++)
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
@@ -405,7 +412,18 @@ package global.ui.hud
 		
 		private function onBuildingComplete(assetName:String):void
 		{
-			dispatchEvent(new Event("BUILDING_CONSTRUCTION_COMPLETED"))
+			if (GameAtlas.loadingInProgress)
+			{
+				setTimeout(function():void {
+				
+					onBuildingComplete(assetName);
+				},1000);
+			}
+			else
+			{
+				dispatchEvent(new Event("BUILDING_CONSTRUCTION_COMPLETED"))
+			}
+			
 		}
 		
 		private function onUnitComplete(completedActor:String, contextType:String, disabledSlots:Array = null):void 
@@ -419,7 +437,26 @@ package global.ui.hud
 				hud.unitsContainer.enableSelectedSlots(disabledSlots);
 			}
 			
-			dispatchEventWith("UNIT_CONSTRUCTED", false, { "name" : completedActor, "type" : contextType });
+			dispatchUnitContructed(completedActor, contextType);
+			
+			
+		}
+		
+		private function dispatchUnitContructed(completedActor:String, contextType:String):void 
+		{
+			if (GameAtlas.loadingInProgress)
+			{
+				setTimeout(function():void {
+				
+					dispatchUnitContructed(completedActor, contextType);
+				},1000);
+			}
+			else
+			{
+				dispatchEventWith("UNIT_CONSTRUCTED", false, { "name" : completedActor, "type" : contextType });
+			}
+			
+			
 		}
 		
 		public function assetBeingBuilt(assetName:String):void 

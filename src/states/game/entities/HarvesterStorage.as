@@ -63,7 +63,7 @@ package   states.game.entities
 			}
 		}
 		
-		private function getBox(size):GameSprite 
+		private function getBox(size:Number):GameSprite 
 		{
 			var cont:GameSprite = new GameSprite();
 			var blackBG:Quad = new Quad(size, size, 0x000000);
@@ -79,11 +79,15 @@ package   states.game.entities
 		
 		override public function dispose():void
 		{
-			for (var i:int = 0; i < boxesArr.length; i++ )
+			if (boxesArr)
 			{
-				boxesArr[i].removeFromParent(true);
+				for (var i:int = 0; i < boxesArr.length; i++ )
+				{
+					boxesArr[i].removeFromParent(true);
+				}
+				boxesArr = null;
 			}
-			boxesArr = null;
+			
 		}
 		
 		public function clearStorage():void 

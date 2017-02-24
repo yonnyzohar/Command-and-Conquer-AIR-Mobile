@@ -22,8 +22,8 @@ package states.game.stats
 				vehicleObj.totalHealth    = curUnit.totalHealth;  
 				vehicleObj.sight     	  = curUnit.sight;   
 				vehicleObj.name       	  = curUnit.name;     
-				vehicleObj.speed          = curUnit.speed  * Parameters.divisionFactor;      
-				vehicleObj.turnSpeed      = curUnit.turnSpeed  * Parameters.divisionFactor;  
+				vehicleObj.speed          = curUnit.speed  * Parameters.UNIT_MOVE_FACTOR;      
+				vehicleObj.turnSpeed      = curUnit.turnSpeed  * Parameters.UNIT_MOVE_FACTOR;  
 				vehicleObj.idleRotate     = curUnit.idleRotate ;  
 				vehicleObj.rotationType   = curUnit.rotationType ;
 				vehicleObj.sounds         = curUnit.sounds ;      

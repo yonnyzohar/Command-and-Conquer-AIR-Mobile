@@ -329,7 +329,8 @@ package global.ui.hud
 		{
 			if(slotsArr != null)
 			{
-				for(var i:int = 0; i < slotsArr.length; i++)
+				var length:int = slotsArr.length;
+				for(var i:int = 0; i < length; i++)
 				{
 					slotsArr[i].removeEventListener("SLOT_SELECTED", onSlotSelected);
 					slotsArr[i].dispose();

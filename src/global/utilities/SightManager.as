@@ -136,10 +136,10 @@
 					for (g = 0; g < len4; g++ )
 					{
 						n = sightArray[g];
-						if (Parameters.DEBUG_MODE)
-						{
-							n.seen = true;// -- setting this to true will make pc units appear in the minimap!
-						}
+						
+						n.seen = true;// -- setting this to true will make pc units appear in the minimap!
+						
+						
 						if (p is Building)
 						{
 							pc_buildingsSight.push(n);
@@ -199,8 +199,8 @@
 		
 		public function dispose():void 
 		{
-			human_buildingsSight = null;
-			pc_buildingsSight = null;
+			human_buildingsSight = [];
+			pc_buildingsSight = [];
 		}
 	}
 }

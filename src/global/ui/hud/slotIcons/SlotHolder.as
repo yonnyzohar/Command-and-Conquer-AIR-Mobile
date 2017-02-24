@@ -244,6 +244,7 @@ package global.ui.hud.slotIcons
 				}
 				else
 				{
+					if (showUI)loadingSquare.currentFrame = 100;
 					count = 0;
 					GameTimer.getInstance().removeUser(this);
 					done();

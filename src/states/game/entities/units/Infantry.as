@@ -37,7 +37,7 @@
 			{
 				if (view && UnitView(view).state == "_fire")
 				{
-					shootInterval = setInterval(function() 
+					shootInterval = setInterval(function():void
 					{
 						if (view && UnitView(view).state == "_fire")
 						{

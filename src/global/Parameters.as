@@ -18,12 +18,12 @@ package global
 	public class Parameters 
 	{
 		public static var CASH_INCREMENT:int = 2;
+		static public var UNIT_MOVE_FACTOR:Number = 0.1;
+		
+		
 		public static var mapMoveSpeed:int = 5;
-		
 		public static var DEBUG_MODE:Boolean = false;
-		
 		public static var boardArr:Array = new Array();
-		
 		public static var theStage:starling.display.Stage;
 		public static var flashStage:flash.display.Stage;
 		
@@ -54,10 +54,11 @@ package global
 		static public var screenDisplayArea:Object = { };
 		
 		static public var useFilters:Boolean = false;
-		static public var divisionFactor:Number = 0.1;
+		
 		
 		static public var humaTeamObject:TeamObject;
 		static public var editLoad:Boolean = false;
+		
 		
 	}
 }
