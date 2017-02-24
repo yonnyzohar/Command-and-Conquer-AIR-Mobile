@@ -17,7 +17,7 @@ package global
 	 */
 	public class Parameters 
 	{
-		public static var CASH_INCREMENT:int = 2;
+		public static var CASH_INCREMENT:int = 1;
 		static public var UNIT_MOVE_FACTOR:Number = 0.1;
 		
 		

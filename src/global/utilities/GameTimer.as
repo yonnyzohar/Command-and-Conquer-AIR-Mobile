@@ -7,6 +7,7 @@ package global.utilities
 	import global.Parameters;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName; 
 	
 	public class GameTimer extends EventDispatcher
 	{
@@ -67,7 +68,8 @@ package global.utilities
 		
 		public function removeUser(mc:*):void
 		{
-			updatables[mc] = null;
+			//trace("removing " + getQualifiedClassName(mc));
+			
 			delete updatables[mc];
 			
 			var len:int = 0;
@@ -82,6 +84,17 @@ package global.utilities
 				Parameters.theStage.removeEventListener(Event.ENTER_FRAME, update);
 			}
 				
+		}
+		
+		public function dispose():void
+		{
+			for(var k:* in updatables)
+			{
+				removeUser(updatables[k]);
+			}
+			Parameters.theStage.removeEventListener(Event.ENTER_FRAME, update);
+			updatables = new Dictionary();
+			globalI = 0;
 		}
 		
 		public function freezeTimer():void

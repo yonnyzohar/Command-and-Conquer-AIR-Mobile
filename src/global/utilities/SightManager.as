@@ -137,7 +137,7 @@
 					{
 						n = sightArray[g];
 						
-						n.seen = true;// -- setting this to true will make pc units appear in the minimap!
+						//n.seen = true;// -- setting this to true will make pc units appear in the minimap!
 						
 						
 						if (p is Building)

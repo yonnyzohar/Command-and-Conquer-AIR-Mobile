@@ -329,7 +329,7 @@ package states.game.entities
 		
 		public function deselect():void
 		{
-			if(model.controllingAgent == Agent.HUMAN)
+			if(model && model.controllingAgent == Agent.HUMAN)
 			{
 				healthBar.visible  =false;
 				model.isSelected = false;

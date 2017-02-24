@@ -584,7 +584,7 @@ package global.ai
 		{
 			if (PRINT_AI_FLOW)
 			{
-				trace(_str);
+				//trace(_str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}

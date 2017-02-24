@@ -596,7 +596,10 @@
 		public function dispose():void 
 		{
 			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
-			
+			groundHolder = new Sprite();
+			prevRow = -1;
+			prevCol = -1;
+			firstTime = true;
 		}
 		
 		

@@ -223,6 +223,11 @@ package states.game.entities.units.views
 		
 		override public function dispose():void
 		{
+			if (mc)
+			{
+				mc.removeFromParent();
+			}
+			
 			Starling.juggler.remove(MovieClip(mc));
 			texturesDict = null;
 			super.dispose();

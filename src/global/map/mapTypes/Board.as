@@ -140,8 +140,8 @@
 					}
 				}
 				Parameters.boardArr[row] = null;
-				Parameters.boardArr = [];
 			}
+			Parameters.boardArr = [];
 			
 		}
 		
@@ -168,6 +168,7 @@
 			//trace"createNodes");
 			var i:int = 0;
 			var n:Node;
+			Parameters.boardArr = [];
 			
 			for (i = 0; i <  Parameters.numRows; i++ )
 			{

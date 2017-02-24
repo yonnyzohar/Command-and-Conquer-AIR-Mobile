@@ -22,6 +22,7 @@ package states.game
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.display.Quad;
+	import starling.display.Sprite;
 	import starling.text.TextField;
 	import states.game.entities.buildings.BuildingModel;
 	import states.game.entities.buildings.Turret;
@@ -71,7 +72,7 @@ package states.game
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(10);
+			setSpeed(2);
 		}
 		
 		private function setSpeed(number:Number):void 
@@ -331,7 +332,12 @@ package states.game
 				finalMessage.removeFromParent();
 			}
 			GameTimer.getInstance().removeUser(this);
+			
 			baordMC.dispose();
+			
+			
+			
+			
 			Parameters.mapHolder.removeFromParent();
 			Parameters.upperTilesLayer.removeFromParent();
 			Parameters.humaTeamObject = null;
@@ -357,8 +363,28 @@ package states.game
 			BGSoundManager.stopAllSounds();
 			Parameters.currentSquad = null;
 			TweenMax.killAll();
+			removeAllChildren([Parameters.gameHolder, Parameters.mapHolder,Parameters.upperTilesLayer]);
+			GameTimer.getInstance().dispose();
 			
-			
+		}
+		
+		private function removeAllChildren(a:Array):void 
+		{
+			for (var i:int = 0; i < a.length; i++ )
+			{
+				var sp:Sprite = a[i];
+				var numChildreLeft:int = sp.numChildren; 
+				if (numChildreLeft)
+				{
+					for (var j:int = numChildreLeft-1; j >= 0; j-- )
+					{
+						var child = sp.getChildAt(j);
+						child.removeFromParent();
+						child = null;
+					}
+				}
+				
+			}
 		}
 	}
 }
