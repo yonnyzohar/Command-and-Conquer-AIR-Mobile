@@ -489,7 +489,7 @@
 						{
 							if (n.isResource)
 							{
-								Parameters.mapHolder.addChildAt(n.obstacleTile,1);
+								Parameters.mapHolder.addChild(n.obstacleTile);
 							}
 							else
 							{
@@ -500,7 +500,7 @@
 						}
 						if (n.shoreTile && n.seen)
 						{
-							Parameters.mapHolder.addChildAt(n.shoreTile, 1);
+							Parameters.mapHolder.addChild(n.shoreTile);
 						}
 						
 						if (n.cliffTile && n.seen)

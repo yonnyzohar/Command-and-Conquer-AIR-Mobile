@@ -1146,7 +1146,7 @@ package global.assets
                     cost: 2e3,
                     sight: 4,
                     owner: "gdi",
-                    dependency: ["construction-yard", "power-plant", "refinery"],
+                    dependency: ["construction-yard", "power-plant", "refinery", "barracks"],
                     armor: 2,
                     hitPoints: 200,
                     hasBib: true,
@@ -1208,7 +1208,7 @@ package global.assets
                         type: "auto-repair"
                     },
                     hitPoints: 800,
-                    dependency: ["construction-yard", "power-plant"],
+                    dependency: ["construction-yard", "power-plant", "vehicle-factory"],
                     owner: "both",
                     spriteImages: [{
                         name: "build",
@@ -1257,7 +1257,7 @@ package global.assets
                     hasBib: true,
                     hitPoints: 1e3,
                     armor: 1,
-                    dependency: ["construction-yard", "power-plant", "refinery"],
+                    dependency: ["construction-yard", "power-plant", "refinery", "vehicle-factory"],
                     owner: "both",
                     spriteImages: [{
                         name: "healthy",
@@ -1531,7 +1531,7 @@ package global.assets
                     cost: 2e3,
                     sight: 5,
                     owner: "nod",
-                    dependency: ["construction-yard", "power-plant", "refinery"],
+                    dependency: ["construction-yard", "power-plant", "refinery", "barracks"],
                     armor: 3,
                     hitPoints: 500,
                     hasBib: true,

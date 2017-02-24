@@ -300,28 +300,43 @@ package global.ai
 				{
 					if (pcTeamObj.getHarvester() == null)
 					{
-						if(!vehicleBeingBuilt)buildVehicles();
+						if (!vehicleBeingBuilt)
+						{
+							buildVehicles();
+						}
 					}
 					else 
 					{
 						if (Math.random() < 0.4 )
 						{
-							if(!infantryBeingBuilt)buildInfantry();
+							if (!infantryBeingBuilt)
+							{
+								buildInfantry();
+							}
 						}
 						else
 						{
-							if(!vehicleBeingBuilt)buildVehicles();
+							if (!vehicleBeingBuilt)
+							{
+								buildVehicles();
+							}
 						}
 					}
 					
 				}
 				else if(infantry && !vehicles)
 				{
-					if(!infantryBeingBuilt)buildInfantry();
+					if (!infantryBeingBuilt)
+					{
+						buildInfantry();
+					}
 				}
 				else if (!infantry && vehicles)
 				{
-					if(!vehicleBeingBuilt)buildVehicles()
+					if (!vehicleBeingBuilt)
+					{
+						buildVehicles()
+					}
 				}
 				else
 				{
