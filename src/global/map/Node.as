@@ -1,6 +1,7 @@
 package  global.map
 {
 	import global.enums.Agent;
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import starling.display.Image;
 	import starling.display.MovieClip;
@@ -53,7 +54,7 @@ package  global.map
 				debugTile.y = Parameters.tileSize * row;
 				debugTile.touchable = false;
 				debugTile.alpha = 0.1;
-				Parameters.upperTilesLayer.addChild(debugTile);
+				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(debugTile);
 			}
 		}
 		
@@ -66,26 +67,7 @@ package  global.map
 			}
 		}
 		
-		
-		
-		/*public function listenTile():void
-		{
-			obstacleTile.touchable = true;
-			obstacleTile.addEventListener(TouchEvent.TOUCH, onTiberiumClicked);
-		}
-		
-		private function onTiberiumClicked(e:TouchEvent):void 
-		{
-			var end:Touch    = e.getTouch(obstacleTile, TouchPhase.ENDED);
-			
-			if(end)
-			{
-				////trace("isResource " + isResource);
-				////trace("regionNum " + regionNum);
-				////trace("walkable " + walkable);
-				////trace("occupyingUnit " + occupyingUnit)
-			}
-		}*/
+
 		
 		public function get seen():Boolean 
 		{
@@ -101,11 +83,11 @@ package  global.map
 			{
 				if (prevSeen == false && shoreTile)
 				{
-					Parameters.mapHolder.addChildAt(shoreTile,1);
+					Board.mapContainerArr[Board.OBSTACLE_LAYER].addChildAt(shoreTile,0);
 				}
 				if (prevSeen == false && cliffTile)
 				{
-					Parameters.mapHolder.addChild(cliffTile);
+					Board.mapContainerArr[Board.OBSTACLE_LAYER].addChildAt(cliffTile,0);
 				}
 				
 				if (groundTile)

@@ -4,6 +4,7 @@
 	import flash.utils.getTimer;
 	import global.enums.Agent;
 	import global.enums.MouseStates;
+	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.ui.hud.TeamBuildManager;
 	import global.utilities.GlobalEventDispatcher;
@@ -240,7 +241,7 @@
 		public function beginDrawingRectangle(x:Number, y:Number):void 
 		{
 			recSelector.beginDrawing(x, y);
-			Parameters.mapHolder.addChild(recSelector);
+			Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(recSelector);
 			recSelector.x = x;
 			recSelector.y = y;
 			
@@ -268,7 +269,7 @@
 			startDragCircle.x = x;
 			startDragCircle.y = y;
 			startDragCircle.visible = true;
-			Parameters.mapHolder.addChild(startDragCircle);
+			Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(startDragCircle);
 		}
 		
 		
@@ -402,7 +403,7 @@
 					hitMC.currentFrame = 1;
 					hitMC.addEventListener(Event.COMPLETE, onHitmcComplete);
 					hitMC.play();
-					Parameters.mapHolder.addChild(hitMC);
+					Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(hitMC);
 					hitMC.y = (targetRow * Parameters.tileSize) + (Parameters.tileSize/2);
 					hitMC.x = (targetCol * Parameters.tileSize) + (Parameters.tileSize/2);
 				}
@@ -431,7 +432,7 @@
 		
 		private function onHitmcComplete(e:Event):void
 		{
-			Parameters.mapHolder.removeChild(hitMC);
+			hitMC.removeFromParent();
 			hitMC.stop();
 		}
 			

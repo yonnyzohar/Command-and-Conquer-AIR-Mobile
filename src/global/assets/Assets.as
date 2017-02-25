@@ -1257,7 +1257,7 @@ package global.assets
                     hasBib: true,
                     hitPoints: 1e3,
                     armor: 1,
-                    dependency: ["construction-yard", "power-plant", "refinery", "vehicle-factory"],
+                    dependency: ["construction-yard", "power-plant", "refinery"],
                     owner: "both",
                     spriteImages: [{
                         name: "healthy",

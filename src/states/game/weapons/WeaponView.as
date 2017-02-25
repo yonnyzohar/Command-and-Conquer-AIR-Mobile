@@ -7,6 +7,7 @@ package  states.game.weapons
 	import com.greensock.TweenMax;
 	import flash.geom.Point;
 	import global.GameSounds;
+	import global.map.mapTypes.Board;
 	import global.Methods;
 	import global.pools.Pool;
 	import global.utilities.CircleRadiusBuilder;
@@ -113,7 +114,7 @@ package  states.game.weapons
 				destRow = _destRow;
 				destCol = _destCol;
 				
-				Parameters.upperTilesLayer.addChild(projectileMC);
+				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(projectileMC);
 				projectileMC.rotation = 0;
 				projectileMC.stop();
 				Starling.juggler.add(projectileMC);
@@ -272,7 +273,7 @@ package  states.game.weapons
 						smokeMC.addEventListener(Event.COMPLETE, onMCComplte);
 						smokeMC.scaleX = smokeMC.scaleY = Parameters.gameScale;
 						smokeMC.touchable = false;
-						Parameters.upperTilesLayer.addChild(smokeMC);
+						Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(smokeMC);
 						smokeMC.currentFrame = int(Math.random() * smokeMC.numFrames);
 						Starling.juggler.add(smokeMC);
 						smokeMC.play();
@@ -377,7 +378,7 @@ package  states.game.weapons
 			}
 			if (explosionMC )
 			{
-				Parameters.upperTilesLayer.addChild(explosionMC);
+				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(explosionMC);
 				explosionMC.x = targetX - ((offsetX * Parameters.gameScale) / 2);
 				explosionMC.y = targetY - ((offsetY * Parameters.gameScale) / 2);
 				//explosionMC.x += (explosionMC.width / 2);
@@ -405,7 +406,7 @@ package  states.game.weapons
 		{
 			Starling.juggler.remove(explosionMC);
 			explosionMC.removeEventListener(Event.COMPLETE, onExplosionComplete);
-			Parameters.upperTilesLayer.removeChild(explosionMC);
+			Board.mapContainerArr[Board.EFFECTS_LAYER].removeChild(explosionMC);
 		}
 		
 		public function dispose():void 

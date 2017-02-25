@@ -4,6 +4,7 @@ package  states.game.weapons
 	import com.greensock.easing.Linear;
 	import flash.geom.Point;
 	import global.GameSounds;
+	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.Methods;
 	import global.pools.Pool;
@@ -128,7 +129,7 @@ package  states.game.weapons
 						piffPiff.currentFrame = 0;
 						piffPiff.visible = true;
 						Starling.juggler.add(piffPiff);
-						Parameters.upperTilesLayer.addChild(piffPiff);
+						Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(piffPiff);
 						piffPiff.play();
 						inflictDamadge();
 					}
@@ -140,7 +141,7 @@ package  states.game.weapons
 							{
 								shape = new Shape();
 							}
-							Parameters.upperTilesLayer.addChild(shape);
+							Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(shape);
 							shape.alpha = 1;
 							shape.x = shooterView.x;
 							shape.y = shooterView.y;

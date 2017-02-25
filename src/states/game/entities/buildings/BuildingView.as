@@ -2,6 +2,7 @@ package states.game.entities.buildings
 {
 	import global.GameAtlas;
 	import global.GameSounds;
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import global.utilities.GameTimer;
 	import starling.core.Starling;
@@ -190,7 +191,7 @@ package states.game.entities.buildings
 				explosionAnim.touchable = false;
 				explosionAnim.addEventListener(Event.COMPLETE, onExplosionComplte);
 				explosionAnim.scaleX = explosionAnim.scaleY = Parameters.gameScale;
-				Parameters.mapHolder.addChild(explosionAnim);
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(explosionAnim);
 				Starling.juggler.add(explosionAnim);
 				explosionAnim.x = x;// + (width / 2);
 				explosionAnim.y = y;// + (height / 2);

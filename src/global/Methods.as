@@ -4,6 +4,7 @@ package global
 	import flash.system.Capabilities;
 	import flash.utils.Dictionary;
 	import global.enums.AiBehaviours;
+	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.pools.Pool;
 	import global.pools.PoolElement;
@@ -397,7 +398,7 @@ package global
 				}
 				else
 				{
-					Parameters.upperTilesLayer.addChild(smokeMC);
+					Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(smokeMC);
 				}
 				
 				smokeMC.currentFrame = int(Math.random() * smokeMC.numFrames);

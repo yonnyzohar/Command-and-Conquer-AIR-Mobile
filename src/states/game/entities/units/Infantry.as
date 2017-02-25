@@ -3,6 +3,7 @@
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	import global.GameAtlas;
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -87,7 +88,7 @@
 				deathMC.touchable = false;
 				deathMC.addEventListener(Event.COMPLETE, onDeathComplte);
 				deathMC.scaleX = deathMC.scaleY = Parameters.gameScale;
-				Parameters.mapHolder.addChild(deathMC);
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(deathMC);
 				Starling.juggler.add(deathMC);
 				deathMC.x = view.x;// + (width / 2);
 				deathMC.y = view.y;// + (height / 2);

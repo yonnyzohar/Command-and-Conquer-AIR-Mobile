@@ -6,6 +6,7 @@
 	import flash.geom.Point;
 	import global.assets.Assets;
 	import global.GameAtlas;
+	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.Parameters;
 	import global.ui.hud.HUD;
@@ -770,7 +771,7 @@
 						shoreCliffObstacle.y = node.row * Parameters.tileSize;
 						shoreCliffObstacle.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
 						shoreCliffObstacle.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
-						Parameters.mapHolder.addChild(shoreCliffObstacle);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(shoreCliffObstacle);
 						
 					}
 					if (_phase == "move")
@@ -826,7 +827,7 @@
 						node.cliffTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
 						node.cliffTile.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
 						node.cliffTile.name = n;
-						Parameters.mapHolder.addChild(node.cliffTile);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(node.cliffTile);
 					}
 				}
 				
@@ -864,7 +865,7 @@
 						shoreCliffObstacle.y = node.row * Parameters.tileSize;
 						shoreCliffObstacle.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
 						shoreCliffObstacle.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
-						Parameters.mapHolder.addChild(shoreCliffObstacle);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(shoreCliffObstacle);
 						
 					}
 					if (_phase == "move")
@@ -920,7 +921,7 @@
 						node.shoreTile.width = o[0].length * Parameters.tileSize;// * Parameters.gameScale;
 						node.shoreTile.height = o.length * Parameters.tileSize;// * Parameters.gameScale;
 						node.shoreTile.name = n;
-						Parameters.mapHolder.addChild(node.shoreTile);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(node.shoreTile);
 					}
 				}
 				
@@ -969,7 +970,7 @@
 						node.obstacleTile.scaleX = node.obstacleTile.scaleY = Parameters.gameScale;
 						node.obstacleTile.name = n;
 						node.num = currentNum;
-						Parameters.mapHolder.addChild(node.obstacleTile);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(node.obstacleTile);
 					}
 				}
 				

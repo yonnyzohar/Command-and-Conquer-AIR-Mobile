@@ -1,5 +1,6 @@
 package global.map
 {
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import states.game.entities.GameEntity;
 
@@ -27,7 +28,7 @@ package global.map
 						ent.model.row >= Parameters.screenDisplayArea.row &&
 						ent.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
 						{
-							Parameters.mapHolder.addChild(ent.view);
+							Board.mapContainerArr[Board.UNITS_LAYER].addChild(ent.view);
 						}
 					}
 					
@@ -35,7 +36,10 @@ package global.map
 				}
 				else
 				{
-					if(allUnits[i].view.parent)Parameters.mapHolder.addChild(allUnits[i].view);
+					if (allUnits[i].view.parent)
+					{
+						Board.mapContainerArr[Board.OBSTACLE_LAYER].addChild(allUnits[i].view);
+					}
 				}
 			}
 			

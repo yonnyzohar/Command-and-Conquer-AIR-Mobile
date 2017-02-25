@@ -43,8 +43,17 @@
 		public var useImg:Boolean = true;
 		private var textures:Vector.<Texture>;
 		
-
 		
+		
+		public static var mapContainerArr:Array;
+		
+		public static const GROUND_LAYER:int = 0;
+		public static const OBSTACLE_LAYER:int = 1;
+		public static const UNITS_LAYER:int = 2;
+		public static const EFFECTS_LAYER:int = 3;
+		
+		
+
 		public function Board()
 		{
 			
@@ -69,6 +78,7 @@
 				Parameters.tileSize = getTileSize(); 
 			}
 			
+			mapContainerArr = [new Sprite(), new Sprite(), new Sprite(), new Sprite()];
 			Parameters.mapWidth = Parameters.numCols * Parameters.tileSize;
 			Parameters.mapHeight = Parameters.numRows * Parameters.tileSize;
 			
@@ -231,7 +241,7 @@
 					
 					if (drawType == Board.DRAW_TYPE_ALL_TILES)
 					{
-						Parameters.mapHolder.addChildAt(n.groundTile,0);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChildAt(n.groundTile,0);
 					}
 					
 				}
@@ -430,7 +440,7 @@
 						
 						if (drawType == Board.DRAW_TYPE_ALL_TILES)
 						{
-							Parameters.mapHolder.addChild(node.obstacleTile);
+							Board.mapContainerArr[Board.OBSTACLE_LAYER].addChild(node.obstacleTile);
 						}
 						
 						wallImg = null;
@@ -513,7 +523,7 @@
 						destSquare.alpha = 0.4;
 						destSquare.x = col * Parameters.tileSize;
 						destSquare.y = row * Parameters.tileSize;
-						Parameters.mapHolder.addChild(destSquare);
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(destSquare);
 					}
 				}
 			}

@@ -3,6 +3,7 @@ package global.ui.hud
 	import flash.geom.Point;
 	import global.enums.Agent;
 	import global.enums.MouseStates;
+	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.Parameters;
 	import global.utilities.GlobalEventDispatcher;
@@ -96,7 +97,7 @@ package global.ui.hud
 			
 			if (teamObj.agent == Agent.HUMAN)
 			{
-				Parameters.upperTilesLayer.addChild(view);
+				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(view);
 				MouseStates.currentState = MouseStates.PLACE_BUILDING;
 				Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
 			}

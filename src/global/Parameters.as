@@ -35,10 +35,8 @@ package global
 		public static var humanTeam:Array = [];
 		public static var currentSquad:Array;
 		
-		public static var mapHolder:Sprite;
-		public static var upperTilesLayer:Sprite = new Sprite();
-		
-		public static var gameHolder:Sprite;
+		public static var gameHolder:Sprite; // holds everything
+		public static var mapHolder:Sprite;// holds units
 		
 		public static var gameScale:Number = 1;
 		

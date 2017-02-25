@@ -42,7 +42,7 @@
 		private var firstTime:Boolean = true;
 		private var ease:int = 8;
 		
-		private var groundHolder:Sprite = new Sprite();
+		
 		
 		private static var FLATTEN_SCREEN:Boolean = false;
 		static private var instance:MapMover = new MapMover();
@@ -51,6 +51,10 @@
 		private var lastY:int = 0;
 		private var diffX:Number = 0;
 		private var diffY:Number = 0;
+		private var myTimeout:int;
+		private var startDragX:int = 0;
+		private var startDragY:int = 0;
+		
 		private static var sHelperPoint:Point = new Point();
 		private static var sHelperPoint2:Point = new Point();
 		private static var sHelperPoint3:Point = new Point();
@@ -92,9 +96,7 @@
 		
 		/////////////////////////
 		
-		private var myTimeout:int;
-		private var startDragX:int = 0;
-		private var startDragY:int = 0;
+		
 		
 		
 		private function onStageTouch(e:TouchEvent):void
@@ -308,7 +310,6 @@
 				showHideUnits(Parameters.pcTeam);
 			}
 			
-			Parameters.mapHolder.addChild(Parameters.upperTilesLayer);
 		
 		}
 		
@@ -344,8 +345,10 @@
 				}
 				
 				if (FLATTEN_SCREEN)
-					groundHolder.flatten(); // - Starling 1_7;
-				Parameters.mapHolder.addChildAt(groundHolder, 0);
+				{
+					
+					Board.mapContainerArr[Board.GROUND_LAYER].flatten(); // - Starling 1_7;
+				}
 			}
 			else
 			{
@@ -436,8 +439,10 @@
 					}
 					
 					if (FLATTEN_SCREEN)
-						groundHolder.flatten() // - Starling 1_7;
-					Parameters.mapHolder.addChildAt(groundHolder, 0);
+					{
+						
+						Board.mapContainerArr[Board.GROUND_LAYER].flatten() // - Starling 1_7;
+					}
 					
 				}
 			}
@@ -479,35 +484,27 @@
 				var n:Node = Node(Parameters.boardArr[row][col]);
 				
 
-					if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
+				if (Board.drawType == Board.DRAW_TYPE_ONLY_CENTER)
+				{
+					if (n.groundTile)
 					{
-						if (n.groundTile)
-						{
-							groundHolder.addChildAt(n.groundTile,0);
-						}
-						if (n.obstacleTile)
-						{
-							if (n.isResource)
-							{
-								Parameters.mapHolder.addChild(n.obstacleTile);
-							}
-							else
-							{
-								Parameters.mapHolder.addChild(n.obstacleTile);
-							}
-							
-							
-						}
-						if (n.shoreTile && n.seen)
-						{
-							Parameters.mapHolder.addChild(n.shoreTile);
-						}
-						
-						if (n.cliffTile && n.seen)
-						{
-							Parameters.mapHolder.addChild(n.cliffTile);
-						}
+						Board.mapContainerArr[Board.GROUND_LAYER].addChild(n.groundTile);
 					}
+					if (n.obstacleTile)
+					{
+						Board.mapContainerArr[Board.OBSTACLE_LAYER].addChild(n.obstacleTile);
+						
+					}
+					if (n.shoreTile && n.seen)
+					{
+						Board.mapContainerArr[Board.OBSTACLE_LAYER].addChildAt(n.shoreTile,0);
+					}
+					
+					if (n.cliffTile && n.seen)
+					{
+						Board.mapContainerArr[Board.OBSTACLE_LAYER].addChildAt(n.cliffTile,0);
+					}
+				}
 			}
 		}
 		
@@ -535,7 +532,7 @@
 					{
 						if (entView.parent == null)
 						{
-							Parameters.mapHolder.addChild(entView);
+							Board.mapContainerArr[Board.UNITS_LAYER].addChild(entView);
 						}
 						
 					}
@@ -596,10 +593,35 @@
 		public function dispose():void 
 		{
 			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
-			groundHolder = new Sprite();
+			
+			var numChildreLeft:int = Board.mapContainerArr[Board.GROUND_LAYER].numChildren; 
+			if (numChildreLeft)
+			{
+				for (var j:int = numChildreLeft-1; j >= 0; j-- )
+				{
+					var child = Board.mapContainerArr[Board.GROUND_LAYER].getChildAt(j);
+					child.removeFromParent();
+					child = null;
+				}
+			}
+			
+
+			Board.mapContainerArr[Board.GROUND_LAYER] = new Sprite();
 			prevRow = -1;
 			prevCol = -1;
 			firstTime = true;
+			KeyboardController.getInstance().disable();
+			lastX = 0;
+			lastY = 0;
+			diffX = 0;
+			diffY = 0;
+			startDragX = 0;
+			startDragY = 0;
+			
+			sHelperPoint = new Point();
+			sHelperPoint2 = new Point();
+			sHelperPoint3 = new Point();
+			clearTimeout(myTimeout)
 		}
 		
 		

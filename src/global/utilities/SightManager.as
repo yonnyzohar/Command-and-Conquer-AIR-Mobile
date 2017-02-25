@@ -1,6 +1,7 @@
 ﻿package global.utilities
 {
 	import global.enums.Agent;
+	import global.map.mapTypes.Board;
 	import global.map.Node;
 	import global.Parameters;
 	import starling.display.Quad;
@@ -53,7 +54,7 @@
 						q.y = Parameters.tileSize * n.row;
 						q.touchable = false;
 						q.alpha = 0.1;
-						Parameters.upperTilesLayer.addChild(q);
+						Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(q);
 					}
 					
 				}

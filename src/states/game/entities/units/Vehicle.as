@@ -1,6 +1,7 @@
 package  states.game.entities.units
 {
 	import global.GameAtlas;
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -49,7 +50,7 @@ package  states.game.entities.units
 			{
 				explosionMC = GameAtlas.createMovieClip(deathAnimation);
 				explosionMC.touchable = false;
-				Parameters.mapHolder.addChild(explosionMC);
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(explosionMC);
 				explosionMC.scaleX = explosionMC.scaleY = Parameters.gameScale;
 				explosionMC.x = view.x; 
 				explosionMC.y = view.y;
@@ -67,7 +68,7 @@ package  states.game.entities.units
 		{
 			Starling.juggler.remove(explosionMC);
 			explosionMC.removeEventListener(Event.COMPLETE, onExplosionComplete);
-			Parameters.mapHolder.removeChild(explosionMC);
+			explosionMC.removeFromParent();
 		}
 		
 	

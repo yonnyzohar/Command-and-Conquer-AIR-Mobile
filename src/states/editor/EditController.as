@@ -216,7 +216,7 @@
 				currentImage.model.owner = owner;
 				
 				currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
-				Parameters.mapHolder.addChild(currentImage);
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(currentImage);
 			}
 			catch (e:Error)
 			{

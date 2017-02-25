@@ -1,6 +1,7 @@
 package states.game.uiTests
 {
 	
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	
 	import starling.display.Quad;
@@ -27,7 +28,7 @@ package states.game.uiTests
 				return;	
 			}
 			var q:Quad = new Quad(Parameters.tileSize, Parameters.tileSize, 0xffff00);
-			Parameters.mapHolder.addChild(q);
+			Board.mapContainerArr[Board.GROUND_LAYER].addChild(q);
 			q.x = Parameters.tileSize * col;
 			q.y = Parameters.tileSize * row;
 			q.alpha = 0.2;

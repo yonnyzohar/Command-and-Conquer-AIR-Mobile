@@ -1,5 +1,6 @@
 package states.game.weapons
 {
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import global.GameAtlas;
 	
@@ -25,7 +26,7 @@ package states.game.weapons
 		
 		override protected function doneShot():void 
 		{
-			Parameters.mapHolder.addChild(explosionMC);
+			Board.mapContainerArr[Board.UNITS_LAYER].addChild(explosionMC);
 			explosionMC.x = targetX;
 			explosionMC.x -= explosionMC.width / 2;
 			explosionMC.y = targetY;

@@ -8,6 +8,7 @@ package states.game.teamsData
 	import global.enums.UnitStates;
 	import global.GameAtlas;
 	import global.GameSounds;
+	import global.map.mapTypes.Board;
 	import global.map.SpiralBuilder;
 	import global.Methods;
 	import global.Parameters;
@@ -134,7 +135,7 @@ package states.game.teamsData
 					}
 					
 					ent.addEventListener("DEAD", onDead);
-					Parameters.mapHolder.addChild(ent.view);
+					Board.mapContainerArr[Board.UNITS_LAYER].addChild(ent.view);
 					
 					if (curType == "startBuildings" || curType == "startTurrets")
 					{
@@ -380,7 +381,7 @@ package states.game.teamsData
 			if (p)
 			{
 				p.addEventListener("DEAD", onDead);
-				Parameters.mapHolder.addChild(p.view);
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 				
 				team.push(p);
 				p.sayHello();
@@ -422,7 +423,7 @@ package states.game.teamsData
 			
 			p.addEventListener("DEAD", onDead);
 			p.addEventListener("SOLD", onSold);
-			Parameters.mapHolder.addChild(p.view);
+			Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 			team.push(p);
 			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
 			
@@ -477,7 +478,7 @@ package states.game.teamsData
 				}
 				
 				p.addEventListener("DEAD", onDead);
-				Parameters.mapHolder.addChild(p.view);
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 				
 				team.push(p);
 				p.sayHello();
@@ -589,7 +590,7 @@ package states.game.teamsData
 			var soldier:Infantry = new Infantry(InfantryStats.dict["minigunner"], this, enemyTeam, teamNum);
 			var placementsArr:Array = SpiralBuilder.getSpiral(row, col, 1);
 			soldier.placeUnit(placementsArr[0].row, placementsArr[0].col);
-			Parameters.mapHolder.addChild(soldier.view);
+			Board.mapContainerArr[Board.UNITS_LAYER].addChild(soldier.view);
 			team.push(soldier);
 			soldier.addEventListener("DEAD", onDead);
 			if(searchAndDestroy)soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);

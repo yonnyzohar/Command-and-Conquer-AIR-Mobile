@@ -3,6 +3,7 @@ package states.game.entities
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
 	import global.enums.AiBehaviours;
+	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import global.enums.Agent;
 	import global.enums.UnitStates;
@@ -185,7 +186,7 @@ package states.game.entities
 				q.y = Parameters.tileSize * proposedRow;
 				q.touchable = false;
 				q.alpha = 0.2;
-				Parameters.upperTilesLayer.addChild(q);
+				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(q);
 			}
 
 			allTilesDict[proposedRow + "_" + proposedCol] = {quad : q, node : n};

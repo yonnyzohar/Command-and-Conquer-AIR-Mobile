@@ -91,6 +91,8 @@ package states.game
 		{
 			LevelManager.currentlevelData = LevelManager.getLevelData(_levelNum);
 			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
+			
+			
 		}
 		
 		private function onLoadAssetsComplete():void
@@ -102,6 +104,10 @@ package states.game
 			
 			baordMC = Board.getInstance();
 			baordMC.init(false);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.GROUND_LAYER]);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.OBSTACLE_LAYER]);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.UNITS_LAYER]);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.EFFECTS_LAYER]);
 			
 			addTeams();
 			
@@ -336,10 +342,6 @@ package states.game
 			baordMC.dispose();
 			
 			
-			
-			
-			Parameters.mapHolder.removeFromParent();
-			Parameters.upperTilesLayer.removeFromParent();
 			Parameters.humaTeamObject = null;
 			teamslisting.dispose();
 			teamslisting = null;
@@ -363,10 +365,20 @@ package states.game
 			BGSoundManager.stopAllSounds();
 			Parameters.currentSquad = null;
 			TweenMax.killAll();
-			removeAllChildren([Parameters.gameHolder, Parameters.mapHolder,Parameters.upperTilesLayer]);
+			removeAllChildren([Parameters.gameHolder, Parameters.mapHolder , Board.mapContainerArr[Board.GROUND_LAYER], Board.mapContainerArr[Board.OBSTACLE_LAYER], Board.mapContainerArr[Board.UNITS_LAYER],Board.mapContainerArr[Board.EFFECTS_LAYER] ]);
 			GameTimer.getInstance().dispose();
 			
-		}
+			Board.mapContainerArr[Board.GROUND_LAYER].removeFromParent();
+			Board.mapContainerArr[Board.UNITS_LAYER].removeFromParent();
+			Board.mapContainerArr[Board.EFFECTS_LAYER].removeFromParent();
+			Board.mapContainerArr[Board.OBSTACLE_LAYER].removeFromParent();
+			
+			Board.mapContainerArr[Board.GROUND_LAYER] = null;
+			Board.mapContainerArr[Board.OBSTACLE_LAYER] = null;
+			Board.mapContainerArr[Board.UNITS_LAYER] = null;
+		    Board.mapContainerArr[Board.EFFECTS_LAYER] = null;
+		   Board.mapContainerArr = null;
+		  }
 		
 		private function removeAllChildren(a:Array):void 
 		{
