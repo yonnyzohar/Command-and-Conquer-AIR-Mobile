@@ -66,6 +66,8 @@ package  global.map
 			}
 		}
 		
+		
+		
 		/*public function listenTile():void
 		{
 			obstacleTile.touchable = true;
@@ -165,6 +167,40 @@ package  global.map
 			{
 				Node.CHANGE_MADE_TO_MAP = true;
 			}
+		}
+		
+		public function dispose():void 
+		{
+			if (groundTile)
+			{
+				groundTile.dispose();
+				groundTile.removeFromParent();
+				groundTile = null;
+			}
+			
+			if (obstacleTile)
+			{
+				obstacleTile.dispose();
+				obstacleTile.removeFromParent();
+				obstacleTile = null;
+			}
+			
+			if (shoreTile)
+			{
+				shoreTile.dispose();
+				shoreTile.removeFromParent();
+				shoreTile = null;
+			}
+			
+			if (cliffTile)
+			{
+				cliffTile.dispose();
+				cliffTile.removeFromParent();
+				cliffTile = null;
+			}
+			
+
+			occupyingUnit = null;
 		}
 		
 	}

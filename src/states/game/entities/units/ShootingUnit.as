@@ -8,6 +8,7 @@ package  states.game.entities.units
 	import global.Parameters;
 	import global.utilities.SightManager;
 	import states.game.entities.buildings.Building;
+	import states.game.entities.buildings.Turret;
 	import states.game.entities.EntityModel;
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.views.FullCircleView;
@@ -168,7 +169,18 @@ package  states.game.entities.units
 		{
 			if (model.stats.weapon)
 			{
-				currentEnemy = Methods.findClosestTargetOnMap(this, false, true)
+				if (currentEnemy == null)
+				{
+					currentEnemy = Methods.findClosestTargetOnMap(this, false, true)
+				}
+				else
+				{
+					if (currentEnemy is Building && ((currentEnemy is Turret) == false))
+					{
+						currentEnemy = Methods.findClosestTargetOnMap(this, false, true);
+					}
+				}
+				
 			}
 			return super.hurt(_hitVal, _currentInfantryDeath, projectileName);
 		}

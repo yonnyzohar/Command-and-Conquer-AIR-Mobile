@@ -105,37 +105,8 @@
 					for (var col:int = 0; col < boardLen1; col++ )
 					{
 						n =  Parameters.boardArr[row][col];
-						if (n.groundTile)
-						{
-							n.groundTile.dispose();
-							n.groundTile.removeFromParent();
-							n.groundTile = null;
-						}
+						n.dispose();
 						
-						if (n.obstacleTile)
-						{
-							n.obstacleTile.dispose();
-							n.obstacleTile.removeFromParent();
-							n.obstacleTile = null;
-						}
-						
-						if (n.shoreTile)
-						{
-							n.shoreTile.dispose();
-							n.shoreTile.removeFromParent();
-							n.shoreTile = null;
-						}
-						
-						if (n.cliffTile)
-						{
-							n.cliffTile.dispose();
-							n.cliffTile.removeFromParent();
-							n.cliffTile = null;
-						}
-						
-						
-						
-						n.occupyingUnit = null;
 						n = null;
 					}
 				}

@@ -9,6 +9,7 @@
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.KeyboardController;
 	import global.utilities.MapMover;
+	import states.game.entities.buildings.BuildingView;
 	import states.game.entities.units.ShootingUnit;
 	import states.game.teamsData.TeamObject;
 	
@@ -361,8 +362,12 @@
 					{
 						//trace"alright already!");
 						p = Parameters.currentSquad[0];
-						playHitAnim = true;
 						p.onDestinationReceived(targetRow, targetCol);
+						if (p.myTeamObj)
+						{
+							playHitAnim = highlightAttackBuilding(targetRow, targetCol, p.myTeamObj.teamName);
+						}
+						
 					}
 				}
 				else
@@ -381,8 +386,12 @@
 						else
 						{
 							p = Parameters.currentSquad[i];
-							p.onDestinationReceived(placementsArr[i].row, placementsArr[i].col, (i==0));
-							playHitAnim = true;
+							p.onDestinationReceived(placementsArr[i].row, placementsArr[i].col, (i == 0));
+							if (p.myTeamObj)
+							{
+								playHitAnim = highlightAttackBuilding(targetRow, targetCol, p.myTeamObj.teamName);
+							}
+							
 						}
 					}
 				}
@@ -400,6 +409,24 @@
 				
 				
 			}
+		}
+		
+		private function highlightAttackBuilding(targetRow:int, targetCol:int, teamName:String):Boolean 
+		{
+			var n:Node = Node(Parameters.boardArr[targetRow][targetCol]);
+			var showHitAnim:Boolean = true;
+			var u:GameEntity;
+			if(n.occupyingUnit)
+			{
+				u = n.occupyingUnit;
+				
+				if (u is Building && u && u.model && u.myTeamObj.teamName != teamName)
+				{
+					BuildingView(u.view).highlightBuilding();
+					showHitAnim = false;
+				}
+			}
+			return showHitAnim;
 		}
 		
 		private function onHitmcComplete(e:Event):void

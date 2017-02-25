@@ -1,5 +1,6 @@
 package global.map
 {
+	import global.utilities.GameTimer;
 	import starling.display.MovieClip;
 	import starling.textures.Texture;
 	/**
@@ -24,6 +25,18 @@ package global.map
 			obstacleTile.currentFrame = (obstacleTile.numFrames-1);
 			obstacleTile.touchable = false;
 			obstacleTile.visible = true;
+			GameTimer.getInstance().addUser(this);
+		}
+		
+		public function update(_pulse:Boolean):void
+		{
+			if (_pulse)
+			{
+				if (quantity < totalQuantity)
+				{
+					reduceResource(-1);
+				}
+			}
 		}
 		
 		public function setLowerStartPoint(_reduce:int):void
@@ -44,20 +57,34 @@ package global.map
 		{
 			quantity -=_harvestAmount;
 			var totalFrames:int = (obstacleTile.numFrames-1)
-			if (quantity >= 0)
+			if (quantity > 0)
 			{
-				var decreased:int = totalQuantity - (totalQuantity - quantity);
-				var decreasedPer:Number = decreased / totalQuantity;
-				var frame:int  = totalFrames  * decreasedPer;
-
-				//////trace(frame)
-				obstacleTile.currentFrame = int(frame );
+				if (quantity <= totalQuantity)
+				{
+					var decreased:int = totalQuantity - (totalQuantity - quantity);
+					var decreasedPer:Number = decreased / totalQuantity;
+					var frame:int  = totalFrames  * decreasedPer;
+					isResource = true;
+					//////trace(frame)
+					obstacleTile.currentFrame = int(frame );
+					if (obstacleTile.alpha == 0)
+					{
+						obstacleTile.alpha = 1;
+					}
+				}
+				
+				
 			}
 			else
 			{
-				obstacleTile.removeFromParent();
+				obstacleTile.alpha = 0;
 				isResource = false;
 			}
+		}
+		override public function dispose():void 
+		{
+			GameTimer.getInstance().removeUser(this);
+			super.dispose();
 		}
 	}
 

@@ -71,7 +71,7 @@
 			{
 				ui = TemplateLoader.get("HudUI");
 				ui.nodSymbolMC.visible = false;
-				//ui.powerGridMC
+				//
 				
 				cashUi = TemplateLoader.get("CashContMC")
 				Parameters.gameHolder.addChild(cashUi);
@@ -323,7 +323,15 @@
 				
 				powerGreenMC.y = 0;
 				powerGreenMC.height = totalPowerOut;
-				powerGreenMC.y -= totalPowerOut;
+				var pushUp:int = totalPowerOut;
+				
+				if (powerGreenMC.height > ui.powerGridMC.height)
+				{
+					powerGreenMC.height = ui.powerGridMC.height;
+					pushUp = ui.powerGridMC.height;
+				}
+				
+				powerGreenMC.y -= pushUp;
 				
 				if (powerMC == null)
 				{

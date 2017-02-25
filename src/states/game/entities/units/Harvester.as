@@ -33,7 +33,7 @@ package  states.game.entities.units
 		private var isFull:Boolean = false;
 		private var loadingBegan:Boolean = false;
 		protected var storageBar:HarvesterStorage ;
-		public static var HARVEST_AMOUNT:int = 5;
+		public static var HARVEST_AMOUNT:int = 8;
 		
 		public function Harvester(_unitStats:VehicleStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
 		{

@@ -1353,7 +1353,7 @@ package global.assets
                     hasBib: true,
                     hitPoints: 600,
                     armor: 1,
-                    dependency: ["construction-yard", "power-plant"],
+                    dependency: ["construction-yard", "power-plant", "communications-center"],
                     owner: "both",
                     spriteImages: [{
                         name: "build",
