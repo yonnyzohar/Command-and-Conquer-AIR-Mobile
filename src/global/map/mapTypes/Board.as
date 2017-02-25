@@ -613,6 +613,7 @@
 			GameTimer.getInstance().removeUser(this);
 			destroyMap()
 			mapMover.dispose();
+			textures = null;
 		}
 		
 

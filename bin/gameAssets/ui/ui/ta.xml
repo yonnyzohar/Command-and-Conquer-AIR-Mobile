@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+	<!-- Created with Adobe Animate version 16.0.1.119 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="hitMC0000" x="0" y="0" width="41" height="41" pivotX="32" pivotY="32" frameX="-12" frameY="-12" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0001" x="41" y="0" width="35" height="34" frameX="-15" frameY="-16" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0002" x="76" y="0" width="29" height="30" frameX="-18" frameY="-18" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0003" x="105" y="0" width="35" height="34" frameX="-15" frameY="-16" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0004" x="140" y="0" width="42" height="42" frameX="-11" frameY="-12" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0005" x="182" y="0" width="48" height="48" frameX="-8" frameY="-9" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0006" x="230" y="0" width="53" height="54" frameX="-6" frameY="-6" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0007" x="283" y="0" width="57" height="58" frameX="-4" frameY="-4" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0008" x="340" y="0" width="61" height="60" frameX="-2" frameY="-3" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0009" x="401" y="0" width="63" height="63" frameX="-1" frameY="-1" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0010" x="464" y="0" width="65" height="64" frameX="0" frameY="-1" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0011" x="529" y="0" width="65" height="65"/>
+	<SubTexture name="hitMC0012" x="594" y="0" width="63" height="63" frameX="-1" frameY="-1" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0013" x="657" y="0" width="65" height="64" frameX="0" frameY="-1" frameWidth="65" frameHeight="65"/>
+	<SubTexture name="hitMC0014" x="722" y="0" width="65" height="65"/>
+	<SubTexture name="loadingSquare0000" x="787" y="0" width="4" height="40" pivotX="39.35" pivotY="39.35" frameX="-35" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0001" x="791" y="0" width="6" height="40" frameX="-33" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0002" x="797" y="0" width="9" height="40" frameX="-30" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0003" x="806" y="0" width="10" height="40" frameX="-29" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0004" x="816" y="0" width="13" height="40" frameX="-26" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0005" x="829" y="0" width="16" height="40" frameX="-23" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0006" x="845" y="0" width="19" height="40" frameX="-20" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0007" x="864" y="0" width="22" height="40" frameX="-17" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0008" x="886" y="0" width="25" height="40" frameX="-14" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0009" x="911" y="0" width="29" height="40" frameX="-10" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0010" x="940" y="0" width="33" height="40" frameX="-6" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0011" x="973" y="0" width="37" height="40" frameX="-2" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0012" x="0" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0013" x="39" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0014" x="78" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0015" x="117" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0016" x="156" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0017" x="195" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0018" x="234" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0019" x="273" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0020" x="312" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0021" x="351" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0022" x="390" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0023" x="429" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0024" x="468" y="65" width="39" height="40" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0025" x="507" y="65" width="39" height="42" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0026" x="546" y="65" width="39" height="45" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0027" x="585" y="65" width="39" height="47" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0028" x="624" y="65" width="39" height="50" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0029" x="663" y="65" width="39" height="53" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0030" x="702" y="65" width="39" height="55" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0031" x="741" y="65" width="39" height="58" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0032" x="780" y="65" width="39" height="61" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0033" x="819" y="65" width="39" height="65" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0034" x="858" y="65" width="39" height="68" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0035" x="897" y="65" width="39" height="72" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0036" x="936" y="65" width="39" height="77" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0037" x="975" y="65" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0038" x="0" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0039" x="39" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0040" x="78" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0041" x="117" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0042" x="156" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0043" x="195" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0044" x="234" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0045" x="273" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0046" x="312" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0047" x="351" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0048" x="390" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0049" x="429" y="144" width="39" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0050" x="468" y="144" width="41" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0051" x="509" y="144" width="44" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0052" x="553" y="144" width="46" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0053" x="599" y="144" width="49" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0054" x="648" y="144" width="52" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0055" x="700" y="144" width="54" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0056" x="754" y="144" width="57" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0057" x="811" y="144" width="61" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0058" x="872" y="144" width="64" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0059" x="936" y="144" width="68" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0060" x="0" y="223" width="71" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0061" x="71" y="223" width="76" height="79" frameX="0" frameY="0" frameWidth="78" frameHeight="79"/>
+	<SubTexture name="loadingSquare0062" x="147" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0063" x="225" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0064" x="303" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0065" x="381" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0066" x="459" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0067" x="537" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0068" x="615" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0069" x="693" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0070" x="771" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0071" x="849" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0072" x="927" y="223" width="78" height="79"/>
+	<SubTexture name="loadingSquare0073" x="0" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0074" x="78" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0075" x="156" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0076" x="234" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0077" x="312" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0078" x="390" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0079" x="468" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0080" x="546" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0081" x="624" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0082" x="702" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0083" x="780" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0084" x="858" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0085" x="936" y="302" width="78" height="79"/>
+	<SubTexture name="loadingSquare0086" x="0" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0087" x="78" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0088" x="156" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0089" x="234" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0090" x="312" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0091" x="390" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0092" x="468" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0093" x="546" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0094" x="624" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0095" x="702" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0096" x="780" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0097" x="858" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0098" x="936" y="381" width="78" height="79"/>
+	<SubTexture name="loadingSquare0099" x="0" y="460" width="78" height="79"/>
+	<SubTexture name="loadingSquare0100" x="0" y="460" width="78" height="79"/>
+	<SubTexture name="missionAccomplished0000" x="78" y="460" width="184" height="47" pivotX="0" pivotY="0"/>
+	<SubTexture name="missionFailed0000" x="262" y="460" width="98" height="47" pivotX="0" pivotY="0"/>
+	<SubTexture name="redX0000" x="360" y="460" width="22" height="23" pivotX="0" pivotY="0"/>
+	<SubTexture name="selectorCircle0000" x="382" y="460" width="20" height="14" pivotX="1" pivotY="1"/>
+	<SubTexture name="startDragCircle0000" x="402" y="460" width="15" height="14" pivotX="23.75" pivotY="23.75" frameX="-17" frameY="-17" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0001" x="417" y="460" width="19" height="18" frameX="-15" frameY="-15" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0002" x="436" y="460" width="23" height="22" frameX="-13" frameY="-13" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0003" x="459" y="460" width="25" height="26" frameX="-12" frameY="-11" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0004" x="484" y="460" width="29" height="30" frameX="-10" frameY="-9" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0005" x="513" y="460" width="33" height="33" frameX="-8" frameY="-8" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0006" x="546" y="460" width="37" height="37" frameX="-6" frameY="-6" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0007" x="583" y="460" width="41" height="41" frameX="-4" frameY="-4" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0008" x="624" y="460" width="45" height="45" frameX="-2" frameY="-2" frameWidth="49" frameHeight="48"/>
+	<SubTexture name="startDragCircle0009" x="669" y="460" width="49" height="48"/>
+	<SubTexture name="vButton0000" x="718" y="460" width="22" height="23" pivotX="0" pivotY="0"/>
+</TextureAtlas>

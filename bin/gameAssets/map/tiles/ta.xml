@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ta.png">
+	<!-- Created with Adobe Animate version 16.0.1.119 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="grass0000" x="0" y="0" width="20" height="20" pivotX="0" pivotY="0"/>
+	<SubTexture name="grass0001" x="20" y="0" width="20" height="20"/>
+	<SubTexture name="grass0002" x="40" y="0" width="20" height="20"/>
+	<SubTexture name="grass0003" x="60" y="0" width="20" height="20"/>
+	<SubTexture name="grass0004" x="80" y="0" width="20" height="20"/>
+	<SubTexture name="grass0005" x="100" y="0" width="20" height="20"/>
+	<SubTexture name="grass0006" x="0" y="20" width="20" height="20"/>
+	<SubTexture name="grass0007" x="20" y="20" width="20" height="20"/>
+	<SubTexture name="grass0008" x="40" y="20" width="20" height="20"/>
+	<SubTexture name="grass0009" x="60" y="20" width="20" height="20"/>
+	<SubTexture name="water0000" x="80" y="20" width="21" height="20" pivotX="0" pivotY="0"/>
+	<SubTexture name="water0001" x="101" y="20" width="21" height="20"/>
+	<SubTexture name="water0002" x="0" y="40" width="21" height="20"/>
+</TextureAtlas>

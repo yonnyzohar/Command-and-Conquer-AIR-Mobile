@@ -49,18 +49,14 @@
 			stage.addEventListener(flash.events.MouseEvent.RIGHT_CLICK, onRightMouseClicked);
 			
 			setTimeout(initStarlingContext,1000);
+	
 		}
 		
 		private function initStarlingContext():void
 		{
-			var screenWidth:int = stage.stageWidth;//fullScreenWidth;
-			var screenHeight:int = stage.stageHeight;//fullScreenHeight;
+			var screenWidth:int = stage.stageWidth;
+			var screenHeight:int = stage.stageHeight;
 			var viewPort:Rectangle = new Rectangle(0, 0, screenWidth, screenHeight);
-			
-			/*var viewPort:Rectangle = RectangleUtil.fit(
-			new Rectangle(0, 0, stage.stageWidth, stage.stageHeight), 
-			new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), 
-			ScaleMode.SHOW_ALL);*/
 			
 			Starling.handleLostContext = true;  //- Starling 1_7;
 			//Starling.multitouchEnabled = true;
@@ -75,6 +71,7 @@
 		
 		private function onRootCreated(e:starling.events.Event):void 
 		{
+			_starling.removeEventListener(starling.events.Event.ROOT_CREATED, onRootCreated );
 			_starling.start();
 			Starling.current.addEventListener(starling.events.Event.CONTEXT3D_CREATE, onContext3DEventCreate);
 		}
@@ -87,7 +84,7 @@
 			{
 				Methods.rightClickFNCTN();
 			}
-			onContext3DEventCreate();
+			//onContext3DEventCreate();
 			
 		}
 		

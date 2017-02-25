@@ -78,8 +78,8 @@
 		private static var stopMe:Boolean = false;
 		private static var workerInstance:ByteArray;
 		
-		private static var mapMC:MapMC;
-		private static var uiMC:UIAssets;
+		//private static var mapMC:MapMC;
+		//private static var uiMC:UIAssets;
 		
 		public static function reset():void
 		{
@@ -117,18 +117,18 @@
 			var scale:Number = 1;
 			
 			//load the map - currently from FLA
-			mapMC = new MapMC();
+			/*mapMC = new MapMC();
 			var b:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(mapMC, 1, 0, true, true);
 			sharedTextures.push(b);
-			b = null;
+			b = null;*/
 			
 			//load the left side ui - currently from FLA
-			uiMC = new UIAssets()
+			/*uiMC = new UIAssets()
 			var d:starling.textures.TextureAtlas = DynamicAtlas.fromMovieClipContainer(uiMC, 1, 0, true, true);
-			sharedTextures.push(d);
-			d = null;
-			mapMC = null;
-			uiMC = null;
+			sharedTextures.push(d);*/
+			//d = null;
+			//mapMC = null;
+			//uiMC = null;
 			
 			assetNames.splice(0);
 			
@@ -152,7 +152,12 @@
 				map:[
 					"trees",
 					"shores",
-					"ridges"
+					"ridges",
+					"tiles"
+					
+				],
+				ui:[
+					"ui"
 				]
 				
 			}
