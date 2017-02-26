@@ -582,6 +582,15 @@
 			render(true)
 		}
 		
+		public function forceMoveMap(x:int, y:int):void
+		{
+			Parameters.mapHolder.x = x;
+			Parameters.mapHolder.y = y;
+			
+			render(true)
+			moveMiniMap();
+		}
+		
 		public function focusOnItem(x:int, y:int):void
 		{
 			var xPer:Number = x / Parameters.mapWidth;

@@ -85,6 +85,7 @@ package global.ai
 		{
 			pcTeamObj = teamObj;
 			
+			
 			createProbabilityArr();
 			
 			//buildQueue

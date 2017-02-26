@@ -8,7 +8,7 @@ package  states.game.entities
 	public class HealthBar extends Sprite
 	{
 		private var totalHealth:Number;
-		private var currentHealth:Number = 100;
+		public var currentHealth:Number = 100;
 		
 		private var frameMC:Quad;
 		private var greenMC:Quad;

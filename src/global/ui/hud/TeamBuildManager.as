@@ -66,7 +66,7 @@ package global.ui.hud
 			
 			
 			
-			hud = new HUD(teamStartParams.Agent == Agent.HUMAN, teamObj);
+			hud = new HUD(teamObj.agent == Agent.HUMAN, teamObj);
 			
 			hud.init();
 			
@@ -83,23 +83,35 @@ package global.ui.hud
 		
 		public function updateUnitsAndBuildings(_assetName:String):Boolean
 		{
-			var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
-			var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
-			var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
-			var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
-			var newConstriuctionOptions:Boolean = hud.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+			if (BuildingsStats.dict[_assetName])
+			{
+				var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
+				var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
+				var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
+				var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
+				var newConstriuctionOptions:Boolean = hud.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
+				
+				return newConstriuctionOptions;
+			}
+			else
+			{
+				return false; 
+			}
 			
-			return newConstriuctionOptions;
 			
 		}
 		
 		public function removeDependantUnitsAndBuildings(_assetName:String):void 
 		{
-			var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
-			var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
-			var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
-			var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
-			hud.removeUnitsAndBuildings(infantry, vehicles, buildings, turrets)
+			if (BuildingsStats.dict[_assetName])
+			{
+				var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
+				var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
+				var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
+				var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
+				hud.removeUnitsAndBuildings(infantry, vehicles, buildings, turrets)
+			}
+			
 		}
 		
 		private function getAvaliableInfantry(_buildings:Array):Object
@@ -111,12 +123,13 @@ package global.ui.hud
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
+				var type:String = BuildingsStats.dict[buildingName].buildingType;
 				
 				for (k in InfantryStats.dict)
 				{
 					var curUnit:InfantryStatsObj = InfantryStats.dict[k];
 					
-					if (curUnit.constructedIn.indexOf(buildingName) != -1)
+					if (curUnit.constructedIn.indexOf(type) != -1)
 					{
 						if (curUnit.tech <= LevelManager.currentlevelData.tech)
 						{
@@ -159,6 +172,7 @@ package global.ui.hud
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
+				var type:String = BuildingsStats.dict[buildingName].buildingType;
 				
 				for (k in VehicleStats.dict)
 				{
@@ -166,7 +180,7 @@ package global.ui.hud
 					
 					if (curVehicle.dependency)
 					{
-						if (curVehicle.constructedIn.indexOf(buildingName) != -1)
+						if (curVehicle.constructedIn.indexOf(type) != -1)
 						{
 							if (curVehicle.tech <= LevelManager.currentlevelData.tech)
 							{
@@ -240,13 +254,14 @@ package global.ui.hud
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
+				var type:String = BuildingsStats.dict[buildingName].buildingType;
 				
 				
 				for (k in TurretStats.dict)
 				{
 					var curTurret:TurretStatsObj = TurretStats.dict[k];
 					
-					if (curTurret.dependency.indexOf(buildingName) != -1)
+					if (curTurret.dependency.indexOf(type) != -1)
 					{
 						if (curTurret.tech <= LevelManager.currentlevelData.tech)
 						{
@@ -291,6 +306,7 @@ package global.ui.hud
 			{
 				var obj:Object = _buildings[i];
 				var buildingName:String = obj["name"];
+				var type:String = BuildingsStats.dict[buildingName].buildingType;
 				
 				
 				for (k in BuildingsStats.dict)
@@ -299,7 +315,7 @@ package global.ui.hud
 					
 					if (curBuilding.dependency)
 					{
-						if (curBuilding.dependency.indexOf(buildingName) != -1)
+						if (curBuilding.dependency.indexOf(type) != -1)
 						{
 							if (curBuilding.tech <= LevelManager.currentlevelData.tech)
 							{

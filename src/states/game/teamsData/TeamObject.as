@@ -1,6 +1,7 @@
 package states.game.teamsData
 {
 	import com.greensock.TweenLite;
+	import flash.net.ObjectEncoding;
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
 	import global.enums.Agent;
@@ -43,17 +44,22 @@ package states.game.teamsData
 		private var targetBalance:int;
 		public var team:Array;
 		public var enemyTeam:Array;
-		private var teamNum:int;
+		public var teamNum:int;
 		
 		public var buildManager:TeamBuildManager;
 		public var cash:int;
 		public var powerCtrl:PowerController;
-		private var startParams:Object;
+		public var startParams:Object;
 		private var enemyTeam1Obj:TeamObject;
 		public var teamBuildingsDict:Dictionary = new Dictionary();
+		
 		private var cashToAdd:int = 0;
 		
-		public function TeamObject(_startParams:Object, _teamNum:int)
+		public var UNITS_COLOR:uint;
+		public var BUILDINGS_COLOR:uint;
+		
+		
+		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object)
 		{
 			startParams = _startParams;
 			ai = startParams.AiBehaviour;
@@ -62,9 +68,73 @@ package states.game.teamsData
 			cash = startParams.cash;
 			
 			teamNum = _teamNum;
+			UNITS_COLOR = colorsObj.UNITS;
+			BUILDINGS_COLOR = colorsObj.BUILDINGS;
 			
+		}
+		
+		public function getSaveObj():Object
+		{
+			/*{
+			"tech":5,
+			"numTiles":70,
 			
+			"team2":{
+				"startVehicles":[
+				{"name":"light-tank","col":60,"row":56}
+				],
+			"Agent":1,
+			"teamName":"nod",
+			"cash":5000,
+			"startBuildings":[
+			{"name":"construction-yard","col":55,"row":60}
+			],
+		"AiBehaviour":2,
+		"startTurrets":[],
+		"startUnits":[
+			{"name":"minigunner","col":57,"row":57},
+			{"name":"minigunner","col":56,"row":58},
+			{"name":"minigunner","col":58,"row":58}
+			]
+		}*/
+		
+			var o:Object = { };
+			o.AiBehaviour = ai;
+			o.Agent = agent;
+			o.teamName = teamName;
+			o.cash = cash;
+			o.teamNum = teamNum;
+			var teamLen:int = team.length;
+			o.startVehicles = [];
+			o.startTurrets = [];
+			o.startUnits = [];
+			o.startBuildings = [];
+			for (var i:int = 0; i < teamLen; i++ )
+			{
+				var u:GameEntity = team[i];
+				var stats:Object = {"row" : u.model.row, "col" : u.model.col, "health" : u.getHealth(), "ai" : u.aiBehaviour, "uniqueID" : u.uniqueID, "name" : u.name}
+				if (u is Infantry)
+				{
+					o.startUnits.push(stats)
+				}
+				if (u is Vehicle)
+				{
+					o.startVehicles.push(stats)
+				}
+				if (u is Building)
+				{
+					if (u is Turret)
+					{
+						o.startTurrets.push(stats)
+					}
+					else
+					{
+						o.startBuildings.push(stats)
+					}
+				}
+			}
 			
+			return o;
 		}
 		
 		public function init(_myTeam:Array, _enemyTeam:Array):void
@@ -145,6 +215,17 @@ package states.game.teamsData
 					placementsArr = SpiralBuilder.getSpiral(selRow, selCol, 1);
 					ent.placeUnit(placementsArr[0].row, placementsArr[0].col);
 					team.push(ent);
+					
+					if (obj.health)
+					{
+						ent.setHealth(obj.health);
+					}
+					
+					
+					if (obj.ai)
+					{
+						ent.changeAI(obj.ai);
+					}
 					
 					if (curType == "startBuildings")
 					{

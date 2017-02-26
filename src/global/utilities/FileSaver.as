@@ -8,7 +8,7 @@ package global.utilities
 	public class FileSaver
 	{
 		private var newFileStream:FileStream = new FileStream();
-		private var outputDir:File = File.desktopDirectory;
+		private var outputDir:File = File.applicationStorageDirectory;
 		private var outputFile:File;
 		
 		static private var instance:FileSaver = new FileSaver();
@@ -29,9 +29,19 @@ package global.utilities
 		public function save(fileName:String, fileConts:String):void
 		{
 			outputFile = outputDir.resolvePath(fileName);
-			newFileStream.openAsync (outputFile, FileMode.WRITE);
+			newFileStream.openAsync(outputFile, FileMode.WRITE);
 			newFileStream.writeUTFBytes(fileConts);
+			newFileStream.close();
+			trace("SAVED!")
+		}
+		
+		public function load(fileName:String):String
+		{
+			outputFile = outputDir.resolvePath(fileName);
+			newFileStream.open(outputFile,FileMode.READ);
+			var contents:String = newFileStream.readUTFBytes(newFileStream.bytesAvailable);
 			newFileStream.close ();
+			return contents;
 			
 		}
 	}

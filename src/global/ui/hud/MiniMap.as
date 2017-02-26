@@ -22,6 +22,7 @@
 	import states.game.entities.buildings.BuildingModel;
 	import states.game.entities.GameEntity;
 	import states.game.stats.BuildingsStatsObj;
+	import states.game.teamsData.TeamObject;
 	
 	public class MiniMap extends Sprite
 	{
@@ -38,10 +39,8 @@
 		private var COLOR_WATER:uint = 0x33adff;
 		private var COLOR_GROUND:uint = 0x339933;
 		private var COLOR_OBSTACLES:uint = 0x006600;
-		private var TEAM_1_UNITS:uint = 0xffff66;
-		private var TEAM_1_BUILDINGS:uint = 0xffcc00;
-		private var TEAM_2_UNITS:uint = 0xff9966;
-		private var TEAM_2_BUILDINGS:uint = 0xff6600;
+		
+		
 		
 		private var mapWidth:int;
 		private var mapHeight:int;
@@ -210,10 +209,16 @@
 			
 
 			var humanTeamLength:int =  Parameters.humanTeam.length;
+			var teamObj:TeamObject;
 			
 			for (var i:int = 0; i < humanTeamLength; i++ )
 			{
 				g = Parameters.humanTeam[i];
+				if (teamObj == null)
+				{
+					teamObj = g.myTeamObj;
+				}
+				
 				
 				if (!Parameters.editMode)
 				{
@@ -236,20 +241,25 @@
 							
 							if (curTile == 1)
 							{
-								drawPixel( g.model.row + row, g.model.col+ col, tileSize,  TEAM_1_BUILDINGS, mapBd);
+								drawPixel( g.model.row + row, g.model.col+ col, tileSize,  teamObj.BUILDINGS_COLOR, mapBd);
 							}
 						}
 					}
 				}
 				else
 				{
-					drawPixel( g.model.row, g.model.col, tileSize,  TEAM_1_UNITS,  mapBd);
+					drawPixel( g.model.row, g.model.col, tileSize,  teamObj.UNITS_COLOR,  mapBd);
 				}
 			}
+			teamObj = null;
 			
 			for (i = 0; i < Parameters.pcTeam.length; i++ )
 			{
 				g = Parameters.pcTeam[i];
+				if (teamObj == null)
+				{
+					teamObj = g.myTeamObj;
+				}
 				if (!Parameters.editMode)
 				{
 					if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
@@ -271,14 +281,14 @@
 							
 							if (curTile == 1)
 							{
-								drawPixel( g.model.row + row, g.model.col + col,tileSize,  TEAM_2_BUILDINGS,  mapBd);
+								drawPixel( g.model.row + row, g.model.col + col,tileSize,  teamObj.BUILDINGS_COLOR,  mapBd);
 							}
 						}
 					}
 				}
 				else
 				{
-					drawPixel(  g.model.row, g.model.col,tileSize,  TEAM_2_UNITS,  mapBd);
+					drawPixel(  g.model.row, g.model.col,tileSize,  teamObj.UNITS_COLOR,  mapBd);
 				}
 			}
 			

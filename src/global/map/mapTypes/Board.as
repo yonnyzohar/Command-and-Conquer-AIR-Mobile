@@ -42,7 +42,7 @@
 		private var mapMover:MapMover;
 		public var useImg:Boolean = true;
 		private var textures:Vector.<Texture>;
-		
+		private var tiberiumTiles:Array = [];
 		
 		
 		public static var mapContainerArr:Array;
@@ -67,6 +67,8 @@
 		{
 			return instance;
 		}
+		
+		
 		
 
 		
@@ -292,7 +294,7 @@
 			resourceNodes = { };
 			
 			//trace"createWallsAndTrees");
-			var tiberiumTiles:Array = [];
+			
 			var createWalls:int = 0;
 			var wallImg:Image;
 			var node:Node;
@@ -594,7 +596,56 @@
 			GameTimer.getInstance().removeUser(this);
 			destroyMap()
 			mapMover.dispose();
+			tiberiumTiles = [];
 			textures = null;
+		}
+		
+		public function getResources():Array 
+		{
+			var a:Array = [];
+			for (var i:int = 0; i < tiberiumTiles.length; i++ )
+			{
+				var resourceNode:ResourceNode = ResourceNode(tiberiumTiles[i])
+				a.push({"row" : resourceNode.row, "col" : resourceNode.col, "quantity" : resourceNode.quantity})
+			}
+			return a;
+		}
+		
+		public function getVisibleTiles():Array 
+		{
+			var a:Array = [];
+			var n:Node;
+			if (Parameters.boardArr)
+			{
+				var boardLen:int = Parameters.boardArr.length;
+				for (var row:int = 0; row < boardLen; row++ )
+				{
+					var boardLen1:int = Parameters.boardArr[row].length;
+					for (var col:int = 0; col < boardLen1; col++ )
+					{
+						n =  Parameters.boardArr[row][col];
+						if (n.seen)
+						{
+							a.push({"row" : n.row, "col" : n.col});
+						}
+					}
+				}
+			}
+			return a;
+		}
+		
+		public function showVisibleTiles(a:Array):void 
+		{
+			var n:Node;
+			var o:Object;
+			var len:int = a.length;
+			for (var i:int = 0; i < len; i++ )
+			{
+				o = a[i];
+				n =  Parameters.boardArr[o.row][o.col];
+				n.seen = true;
+			}
+			mapMover.render(true);
 		}
 		
 

@@ -10,6 +10,7 @@ package
 	import global.Parameters;
 	import global.GameAtlas;
 	import global.pools.PoolsManager;
+	import global.utilities.FileSaver;
 	import global.utilities.GlobalEventDispatcher;
 	import starling.text.TextField;
 	import states.game.stats.BuildingsStats;
@@ -20,6 +21,7 @@ package
 	import states.game.stats.VehicleStats;
 	import states.game.stats.WarheadStats;
 	import states.game.stats.WeaponStats;
+	import states.MenuScreen;
 	import states.startScreen.EditMenuScreen;
 	
 	import starling.display.Quad;
@@ -46,6 +48,7 @@ package
 		private var dymanicTaCreator:DynamicTaCreator;
 		
 		private var tf:starling.text.TextField;
+		private var menu:MenuScreen;
 		
 		
 		public function Main()
@@ -117,11 +120,27 @@ package
 			startScreen = new StartScreen();
 			//startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
 			startScreen.addEventListener("GAME_CLICKED", onGameClicked);
+			startScreen.addEventListener("LOAD_CLICKED", onLoadClicked);
 			
 			addChild(startScreen.view);
 			startScreen.view.width = Parameters.flashStage.stageWidth;
 			startScreen.view.height = Parameters.flashStage.stageHeight;
 			
+		}
+		
+		private function onLoadClicked(e:starling.events.Event):void 
+		{
+			var file:String = FileSaver.getInstance().load("save.json");
+			var saveObj:Object = JSON.parse(file);
+			
+			removeStartScreen();
+			Parameters.editMode = false;
+			Parameters.editLoad = false;
+			game = new Game();
+			game.init(saveObj.levelNum, saveObj.playerSide, saveObj);
+			addChildAt(Parameters.mapHolder,0);
+			game.addEventListener("LEAVE_MISSION", onLeaveMission);
+			menu = new MenuScreen();
 		}
 		
 		private function onEditClicked(e:starling.events.Event):void
@@ -213,12 +232,17 @@ package
 		private function onGameClicked(e:starling.events.Event = null):void
 		{
 			removeStartScreen();
-			if (e != null) Parameters.editMode = false;
+			Parameters.editMode = false;
 			Parameters.editLoad = false;
 			game = new Game();
-			game.init(0);
+			game.init(0, e.data.playerSide);
 			addChildAt(Parameters.mapHolder,0);
 			game.addEventListener("LEAVE_MISSION", onLeaveMission);
+			menu = new MenuScreen();
+			
+			
+			
+			
 		}
 		
 		private function onLeaveMission(e:starling.events.Event):void 

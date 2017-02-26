@@ -35,7 +35,7 @@ package global
 		public static var humanTeam:Array = [];
 		public static var currentSquad:Array;
 		
-		public static var gameHolder:Sprite; // holds everything
+		public static var gameHolder:Main; // holds everything
 		public static var mapHolder:Sprite;// holds units
 		
 		public static var gameScale:Number = 1;
@@ -53,9 +53,19 @@ package global
 		
 		static public var useFilters:Boolean = false;
 		
-		
+		static public var pcTeamObject:TeamObject;
 		static public var humaTeamObject:TeamObject;
 		static public var editLoad:Boolean = false;
+		
+		static public var team1Colors:Object = {
+			UNITS : 0xffcc00,
+			BUILDINGS : 0xffcc00
+		};
+		
+		static public var team2Colors:Object = {
+			UNITS : 0xff6600,
+			BUILDINGS : 0xff6600
+		};
 		
 		
 	}

@@ -250,6 +250,10 @@ package  states.game.weapons
 			for (var i:int = 0; i < currentBulletsLen; i++ )
 			{
 				var b:PoolElement = currentBullets[i];
+				if (b == null)
+				{
+					return;
+				}
 				var angle:Number = Math.atan2(dy, dx);
 			
 				if (speed <= 0)

@@ -54,6 +54,19 @@ package states.game.entities
 			aiBehaviour = _newAi;
 		}
 		
+		public function getHealth():int
+		{
+			return model.totalHealth;
+		}
+		
+		public function setHealth(health:int):void 
+		{
+			var helathDelta:int = (model.totalHealth - health);
+			trace(model.totalHealth, health);
+			model.totalHealth = health;
+			healthBar.hurt(helathDelta);
+		}
+		
 		public function update(_pulse:Boolean):void
 		{
 			if (model != null && model.dead == false)
@@ -218,6 +231,8 @@ package states.game.entities
 			occupyTile(model.row, model.col);
 		}
 		
+		
+		
 
 		
 		public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
@@ -356,6 +371,8 @@ package states.game.entities
 		public function end():void{}
 		
 		public function onDestinationReceived(targetRow:int, targetCol:int,_first:Boolean = true):void{}
+		
+		
 		
 		
 	}

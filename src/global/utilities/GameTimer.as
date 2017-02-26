@@ -104,20 +104,9 @@ package global.utilities
 		
 		public function resumeTimer():void
 		{
-			var len:int = 0;
+			Parameters.theStage.addEventListener(Event.ENTER_FRAME, update);
 			
-			for(var k:String in updatables)
-			{
-				len++;
-			}
-			
-			if(len == 0)
-			{
-				Parameters.theStage.addEventListener(Event.ENTER_FRAME, update);
-			}
 		}
-		
-
 	}
 }
 

@@ -6,6 +6,7 @@ package states.game
 	import flash.events.DataEvent;
 	import global.ai.AIController;
 	import global.BGSoundManager;
+	import global.enums.AiBehaviours;
 	import global.GameAtlas;
 	import global.GameSounds;
 	import global.map.mapTypes.Board;
@@ -66,31 +67,46 @@ package states.game
 		private var finalMessage:MovieClip;
 		private var team1Obj:TeamObject;
 		private var team2Obj:TeamObject;
-		
+		public var playerSide:int;
+		public var levelNum:int;
+		private var savedObject:Object;
 
 		public function Game() 
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(1);
+			setSpeed(2);
 		}
 		
 		private function setSpeed(number:Number):void 
 		{
+			Parameters.CASH_INCREMENT = 2;
+			Harvester.HARVEST_AMOUNT = 10;
+			Parameters.UNIT_MOVE_FACTOR = 0.2;
+			
 			//unit move
 			Parameters.CASH_INCREMENT *= number;
 			Harvester.HARVEST_AMOUNT *= number;
-			Parameters.UNIT_MOVE_FACTOR  /= number;
+			Parameters.UNIT_MOVE_FACTOR  *= number;
 			
 			trace("CASH_INCREMENT " + Parameters.CASH_INCREMENT);
 			trace("HARVEST_AMOUNT " + Harvester.HARVEST_AMOUNT);
 			trace("UNIT_MOVE_FACTOR " + Parameters.UNIT_MOVE_FACTOR);
 		}
 		
-		public function init(_levelNum:int):void 
+		public function init(_levelNum:int, _playerSide:int, _savedObject:Object = null):void 
 		{
+			levelNum   = _levelNum;
+			playerSide = _playerSide;
+			savedObject = _savedObject;
 			LevelManager.currentlevelData = LevelManager.getLevelData(_levelNum);
-			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
+			var dataObj:Object = LevelManager.currentlevelData;
+			if (savedObject)
+			{
+				dataObj = savedObject;
+			}
+			
+			LevelManager.loadRelevantAssets(dataObj, onLoadAssetsComplete);
 			
 			
 		}
@@ -104,6 +120,12 @@ package states.game
 			
 			baordMC = Board.getInstance();
 			baordMC.init(false);
+			
+			Board.mapContainerArr[Board.GROUND_LAYER].touchable = false;
+			Board.mapContainerArr[Board.OBSTACLE_LAYER].touchable = false;
+			Board.mapContainerArr[Board.UNITS_LAYER].touchable = false;
+			Board.mapContainerArr[Board.EFFECTS_LAYER].touchable = false;
+			
 			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.GROUND_LAYER]);
 			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.OBSTACLE_LAYER]);
 			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.UNITS_LAYER]);
@@ -117,9 +139,20 @@ package states.game
 			Parameters.theStage.addChild(teamslisting.view);
 			teamslisting.view.x = Parameters.theStage.stageWidth - teamslisting.view.width;
 			
-			fixOnBase();
+			
+			if (savedObject)
+			{
+				MapMover.getInstance().forceMoveMap(savedObject.currX, savedObject.currY);
+			}
+			else
+			{
+				fixOnBase();
+			}
+			
 			SightManager.getInstance().init();
 			BGSoundManager.playBGSound();
+			
+			
 			
 			
 			//SightManager.getInstance().showAllSightSquares();
@@ -137,8 +170,17 @@ package states.game
 			var teamsData:Object;
 			var b:Building;
 			
-			team1Obj = new TeamObject(LevelManager.currentlevelData.team1, 1);
-			team2Obj = new TeamObject(LevelManager.currentlevelData.team2, 2);
+			var team1StartObj:Object = LevelManager.currentlevelData.team1;
+			var team2StartObj:Object = LevelManager.currentlevelData.team2;
+			
+			if (savedObject)
+			{
+				team1StartObj = savedObject.team1;
+				team2StartObj = savedObject.team2;
+			}
+			
+			team1Obj = new TeamObject(team1StartObj, 1, Parameters.team1Colors);
+			team2Obj = new TeamObject(team2StartObj, 2, Parameters.team2Colors);
 			
 			team1Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
 			team2Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
@@ -152,27 +194,51 @@ package states.game
 			
 			aiController = new AIController();
 			
+			if (playerSide == 1)
+			{
+				team1Obj.agent = Agent.HUMAN;
+				team1Obj.ai = AiBehaviours.SELF_DEFENSE;
+				
+				team2Obj.agent = Agent.PC;
+				team2Obj.ai = AiBehaviours.BASE_DEFENSE;
+			}
+			else
+			{
+				
+				team1Obj.agent = Agent.PC;
+				team1Obj.ai = AiBehaviours.BASE_DEFENSE;
+				
+				team2Obj.agent = Agent.HUMAN;
+				team2Obj.ai = AiBehaviours.SELF_DEFENSE;
+			}
+			
 			
 			if(team1Obj.agent == Agent.HUMAN)
 			{
 				Parameters.humaTeamObject = team1Obj;
+				Parameters.pcTeamObject= team2Obj;
 				team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
 				team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
 				aiController.applyAI(team2Obj);
+				
 			}
 			else if(team2Obj.agent == Agent.HUMAN)
 			{
+				
 				Parameters.humaTeamObject = team2Obj;
+				Parameters.pcTeamObject= team1Obj;
 				team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
 				team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
 				aiController.applyAI(team1Obj);
 			}
 			
 			
-			
-			
-			
 			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
+			
+			if (savedObject)
+			{
+				Board.getInstance().showVisibleTiles(savedObject.visibleTiles);
+			}
 		}
 		
 		private function onAssetDestroyed(e:Event):void 
@@ -210,7 +276,7 @@ package states.game
 			
 		}
 		
-		private function freezeGame():void
+		public function freezeGame():void
 		{
 			GameTimer.getInstance().freezeTimer();
 			MapMover.getInstance().freeze();
@@ -219,6 +285,14 @@ package states.game
 			Parameters.humaTeamObject.buildManager.hud.buildingsContainer.freeze();
 		}
 		
+		
+		public function resumeGame():void {
+			GameTimer.getInstance().resumeTimer();
+			MapMover.getInstance().resume();
+			UnitSelectionManager.getInstance().resume();
+			Parameters.humaTeamObject.buildManager.hud.unitsContainer.resume();
+			Parameters.humaTeamObject.buildManager.hud.buildingsContainer.resume();
+		}
 		
 		private function showMissionFailed():void 
 		{
@@ -343,6 +417,7 @@ package states.game
 			
 			
 			Parameters.humaTeamObject = null;
+			Parameters.pcTeamObject = null;
 			teamslisting.dispose();
 			teamslisting = null;
 			aiController.dispose();

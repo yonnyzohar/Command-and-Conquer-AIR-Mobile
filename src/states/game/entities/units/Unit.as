@@ -302,9 +302,20 @@ package states.game.entities.units
 				
 				if (UnitModel(model).inWayPoint)
 				{
-					stopMovingAndSplicePath();
-					getWalkPath(targetRow, targetCol);
-					setState(UnitStates.WALK);
+					if(model.controllingAgent == Agent.HUMAN)
+					{
+						stopMovingAndSplicePath();
+						resetRowCol()
+						getWalkPath(targetRow, targetCol);
+						setState(UnitStates.WALK);
+					}
+					else 
+					{
+						stopMovingAndSplicePath();
+						getWalkPath(targetRow, targetCol);
+						setState(UnitStates.WALK);
+					}
+					
 				}
 				else
 				{
