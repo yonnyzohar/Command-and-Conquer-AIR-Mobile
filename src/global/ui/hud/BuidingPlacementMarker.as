@@ -5,6 +5,7 @@ package global.ui.hud
 	import global.enums.MouseStates;
 	import global.map.mapTypes.Board;
 	import global.map.Node;
+	import global.Methods;
 	import global.Parameters;
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.SightManager;
@@ -15,6 +16,7 @@ package global.ui.hud
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import states.game.entities.buildings.Building;
 	import states.game.stats.BuildingsStats;
 	import states.game.stats.TurretStats;
 	import states.game.teamsData.TeamObject;
@@ -194,6 +196,71 @@ package global.ui.hud
 			}
 			
 			//trace("foundValidPlace " + foundValidPlace + " " + used);
+		}
+		
+		//this is for AI!!!
+		public function getValidPlacementClosestToEnemy():void
+		{
+			var randomEnemyBuildingNode:Node = getRandomEneyBuilding();
+			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
+			var foundValidPlace:Boolean = false;
+			var baseNodesLen:int = allBaseNodes.length;
+			var count:int = 0;
+			var used:Array = [];
+			var shortestDist:int = 100000;
+			var closestTile:Node;
+			
+			for (var i:int = 0; i < baseNodesLen; i++ )
+			{
+				var n:Node = allBaseNodes[i];
+				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
+				if (isValidPlacementArea)
+				{
+					var dist:int = Methods.distanceTwoPoints(n.col, randomEnemyBuildingNode.col, n.row, randomEnemyBuildingNode.row);
+				
+					if (dist < shortestDist)
+					{
+						shortestDist = dist;
+						closestTile = n;
+					}
+				}
+			}
+			
+			targetCol = closestTile.col;
+			targetRow = closestTile.row;
+			foundValidPlace = true;
+			if(view)view.removeFromParent(true );
+			dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
+
+		}
+		
+		private function getRandomEneyBuilding():Node 
+		{
+			var b:Building;
+			var n:Node = Parameters.boardArr[0][0];
+			
+			for (var i:int = 0; i < teamObj.enemyTeam.length; i++ )
+			{
+				if (teamObj.enemyTeam[i] is Building)
+				{
+					b = teamObj.enemyTeam[i];
+					if (b && b.model && b.model.dead == false)
+					{
+						break;
+					}
+					else
+					{
+						b = null;
+					}
+				}
+			}
+			
+			if (b)
+			{
+				n = Parameters.boardArr[b.model.row][b.model.col];
+			}
+			
+			return n;
 		}
 		
 		

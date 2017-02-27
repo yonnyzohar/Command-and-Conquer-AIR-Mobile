@@ -65,7 +65,7 @@ package
 			{
 				var origWidth:int = 400//480;
 				MouseStates.currentState = MouseStates.REG_PLAY;
-				Parameters.gameScale = Parameters.flashStage.stageWidth / origWidth ; //stage.stageWidth / origWidth; fullScreenWidth
+				Parameters.gameScale = Parameters.flashStage.fullScreenWidth / origWidth ; //stage.stageWidth / origWidth; fullScreenWidth
 				Parameters.theStage = stage;
 				Methods.isAndroid();
 				Methods.isIOS();
@@ -85,14 +85,13 @@ package
 				Parameters.mapHolder.scaleX = Parameters.mapHolder.scaleY = 1;
 				init();
 				
-				
-				
 			},500);
 		}
 		
 		
 		private function init():void
 		{
+			Methods.printTech();
 			Parameters.gameHolder = this;
 			
 			dymanicTaCreator = new DynamicTaCreator();

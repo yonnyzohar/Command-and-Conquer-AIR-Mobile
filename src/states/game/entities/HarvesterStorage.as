@@ -12,7 +12,7 @@ package   states.game.entities
 	 
 	public class HarvesterStorage  extends Sprite
 	{
-		public var totalStore:int = 1000;
+		public var totalStore:int = 1500;
 		public var currentStore:int = 0;
 		private var numBoxes:int = 5;
 		private var currentStorage:int = 0;

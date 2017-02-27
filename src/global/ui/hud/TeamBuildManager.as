@@ -23,6 +23,7 @@ package global.ui.hud
 	import starling.events.TouchPhase;
 	import states.game.entities.buildings.Building;
 	import states.game.entities.buildings.BuildingView;
+	import states.game.entities.buildings.Turret;
 	import states.game.stats.AssetStatsObj;
 	import states.game.stats.BuildingsStatsObj;
 	import states.game.stats.InfantryStats;
@@ -220,19 +221,21 @@ package global.ui.hud
 		{
 			
 			var o:Object;
-			var creatingBuildingArr:Array = unit.constructedIn;
-			
+			var constructedInArr:Array = unit.constructedIn;
+			var currentTeamLen:int = currentTeam.length;
+			var building:Building;
 
-			outer : for (var i:int = 0; i <  currentTeam.length; i++ )
+			outer : for (var i:int = 0; i < currentTeamLen; i++ )
 			{
-				if (currentTeam[i] is Building)
+				if (currentTeam[i] is Building && (currentTeam[i] is Turret) == false)
 				{
-					var building:Building = Building(currentTeam[i]);
+					building = Building(currentTeam[i]);
 					
-					for (var j:int = 0; j < creatingBuildingArr.length; j++ )
+					for (var j:int = 0; j < constructedInArr.length; j++ )
 					{
-						var creatingBuilding:String = creatingBuildingArr[j];
-						if (creatingBuilding == building.name)
+						var creatingBuilding:String = constructedInArr[j];
+						var type:String = BuildingsStats.dict[building.name].buildingType;
+						if (creatingBuilding == type)
 						{
 							o = { "row" : building.model.row, "col" : building.model.col };
 							break outer;
@@ -380,6 +383,18 @@ package global.ui.hud
 						buildingPlacementMarker.pupulateTilesSprite(selectedSlot.assetName);
 
 					}
+					else
+					{
+						//this will never happen with AI
+						hud.buildingsContainer.selectedSlot.cancelBuild();
+						var cashRefund:int = hud.buildingsContainer.selectedSlot.currentPerNum;
+						teamObj.beginAddingCash(cashRefund);
+						hud.buildingsContainer.enableAllSlots();
+						if (teamObj.agent == Agent.HUMAN)
+						{
+							GameSounds.playSound("cancelled", "vo");
+						}
+					}
 				}
 			}
 		}
@@ -414,6 +429,18 @@ package global.ui.hud
 						selectedSlot.buildMe(onUnitComplete);
 						assetBeingBuilt(selectedSlot.assetName);
 					}
+					else
+					{
+						//this will never happen with AI
+						hud.unitsContainer.selectedSlot.cancelBuild();
+						var cashRefund:int = hud.unitsContainer.selectedSlot.currentPerNum;
+						teamObj.beginAddingCash(cashRefund);
+						hud.unitsContainer.enableSelectedSlots(hud.unitsContainer.selectedSlot.disabledSlots);
+						if (teamObj.agent == Agent.HUMAN)
+						{
+							GameSounds.playSound("cancelled", "vo");
+						}
+					}
 				}
 				else
 				{
@@ -424,6 +451,7 @@ package global.ui.hud
 					
 				}
 			}
+			
 		}
 		
 		private function onBuildingComplete(assetName:String):void

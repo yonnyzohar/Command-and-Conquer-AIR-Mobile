@@ -221,7 +221,7 @@ package global.ui.hud.slotIcons
 		
 		public function update(_pulse:Boolean):void
 		{
-			if (teamObj.getBalance() > 0 )
+			if (teamObj.getBalance() >= 0 )
 			{
 				count++;
 				if (currentPerNum < cost)
@@ -237,14 +237,20 @@ package global.ui.hud.slotIcons
 					if (showUI)
 					{
 						loadingSquare.currentFrame = per;
-						if(count % 4 == 0)GameSounds.playSound("cash", null, 0.01);
+						if (count % 4 == 0)
+						{
+							GameSounds.playSound("cash", null, 0.01);
+						}
 					}
 					
 					currentPerNum += Parameters.CASH_INCREMENT;
 				}
 				else
 				{
-					if (showUI)loadingSquare.currentFrame = 100;
+					if (showUI)
+					{
+						loadingSquare.currentFrame = 100;
+					}
 					count = 0;
 					GameTimer.getInstance().removeUser(this);
 					done();
@@ -253,6 +259,19 @@ package global.ui.hud.slotIcons
 			
 		}
 		
+		public function cancelBuild():void
+		{
+			count = 0;
+			GameTimer.getInstance().removeUser(this);
+			buildingDone = false;
+			buildInProgress = false;
+			removeUi();
+		}
+		
+		protected function removeUi():void
+		{
+			
+		}
 		
 		public function disable():void
 		{

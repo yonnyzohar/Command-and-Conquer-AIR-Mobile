@@ -24,6 +24,7 @@ package global.ai
 		private var aiJSON:Object;
 		private var pcTeamObj:TeamObject;
 		private var buildCount:int = 0;
+		private var turretCount:int = 0;
 		
 		
 		private var myUnitSlotbj:Object;
@@ -43,6 +44,7 @@ package global.ai
 		private var myInfantrySlot:SlotHolder;
 		private var myVehicleSlot:SlotHolder;
 		private var myBuildSlot:SlotHolder;
+		private var myTurretSlot:SlotHolder
 		
 		public function AIController() 
 		{
@@ -53,8 +55,13 @@ package global.ai
 						"hand-of-nod",
 						"airstrip",
 						"weapons-factory",
-						"communications-center",
-						"refinery"
+						"communications-center"
+					],
+					"turretQueue":[
+						"gun-turret",
+						"guard-tower",
+						"obelisk",
+						"advanced-guard-tower"
 					],
 					"infantryQueue":{
 						"minigunner" : 10,
@@ -142,6 +149,84 @@ package global.ai
 			
 		}
 		
+		////////////////////////////////////////////--turrets----------///////////////////////////////
+		private function buildTurrets():void 
+		{
+			if (buildingBeingBuilt)
+			{
+				return;
+			}
+			if (aiJSON.turretQueue[turretCount])
+			{
+				var currentTurretObj:AssetStatsObj = Methods.getCurretStatsObj(aiJSON.turretQueue[turretCount]);
+				if (pcTeamObj.powerCtrl.POWER_SHORTAGE)
+				{
+					return;
+				}
+				if (pcTeamObj.doesBuildingExist("refinery") == false)
+				{
+					return;
+				}
+				if (pcTeamObj.cash < currentTurretObj.cost)
+				{
+					return;
+				}
+				myTurretSlot = pcTeamObj.buildManager.hud.getSlot(currentTurretObj.name);
+				if (myTurretSlot)
+				{
+					myTurretSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onTurretCancelledAbruptly);
+					buildingBeingBuilt = true;
+					pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
+					myTurretSlot.simulateClickOnBuild();		
+				
+				}
+				else
+				{
+					turretCount++;
+				}
+			}
+			else
+			{
+				turretCount = 0;
+			}
+			
+			
+		}
+		
+		private function placeTurret(e:Event):void 
+		{
+			printAI("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
+				pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+				pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myTurretSlot.assetName);
+				pcTeamObj.buildManager.buildingPlacementMarker.getValidPlacementClosestToEnemy();
+			}
+			
+		}
+		
+		private function onTurretContructed(e:Event = null):void 
+		{
+			if (pcTeamObj)pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+			buildCount++;
+			buildingBeingBuilt = false;
+		}
+		
+		private function onTurretCancelledAbruptly(e:Event):void 
+		{
+			var slot:SlotHolder = SlotHolder(e.target);
+			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onTurretCancelledAbruptly);
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+			}
+			
+			printAI("onBuildCancelledAbruptly - building");
+			buildingBeingBuilt = false;
+		}
+		
 		////////////////////////////////////////////---BUILDINGS---------/////////////////////////////////////
 		
 		private function buildBuilding(_firstTime:Boolean = false):void 
@@ -151,7 +236,6 @@ package global.ai
 			
 			if (buildingBeingBuilt)
 			{
-				printAI(myBuildSlot.assetName + " buing built!!");
 				return;
 			}
 			if (aiJSON.buildQueue[buildCount])
@@ -558,7 +642,16 @@ package global.ai
 			if (_pulse)
 			{
 				buildUnits();
-				buildBuilding();
+				if (Math.random() > 0.5)
+				{
+					buildBuilding();
+				}
+				else
+				{
+					buildTurrets();
+				}
+				
+				
 				
 				var numUnits:int = 0;
 				var myTeam:Array = [];
@@ -596,11 +689,13 @@ package global.ai
 		}
 		
 		
+		
+		
 		private function printAI(_str:String):void
 		{
 			if (PRINT_AI_FLOW)
 			{
-				//trace(_str);
+				trace(_str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}

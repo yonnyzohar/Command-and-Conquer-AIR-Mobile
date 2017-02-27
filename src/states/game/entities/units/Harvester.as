@@ -86,7 +86,7 @@ package  states.game.entities.units
 		
 		private function handleLoadingResources(pulse:Boolean):void
 		{
-			if (loadingBegan == false)
+			if (loadingBegan == false && refinery.refinerylocked == false)
 			{
 				refinery.beginLoading(storageBar.currentStore, onLoadComplete);
 				FullCircleView(view).stopRotation();
@@ -286,6 +286,37 @@ package  states.game.entities.units
 		protected function findClosestResourceOnMap():Node
 		{
 			var closestResource:Node;
+			var quantity:int = 0;
+			//find resources around me
+			for (var i:int = -1; i <= 1; i++ )
+			{
+				for (var j:int = -1; j <= 1; j++ )
+				{
+					if (Parameters.boardArr[model.row + i] && Parameters.boardArr[model.row + i][model.col + j])
+					{
+						if (Parameters.boardArr[model.row + i][model.col + j] is ResourceNode)
+						{
+							var tile:ResourceNode = ResourceNode(Parameters.boardArr[model.row + i][model.col + j]);
+							if (tile.isResource)
+							{
+								if (tile.quantity > quantity)
+								{
+									quantity = tile.quantity;
+									closestResource = tile;
+								}
+								
+							}
+						}
+					}
+				}
+			}
+			if (closestResource)
+			{
+				return closestResource;
+			}
+			
+			
+			//else get someone on map
 			var shortestDist:int = 100000;
 			
 			for (var k:String in Board.resourceNodes)
@@ -300,8 +331,6 @@ package  states.game.entities.units
 						closestResource = n;
 					}
 				}
-				
-				
 			}
 			
 			return closestResource;

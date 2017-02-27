@@ -338,11 +338,17 @@
 			var result:Object = backToMain.receive() as Object;
 			if (result.message != "asset" )
 			{
-				if(!stopMe)Parameters.loadingScreen.progress(counter, assetNames.length, result.message)
+				if (!stopMe)
+				{
+					Parameters.loadingScreen.progress(counter, assetNames.length, result.message)
+				}
 			}
 			else
 			{
-				if(!stopMe)Parameters.loadingScreen.progress(assetNames.length, assetNames.length, "DONE!")
+				if (!stopMe)
+				{
+					Parameters.loadingScreen.progress(assetNames.length, assetNames.length, "DONE!")
+				}
 				createAtlases(result.data);
 			}
 		}

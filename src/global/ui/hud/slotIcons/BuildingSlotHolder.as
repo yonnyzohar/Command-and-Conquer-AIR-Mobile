@@ -14,13 +14,18 @@
 			super(assetName, _contextType, _teamObj, showUI);
 		}
 		
-		override protected function done():void
+		override protected function removeUi():void
 		{
 			if (view)
 			{
 				view.addChild(readyTXT);
 				readyTXT.visible = true;
 			}
+		}
+		
+		override protected function done():void
+		{
+			 removeUi();
 			
 			if (buildCompleteFunction != null)
 			{

@@ -593,6 +593,12 @@ package states.game.teamsData
 			onDead(e);
 		}
 		
+		public function beginAddingCash(_cashToAdd:int):void
+		{
+			cashToAdd +=  _cashToAdd;
+			GameTimer.getInstance().addUser(this);
+		}
+		
 		public function update(_pulse:Boolean):void
 		{
 			if (cashToAdd > 0)
@@ -686,16 +692,19 @@ package states.game.teamsData
 			var moreThanZero:Boolean = true;
 			targetBalance = cash - _reduceAmount;
 			cash = targetBalance;
+			
+			if (cash <= 0)
+			{
+				cash = 0;
+				moreThanZero = false;
+			}
+			
 			////trace(cash);
 			if (agent == Agent.HUMAN)
 			{
 				buildManager.hud.updateCashUI(cash);
 			}
 			
-			if (cash <= 0)
-			{
-				moreThanZero = false;
-			}
 			
 			return moreThanZero;
 			

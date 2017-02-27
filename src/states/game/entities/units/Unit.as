@@ -305,6 +305,7 @@ package states.game.entities.units
 					if(model.controllingAgent == Agent.HUMAN)
 					{
 						stopMovingAndSplicePath();
+						UnitView(view).shootAnimPlaying = false;
 						resetRowCol()
 						getWalkPath(targetRow, targetCol);
 						setState(UnitStates.WALK);
@@ -532,7 +533,7 @@ package states.game.entities.units
 		
 		
 		
-		
+		private var errorCount:int = 0;
 		
 		protected function travel():void 
 		{
@@ -543,9 +544,17 @@ package states.game.entities.units
 				
 				if (currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
 				{
-					//trace("found the bug in time!!");
-					//setState(UnitStates.WALK_ERROR);
-					UnitView(view).stopShootingAndStandIdlly();
+					if (errorCount < 20)
+					{
+						errorCount++;
+						UnitView(view).stopShootingAndStandIdlly();
+					}
+					else
+					{
+						errorCount = 0;
+						setState(UnitStates.WALK_ERROR);
+					}
+
 					return;
 				}
 				else

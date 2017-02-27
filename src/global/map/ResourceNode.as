@@ -20,6 +20,7 @@ package global.map
 		public function initResource(resourceTextures:Vector.<Texture>, textureFrame:int):void
 		{
 			obstacleTile = new MovieClip( resourceTextures);
+			obstacleTile.stop();
 			walkable = true;
 			isResource = true;
 			obstacleTile.currentFrame = (obstacleTile.numFrames-1);
@@ -72,11 +73,10 @@ package global.map
 						obstacleTile.alpha = 1;
 					}
 				}
-				
-				
 			}
 			else
 			{
+				quantity = 0;
 				obstacleTile.alpha = 0;
 				isResource = false;
 			}

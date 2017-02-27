@@ -21,6 +21,7 @@
 		private var currentStore:int;
 		private var loadCompleteFNCTB:Function;
 		private var HARVESTER_DOCKED:Boolean = false;
+		public var refinerylocked:Boolean = false;
 		
 		public function Refinery(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
 		{
@@ -42,6 +43,7 @@
 		
 		public function beginLoading(_currentStore:int, _loadCompleteFNCTB:Function):void 
 		{
+			
 			loadCompleteFNCTB = _loadCompleteFNCTB;
 			currentStore = _currentStore;
 			//////trace("adding " + currentStore + " CASH!")
@@ -50,15 +52,13 @@
 			BuildingView(view).mc.loop = false;
 			BuildingView(view).mc.addEventListener(Event.COMPLETE, onLoadComplete);
 			BuildingView(view).playState();
-			
+			HARVESTER_DOCKED = true;
+			refinerylocked = true;
 		}
 		
 		private function onLoadComplete(e:Event):void 
 		{
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
-			HARVESTER_DOCKED = true;
-			
-			
 		}
 		
 		override public function update(_pulse:Boolean):void
@@ -94,6 +94,7 @@
 				loadCompleteFNCTB();
 			}
 			loadCompleteFNCTB = null;
+			refinerylocked = false;
 		}
 		
 		public function getLoadingLoacation():Node
@@ -165,6 +166,7 @@
 		override public function dispose():void
 		{
 			HARVESTER_DOCKED = false;
+			refinerylocked = false;
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onunLoadComplete);
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
 			if (loadCompleteFNCTB != null)

@@ -142,10 +142,18 @@ package  states.game.entities.buildings
 					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && model.controllingAgent == Agent.PC)
 					{
 						currentEnemy = Methods.findClosestTargetOnMap(this, true);
+						if(currentEnemy != null)
+						{
+							setState(UnitStates.SHOOT);
+						}
 					}
 					else if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
 					{
 						currentEnemy = findEnemyWithinBase();
+						if(currentEnemy != null)
+						{
+							setState(UnitStates.SHOOT);
+						}
 					}
 					else
 					{
@@ -194,6 +202,7 @@ package  states.game.entities.buildings
 
 		protected function handleIdleState(_pulse:Boolean):void
 		{
+			doNothing();
 			findATarget(_pulse);
 		}
 		

@@ -3,6 +3,7 @@ package global
 	import com.greensock.TweenLite;
 	import flash.system.Capabilities;
 	import flash.utils.Dictionary;
+	import global.assets.Assets;
 	import global.enums.AiBehaviours;
 	import global.map.mapTypes.Board;
 	import global.map.Node;
@@ -538,6 +539,27 @@ package global
 			}
 			
 			return closestEnemny;
+		}
+		
+		public static function printTech():void
+		{
+			var allLists:Array = [Assets.buildings.list, Assets.vehicles.list, Assets.turrets.list, Assets.infantry.list];
+			
+			
+			for (var i:int = 0; i < allLists.length; i++ )
+			{
+				var a:Array = [];
+				for (var k:Object in allLists[i])
+				{
+					a.push(allLists[i][k]);
+				}
+				a.sortOn("tech", [Array.NUMERIC]);
+				for (var j:int = 0; j < a.length; j++ )
+				{
+					trace(a[j].name + " " + a[j].tech);
+				}
+				trace("//////")
+			}
 		}
 	}
 }

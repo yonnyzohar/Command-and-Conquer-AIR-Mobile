@@ -16,12 +16,15 @@ package global.ui.hud.slotIcons
 			super(assetName, _contextType, _teamObj, showUI);
 		}
 		
-		
-		
-		override protected function done():void
+		override protected function removeUi():void
 		{
 			buildInProgress = false;
 			if(loadingSquare)loadingSquare.removeFromParent();
+		}
+		
+		override protected function done():void
+		{
+			removeUi();
 			
 			buildCompleteFunction(assetName, contextType , disabledSlots);
 			super.done();
