@@ -41,21 +41,32 @@ package states.game.entities.buildings
 			mc.loop = true;
 			Starling.juggler.add(mc);
 			addChild(mc);
-			
-			//weapons-factory_healthy-base00
 		}
 		
-		protected function onBuildAnimComplete(e:Event):void 
+		public function skipBuild():void 
+		{
+			onBuildAnimComplete();
+		}
+		
+		protected function onBuildAnimComplete(e:Event = null):void 
 		{
 			mc.removeEventListener(Event.COMPLETE, onBuildAnimComplete);
 			state = "";
 			setViewByHealth(1);
+			addBaseImage();
 			
+		}
+		
+		private function addBaseImage():void 
+		{
 			if (BuildingsStatsObj(model.stats).hasBaseIMG)
 			{
-				baseIMG = new Image(GameAtlas.getTexture(model.stats.name +"-base"+ healthAnim + "00", model.teamName));
-				baseIMG.scaleX = baseIMG.scaleY = Parameters.gameScale;
-				addChildAt(baseIMG, 0);
+				if (baseIMG == null)
+				{
+					baseIMG = new Image(GameAtlas.getTexture(model.stats.name +"-base"+ healthAnim + "00", model.teamName));
+					baseIMG.scaleX = baseIMG.scaleY = Parameters.gameScale;
+					addChildAt(baseIMG, 0);
+				}
 			}
 		}
 		

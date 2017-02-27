@@ -57,15 +57,17 @@ package states.game.teamsData
 		
 		public var UNITS_COLOR:uint;
 		public var BUILDINGS_COLOR:uint;
+		private var fromSaveGame:Boolean;
 		
 		
-		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object)
+		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object, _fromSaveGame:Boolean)
 		{
 			startParams = _startParams;
 			ai = startParams.AiBehaviour;
 			agent = startParams.Agent;
 			teamName = startParams.teamName;
 			cash = startParams.cash;
+			fromSaveGame = _fromSaveGame;
 			
 			teamNum = _teamNum;
 			UNITS_COLOR = colorsObj.UNITS;
@@ -230,13 +232,15 @@ package states.game.teamsData
 					if (curType == "startBuildings")
 					{
 						addBuildingToDict(BuildingsStats.dict[obj.name].buildingType);
+						
 					}
 					
 					
-					//handleAtachedUnit(obj.name, placementsArr[0].row, placementsArr[0].col);
+					if (curType == "startBuildings" || curType == "startTurrets")
+					{
+						Building(ent).skipBuild();
+					}
 				}
-				
-				
 				
 			}
 			

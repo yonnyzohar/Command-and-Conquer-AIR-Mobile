@@ -179,8 +179,8 @@ package states.game
 				team2StartObj = savedObject.team2;
 			}
 			
-			team1Obj = new TeamObject(team1StartObj, 1, Parameters.team1Colors);
-			team2Obj = new TeamObject(team2StartObj, 2, Parameters.team2Colors);
+			team1Obj = new TeamObject(team1StartObj, 1, Parameters.team1Colors, (savedObject != null));
+			team2Obj = new TeamObject(team2StartObj, 2, Parameters.team2Colors, (savedObject != null));
 			
 			team1Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
 			team2Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);

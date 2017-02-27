@@ -42,6 +42,11 @@ package states.game.entities.buildings
 			healthBar.visible = false;
 		}
 		
+		public function skipBuild():void 
+		{
+			BuildingView(view).skipBuild();
+		}
+		
 
 		override public function get row():int
 		{

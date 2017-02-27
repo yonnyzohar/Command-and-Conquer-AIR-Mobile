@@ -103,8 +103,9 @@ package states.game.entities.buildings
 			endFrame = Methods.degreesToFrame(_degrees, oldDegrees);
 		}
 		
-		override protected function onBuildAnimComplete(e:Event):void 
+		override protected function onBuildAnimComplete(e:Event = null):void 
 		{
+			
 			super.onBuildAnimComplete(e);
 			Starling.juggler.remove(mc);
 			mc.stop();
