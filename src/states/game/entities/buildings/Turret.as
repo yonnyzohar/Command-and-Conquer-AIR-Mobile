@@ -209,6 +209,10 @@ package  states.game.entities.buildings
 		
 		protected function handleShootState(_pulse:Boolean):void
 		{
+			if (myTeamObj.powerCtrl.POWER_SHORTAGE)
+			{
+				return;
+			}
 			shoot();
 		}
 		

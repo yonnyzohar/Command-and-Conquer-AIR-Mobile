@@ -209,7 +209,7 @@ package global.ai
 		private function onTurretContructed(e:Event = null):void 
 		{
 			if (pcTeamObj)pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
-			buildCount++;
+			turretCount++;
 			buildingBeingBuilt = false;
 		}
 		
@@ -238,16 +238,24 @@ package global.ai
 			{
 				return;
 			}
-			if (aiJSON.buildQueue[buildCount])
+			var currentBuildingObj:AssetStatsObj;
+			var buildPowerPlant:Boolean = false;
+			if (_firstTime || pcTeamObj.powerCtrl.POWER_SHORTAGE)
 			{
-				var currentBuildingObj:AssetStatsObj = Methods.getCurretStatsObj(aiJSON.buildQueue[buildCount]);
-				var buildPowerPlant:Boolean = false;
-				if (_firstTime || pcTeamObj.powerCtrl.POWER_SHORTAGE)
+				buildPowerPlant = true;
+				currentBuildingObj = Methods.getCurretStatsObj("power-plant");
+			}
+			else
+			{
+				if (aiJSON.buildQueue[buildCount])
 				{
-					buildPowerPlant = true;
+					currentBuildingObj = Methods.getCurretStatsObj(aiJSON.buildQueue[buildCount]);
 				}
-				
-				
+			}
+
+			if (currentBuildingObj)
+			{
+
 				//if we have power - proceed
 				if (!buildPowerPlant)
 				{
@@ -279,7 +287,6 @@ package global.ai
 				else
 				{
 					//build power station, on complete - build
-					currentBuildingObj = Methods.getCurretStatsObj("power-plant");
 					if (pcTeamObj.cash >= currentBuildingObj.cost)
 					{
 						myBuildSlot = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
@@ -569,7 +576,7 @@ package global.ai
 				else
 				{
 					var numHarvesters:int = pcTeamObj.getNumOfHarvesters();
-					if (numHarvesters < 4)
+					if (numHarvesters < 3)
 					{
 						if (Math.random() < 0.05)
 						{
