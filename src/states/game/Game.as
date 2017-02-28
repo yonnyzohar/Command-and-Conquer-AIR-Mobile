@@ -63,7 +63,7 @@ package states.game
 	{
 		private var baordMC:Board;
 		private var teamslisting:TeamsListingWindow;
-		private var aiController:AIController;
+		public var aiController:AIController;
 		private var finalMessage:MovieClip;
 		private var team1Obj:TeamObject;
 		private var team2Obj:TeamObject;
@@ -151,9 +151,7 @@ package states.game
 			
 			SightManager.getInstance().init();
 			BGSoundManager.playBGSound();
-			
-			
-			
+			dispatchEvent(new Event("GAME_LOAD_COMPLETE"))
 			
 			//SightManager.getInstance().showAllSightSquares();
 		}
@@ -193,7 +191,7 @@ package states.game
 			
 			
 			aiController = new AIController();
-			
+			//team 1 is ALWAYS GDI, team 2 is ALWAYS NOD
 			if (playerSide == 1)
 			{
 				team1Obj.agent = Agent.HUMAN;
@@ -204,7 +202,6 @@ package states.game
 			}
 			else
 			{
-				
 				team1Obj.agent = Agent.PC;
 				team1Obj.ai = AiBehaviours.BASE_DEFENSE;
 				
@@ -229,7 +226,7 @@ package states.game
 				Parameters.pcTeamObject= team1Obj;
 				team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
 				team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-				aiController.applyAI(team1Obj);
+				aiController.applyAI(team1Obj, savedObject);//
 			}
 			
 			
@@ -267,10 +264,7 @@ package states.game
 			if(Parameters.pcTeam.length == 0 || Parameters.humanTeam.length == 0)
 			{
 				endGame();
-				setTimeout(function():void
-				{
-					dispatchEvent(new Event("LEAVE_MISSION"));
-				},2000);
+				
 				
 			}
 			
@@ -388,7 +382,7 @@ package states.game
 		}
 
 		
-		private function endGame():void
+		public function endGame():void
 		{
 			//stage.removeEventListener(Event.ENTER_FRAME, loop);
 			var i:int = 0;
@@ -402,6 +396,18 @@ package states.game
 			{
 				Parameters.pcTeam[i].end();
 			}
+			
+			setTimeout(function():void
+			{
+				dispatchEvent(new Event("LEAVE_MISSION"));
+				
+			},2000);
+		}
+		
+		public function abortGame():void
+		{
+			GameSounds.playSound("battle_control_terminated", "vo");
+			endGame()
 		}
 		
 		
@@ -412,6 +418,7 @@ package states.game
 				finalMessage.removeFromParent();
 			}
 			GameTimer.getInstance().removeUser(this);
+			BGSoundManager.stopBGSound();
 			
 			baordMC.dispose();
 			

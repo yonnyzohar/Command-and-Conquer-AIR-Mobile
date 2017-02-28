@@ -29,7 +29,7 @@ package global.utilities
 		public function save(fileName:String, fileConts:String):void
 		{
 			outputFile = outputDir.resolvePath(fileName);
-			newFileStream.openAsync(outputFile, FileMode.WRITE);
+			newFileStream.open(outputFile, FileMode.WRITE);
 			newFileStream.writeUTFBytes(fileConts);
 			newFileStream.close();
 			trace("SAVED!")

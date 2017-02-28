@@ -12,6 +12,7 @@
 	import global.utilities.MapMover;
 	import states.game.entities.buildings.BuildingView;
 	import states.game.entities.units.ShootingUnit;
+	import states.game.entities.units.Unit;
 	import states.game.teamsData.TeamObject;
 	
 	import global.Methods;
@@ -298,17 +299,21 @@
 					{
 						u = n.occupyingUnit;
 						
-						if (u is Building && Building(u).hasBuildingClickFunction)
+						if (selectedAsset is Unit && u is Building && Building(u).hasBuildingClickFunction)
 						{
-							var o:Object = Building(u).onBuildingClickedFNCTN();
-							targetRow = o.row;
-							targetCol = o.col;
-							if (selectedAsset && selectedAsset.model.stats.name == o.assetName)
+							var o:Object = Building(u).onBuildingClickedFNCTN(selectedAsset);
+							if (o)
 							{
-								selectedAsset.onDestinationReceived(targetRow, targetCol);
-								playHitAnim = true;
-								playDefault = false;
+								targetRow = o.row;
+								targetCol = o.col;
+								if (selectedAsset && selectedAsset.model.stats.name == o.assetName)
+								{
+									selectedAsset.onDestinationReceived(targetRow, targetCol);
+									playHitAnim = true;
+									playDefault = false;
+								}
 							}
+							
 						}
 						
 					}

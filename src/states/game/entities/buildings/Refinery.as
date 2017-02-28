@@ -147,11 +147,11 @@
 		}
 		
 		
-		override public function onBuildingClickedFNCTN():Object
+		override public function onBuildingClickedFNCTN(o:Object):Object
 		{
 			
 			var locNode:Node = getLoadingLoacation();
-			if (locNode)
+			if (locNode && o is Harvester)
 			{
 				BuildingView(view).highlightBuilding();
 				return { row : locNode.row, col : locNode.col, assetName: "harvester" };

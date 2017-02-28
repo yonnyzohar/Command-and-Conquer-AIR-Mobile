@@ -218,7 +218,7 @@ package states.game.entities.buildings
 			return super.hurt(_hitVal, _currentInfantryDeath, projectileName)
 		}
 		
-		public function onBuildingClickedFNCTN():Object{return null}
+		public function onBuildingClickedFNCTN(o:Object):Object{return null}
 		
 		override protected function occupyTile(proposedRow:int, proposedCol:int):void
 		{

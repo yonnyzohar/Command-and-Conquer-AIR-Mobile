@@ -118,7 +118,7 @@ package
 		{
 			startScreen = new StartScreen();
 			//startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
-			startScreen.addEventListener("GAME_CLICKED", onGameClicked);
+			startScreen.addEventListener("GAME_CLICKED", onNewGameClicked);
 			startScreen.addEventListener("LOAD_CLICKED", onLoadClicked);
 			
 			addChild(startScreen.view);
@@ -127,7 +127,7 @@ package
 			
 		}
 		
-		private function onLoadClicked(e:starling.events.Event):void 
+		private function onLoadClicked(e:starling.events.Event = null ):void 
 		{
 			var file:String = FileSaver.getInstance().load("save.json");
 			var saveObj:Object = JSON.parse(file);
@@ -136,10 +136,11 @@ package
 			Parameters.editMode = false;
 			Parameters.editLoad = false;
 			game = new Game();
+			attachListeners();
 			game.init(saveObj.levelNum, saveObj.playerSide, saveObj);
 			addChildAt(Parameters.mapHolder,0);
-			game.addEventListener("LEAVE_MISSION", onLeaveMission);
-			menu = new MenuScreen();
+			
+			initMenu();
 		}
 		
 		private function onEditClicked(e:starling.events.Event):void
@@ -213,7 +214,7 @@ package
 			edit.removeEventListener("DONE_EDITING", onDoneEditing);
 			//Parameters.editMode = false;
 			removeEditScreen();
-			onGameClicked();
+			//onGameClicked();
 		}
 		
 		private function removeEditScreen():void
@@ -225,37 +226,99 @@ package
 			}
 			
 			edit = null;
-			
 		}
 		
-		private function onGameClicked(e:starling.events.Event = null):void
+		private function onNewGameClicked(e:starling.events.Event = null):void
 		{
 			removeStartScreen();
 			Parameters.editMode = false;
 			Parameters.editLoad = false;
 			game = new Game();
+			attachListeners();
 			game.init(0, e.data.playerSide);
-			addChildAt(Parameters.mapHolder,0);
-			game.addEventListener("LEAVE_MISSION", onLeaveMission);
-			menu = new MenuScreen();
+			addChildAt(Parameters.mapHolder, 0);
 			
 			
-			
+			initMenu();
 			
 		}
 		
-		private function onLeaveMission(e:starling.events.Event):void 
+		private function attachListeners():void 
 		{
-			game.removeEventListener("LEAVE_MISSION", onLeaveMission);
-			game.dispose();
-			game = null;
+			game.addEventListener("GAME_LOAD_COMPLETE", onGameLoadComplete);
+		}
+		
+		private function onGameLoadComplete(e:starling.events.Event):void 
+		{
+			initMenu();
+			menu.init();
+		}
+		
+		private function initMenu():void 
+		{
+			if (menu == null)
+			{
+				menu = new MenuScreen();
+				menu.addEventListener("ABORT_GAME", function():void
+				{
+					game.addEventListener("LEAVE_MISSION", onLeaveMissionAbortGame);
+					game.abortGame();
+					
+				});
+				menu.addEventListener("RESTART_GAME", function():void
+				{
+					game.addEventListener("LEAVE_MISSION", onLeaveMissionRestartGame);
+					game.endGame();
+				});
+				
+				menu.addEventListener("LOAD_GAME", function():void
+				{
+					game.addEventListener("LEAVE_MISSION", onLeaveMissionLoadGame);
+					game.endGame();
+				});
+				
+			}
+		}
+		
+		private function onLeaveMissionAbortGame(e:starling.events.Event):void 
+		{
+			removeGame();
 			initStartScreen(); 
 		}
 		
+		private function onLeaveMissionRestartGame(e:starling.events.Event):void 
+		{
+			var currentLevel:int = game.levelNum;
+			var playerSide:int = game.playerSide;
+			removeGame();
+			game = new Game();
+			attachListeners();
+			game.init(currentLevel, playerSide);
+			addChildAt(Parameters.mapHolder,0);
+		}
+		
+		private function onLeaveMissionLoadGame(e:starling.events.Event):void 
+		{
+			removeGame();
+			onLoadClicked();
+		}
+		
+		
+		private function removeGame():void 
+		{
+			game.removeEventListener("LEAVE_MISSION", onLeaveMissionAbortGame);
+			game.removeEventListener("LEAVE_MISSION", onLeaveMissionLoadGame);
+			game.removeEventListener("GAME_LOAD_COMPLETE", onGameLoadComplete);
+			game.removeEventListener("LEAVE_MISSION", onLeaveMissionRestartGame);
+			game.dispose();
+			game = null;
+		}
+		
+
+		
 		public function disposeGame():void 
 		{
-			game.removeEventListener("LEAVE_MISSION", onLeaveMission);
-			game.dispose();
+			removeGame();
 			MyTA.dispose();
 		}
 		
@@ -264,11 +327,11 @@ package
 			if(startScreen)
 			{
 				startScreen.removeEventListener("EDIT_CLICKED", onEditClicked);
-				startScreen.removeEventListener("GAME_CLICKED", onGameClicked);
+				startScreen.removeEventListener("GAME_CLICKED", onNewGameClicked);
+				startScreen.removeEventListener("LOAD_CLICKED", onLoadClicked);
 				startScreen.dispose();
 				startScreen = null;
 			}
-			
 		}
 	}
 }

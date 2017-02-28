@@ -3,9 +3,12 @@ package states
 	import com.dynamicTaMaker.loaders.TemplateLoader;
 	import com.dynamicTaMaker.utils.ButtonManager;
 	import com.dynamicTaMaker.views.GameSprite;
+	import flash.utils.setTimeout;
+	import global.GameSounds;
 	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import global.utilities.FileSaver;
+	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import states.game.stats.LevelManager;
 	import states.game.teamsData.TeamObject;
@@ -21,9 +24,13 @@ package states
 		public function MenuScreen() 
 		{
 			view = TemplateLoader.get("TouchOptionsBox");
-			Parameters.gameHolder.addChild(view);
 			view.y = Parameters.flashStage.stageHeight - view.height;
 			ButtonManager.setButton(view.menuBTN, "TOUCH", onMenuBTNClicked);
+		}
+		
+		public function init():void
+		{
+			Parameters.gameHolder.addChild(view);
 		}
 		
 		private function onMenuBTNClicked(caller:GameSprite):void 
@@ -34,8 +41,8 @@ package states
 				optionsMenu = TemplateLoader.get("OptionsMenuMC");
 				optionsMenu.loadMC.textBox.text = "LOAD GAME";
 				optionsMenu.saveMC.textBox.text = "SAVE GAME";
-				optionsMenu.resumeMC.textBox.text = "RESUME";
 				optionsMenu.restartMC.textBox.text = "RESTART";
+				optionsMenu.abortMC.textBox.text = "ABORT";
 				optionsMenu.width = Parameters.flashStage.stageWidth;
 				optionsMenu.height = Parameters.flashStage.stageHeight;
 			}
@@ -43,45 +50,64 @@ package states
 			ButtonManager.setButton(optionsMenu.xButton, "TOUCH", onXClicked);
 			ButtonManager.setButton(optionsMenu.loadMC, "TOUCH", onLoadClicked);
 			ButtonManager.setButton(optionsMenu.saveMC, "TOUCH", onSaveClicked);
-			ButtonManager.setButton(optionsMenu.resumeMC, "TOUCH", onResumeClicked);
 			ButtonManager.setButton(optionsMenu.restartMC, "TOUCH", onRestartClicked);
+			ButtonManager.setButton(optionsMenu.abortMC, "TOUCH", onAbortClicked);
+			
+			optionsMenu.foreGround.visible = false;
+			optionsMenu.topMessage.visible = false;
+		}
+		
+		private function onAbortClicked(caller:GameSprite):void 
+		{
+			removeMenu();
+			dispatchEvent(new Event("ABORT_GAME"))
+			
 		}
 		
 		private function onRestartClicked(caller:GameSprite):void 
 		{
-			
+			removeMenu();
+			dispatchEvent(new Event("RESTART_GAME"))
 		}
 		
-		private function onResumeClicked(caller:GameSprite):void 
-		{
-			
-		}
 		
 		private function onSaveClicked(caller:GameSprite):void 
 		{
-			saveGame();
+			optionsMenu.foreGround.visible = true;
+			optionsMenu.topMessage.visible = true;
+			optionsMenu.topMessage.textBox.text = "SAVING";
+			setTimeout(saveGame, 1000);
+			
 		}
 		
 		private function onLoadClicked(caller:GameSprite):void 
 		{
-			
+			removeMenu();
+			dispatchEvent(new Event("LOAD_GAME"))
 		}
 		
-		private function onXClicked(caller:GameSprite):void 
+		private function removeMenu():void
 		{
 			ButtonManager.removeButtonEvents(optionsMenu.xButton);
 			ButtonManager.removeButtonEvents(optionsMenu.loadMC);
 			ButtonManager.removeButtonEvents(optionsMenu.saveMC);
 			ButtonManager.removeButtonEvents(optionsMenu.resumeMC);
 			ButtonManager.removeButtonEvents(optionsMenu.restartMC);
+			ButtonManager.removeButtonEvents(optionsMenu.abortMC);
 			optionsMenu.removeFromParent();
+		}
+		
+		private function onXClicked(caller:GameSprite = null):void 
+		{
+			removeMenu();
 			Parameters.gameHolder.game.resumeGame();
 		}
 		
 		private function saveGame():void 
 		{
 			var o:Object = { };
-
+			
+			o.aiData = { buildCount : Parameters.gameHolder.game.aiController.buildCount, turretCount : Parameters.gameHolder.game.aiController.turretCount }
 			o.levelNum  = Parameters.gameHolder.game.levelNum;
 			o.playerSide = Parameters.gameHolder.game.playerSide;
 			o.tech = LevelManager.currentlevelData.tech;
@@ -100,6 +126,8 @@ package states
 			}
 			var jsonObj:String = JSON.stringify(o);
 			FileSaver.getInstance().save("save.json", jsonObj );
+			optionsMenu.foreGround.visible = false;
+			optionsMenu.topMessage.visible = false;
 		}
 		
 	}

@@ -23,8 +23,8 @@ package global.ai
 		
 		private var aiJSON:Object;
 		private var pcTeamObj:TeamObject;
-		private var buildCount:int = 0;
-		private var turretCount:int = 0;
+		public var buildCount:int  = 0;
+		public var turretCount:int = 0;
 		
 		
 		private var myUnitSlotbj:Object;
@@ -88,9 +88,18 @@ package global.ai
 			//JSON.parse(new GameAssets.AIJson());
 		}
 		
-		public function applyAI(teamObj:TeamObject):void 
+		public function applyAI(teamObj:TeamObject, savedObject:Object = null):void 
 		{
+			
+			//o.aiData
 			pcTeamObj = teamObj;
+			
+			if (savedObject)
+			{
+				buildCount = savedObject.aiData.buildCount;
+				turretCount = savedObject.aiData.turretCount;
+			}
+			
 			
 			
 			createProbabilityArr();
@@ -195,7 +204,7 @@ package global.ai
 		
 		private function placeTurret(e:Event):void 
 		{
-			printAI("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
+			printAI(myTurretSlot.assetName + " CONSTRUCTION_COMPLETED - now let's place it");
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
@@ -208,7 +217,10 @@ package global.ai
 		
 		private function onTurretContructed(e:Event = null):void 
 		{
-			if (pcTeamObj)pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+			}
 			turretCount++;
 			buildingBeingBuilt = false;
 		}
@@ -251,6 +263,20 @@ package global.ai
 				{
 					currentBuildingObj = Methods.getCurretStatsObj(aiJSON.buildQueue[buildCount]);
 				}
+				else
+				{
+					buildCount = 0;
+				}
+				
+				if (pcTeamObj.doesBuildingExist("barracks") == false)
+				{
+					currentBuildingObj = Methods.getCurretStatsObj("barracks");
+				}
+				
+				if (pcTeamObj.doesBuildingExist("refinery") == false)
+				{
+					currentBuildingObj = Methods.getCurretStatsObj("refinery");
+				}
 			}
 
 			if (currentBuildingObj)
@@ -259,11 +285,13 @@ package global.ai
 				//if we have power - proceed
 				if (!buildPowerPlant)
 				{
-					if (pcTeamObj.doesBuildingExist("refinery") == false)
+					
+					if (pcTeamObj.doesBuildingExist(currentBuildingObj.type))
 					{
-						currentBuildingObj = Methods.getCurretStatsObj("refinery");
+						buildCount++;
+						return;
 					}
-
+					
 					//if we have money - build, on complete come back to here
 					if (pcTeamObj.cash >= currentBuildingObj.cost)
 					{
@@ -311,7 +339,7 @@ package global.ai
 		
 		private function placeBuilding(e:Event):void 
 		{
-			printAI("BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
+			printAI(myBuildSlot.assetName + " BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
@@ -356,11 +384,26 @@ package global.ai
 		private function buildUnits():void 
 		{
 			printAI("buildUnits " + infantryBeingBuilt + " " + vehicleBeingBuilt);
-			
+			if (pcTeamObj.powerCtrl.POWER_SHORTAGE)
+			{
+				return;
+			}
+			if (pcTeamObj.doesBuildingExist("refinery") == false)
+			{
+				return;
+			}
 			
 			if (infantryBeingBuilt && vehicleBeingBuilt)
 			{
 				return;
+			}
+			
+			if (pcTeamObj.doesBuildingExist("vehicle-factory") == false)
+			{
+				if (Math.random() < 0.3)
+				{
+					return;
+				}
 			}
 			
 			var infantry:Boolean = false;
@@ -648,17 +691,22 @@ package global.ai
 		{
 			if (_pulse)
 			{
-				buildUnits();
 				if (Math.random() > 0.5)
 				{
-					buildBuilding();
+					buildUnits();
 				}
 				else
 				{
-					buildTurrets();
+					if (Math.random() > 0.5)
+					{
+						buildBuilding();
+					}
+					else
+					{
+						buildTurrets();
+					}
 				}
-				
-				
+
 				
 				var numUnits:int = 0;
 				var myTeam:Array = [];
