@@ -12,7 +12,6 @@ package global.ui.hud
 	import global.ui.hud.HUD;
 	import global.ui.hud.slotIcons.SlotHolder;
 	import global.utilities.DragScroll;
-	import global.utilities.GlobalEventDispatcher;
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.display.Sprite;
@@ -357,9 +356,9 @@ package global.ui.hud
 			if(hud.buildingsContainer.selectedSlot != null)
 			{
 				var selectedSlot:SlotHolder = hud.buildingsContainer.selectedSlot;
-				var buildInProgress:Boolean = selectedSlot.buildInProgress;
+				var currentBuildState:Boolean = selectedSlot.currentBuildState; 
 				
-				if (!buildInProgress)
+				if (currentBuildState == SlotHolder.IDLE)
 				{
 					if (teamObj.cash - selectedSlot.cost >= 0)
 					{
@@ -378,7 +377,7 @@ package global.ui.hud
 				}
 				else
 				{
-					if (selectedSlot.buildingDone)
+					if (selectedSlot.currentBuildState == SlotHolder.BUILD_DONE)
 					{
 						buildingPlacementMarker.pupulateTilesSprite(selectedSlot.assetName);
 
@@ -407,7 +406,7 @@ package global.ui.hud
 			
 			
 			hud.buildingsContainer.enableAllSlots();
-			dispatchEventWith("BUILDING_CONSTRUCTED", false, { "name" : selectedSlot.assetName, "type" : "building" });
+			dispatchEventWith("BUILDING_PLACED", false, { "name" : selectedSlot.assetName, "type" : "building" });
 		}
 		
 		
@@ -421,7 +420,7 @@ package global.ui.hud
 				
 				if (teamObj.cash - selectedSlot.cost >= 0)
 				{
-					var buildInProgress:Boolean = selectedSlot.buildInProgress;
+					var buildInProgress:Boolean = (selectedSlot.currentBuildState == SlotHolder.BUILD_IN_PROGRESS);
 
 					if (!buildInProgress)
 					{
@@ -458,7 +457,8 @@ package global.ui.hud
 		{
 			if (GameAtlas.loadingInProgress)
 			{
-				setTimeout(function():void {
+				setTimeout(function():void 
+				{
 				
 					onBuildingComplete(assetName);
 				},1000);

@@ -213,24 +213,7 @@
 			
 		}
 		
-		static private function initWorker():void 
-		{
-			workerInstance = new GameLoaderWorker()
-			worker = WorkerDomain.current.createWorker(workerInstance, true);
-			//this is a message channel between the worker to main thread
-			backToMain = worker.createMessageChannel(Worker.current);
-			//this is a message channel between the main to worker thread
-			mainToBack = Worker.current.createMessageChannel(worker);
-			
-			worker.setSharedProperty("backToMain", backToMain);
-			worker.setSharedProperty("mainToBack", mainToBack)
-			counter = 0;
-			backToMain.addEventListener(flash.events.Event.CHANNEL_MESSAGE, onBackgroundMessageToMain);
-			worker.addEventListener(flash.events.Event.WORKER_STATE, handleBGWorkerStateChange);
-			loadingInProgress = true;
-			worker.start(); 
-			
-		}
+		
 		
 		public static function init(dirsToLoadMap:Object, _callback:Function):void
 		{
@@ -253,8 +236,7 @@
 			{
 				////trace("running!");
 				callback = _callback;
-				assetNames.splice(0);
-
+				var assetsToLoad:Array = [];
 				var gameAssetsDir:File = File.applicationDirectory.resolvePath("gameAssets");
 				
 				//go over the gameAssetsdir
@@ -283,7 +265,7 @@
 									//this is to make sure we haven't loaded this asset already
 									if(dirsToLoadMap[assetDir.name] && loadedAssets[assetDir.name] == undefined)
 									{
-										////trace("----------adding " + assetDir.name + " TA")
+										trace("----------adding " + assetDir.name + " TA")
 										loadedAssets[assetDir.name] = true;
 										var obj:Object = {
 											
@@ -295,7 +277,7 @@
 											side : findOwner(assetDir.name)
 										}
 										
-										assetNames.push( obj );
+										assetsToLoad.push( obj );
 									}
 								}
 							}
@@ -309,8 +291,9 @@
 				//var worker:Worker = WorkerFactory.getWorkerFromClass(GameLoadManager, Parameters.flashStage.loaderInfo.bytes, true);
 				//worker.start();
 			
-				if (assetNames.length)
+				if (assetsToLoad.length)
 				{
+					assetNames = assetsToLoad;
 					initWorker();
 				}
 				else
@@ -324,11 +307,30 @@
 			}
 		}
 		
+		static private function initWorker():void 
+		{
+			workerInstance = new GameLoaderWorker()
+			worker = WorkerDomain.current.createWorker(workerInstance, true);
+			//this is a message channel between the worker to main thread
+			backToMain = worker.createMessageChannel(Worker.current);
+			//this is a message channel between the main to worker thread
+			mainToBack = Worker.current.createMessageChannel(worker);
+			
+			worker.setSharedProperty("backToMain", backToMain);
+			worker.setSharedProperty("mainToBack", mainToBack)
+			counter = 0;
+			backToMain.addEventListener(flash.events.Event.CHANNEL_MESSAGE, onBackgroundMessageToMain);
+			worker.addEventListener(flash.events.Event.WORKER_STATE, handleBGWorkerStateChange);
+			loadingInProgress = true;
+			worker.start(); 
+			
+		}
+		
 		static private function handleBGWorkerStateChange(e:flash.events.Event):void 
 		{
 			if (worker.state == WorkerState.RUNNING) 
             {
-				////trace("ASSET NAMES!!!!!");
+				trace("ASSET NAMES!!!!!");
                 mainToBack.send(assetNames);
             }
 		}
@@ -432,6 +434,7 @@
 				if (callback != null)
 				{
 					stopMe = true;
+					trace("-----TA LOADING COMPLETE")
 					Parameters.loadingScreen.remove();
 					callback();
 				}
@@ -441,7 +444,7 @@
 		
 		static private function killWorker():void 
 		{
-			////trace("killWorker");
+			trace("killWorker");
 			worker.removeEventListener(flash.events.Event.WORKER_STATE, handleBGWorkerStateChange);
 			worker.terminate();
 			worker = null;

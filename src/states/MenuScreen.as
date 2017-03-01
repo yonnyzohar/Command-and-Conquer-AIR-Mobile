@@ -107,7 +107,7 @@ package states
 		{
 			var o:Object = { };
 			
-			o.aiData = { buildCount : Parameters.gameHolder.game.aiController.buildCount, turretCount : Parameters.gameHolder.game.aiController.turretCount }
+			o.aiData = { buildCount : Parameters.gameHolder.game.ai1Controller.buildCount, turretCount : Parameters.gameHolder.game.ai1Controller.turretCount }
 			o.levelNum  = Parameters.gameHolder.game.levelNum;
 			o.playerSide = Parameters.gameHolder.game.playerSide;
 			o.tech = LevelManager.currentlevelData.tech;
@@ -116,7 +116,7 @@ package states
 			o.currX = Parameters.mapHolder.x;
 			o.currY = Parameters.mapHolder.y;
 			
-			var teams:Array = [Parameters.humaTeamObject, Parameters.pcTeamObject];
+			var teams:Array = [Parameters.team1Obj, Parameters.team2Obj];
 			for (var i:int = 0; i < teams.length; i++ )
 			{
 				var team:TeamObject = teams[i];

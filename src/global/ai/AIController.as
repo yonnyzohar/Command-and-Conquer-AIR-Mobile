@@ -13,6 +13,7 @@ package global.ai
 	import states.game.entities.units.Harvester;
 	import states.game.entities.units.Unit;
 	import states.game.stats.AssetStatsObj;
+	import states.game.stats.BuildingsStatsObj;
 	import states.game.teamsData.TeamObject;
 	/**
 	 * ...
@@ -81,8 +82,7 @@ package global.ai
 						"artillery":1,
 						"mobile-rocket-launch-system":1,
 						"ssm-launcher":1
-					},
-					"minNumOfAttackParty" :[3,8,7,10,5]
+					}
 				};
 
 			//JSON.parse(new GameAssets.AIJson());
@@ -109,8 +109,13 @@ package global.ai
 			
 			buildUnits();
 			
-			
-			minNumOfAttackParty = aiJSON.minNumOfAttackParty;
+			minNumOfAttackParty = [];
+			for (var i:int = 0; i < 10; i++ )
+			{
+				var rnd:int = 3 + int(Math.random() * 15)
+				minNumOfAttackParty.push(rnd);
+			}
+			//minNumOfAttackParty = aiJSON.minNumOfAttackParty;
 			
 			GameTimer.getInstance().addUser(this);
 			//Parameters.loadingScreen.init();
@@ -165,6 +170,20 @@ package global.ai
 			{
 				return;
 			}
+			
+			if (pcTeamObj.doesBuildingExist("barracks") == false)
+			{
+				return;
+			}
+			
+			if (pcTeamObj.doesBuildingExist("vehicle-factory") == false)
+			{
+				if (Math.random() > 0.3)
+				{
+					return;
+				}
+			}
+			
 			if (aiJSON.turretQueue[turretCount])
 			{
 				var currentTurretObj:AssetStatsObj = Methods.getCurretStatsObj(aiJSON.turretQueue[turretCount]);
@@ -198,8 +217,6 @@ package global.ai
 			{
 				turretCount = 0;
 			}
-			
-			
 		}
 		
 		private function placeTurret(e:Event):void 
@@ -208,7 +225,7 @@ package global.ai
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
-				pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+				pcTeamObj.buildManager.addEventListener("BUILDING_PLACED", onTurretContructed);
 				pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myTurretSlot.assetName);
 				pcTeamObj.buildManager.buildingPlacementMarker.getValidPlacementClosestToEnemy();
 			}
@@ -217,9 +234,10 @@ package global.ai
 		
 		private function onTurretContructed(e:Event = null):void 
 		{
+			printAI("onTurretContructed");
 			if (pcTeamObj)
 			{
-				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onTurretContructed);
 			}
 			turretCount++;
 			buildingBeingBuilt = false;
@@ -232,7 +250,7 @@ package global.ai
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
-				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onTurretContructed);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onTurretContructed);
 			}
 			
 			printAI("onBuildCancelledAbruptly - building");
@@ -248,6 +266,17 @@ package global.ai
 			
 			if (buildingBeingBuilt)
 			{
+				if (myBuildSlot == null)
+				{
+					buildingBeingBuilt = false;
+					return;
+				}
+				
+				if (myBuildSlot.currentBuildState == SlotHolder.BUILD_DONE )
+				{
+					myBuildSlot.forceFinishBuild();
+				}
+				
 				return;
 			}
 			var currentBuildingObj:AssetStatsObj;
@@ -271,6 +300,11 @@ package global.ai
 				if (pcTeamObj.doesBuildingExist("barracks") == false)
 				{
 					currentBuildingObj = Methods.getCurretStatsObj("barracks");
+					
+					if (currentBuildingObj.owner != pcTeamObj.teamName)
+					{
+						currentBuildingObj = Methods.getCurretStatsObj("hand-of-nod");
+					}
 				}
 				
 				if (pcTeamObj.doesBuildingExist("refinery") == false)
@@ -286,7 +320,7 @@ package global.ai
 				if (!buildPowerPlant)
 				{
 					
-					if (pcTeamObj.doesBuildingExist(currentBuildingObj.type))
+					if (pcTeamObj.doesBuildingExist(BuildingsStatsObj(currentBuildingObj).buildingType))
 					{
 						buildCount++;
 						return;
@@ -321,10 +355,11 @@ package global.ai
 						if (myBuildSlot)
 						{
 							printAI("building " + currentBuildingObj.name);
+							buildingBeingBuilt = true;
 							myBuildSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 							pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 							myBuildSlot.simulateClickOnBuild();
-							buildingBeingBuilt = true;
+							
 							
 						}
 						else
@@ -342,20 +377,22 @@ package global.ai
 			printAI(myBuildSlot.assetName + " BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
 			if (pcTeamObj)
 			{
+				myBuildSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
-				pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+				pcTeamObj.buildManager.addEventListener("BUILDING_PLACED", onBuildingPlaced);
 				pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myBuildSlot.assetName);
 				pcTeamObj.buildManager.buildingPlacementMarker.getValidPlacement()
 			}
-			
 		}
 		
 
-		
-		private function onBuildingContructed(e:Event = null):void 
+		private function onBuildingPlaced(e:Event = null):void 
 		{
-			printAI("onBuildingContructed " + myBuildSlot.assetName);
-			if (pcTeamObj)pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			if (pcTeamObj)
+			{
+				printAI("onBuildingPlaced " + myBuildSlot.assetName);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
+			}
 			if (myBuildSlot.assetName != "power-plant")
 			{
 				buildCount++;
@@ -371,7 +408,7 @@ package global.ai
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
-				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
 			}
 			
 			printAI("onBuildCancelledAbruptly - building");
@@ -400,7 +437,7 @@ package global.ai
 			
 			if (pcTeamObj.doesBuildingExist("vehicle-factory") == false)
 			{
-				if (Math.random() < 0.3)
+				if (Math.random() > 0.3)
 				{
 					return;
 				}
@@ -691,6 +728,9 @@ package global.ai
 		{
 			if (_pulse)
 			{
+				
+				
+				
 				if (Math.random() > 0.5)
 				{
 					buildUnits();
@@ -705,6 +745,14 @@ package global.ai
 					{
 						buildTurrets();
 					}
+				}
+				
+				if (pcTeamObj.doesBuildingExist("vehicle-factory") == false)
+				{
+					if (Math.random() > 0.5) 
+					{
+						return;
+					}	
 				}
 
 				
@@ -750,7 +798,7 @@ package global.ai
 		{
 			if (PRINT_AI_FLOW)
 			{
-				trace(_str);
+				trace(pcTeamObj.teamName + " : " + _str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}
@@ -778,7 +826,7 @@ package global.ai
 			
 			
 			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
-			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
 			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
 			

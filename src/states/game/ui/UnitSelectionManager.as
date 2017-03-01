@@ -378,7 +378,7 @@
 				}
 				else
 				{
-					var placementsArr:Array = SpiralBuilder.getSpiral(targetRow, targetCol, Parameters.currentSquad.length);
+					//var placementsArr:Array = SpiralBuilder.getSpiral(targetRow, targetCol, Parameters.currentSquad.length);
 					//trace"placementsArr: " + placementsArr);
 					
 					//NEED TO DEFINE PEREMITER AROUND POINT FOR SPREAD OF UNITS!
@@ -392,7 +392,7 @@
 						else
 						{
 							p = Parameters.currentSquad[i];
-							p.onDestinationReceived(placementsArr[i].row, placementsArr[i].col, (i == 0));
+							p.onDestinationReceived(targetRow, targetCol, (i == 0));
 							if (p.myTeamObj)
 							{
 								playHitAnim = highlightAttackBuilding(targetRow, targetCol, p.myTeamObj.teamName);

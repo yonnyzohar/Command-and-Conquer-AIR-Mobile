@@ -11,7 +11,6 @@ package
 	import global.GameAtlas;
 	import global.pools.PoolsManager;
 	import global.utilities.FileSaver;
-	import global.utilities.GlobalEventDispatcher;
 	import starling.text.TextField;
 	import states.game.stats.BuildingsStats;
 	import states.game.stats.BulletStats;

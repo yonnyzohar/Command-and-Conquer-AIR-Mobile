@@ -97,7 +97,7 @@ package global.ui.hud
 				}
 			}
 			
-			if (teamObj.agent == Agent.HUMAN)
+			if (teamObj.agent == Agent.HUMAN && Parameters.AI_ONLY_GAME == false)
 			{
 				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(view);
 				MouseStates.currentState = MouseStates.PLACE_BUILDING;

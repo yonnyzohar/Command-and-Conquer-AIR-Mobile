@@ -33,6 +33,7 @@
 			}
 			
 			super.done();
+			currentBuildState = SlotHolder.BUILD_DONE;
 		}
 		
 	}

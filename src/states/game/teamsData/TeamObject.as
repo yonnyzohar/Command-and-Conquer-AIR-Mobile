@@ -195,7 +195,7 @@ package states.game.teamsData
 					if (obj.name == "harvester")
 					{
 						ent = new Harvester(VehicleStatsObj(statsObj), this, enemyTeam, teamNum);
-						ent.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
+						ent.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					else if (obj.name == "refinery")
 					{
@@ -212,10 +212,11 @@ package states.game.teamsData
 					if (curType == "startBuildings" || curType == "startTurrets")
 					{
 						ent.addEventListener("SOLD", onSold);
+						ent.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					
 					placementsArr = SpiralBuilder.getSpiral(selRow, selCol, 1);
-					ent.placeUnit(placementsArr[0].row, placementsArr[0].col);
+					ent.placeUnit(placementsArr[0].row, placementsArr[0].col, fromSaveGame);
 					team.push(ent);
 					
 					if (obj.health)
@@ -247,8 +248,9 @@ package states.game.teamsData
 			buildManager = new TeamBuildManager();
 			buildManager.init(startParams, this);
 			buildManager.addEventListener("UNIT_CONSTRUCTED", onUnitContructed);
-			buildManager.addEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			buildManager.addEventListener("BUILDING_PLACED", onBuildingPlaced);
 			handleHud();
+			fromSaveGame = false;
 		}
 		
 		private function handleHud():void 
@@ -267,39 +269,39 @@ package states.game.teamsData
 			}
 		}
 		
-		private function addBuildingToDict(_buildingName:String):void 
+		private function addBuildingToDict(_buildingType:String):void 
 		{
-			if (teamBuildingsDict[_buildingName] == undefined)
+			if (teamBuildingsDict[_buildingType] == undefined)
 			{
-				teamBuildingsDict[_buildingName] = 1;
+				teamBuildingsDict[_buildingType] = 1;
 			}
 			else
 			{
-				teamBuildingsDict[_buildingName]++;
+				teamBuildingsDict[_buildingType]++;
 			}
 		}
 		
-		private function removeBuildingFromDict(_buildingName:String):void 
+		private function removeBuildingFromDict(_buildingType:String):void 
 		{
-			if (teamBuildingsDict[_buildingName])
+			if (teamBuildingsDict[_buildingType])
 			{
-				teamBuildingsDict[_buildingName]--;
+				teamBuildingsDict[_buildingType]--;
 				
-				if (teamBuildingsDict[_buildingName] <= 0)
+				if (teamBuildingsDict[_buildingType] <= 0)
 				{
-					delete teamBuildingsDict[_buildingName];
+					delete teamBuildingsDict[_buildingType];
 				}
 			}
 		}
 		
-		private var harvesterCalledForHelp:Boolean = false;
+		private var callingForHelp:Boolean = false;
 		private var timeoutRunning:Boolean = false;
 		
-		private function harvesterUnderAttack(e:Event):void 
+		private function underAttack(e:Event):void 
 		{
-			if (agent == Agent.PC)
+			if (agent == Agent.PC || Parameters.AI_ONLY_GAME)
 			{
-				if (harvesterCalledForHelp)
+				if (callingForHelp)
 				{
 					if (timeoutRunning == false)
 					{
@@ -308,7 +310,7 @@ package states.game.teamsData
 						setTimeout(function():void
 						{
 							timeoutRunning = false;
-							harvesterCalledForHelp = false;
+							callingForHelp = false;
 						},5000);
 					}
 					
@@ -318,12 +320,12 @@ package states.game.teamsData
 				else
 				{
 					trace("calling for help!")
-					harvesterCalledForHelp = true;
-					var harvester:Harvester = Harvester(e.currentTarget);
-					if (harvester && harvester.model && harvester.model.dead == false)
+					callingForHelp = true;
+					var attackedEntity:GameEntity = GameEntity(e.currentTarget);
+					if (attackedEntity && attackedEntity.model && attackedEntity.model.dead == false)
 					{
-						var selRow:int = harvester.model.row;
-						var selCol:int = harvester.model.col;
+						var selRow:int = attackedEntity.model.row;
+						var selCol:int = attackedEntity.model.col;
 						var unit:GameEntity;
 						
 						var squadSize:int = 5;
@@ -341,7 +343,7 @@ package states.game.teamsData
 							{
 								continue;
 							}
-							if (unit.aiBehaviour == AiBehaviours.HELPLESS)
+							if (unit.aiBehaviour == AiBehaviours.HELPLESS || unit.aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
 							{
 								continue;
 							}
@@ -356,13 +358,13 @@ package states.game.teamsData
 						if (mySquad.length)
 						{
 							//trace("TO THE RESCUE!!!!")
-							var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
+							//var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
 							var squadLength:int = mySquad.length;
 						
 							for (i = 0; i < squadLength; i++ )
 							{
 								unit = mySquad[i];
-								Unit(unit).getWalkPath(placementsArr[i].row, placementsArr[i].col);
+								Unit(unit).getWalkPath(selRow, selCol);
 								unit.setState(UnitStates.WALK);
 							}
 						}
@@ -447,7 +449,7 @@ package states.game.teamsData
 					if (assetName == "harvester")
 					{
 						p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
-						p.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
+						p.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					else
 					{
@@ -476,7 +478,7 @@ package states.game.teamsData
 			
 		}
 		
-		private function onBuildingContructed(e:Event):void
+		private function onBuildingPlaced(e:Event):void
 		{
 			var assetName:String = e.data.name;
 			var assetType:String = e.data.type;
@@ -508,6 +510,7 @@ package states.game.teamsData
 			
 			p.addEventListener("DEAD", onDead);
 			p.addEventListener("SOLD", onSold);
+			p.addEventListener("UNDER_ATTACK", underAttack);
 			Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 			team.push(p);
 			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
@@ -551,7 +554,7 @@ package states.game.teamsData
 					if (attachedUnit == "harvester")
 					{
 						p = new Harvester(VehicleStats.dict[attachedUnit], this, enemyTeam, teamNum);
-						p.addEventListener("UNDER_ATTACK", harvesterUnderAttack);
+						p.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					else
 					{
@@ -622,7 +625,7 @@ package states.game.teamsData
 			var numResidents:int = 0;
 			var i:int = 0;
 			p.removeEventListener("DEAD", onDead);
-			p.removeEventListener("UNDER_ATTACK", harvesterUnderAttack);
+			p.removeEventListener("UNDER_ATTACK", underAttack);
 			p.removeEventListener("SOLD", onSold);
 			
 			if (p is Building)
@@ -640,11 +643,7 @@ package states.game.teamsData
 						
 					}
 					
-					//this is temporary until the pc can build its own
-					if (team == Parameters.humanTeam)
-					{
-						buildManager.removeDependantUnitsAndBuildings(Building(p).name);
-					}
+					buildManager.removeDependantUnitsAndBuildings(Building(p).name);
 					
 				}
 				if (BuildingsStats.dict[p.name])
@@ -746,13 +745,13 @@ package states.game.teamsData
 			powerCtrl.dispose();
 			buildManager.dispose();
 			buildManager.removeEventListener("UNIT_CONSTRUCTED", onUnitContructed);
-			buildManager.removeEventListener("BUILDING_CONSTRUCTED", onBuildingContructed);
+			buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
 			var teamLen:int = team.length;
 			
 			for (var i:int = 0; i < teamLen; i++ )
 			{
 				team[i].removeEventListener("DEAD", onDead);
-				team[i].removeEventListener("UNDER_ATTACK", harvesterUnderAttack);
+				team[i].removeEventListener("UNDER_ATTACK", underAttack);
 				team[i].removeEventListener("SOLD", onSold);
 				team[i].dispose();
 				team[i] = null;

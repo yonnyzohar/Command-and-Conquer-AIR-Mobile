@@ -140,13 +140,13 @@ package states.game.entities.buildings
 				}
 				
 				
-				if(mc.numFrames != 1)mc.removeFrameAt(0);
+				if (mc.numFrames != 1) mc.removeFrameAt(0);
+				
+				playMC();
+				currentState = newStateName;
 				
 			}
 			//trace("currentState " + currentState + " newStateName " + newStateName);
-			
-			playMC();
-			currentState = newStateName;
 		}
 		
 		public function playSellAnimation():void

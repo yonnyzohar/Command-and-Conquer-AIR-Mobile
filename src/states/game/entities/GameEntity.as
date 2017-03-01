@@ -217,7 +217,7 @@ package states.game.entities
 			return true;
 		}
 
-		public function placeUnit(_startRow:int, _startCol:int):void
+		public function placeUnit(_startRow:int, _startCol:int, fromSavedGame:Boolean = false):void
 		{
 			model.row = _startRow;
 			model.col = _startCol;

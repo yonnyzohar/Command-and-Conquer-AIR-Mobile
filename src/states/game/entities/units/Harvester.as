@@ -227,7 +227,7 @@ package  states.game.entities.units
 				else
 				{
 					super.handleIdleState(_pulse);
-					if (model.controllingAgent == Agent.PC)
+					if (model.controllingAgent == Agent.PC || Parameters.AI_ONLY_GAME)
 					{
 						setState(UnitStates.SEARCH_FOR_RESOURCES);
 					}

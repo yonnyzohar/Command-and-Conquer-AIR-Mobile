@@ -155,8 +155,8 @@ package states.game.entities.units
 					}
 					else
 					{
-						var placementsArr:Array = SpiralBuilder.getSpiral(backToRow, backToCol, 1);
-						getWalkPath(placementsArr[0].row, placementsArr[0].col);
+						//var placementsArr:Array = SpiralBuilder.getSpiral(backToRow, backToCol, 1);
+						getWalkPath(backToRow, backToCol);
 					}
 					
 					if (UnitModel(model).path && UnitModel(model).path.length)
@@ -191,8 +191,8 @@ package states.game.entities.units
 			{
 				//trace("MOVING TO NEW DEST")
 				UnitModel(model).moveCounter = 0;
-				var placementsArr:Array = SpiralBuilder.getSpiral(finalNodeAfterError.row, finalNodeAfterError.col, 1);
-				getWalkPath(placementsArr[0].row, placementsArr[0].col);
+				//var placementsArr:Array = SpiralBuilder.getSpiral(finalNodeAfterError.row, finalNodeAfterError.col, 1);
+				getWalkPath(finalNodeAfterError.row, finalNodeAfterError.col);
 				setState(UnitStates.WALK);
 			}
 		}

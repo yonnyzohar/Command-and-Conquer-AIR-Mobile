@@ -208,9 +208,7 @@
 		
 		public function setHUD(infantry:Object, vehicles:Object, buildings:Object, turrets:Object):void
 		{
-			
-			
-			
+
 			buildingsContainer.init(buildings, true, "building");
 			buildingsContainer.init(turrets, true, "turret");
 			unitsContainer.init(infantry, true, "infantry");
@@ -273,7 +271,7 @@
 		public function addMiniMap():void 
 		{
 			miniMap = MiniMap.getInstance();
-			miniMap.init(ui.nodSymbolMC.width * ui.scaleX, ui.nodSymbolMC.height * ui.scaleY);
+			miniMap.init(ui.nodSymbolMC.width * ui.scaleX, ui.nodSymbolMC.height * ui.scaleY, teamObj);
 			miniMap.x = ui.x;
 			miniMap.y = 5;
 			Parameters.gameHolder.addChild(miniMap);
@@ -294,10 +292,6 @@
 			else {
 				return false;
 			}
-			
-			
-			
-			
 			
 			
 		}

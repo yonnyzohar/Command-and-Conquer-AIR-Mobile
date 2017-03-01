@@ -44,7 +44,10 @@ package global.map
 						{
 							////trace"pushing up");
 							tiles.push({"row": row - i, "col" : col});
-							if(tiles.length >= squadSize)break outer;
+							if (tiles.length >= squadSize)
+							{
+								break outer;
+							}
 						}
 					}
 					
@@ -61,7 +64,10 @@ package global.map
 						if(!pointExists)
 						{
 							tiles.push({"row" : row, "col" : col + i});
-							if(tiles.length >= squadSize)break outer;
+							if (tiles.length >= squadSize)
+							{
+								break outer;
+							}
 						}
 					}				
 				}
@@ -80,13 +86,12 @@ package global.map
 						{
 							//trace"pushing down");
 							tiles.push({"row" : row + i, "col" : col});
-							if(tiles.length >= squadSize)break outer;
+							if (tiles.length >= squadSize)
+							{
+								break outer;
+							}
 						}
-						
-						
 					}				
-					
-					
 				}
 				
 				row = row + currentI;
@@ -102,11 +107,11 @@ package global.map
 						{
 							//trace"pushing left");
 							tiles.push({"row" : row,  "col" : col - i});
-							if(tiles.length >= squadSize)break outer;
+							if (tiles.length >= squadSize)
+							{
+								break outer;
+							}
 						}
-						
-						
-						
 					}				
 				}
 				col = col - currentI;
@@ -114,7 +119,6 @@ package global.map
 			}
 			
 			return tiles;
-			
 		}
 		
 		private static function checkPoint(row:int, col:int):Boolean

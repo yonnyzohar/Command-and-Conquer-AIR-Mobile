@@ -7,6 +7,7 @@
 	import starling.display.Quad;
 	import starling.events.EventDispatcher;
 	import states.game.entities.buildings.Building;
+	import states.game.entities.buildings.Turret;
 	import states.game.entities.GameEntity;
 	/**
 	 * ...
@@ -120,7 +121,7 @@
 					{
 						var n:Node = sightArray[g];
 						n.seen = true;
-						if (p is Building)
+						if (p is Building && !(p is Turret))
 						{
 							human_buildingsSight.push(n);
 						}
@@ -138,10 +139,13 @@
 					{
 						n = sightArray[g];
 						
-						//n.seen = true;// -- setting this to true will make pc units appear in the minimap!
+						if (Parameters.AI_ONLY_GAME)
+						{
+							n.seen = true;// -- setting this to true will make pc units appear in the minimap!
+						}
 						
 						
-						if (p is Building)
+						if (p is Building && !(p is Turret))
 						{
 							pc_buildingsSight.push(n);
 						}

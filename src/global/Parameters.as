@@ -53,8 +53,11 @@ package global
 		
 		static public var useFilters:Boolean = false;
 		
-		static public var pcTeamObject:TeamObject;
-		static public var humaTeamObject:TeamObject;
+		static public var team2Obj:TeamObject;
+		static public var team1Obj:TeamObject;
+		
+		static public var AI_ONLY_GAME:Boolean = false;
+		
 		static public var editLoad:Boolean = false;
 		
 		static public var team1Colors:Object = {

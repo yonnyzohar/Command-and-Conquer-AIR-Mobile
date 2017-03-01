@@ -6,7 +6,6 @@ package global.ui.hud.slotIcons
 	import global.Parameters;
 	import global.ui.hud.HUD;
 	import global.utilities.GameTimer;
-	import global.utilities.GlobalEventDispatcher;
 	import starling.display.MovieClip;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
@@ -25,13 +24,20 @@ package global.ui.hud.slotIcons
 	
 	public class SlotHolder extends EventDispatcher
 	{
+		public static var IDLE:int = 0;
+		public static var CLICKED:int = 1;
+		public static var BUILD_IN_PROGRESS:int = 2;
+		public static var BUILD_DONE:int = 3;
+		
+		public var currentBuildState:int = 0;
+		
+		
 		protected var loadingSquare:MovieClip;
 		protected var mc:Image;
 		public var assetName:String;
 		
 		private var buildTime:int;
 		public var cost:int;
-		public var buildInProgress:Boolean = false;
 		public var currentPerNum:int = 0;
 		protected var buildCompleteFunction:Function;
 		public var contextType:String; //units or buildings
@@ -39,7 +45,6 @@ package global.ui.hud.slotIcons
 		protected var readyTXT:TextField;
 		protected var costTf:TextField;
 		
-		public var buildingDone:Boolean = false;
 		public var disabledSlots:Array;
 		
 		private var costBg:Quad;
@@ -54,6 +59,7 @@ package global.ui.hud.slotIcons
 		public function SlotHolder(_assetName:String, _contextType:String, _teamObj:TeamObject = null, _showUI:Boolean = true )
 		{
 			assetName = _assetName;
+			currentBuildState = SlotHolder.IDLE;
 			
 			showUI = _showUI;
 			teamObj = _teamObj;
@@ -132,7 +138,7 @@ package global.ui.hud.slotIcons
 			if(begin)
 			{
 				
-				if (buildingDone == false && buildInProgress == false)
+				if (currentBuildState != SlotHolder.BUILD_DONE && currentBuildState != SlotHolder.BUILD_IN_PROGRESS)
 				{
 					if (!Parameters.editMode)
 					{
@@ -196,7 +202,7 @@ package global.ui.hud.slotIcons
 		
 		public function buildMe(_complteFnctn:Function):Boolean
 		{
-			if(buildInProgress)
+			if(currentBuildState == SlotHolder.BUILD_IN_PROGRESS)
 			{
 				return true;
 			}
@@ -208,9 +214,8 @@ package global.ui.hud.slotIcons
 					buildCompleteFunction = _complteFnctn;
 				}
 				
-				buildInProgress = true;
+				currentBuildState = SlotHolder.BUILD_IN_PROGRESS;
 				currentPerNum = 0;
-				buildingDone = false;
 				GameTimer.getInstance().addUser(this);
 				return false;
 				
@@ -263,8 +268,7 @@ package global.ui.hud.slotIcons
 		{
 			count = 0;
 			GameTimer.getInstance().removeUser(this);
-			buildingDone = false;
-			buildInProgress = false;
+			currentBuildState = SlotHolder.IDLE;
 			removeUi();
 		}
 		
@@ -289,15 +293,22 @@ package global.ui.hud.slotIcons
 			{
 				view.touchable = true;
 				view.alpha = 1;
-				buildInProgress = false;
 				loadingSquare.removeFromParent();
 				if(readyTXT)readyTXT.visible = false;
 			}
+			currentBuildState = SlotHolder.IDLE;
 			
 		}
 		
-		protected function done():void{
-			buildingDone = true;
+		public function forceFinishBuild():void
+		{
+			trace("forcing finish build!");
+			done();
+		}
+		
+		protected function done():void
+		{
+			currentBuildState = SlotHolder.IDLE;
 			if (showUI)
 			{
 				if(this is UnitSlotHolder)
@@ -333,13 +344,13 @@ package global.ui.hud.slotIcons
 				view = null;
 			}
 			
-			if (buildInProgress)
+			if (currentBuildState == SlotHolder.BUILD_IN_PROGRESS)
 			{
 				dispatchEvent(new Event("BUILD_CANCELLED_ABRUPTLY"));
 			}
 			
 			GameTimer.getInstance().removeUser(this);
-			buildInProgress = false;
+			currentBuildState = SlotHolder.IDLE;
 			buildCompleteFunction = null;
 			disabledSlots = null;
 			teamObj = null;

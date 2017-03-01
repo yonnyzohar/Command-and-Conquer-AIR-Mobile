@@ -63,19 +63,23 @@ package states.game
 	{
 		private var baordMC:Board;
 		private var teamslisting:TeamsListingWindow;
-		public var aiController:AIController;
+		
 		private var finalMessage:MovieClip;
-		private var team1Obj:TeamObject;
-		private var team2Obj:TeamObject;
+		
 		public var playerSide:int;
 		public var levelNum:int;
 		private var savedObject:Object;
+		
+		private var aiGame:Boolean = true;
+		
+		public var ai1Controller:AIController;
+		public var ai2Controller:AIController;
 
 		public function Game() 
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(2);
+			setSpeed(5);
 		}
 		
 		private function setSpeed(number:Number):void 
@@ -177,57 +181,73 @@ package states.game
 				team2StartObj = savedObject.team2;
 			}
 			
-			team1Obj = new TeamObject(team1StartObj, 1, Parameters.team1Colors, (savedObject != null));
-			team2Obj = new TeamObject(team2StartObj, 2, Parameters.team2Colors, (savedObject != null));
+			Parameters.team1Obj = new TeamObject(team1StartObj, 1, Parameters.team1Colors, (savedObject != null));
+			Parameters.team2Obj = new TeamObject(team2StartObj, 2, Parameters.team2Colors, (savedObject != null));
 			
-			team1Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			team2Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			team1Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			team2Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			
-			
-			team1Obj.setEnemyTeamObj(team2Obj);
-			team2Obj.setEnemyTeamObj(team1Obj);
+			Parameters.team1Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
+			Parameters.team2Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
+			Parameters.team1Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+			Parameters.team2Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
 			
 			
-			aiController = new AIController();
-			//team 1 is ALWAYS GDI, team 2 is ALWAYS NOD
-			if (playerSide == 1)
+			Parameters.team1Obj.setEnemyTeamObj(Parameters.team2Obj);
+			Parameters.team2Obj.setEnemyTeamObj(Parameters.team1Obj);
+			
+			if (Parameters.AI_ONLY_GAME)
 			{
-				team1Obj.agent = Agent.HUMAN;
-				team1Obj.ai = AiBehaviours.SELF_DEFENSE;
+				ai1Controller = new AIController();
+				ai2Controller = new AIController();
+				Parameters.team1Obj.agent = Agent.HUMAN;
+				Parameters.team1Obj.ai = AiBehaviours.BASE_DEFENSE;
+					
+				Parameters.team2Obj.agent = Agent.PC;
+				Parameters.team2Obj.ai = AiBehaviours.BASE_DEFENSE;
 				
-				team2Obj.agent = Agent.PC;
-				team2Obj.ai = AiBehaviours.BASE_DEFENSE;
+				Parameters.team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
+				Parameters.team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+				ai1Controller.applyAI(Parameters.team1Obj);
+				ai2Controller.applyAI(Parameters.team2Obj);	
+					
 			}
 			else
 			{
-				team1Obj.agent = Agent.PC;
-				team1Obj.ai = AiBehaviours.BASE_DEFENSE;
+				ai1Controller = new AIController();
+				//team 1 is ALWAYS GDI, team 2 is ALWAYS NOD
+				if (playerSide == 1)
+				{
+					Parameters.team1Obj.agent = Agent.HUMAN;
+					Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
+					
+					Parameters.team2Obj.agent = Agent.PC;
+					Parameters.team2Obj.ai = AiBehaviours.BASE_DEFENSE;
+				}
+				else
+				{
+					Parameters.team1Obj.agent = Agent.PC;
+					Parameters.team1Obj.ai = AiBehaviours.BASE_DEFENSE;
+					
+					Parameters.team2Obj.agent = Agent.HUMAN;
+					Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
+				}
 				
-				team2Obj.agent = Agent.HUMAN;
-				team2Obj.ai = AiBehaviours.SELF_DEFENSE;
+				
+				if(Parameters.team1Obj.agent == Agent.HUMAN)
+				{
+					Parameters.team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
+					Parameters.team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+					ai1Controller.applyAI(Parameters.team2Obj, savedObject);
+					
+				}
+				else if(Parameters.team2Obj.agent == Agent.HUMAN)
+				{
+					Parameters.team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
+					Parameters.team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
+					ai1Controller.applyAI(Parameters.team1Obj, savedObject);//
+				}
 			}
 			
 			
-			if(team1Obj.agent == Agent.HUMAN)
-			{
-				Parameters.humaTeamObject = team1Obj;
-				Parameters.pcTeamObject= team2Obj;
-				team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-				team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
-				aiController.applyAI(team2Obj);
-				
-			}
-			else if(team2Obj.agent == Agent.HUMAN)
-			{
-				
-				Parameters.humaTeamObject = team2Obj;
-				Parameters.pcTeamObject= team1Obj;
-				team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
-				team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-				aiController.applyAI(team1Obj, savedObject);//
-			}
+			
 			
 			
 			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
@@ -275,8 +295,8 @@ package states.game
 			GameTimer.getInstance().freezeTimer();
 			MapMover.getInstance().freeze();
 			UnitSelectionManager.getInstance().freeze();
-			Parameters.humaTeamObject.buildManager.hud.unitsContainer.freeze();
-			Parameters.humaTeamObject.buildManager.hud.buildingsContainer.freeze();
+			//Parameters.humaTeamObject.buildManager.hud.unitsContainer.freeze();
+			//Parameters.humaTeamObject.buildManager.hud.buildingsContainer.freeze();
 		}
 		
 		
@@ -284,8 +304,8 @@ package states.game
 			GameTimer.getInstance().resumeTimer();
 			MapMover.getInstance().resume();
 			UnitSelectionManager.getInstance().resume();
-			Parameters.humaTeamObject.buildManager.hud.unitsContainer.resume();
-			Parameters.humaTeamObject.buildManager.hud.buildingsContainer.resume();
+			//Parameters.humaTeamObject.buildManager.hud.unitsContainer.resume();
+			//Parameters.humaTeamObject.buildManager.hud.buildingsContainer.resume();
 		}
 		
 		private function showMissionFailed():void 
@@ -422,22 +442,25 @@ package states.game
 			
 			baordMC.dispose();
 			
-			
-			Parameters.humaTeamObject = null;
-			Parameters.pcTeamObject = null;
+			Parameters.team1Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
+			Parameters.team2Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
+			Parameters.team1Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+			Parameters.team2Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+			Parameters.team1Obj.dispose();
+			Parameters.team2Obj.dispose();
+			Parameters.team1Obj = null;
+			Parameters.team2Obj = null;
 			teamslisting.dispose();
 			teamslisting = null;
-			aiController.dispose();
-			team1Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			team2Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			team1Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			team2Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			team1Obj.dispose();
-			team2Obj.dispose();
+			ai1Controller.dispose();
+			ai1Controller = null;
 			
-			team2Obj = null;
-			team1Obj = null;
-			aiController = null;
+			if (ai2Controller)
+			{
+				ai2Controller.dispose();
+				ai2Controller = null;
+			}
+				
 			
 			Parameters.humanTeam = [];
 			Parameters.pcTeam = [];

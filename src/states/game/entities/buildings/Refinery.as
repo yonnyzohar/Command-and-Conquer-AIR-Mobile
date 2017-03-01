@@ -30,15 +30,19 @@
 			getLoadingLoacation();
 		}
 		
-		override public function placeUnit(_row:int, _col:int):void
+		override public function placeUnit(_row:int, _col:int, fromSavedGame:Boolean = false):void
 		{
-			super.placeUnit(_row, _col);
-
-			var harvester:Harvester = Harvester(myTeamObj.handleAtachedUnit("refinery", _row, _col));
-			if (harvester)
+			super.placeUnit(_row, _col, fromSavedGame);
+			
+			if (fromSavedGame == false)
 			{
-				harvester.searchForResources(this);
+				var harvester:Harvester = Harvester(myTeamObj.handleAtachedUnit("refinery", _row, _col));
+				if (harvester)
+				{
+					harvester.searchForResources(this);
+				}
 			}
+			
 		}
 		
 		public function beginLoading(_currentStore:int, _loadCompleteFNCTB:Function):void 

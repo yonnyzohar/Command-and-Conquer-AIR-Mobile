@@ -14,7 +14,6 @@
 	import global.map.mapTypes.Board;
 	import global.ui.hud.HUD;
 	import global.utilities.FileSaver;
-	import global.utilities.GlobalEventDispatcher;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;

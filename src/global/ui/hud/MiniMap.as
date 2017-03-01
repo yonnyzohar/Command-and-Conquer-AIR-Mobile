@@ -53,6 +53,7 @@
 		private var mapShown:Boolean = false;
 		
 		private var selectionArea:MiniMapSelectionAreaView;
+		private var teamObj:TeamObject;
 		
 		private static var instance:MiniMap = new MiniMap();
 		
@@ -69,8 +70,9 @@
 			return instance;
 		}
 		
-		public function init(_w:int, _h:int):void 
+		public function init(_w:int, _h:int, _teamObj:TeamObject):void 
 		{
+			teamObj = _teamObj;
 			mapWidth = _w ;
 			mapHeight = _h ;
 			mapMover = MapMover.getInstance();
@@ -110,7 +112,7 @@
 			
 			if (!Parameters.editMode)
 			{
-				if (Parameters.humaTeamObject.powerCtrl.POWER_SHORTAGE)
+				if (teamObj.powerCtrl.POWER_SHORTAGE)
 				{
 					shutDownMap();
 					mapShown = false;
@@ -209,16 +211,15 @@
 			
 
 			var humanTeamLength:int =  Parameters.humanTeam.length;
-			var teamObj:TeamObject;
+			var team1Obj:TeamObject;
 			
 			for (var i:int = 0; i < humanTeamLength; i++ )
 			{
 				g = Parameters.humanTeam[i];
-				if (teamObj == null)
+				if (team1Obj == null)
 				{
-					teamObj = g.myTeamObj;
+					team1Obj = g.myTeamObj;
 				}
-				
 				
 				if (!Parameters.editMode)
 				{
@@ -241,24 +242,26 @@
 							
 							if (curTile == 1)
 							{
-								drawPixel( g.model.row + row, g.model.col+ col, tileSize,  teamObj.BUILDINGS_COLOR, mapBd);
+								drawPixel( g.model.row + row, g.model.col+ col, tileSize,  team1Obj.BUILDINGS_COLOR, mapBd);
 							}
 						}
 					}
 				}
 				else
 				{
-					drawPixel( g.model.row, g.model.col, tileSize,  teamObj.UNITS_COLOR,  mapBd);
+					drawPixel( g.model.row, g.model.col, tileSize,  team1Obj.UNITS_COLOR,  mapBd);
 				}
 			}
-			teamObj = null;
+			team1Obj = null;
+			
+			var team2Obj:TeamObject;
 			
 			for (i = 0; i < Parameters.pcTeam.length; i++ )
 			{
 				g = Parameters.pcTeam[i];
-				if (teamObj == null)
+				if (team2Obj == null)
 				{
-					teamObj = g.myTeamObj;
+					team2Obj = g.myTeamObj;
 				}
 				if (!Parameters.editMode)
 				{
@@ -281,16 +284,18 @@
 							
 							if (curTile == 1)
 							{
-								drawPixel( g.model.row + row, g.model.col + col,tileSize,  teamObj.BUILDINGS_COLOR,  mapBd);
+								drawPixel( g.model.row + row, g.model.col + col,tileSize,  team2Obj.BUILDINGS_COLOR,  mapBd);
 							}
 						}
 					}
 				}
 				else
 				{
-					drawPixel(  g.model.row, g.model.col,tileSize,  teamObj.UNITS_COLOR,  mapBd);
+					drawPixel(  g.model.row, g.model.col,tileSize,  team2Obj.UNITS_COLOR,  mapBd);
 				}
 			}
+			
+			team2Obj = null;
 			
 
 			var texture:Texture = Texture.fromBitmapData(mapBd);
@@ -315,9 +320,13 @@
 		
 		private function shutDownMap():void 
 		{
-			map.visible = false;
-			if(mapImage)mapImage.removeFromParent();
-			selectionArea.visible = false;
+			if (!Parameters.AI_ONLY_GAME)
+			{
+				map.visible = false;
+				if(mapImage)mapImage.removeFromParent();
+				selectionArea.visible = false;
+			}
+			
 			
 		}
 		
@@ -420,8 +429,12 @@
 		
 		public function moveMiniMap(rowsPer:Number, colsPer:Number):void 
 		{
-			selectionArea.x = (mapWidth - selectionArea.width) * colsPer;
-			selectionArea.y = (mapHeight - selectionArea.height) * rowsPer;
+			if (selectionArea)
+			{
+				selectionArea.x = (mapWidth - selectionArea.width) * colsPer;
+				selectionArea.y = (mapHeight - selectionArea.height) * rowsPer;
+			}
+			
 			
 		}
 		
@@ -459,6 +472,7 @@
 				unitsBd.dispose();
 				unitsBd = null;
 			}
+			teamObj = null;
 		}
 		
 	}
