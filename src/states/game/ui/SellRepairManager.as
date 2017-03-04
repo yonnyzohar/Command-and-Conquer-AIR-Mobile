@@ -3,6 +3,7 @@ package states.game.ui
 	import flash.geom.Point;
 	import global.enums.Agent;
 	import global.enums.MouseStates;
+	import global.GameSounds;
 	import global.map.Node;
 	import global.Parameters;
 	import starling.events.Touch;
@@ -10,31 +11,25 @@ package states.game.ui
 	import starling.events.TouchPhase;
 	import states.game.entities.buildings.Building;
 	import states.game.entities.GameEntity;
+	import states.game.teamsData.TeamObject;
 	/**
 	 * ...
 	 * @author Yonny Zohar
 	 */
 	public class SellRepairManager 
 	{
-		static private var instance:SellRepairManager = new SellRepairManager();
+		private var teamObject:TeamObject;
 		
-		public function SellRepairManager()
+		public function SellRepairManager(_teamObject:TeamObject )
 		{
-			if (instance)
+			teamObject = _teamObject;
+			if (teamObject.agent == Agent.HUMAN)
 			{
-				throw new Error("Singleton and can only be accessed through Singleton.getInstance()");
+				Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
 			}
 		}
 		
-		public static function getInstance():SellRepairManager
-		{
-			return instance;
-		}
 		
-		public function init():void
-		{
-			Parameters.theStage.addEventListener(TouchEvent.TOUCH, onStageTouch);
-		}
 		
 		public function freeze():void 
 		{
@@ -84,6 +79,8 @@ package states.game.ui
 								if(occupyingUnit.model.controllingAgent == Agent.HUMAN)
 								{
 									Building(occupyingUnit).buildingSold();
+									GameSounds.playSound("building_sold", "vo");
+									MouseStates.currentState = MouseStates.REG_PLAY;
 								}
 							}
 						}
@@ -108,6 +105,7 @@ package states.game.ui
 								if(occupyingUnit.model.controllingAgent == Agent.HUMAN)
 								{
 									Building(occupyingUnit).buildingRepaired();
+									MouseStates.currentState = MouseStates.REG_PLAY;
 								}
 							}
 						}

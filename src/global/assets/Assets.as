@@ -963,7 +963,7 @@ package global.assets
                     cost: 2000,
                     sight: 4,
                     hasBib: true,
-                    tiberiumStorage: 1e3,
+					
                     armor: 1,
                     hitPoints: 800,
                     dependency: ["construction-yard", "power-plant"],
@@ -1105,7 +1105,7 @@ package global.assets
                     cost: 150,
                     sight: 2,
                     hasBib: true,
-                    tiberiumStorage: 1500,
+                    resourceStorage: 1500,
                     armor: 1,
                     hitPoints: 150,
                     dependency: ["construction-yard", "refinery"],
@@ -1203,7 +1203,7 @@ package global.assets
                     hasBib: true,
                     z: -1,
                     armor: 1,
-                    tiberiumStorage: 1500,
+                    
                     orders: {
                         type: "auto-repair"
                     },
@@ -1392,6 +1392,7 @@ package global.assets
                     sight: 5,
                     hitPoints: 800,
                     dependency: undefined,
+					resourceStorage: 5000,
                     hasBib: true,
                     armor: 1,
                     owner: "both",

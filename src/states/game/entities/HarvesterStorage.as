@@ -46,6 +46,29 @@ package   states.game.entities
 			}
 		}
 		
+		public function setStorage(_harvestAmount:int):Boolean 
+		{
+			currentStore = _harvestAmount;
+			
+			var boxCapacity:int = totalStore / numBoxes;
+			for (var i:int = 1; i <= boxesArr.length; i++ )
+			{
+				if (currentStore >= (boxCapacity*i) )
+				{
+					boxesArr[i-1]["greenFont"].visible = true;
+				}
+			}
+			
+			if (currentStore >=  totalStore)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
 		private function createBoxes():void 
 		{
 			

@@ -142,7 +142,7 @@ package global.ui.hud.slotIcons
 				{
 					if (!Parameters.editMode)
 					{
-						if (teamObj.cash - cost >= 0)
+						if (teamObj.cashManager.cash - cost >= 0)
 						{
 							GameSounds.playSound("building", "vo");
 						}
@@ -226,7 +226,7 @@ package global.ui.hud.slotIcons
 		
 		public function update(_pulse:Boolean):void
 		{
-			if (teamObj.getBalance() >= 0 )
+			if (teamObj.cashManager.cash >= 0 )
 			{
 				count++;
 				if (currentPerNum < cost)

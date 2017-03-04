@@ -195,7 +195,7 @@ package global.ai
 				{
 					return;
 				}
-				if (pcTeamObj.cash < currentTurretObj.cost)
+				if (pcTeamObj.cashManager.cash < currentTurretObj.cost)
 				{
 					return;
 				}
@@ -327,7 +327,7 @@ package global.ai
 					}
 					
 					//if we have money - build, on complete come back to here
-					if (pcTeamObj.cash >= currentBuildingObj.cost)
+					if (pcTeamObj.cashManager.cash >= currentBuildingObj.cost)
 					{
 						myBuildSlot = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
 						if (myBuildSlot)
@@ -349,7 +349,7 @@ package global.ai
 				else
 				{
 					//build power station, on complete - build
-					if (pcTeamObj.cash >= currentBuildingObj.cost)
+					if (pcTeamObj.cashManager.cash >= currentBuildingObj.cost)
 					{
 						myBuildSlot = pcTeamObj.buildManager.hud.getSlot(currentBuildingObj.name);
 						if (myBuildSlot)
@@ -519,7 +519,7 @@ package global.ai
 			{
 				//we saved on to a desired unit, try to build it
 				printAI("trying to build saved unit " + myUnitSlotbj.name);
-				if (pcTeamObj.cash >= myUnitSlotbj.cost)
+				if (pcTeamObj.cashManager.cash >= myUnitSlotbj.cost)
 				{
 					if (myUnitSlotbj && myUnitSlotbj.type == "vehicle" )
 					{
@@ -585,7 +585,7 @@ package global.ai
 				if (myInfantrySlot)
 				{
 					
-					if ( pcTeamObj.cash >= currentInfantrygObj.cost)
+					if ( pcTeamObj.cashManager.cash >= currentInfantrygObj.cost)
 					{
 						infantryBeingBuilt = true;
 						myInfantrySlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onInfantryBuildCancelledAbruptly);
@@ -672,7 +672,7 @@ package global.ai
 				if ( myVehicleSlot )
 				{
 					
-					if (pcTeamObj.cash >= currentVehicleObj.cost)
+					if (pcTeamObj.cashManager.cash >= currentVehicleObj.cost)
 					{
 						myVehicleSlot.addEventListener("BUILD_CANCELLED_ABRUPTLY", onVehicleBuildCancelledAbruptly);
 						pcTeamObj.buildManager.addEventListener("UNIT_CONSTRUCTED", onVehicleComplete);

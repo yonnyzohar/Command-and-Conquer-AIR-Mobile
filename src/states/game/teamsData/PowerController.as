@@ -1,4 +1,4 @@
-package global.ui.hud
+package states.game.teamsData
 {
 	import global.enums.Agent;
 	import global.GameSounds;

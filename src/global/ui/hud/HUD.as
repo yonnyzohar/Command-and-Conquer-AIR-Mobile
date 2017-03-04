@@ -217,7 +217,7 @@
 			if (showUI)
 			{
 				addMiniMap();
-				cashUi.tf.text = "$" + teamObj.cash;
+				cashUi.tf.text = "$" + teamObj.cashManager.cash;
 				if (teamObj.teamName == "nod")
 				{
 					ui.nodSymbolMC.visible = true;

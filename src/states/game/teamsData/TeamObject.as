@@ -13,8 +13,8 @@ package states.game.teamsData
 	import global.map.SpiralBuilder;
 	import global.Methods;
 	import global.Parameters;
-	import global.ui.hud.PowerController;
-	import global.ui.hud.TeamBuildManager;
+	import states.game.teamsData.PowerController;
+	import states.game.teamsData.TeamBuildManager;
 	import global.utilities.GameTimer;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -35,29 +35,31 @@ package states.game.teamsData
 	import states.game.stats.VehicleStats;
 	import states.game.entities.units.*;
 	import states.game.stats.VehicleStatsObj;
+	import states.game.ui.SellRepairManager;
 	
 	public class TeamObject extends EventDispatcher
 	{
 		public var ai:int;
 		public var agent:int;
 		public var teamName:String;
-		private var targetBalance:int;
+		
 		public var team:Array;
 		public var enemyTeam:Array;
 		public var teamNum:int;
 		
 		public var buildManager:TeamBuildManager;
-		public var cash:int;
+		
 		public var powerCtrl:PowerController;
 		public var startParams:Object;
 		private var enemyTeam1Obj:TeamObject;
 		public var teamBuildingsDict:Dictionary = new Dictionary();
 		
-		private var cashToAdd:int = 0;
 		
+		private var sellRepairManager:SellRepairManager;
 		public var UNITS_COLOR:uint;
 		public var BUILDINGS_COLOR:uint;
 		private var fromSaveGame:Boolean;
+		public var cashManager:CashManager;
 		
 		public var currentBaseEnemy:GameEntity;
 		
@@ -68,14 +70,22 @@ package states.game.teamsData
 			ai = startParams.AiBehaviour;
 			agent = startParams.Agent;
 			teamName = startParams.teamName;
-			cash = startParams.cash;
 			fromSaveGame = _fromSaveGame;
 			
 			teamNum = _teamNum;
 			UNITS_COLOR = colorsObj.UNITS;
 			BUILDINGS_COLOR = colorsObj.BUILDINGS;
 			
+			if (cashManager == null)
+			{
+				cashManager = new CashManager(startParams.cash, this);
+			}
+			if (sellRepairManager == null)
+			{
+				sellRepairManager = new SellRepairManager(this);
+			}
 		}
+		
 		
 		public function getSaveObj():Object
 		{
@@ -106,7 +116,7 @@ package states.game.teamsData
 			o.AiBehaviour = ai;
 			o.Agent = agent;
 			o.teamName = teamName;
-			o.cash = cash;
+			o.cash = cashManager.cash;
 			o.teamNum = teamNum;
 			var teamLen:int = team.length;
 			o.startVehicles = [];
@@ -234,7 +244,16 @@ package states.game.teamsData
 					
 					if (curType == "startBuildings")
 					{
-						addBuildingToDict(BuildingsStats.dict[obj.name].buildingType);
+						
+						var curBuildingObj:BuildingsStatsObj = BuildingsStats.dict[obj.name];
+						
+						if (curBuildingObj.resourceStorage)
+						{
+							cashManager.addStorage(curBuildingObj.resourceStorage);
+						}
+						
+						
+						addBuildingToDict(curBuildingObj.buildingType);
 						
 					}
 					
@@ -496,6 +515,14 @@ package states.game.teamsData
 			
 			if (BuildingsStats.dict[assetName])
 			{
+				var curBuildingObj:BuildingsStatsObj = BuildingsStats.dict[assetName];
+						
+				if (curBuildingObj.resourceStorage)
+				{
+					cashManager.addStorage(curBuildingObj.resourceStorage);
+				}
+				
+				
 				if (assetName == "refinery")
 				{
 					p = new Refinery(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
@@ -507,6 +534,7 @@ package states.game.teamsData
 				
 				addBuildingToDict(BuildingsStats.dict[assetName].buildingType);
 				handleHud();
+				
 				
 			}
 			else
@@ -596,30 +624,15 @@ package states.game.teamsData
 			var p:Building = Building(e.target);
 			p.removeEventListener("SOLD", onSold);
 			var cost:int = BuildingsStatsObj(BuildingModel(p.model).stats).cost;
-			cashToAdd = cost / 2;
-			GameTimer.getInstance().addUser(this);
+			cashManager.setCashToAdd(cost / 2);
+			
 			
 			onDead(e);
 		}
 		
-		public function beginAddingCash(_cashToAdd:int):void
-		{
-			cashToAdd +=  _cashToAdd;
-			GameTimer.getInstance().addUser(this);
-		}
 		
-		public function update(_pulse:Boolean):void
-		{
-			if (cashToAdd > 0)
-			{
-				addCash(  Parameters.CASH_INCREMENT );
-				cashToAdd -= Parameters.CASH_INCREMENT;
-			}
-			else
-			{
-				GameTimer.getInstance().removeUser(this);
-			}
-		}
+		
+		
 		
 		private function onDead(e:Event):void
 		{
@@ -634,14 +647,16 @@ package states.game.teamsData
 			p.removeEventListener("UNDER_ATTACK", underAttack);
 			p.removeEventListener("SOLD", onSold);
 			
-			if (p is Building)
+			if (p is Building && (p is Turret) == false)
 			{
 				row = p.model.row;
 				col = p.model.col;
 				
-				if (BuildingsStatsObj(BuildingModel(p.model).stats).residents)
+				var curBuildingObj:BuildingsStatsObj = BuildingsStatsObj(BuildingModel(p.model).stats);
+				
+				if (curBuildingObj.residents)
 				{
-					numResidents = BuildingsStatsObj(BuildingModel(p.model).stats).residents;
+					numResidents = curBuildingObj.residents;
 					
 					for (i = 0; i < numResidents; i++)
 					{
@@ -649,16 +664,22 @@ package states.game.teamsData
 						
 					}
 				}
-				if (BuildingsStats.dict[p.name])
+				
+				var numBuildingsOfThisType:int = removeBuildingFromDict(curBuildingObj.buildingType);
+				if (numBuildingsOfThisType == 0)
 				{
-					var numBuildingsOfThisType:int = removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
-					if (numBuildingsOfThisType == 0)
-					{
-						buildManager.removeDependantUnitsAndBuildings(Building(p).name);
-					}
+					buildManager.removeDependantUnitsAndBuildings(Building(p).name);
 				}
 				
+				
 				handleHud();
+				
+				
+						
+				if (curBuildingObj.resourceStorage)
+				{
+					cashManager.reduceStorage(curBuildingObj.resourceStorage);
+				}
 				
 				//this is temporary until the pc can build its own
 				updatePower();
@@ -695,20 +716,13 @@ package states.game.teamsData
 		
 		public function reduceCash(_reduceAmount:int):Boolean
 		{	
-			var moreThanZero:Boolean = true;
-			targetBalance = cash - _reduceAmount;
-			cash = targetBalance;
+			var moreThanZero:Boolean = cashManager.reduceCash(_reduceAmount);
 			
-			if (cash <= 0)
-			{
-				cash = 0;
-				moreThanZero = false;
-			}
 			
 			////trace(cash);
 			if (agent == Agent.HUMAN)
 			{
-				buildManager.hud.updateCashUI(cash);
+				buildManager.hud.updateCashUI(cashManager.cash);
 			}
 			
 			
@@ -717,19 +731,16 @@ package states.game.teamsData
 		}
 		
 		public function addCash(_amount:int):void
-		{	
-			targetBalance = cash + _amount;
-			cash = targetBalance;
+		{
+			cashManager.addCash(_amount);
+			
+			
 			if (agent == Agent.HUMAN)
 			{
-				buildManager.hud.updateCashUI(cash);
+				buildManager.hud.updateCashUI(cashManager.cash);
 			}
 		}
 		
-		public function getBalance():int
-		{
-			return cash;
-		}
 		
 		public function getNumOfHarvesters():int 
 		{
@@ -769,7 +780,10 @@ package states.game.teamsData
 			powerCtrl = null;
 			enemyTeam1Obj = null;
 			teamBuildingsDict = null;
-			
+			sellRepairManager.dispose();
+			sellRepairManager = null;
+			cashManager.dispose();
+			cashManager = null;
 		}
 	}
 }

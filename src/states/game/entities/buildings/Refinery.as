@@ -70,12 +70,8 @@
 			super.update(_pulse);
 			if (HARVESTER_DOCKED)
 			{
-				if (currentStore > 0)
-				{
-					myTeamObj.addCash(  Parameters.CASH_INCREMENT );
-					currentStore -= Parameters.CASH_INCREMENT;
-				}
-				else
+				
+				if (myTeamObj.cashManager.REACHEED_LIMIT || currentStore <= 0)
 				{
 					BuildingView(view).state = "-undocking";
 					BuildingView(view).mc.loop = false;
@@ -83,8 +79,12 @@
 					BuildingView(view).playState();
 					HARVESTER_DOCKED = false;
 				}
+				else
+				{
+					myTeamObj.addCash(  Parameters.CASH_INCREMENT );
+					currentStore -= Parameters.CASH_INCREMENT;
+				}
 			}
-			
 		}
 		
 		private function onunLoadComplete(e:Event):void 
@@ -95,7 +95,7 @@
 			BuildingView(view).playState();
 			if (loadCompleteFNCTB != null)
 			{
-				loadCompleteFNCTB();
+				loadCompleteFNCTB(currentStore);
 			}
 			loadCompleteFNCTB = null;
 			refinerylocked = false;

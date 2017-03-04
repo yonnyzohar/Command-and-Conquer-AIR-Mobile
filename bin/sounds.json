@@ -141,7 +141,8 @@
 		"reinforcements_have_arrived": "reinforcements_have_arrived",
 		"on_hold": "on_hold",
 		"unit_ready": "unit_ready",
-		"select_target": "select_target"
+		"select_target": "select_target",
+		"SilosNeeded" : "SilosNeeded"
 	},
 	"communications-center-create": "comcntr1",
 	

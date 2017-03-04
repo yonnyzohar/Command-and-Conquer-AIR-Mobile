@@ -16,7 +16,7 @@ package states.game
 	import global.pools.PoolElement;
 	import global.pools.PoolsManager;
 	import global.ui.hud.HUD;
-	import global.ui.hud.TeamBuildManager;
+	import states.game.teamsData.TeamBuildManager;
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.MapMover;
 	import global.utilities.SightManager;
@@ -30,7 +30,6 @@ package states.game
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.UnitModel;
 	import states.game.entities.units.*;
-	import states.game.ui.SellRepairManager;
 	
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
@@ -79,7 +78,7 @@ package states.game
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(4);
+			setSpeed(10);
 		}
 		
 		private function setSpeed(number:Number):void 
@@ -138,7 +137,6 @@ package states.game
 			addTeams();
 			
 			UnitSelectionManager.getInstance().init();
-			SellRepairManager.getInstance().init();
 			GameTimer.getInstance().addUser(this);
 			Parameters.theStage.addChild(teamslisting.view);
 			teamslisting.view.x = Parameters.theStage.stageWidth - teamslisting.view.width;
@@ -465,7 +463,7 @@ package states.game
 			Parameters.humanTeam = [];
 			Parameters.pcTeam = [];
 			UnitSelectionManager.getInstance().dispose();
-			SellRepairManager.getInstance().dispose();
+			
 			SightManager.getInstance().dispose();
 			BGSoundManager.stopAllSounds();
 			Parameters.currentSquad = null;

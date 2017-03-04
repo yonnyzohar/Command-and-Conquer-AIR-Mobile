@@ -6,7 +6,7 @@
 	import global.enums.MouseStates;
 	import global.map.mapTypes.Board;
 	import global.map.Node;
-	import global.ui.hud.TeamBuildManager;
+	import states.game.teamsData.TeamBuildManager;
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.KeyboardController;
 	import global.utilities.MapMover;

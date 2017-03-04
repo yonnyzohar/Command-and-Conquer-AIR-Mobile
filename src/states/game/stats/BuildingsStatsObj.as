@@ -9,6 +9,7 @@ package states.game.stats
 		public var attachedUnit:String;
 		public var hasBaseIMG:Boolean;
 		public var buildingType:String;
+		public var resourceStorage:int;
 		
 	}
 }

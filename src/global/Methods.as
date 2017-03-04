@@ -617,15 +617,19 @@ package global
 							for (var j:int = 0; j < buildingTilesLen; j++ )
 							{
 								n = buildingTiles[j];
-								dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-								if (dist <= sightRange)
+								if (n)
 								{
-									if (dist < shortestDist)
+									dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+									if (dist <= sightRange)
 									{
-										shortestDist = dist;
-										closestEnemny = p;
+										if (dist < shortestDist)
+										{
+											shortestDist = dist;
+											closestEnemny = p;
+										}
 									}
 								}
+								
 							}
 						}
 

@@ -1,4 +1,4 @@
-package global.ui.hud
+package states.game.teamsData
 {
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
@@ -9,6 +9,7 @@ package global.ui.hud
 	import global.GameSounds;
 	import global.map.Node;
 	import global.Parameters;
+	import global.ui.hud.BuidingPlacementMarker;
 	import global.ui.hud.HUD;
 	import global.ui.hud.slotIcons.SlotHolder;
 	import global.utilities.DragScroll;
@@ -426,7 +427,7 @@ package global.ui.hud
 				
 				if (currentBuildState == SlotHolder.IDLE)
 				{
-					if (teamObj.cash - selectedSlot.cost >= 0)
+					if (teamObj.cashManager.cash - selectedSlot.cost >= 0)
 					{
 						hud.buildingsContainer.disableAllSlotsExceptSelected(selectedSlot);
 						selectedSlot.buildMe(onBuildingComplete);
@@ -453,7 +454,7 @@ package global.ui.hud
 						//this will never happen with AI
 						hud.buildingsContainer.selectedSlot.cancelBuild();
 						var cashRefund:int = hud.buildingsContainer.selectedSlot.currentPerNum;
-						teamObj.beginAddingCash(cashRefund);
+						teamObj.cashManager.beginAddingCash(cashRefund);
 						hud.buildingsContainer.enableAllSlots();
 						if (teamObj.agent == Agent.HUMAN)
 						{
@@ -484,7 +485,7 @@ package global.ui.hud
 				var selectedSlot:SlotHolder = hud.unitsContainer.selectedSlot;
 				
 				
-				if (teamObj.cash - selectedSlot.cost >= 0)
+				if (teamObj.cashManager.cash - selectedSlot.cost >= 0)
 				{
 					var buildInProgress:Boolean = (selectedSlot.currentBuildState == SlotHolder.BUILD_IN_PROGRESS);
 
@@ -499,7 +500,7 @@ package global.ui.hud
 						//this will never happen with AI
 						hud.unitsContainer.selectedSlot.cancelBuild();
 						var cashRefund:int = hud.unitsContainer.selectedSlot.currentPerNum;
-						teamObj.beginAddingCash(cashRefund);
+						teamObj.cashManager.beginAddingCash(cashRefund);
 						hud.unitsContainer.enableSelectedSlots(hud.unitsContainer.selectedSlot.disabledSlots);
 						if (teamObj.agent == Agent.HUMAN)
 						{

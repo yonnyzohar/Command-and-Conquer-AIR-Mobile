@@ -99,15 +99,15 @@ package  states.game.entities.units
 			}
 		}
 		
-		private function onLoadComplete():void
+		private function onLoadComplete(_storeFromRefinery:int):void
 		{
 			if (view)
 			{
 				view.alpha = 1;
 				view.mc.visible = true;
 				storageBar.visible = true;
-				storageBar.currentStore = 0;
-				storageBar.clearStorage()
+				storageBar.clearStorage();
+				storageBar.setStorage(_storeFromRefinery);
 				loadingBegan = false;
 				isFull = false;
 				harvestAnimPlaying = false;

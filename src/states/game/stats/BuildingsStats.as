@@ -37,6 +37,11 @@ package states.game.stats
 				buildingObj.hasBaseIMG = curBuilding.hasBaseIMG;
 				buildingObj.buildingType = curBuilding.buildingType;
 				
+				if (curBuilding.resourceStorage)
+				{
+					buildingObj.resourceStorage = curBuilding.resourceStorage;
+				}
+				
 				if (curBuilding.residents)
 				{
 					buildingObj.residents = curBuilding.residents;
