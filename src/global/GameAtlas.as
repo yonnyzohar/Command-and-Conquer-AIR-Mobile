@@ -110,9 +110,10 @@
 		}
 		
 		
-		public static function initGlobalAssets():void
+		public static function initGlobalAssets(_callback:Function):void
 		{
 			reset();
+			callback = _callback;
 			
 			var scale:Number = 1;
 			
@@ -330,7 +331,6 @@
 		{
 			if (worker.state == WorkerState.RUNNING) 
             {
-				trace("ASSET NAMES!!!!!");
                 mainToBack.send(assetNames);
             }
 		}
@@ -433,10 +433,10 @@
 			
 				if (callback != null)
 				{
-					stopMe = true;
-					trace("-----TA LOADING COMPLETE")
+					//stopMe = true;
 					Parameters.loadingScreen.remove();
 					callback();
+					callback = null;
 				}
 				killWorker();
 			}

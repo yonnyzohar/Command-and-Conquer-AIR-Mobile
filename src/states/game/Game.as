@@ -109,7 +109,7 @@ package states.game
 			{
 				dataObj = savedObject;
 			}
-			
+			Parameters.loadingScreen.init();
 			LevelManager.loadRelevantAssets(dataObj, onLoadAssetsComplete);
 			
 			

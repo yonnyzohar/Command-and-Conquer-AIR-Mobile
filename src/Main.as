@@ -105,11 +105,14 @@ package
 			MyTA.init(bitmapData, taPlacementsXML);
 			TemplateLoader.init(MyTA.ta, dymanicTaCreator.viewHeirarchyObj);
 
-			initStartScreen(); 
-			
 			Parameters.loadingScreen = new LoadingScreen();
 			Parameters.loadingScreen.init();
-			GameAtlas.initGlobalAssets();
+			GameAtlas.initGlobalAssets(globalAssetsLoaded);
+		}
+		
+		private function globalAssetsLoaded():void
+		{
+			initStartScreen(); 
 		}
 		
 		
