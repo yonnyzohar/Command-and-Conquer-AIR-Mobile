@@ -58,11 +58,11 @@ package global.ui.hud
 			teamObj = _teamObj;
 			
 			
-			var infantry:Object = getAvaliableInfantry(teamStartParams.startBuildings);
-			var vehicles:Object = getAvaliableVehicles(teamStartParams.startBuildings);
+			var infantry:Object = getAvaliableInfantry(teamStartParams.startBuildings, "add");
+			var vehicles:Object = getAvaliableVehicles(teamStartParams.startBuildings, "add");
 			
-			var buildings:Object = getAvaliableBuildings(teamStartParams.startBuildings);
-			var turrets:Object   = getAvaliableTurrets(teamStartParams.startBuildings);
+			var buildings:Object = getAvaliableBuildings(teamStartParams.startBuildings, "add");
+			var turrets:Object   = getAvaliableTurrets(teamStartParams.startBuildings, "add");
 			
 			
 			
@@ -85,10 +85,10 @@ package global.ui.hud
 		{
 			if (BuildingsStats.dict[_assetName])
 			{
-				var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
-				var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
-				var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
-				var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
+				var infantry:Object =  getAvaliableInfantry([ { name : _assetName } ] , "add");
+				var vehicles:Object =  getAvaliableVehicles([ { name : _assetName } ], "add");
+				var buildings:Object = getAvaliableBuildings([{name : _assetName}] , "add");
+				var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ], "add");
 				var newConstriuctionOptions:Boolean = hud.updateUnitsAndBuildings(infantry, vehicles, buildings, turrets);
 				
 				return newConstriuctionOptions;
@@ -105,16 +105,16 @@ package global.ui.hud
 		{
 			if (BuildingsStats.dict[_assetName])
 			{
-				var infantry:Object = getAvaliableInfantry([ { name : _assetName } ]);
-				var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ]);
-				var buildings:Object = getAvaliableBuildings([{name : _assetName}]);
-				var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ]);
+				var infantry:Object = getAvaliableInfantry([ { name : _assetName } ], "remove");
+				var vehicles:Object = getAvaliableVehicles([ { name : _assetName } ], "remove");
+				var buildings:Object = getAvaliableBuildings([{name : _assetName}], "remove");
+				var turrets:Object   = getAvaliableTurrets([ { name : _assetName } ], "remove");
 				hud.removeUnitsAndBuildings(infantry, vehicles, buildings, turrets)
 			}
 			
 		}
 		
-		private function getAvaliableInfantry(_buildings:Array):Object
+		private function getAvaliableInfantry(_buildings:Array, addOrRemove:String):Object
 		{
 			var k:String;
 			var units:Object = { };
@@ -129,15 +129,19 @@ package global.ui.hud
 				{
 					var curUnit:InfantryStatsObj = InfantryStats.dict[k];
 					
-					if (curUnit.constructedIn.indexOf(type) != -1)
+					//if current unit is constructed in hand of mod
+					if (curUnit.constructedIn.indexOf(buildingName) != -1)
 					{
+						//and this is the right tech level
 						if (curUnit.tech <= LevelManager.currentlevelData.tech)
 						{
 							var allBuildingsExist:Boolean = true;
 							
 							for (var j:int = 0; j < curUnit.dependency.length; j++ )
 							{
-								if (teamObj.teamBuildingsDict[curUnit.dependency[j]])
+								var buildingDependencyName:String = curUnit.dependency[j];
+								
+								if (teamObj.teamBuildingsDict[buildingDependencyName])
 								{
 									
 								}
@@ -148,11 +152,24 @@ package global.ui.hud
 								}
 							}
 							
-							if (allBuildingsExist)
+							if (addOrRemove == "add")
 							{
-								if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+								if (allBuildingsExist)
 								{
-									units[k] = curUnit;
+									if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+									{
+										units[k] = curUnit;
+									}
+								}
+							}
+							if (addOrRemove == "remove")
+							{
+								if (!allBuildingsExist)
+								{
+									if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+									{
+										units[k] = curUnit;
+									}
 								}
 							}
 						}
@@ -163,7 +180,7 @@ package global.ui.hud
 		}
 		
 		
-		private function getAvaliableVehicles(_buildings:Array):Object
+		private function getAvaliableVehicles(_buildings:Array, addOrRemove:String):Object
 		{
 			var k:String;
 			var units:Object = { };
@@ -188,7 +205,9 @@ package global.ui.hud
 							
 								for (var j:int = 0; j < curVehicle.dependency.length; j++ )
 								{
-									if (teamObj.teamBuildingsDict[curVehicle.dependency[j]])
+									var buildingDependencyName:String = curVehicle.dependency[j];
+								
+									if (teamObj.teamBuildingsDict[buildingDependencyName])
 									{
 										
 									}
@@ -198,12 +217,26 @@ package global.ui.hud
 										break;
 									}
 								}
-							
-								if (allBuildingsExist)
+								
+								
+								if (addOrRemove == "add")
 								{
-									if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+									if (allBuildingsExist)
 									{
-										units[k] = curVehicle;
+										if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+										{
+											units[k] = curVehicle;
+										}
+									}
+								}
+								if (addOrRemove == "remove")
+								{
+									if (!allBuildingsExist)
+									{
+										if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+										{
+											units[k] = curVehicle;
+										}
 									}
 								}
 							}
@@ -214,6 +247,144 @@ package global.ui.hud
 			return units;
 		}
 		
+		
+		
+		
+		
+		private function getAvaliableTurrets(_buildings:Array, addOrRemove:String):Object
+		{
+			var k:String;
+			var buildings:Object = { };
+			var buildingsLen:int = _buildings.length;
+			
+			for(var i:int = 0; i < buildingsLen; i++)
+			{
+				var obj:Object = _buildings[i];
+				var buildingName:String = obj["name"];
+				var type:String = BuildingsStats.dict[buildingName].buildingType;
+				
+				
+				for (k in TurretStats.dict)
+				{
+					var curTurret:TurretStatsObj = TurretStats.dict[k];
+					
+					if (curTurret.dependency.indexOf(type) != -1)
+					{
+						if (curTurret.tech <= LevelManager.currentlevelData.tech)
+						{
+							var allBuildingsExist:Boolean = true;
+							
+							for (var j:int = 0; j < curTurret.dependency.length; j++ )
+							{
+								var buildingDependencyName:String = curTurret.dependency[j];
+								
+								if (teamObj.teamBuildingsDict[buildingDependencyName])
+								{
+									
+								}
+								else
+								{
+									allBuildingsExist = false;
+									break;
+								}
+							}
+							
+							if (addOrRemove == "add")
+							{
+								if (allBuildingsExist)
+								{
+									if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
+									{
+										buildings[k] = curTurret;
+									}
+								}
+							}
+							if (addOrRemove == "remove")
+							{
+								if (!allBuildingsExist)
+								{
+									if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
+									{
+										buildings[k] = curTurret;
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				
+			}
+			return buildings;
+		}
+		
+		private function getAvaliableBuildings(_buildings:Array, addOrRemove:String):Object
+		{
+			var k:String;
+			var buildings:Object = { };
+			var buildingsLen:int = _buildings.length;
+			
+			for(var i:int = 0; i <buildingsLen; i++)
+			{
+				var obj:Object = _buildings[i];
+				var buildingName:String = obj["name"];
+				var type:String = BuildingsStats.dict[buildingName].buildingType;
+				
+				
+				for (k in BuildingsStats.dict)
+				{
+					var curBuilding:BuildingsStatsObj = BuildingsStats.dict[k];
+					
+					if (curBuilding.dependency)
+					{
+						if (curBuilding.dependency.indexOf(type) != -1)
+						{
+							if (curBuilding.tech <= LevelManager.currentlevelData.tech)
+							{
+								var allBuildingsExist:Boolean = true;
+							
+								for (var j:int = 0; j < curBuilding.dependency.length; j++ )
+								{
+									var buildingDependencyName:String = curBuilding.dependency[j];
+									
+									if (teamObj.teamBuildingsDict[buildingDependencyName])
+									{
+										
+									}
+									else
+									{
+										allBuildingsExist = false;
+										break;
+									}
+								}
+								
+								if (addOrRemove == "add")
+								{
+									if (allBuildingsExist)
+									{
+										if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
+										{
+											buildings[k] = curBuilding;
+										}
+									}
+								}
+								if (addOrRemove == "remove")
+								{
+									if (!allBuildingsExist)
+									{
+										if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
+										{
+											buildings[k] = curBuilding;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return buildings;
+		}
 		
 		
 		public function getProducingBuilding(unit:AssetStatsObj, currentTeam:Array):Object 
@@ -246,117 +417,12 @@ package global.ui.hud
 			return o;
 		}
 		
-		private function getAvaliableTurrets(_buildings:Array):Object
-		{
-			var k:String;
-			var buildings:Object = { };
-			var buildingsLen:int = _buildings.length;
-			
-			for(var i:int = 0; i < buildingsLen; i++)
-			{
-				var obj:Object = _buildings[i];
-				var buildingName:String = obj["name"];
-				var type:String = BuildingsStats.dict[buildingName].buildingType;
-				
-				
-				for (k in TurretStats.dict)
-				{
-					var curTurret:TurretStatsObj = TurretStats.dict[k];
-					
-					if (curTurret.dependency.indexOf(type) != -1)
-					{
-						if (curTurret.tech <= LevelManager.currentlevelData.tech)
-						{
-							var allBuildingsExist:Boolean = true;
-							
-							for (var j:int = 0; j < curTurret.dependency.length; j++ )
-							{
-								if (teamObj.teamBuildingsDict[curTurret.dependency[j]])
-								{
-									
-								}
-								else
-								{
-									allBuildingsExist = false;
-									break;
-								}
-							}
-							
-							if (allBuildingsExist)
-							{
-								if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
-								{
-									buildings[k] = curTurret;
-								}
-							}
-						}
-					}
-				}
-				
-				
-			}
-			return buildings;
-		}
-		
-		private function getAvaliableBuildings(_buildings:Array):Object
-		{
-			var k:String;
-			var buildings:Object = { };
-			var buildingsLen:int = _buildings.length;
-			
-			for(var i:int = 0; i <buildingsLen; i++)
-			{
-				var obj:Object = _buildings[i];
-				var buildingName:String = obj["name"];
-				var type:String = BuildingsStats.dict[buildingName].buildingType;
-				
-				
-				for (k in BuildingsStats.dict)
-				{
-					var curBuilding:BuildingsStatsObj = BuildingsStats.dict[k];
-					
-					if (curBuilding.dependency)
-					{
-						if (curBuilding.dependency.indexOf(type) != -1)
-						{
-							if (curBuilding.tech <= LevelManager.currentlevelData.tech)
-							{
-								var allBuildingsExist:Boolean = true;
-							
-								for (var j:int = 0; j < curBuilding.dependency.length; j++ )
-								{
-									if (teamObj.teamBuildingsDict[curBuilding.dependency[j]])
-									{
-										
-									}
-									else
-									{
-										allBuildingsExist = false;
-										break;
-									}
-								}
-								
-								if (allBuildingsExist)
-								{
-									if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
-									{
-										buildings[k] = curBuilding;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			return buildings;
-		}
-		
 		private function onBuildingSelected(e:Event):void 
 		{
 			if(hud.buildingsContainer.selectedSlot != null)
 			{
 				var selectedSlot:SlotHolder = hud.buildingsContainer.selectedSlot;
-				var currentBuildState:Boolean = selectedSlot.currentBuildState; 
+				var currentBuildState:int = selectedSlot.currentBuildState; 
 				
 				if (currentBuildState == SlotHolder.IDLE)
 				{
@@ -572,6 +638,7 @@ package global.ui.hud
 			var types:Array = ["building", "vehicle", "infantry", "turret"];
 			var currentType:String;
 			var obj:AssetStatsObj;
+			var teamLen:int = teamObj.team.length;
 			
 			for (i = 0; i < stats.length; i++ )
 			{
@@ -585,7 +652,7 @@ package global.ui.hud
 			
 			if (obj.constructedIn != null)
 			{
-				outer : for (i = 0; i < teamObj.team.length; i++ )
+				outer : for (i = 0; i < teamLen; i++ )
 				{
 					for (var j:int = 0; j < obj.constructedIn.length; j++ )
 					{
@@ -600,7 +667,7 @@ package global.ui.hud
 			}
 			else
 			{
-				for (i = 0; i < teamObj.team.length; i++ )
+				for (i = 0; i < teamLen; i++ )
 				{
 					if (teamObj.team[i] is Building && teamObj.team[i].name == constructedIn) 
 					{

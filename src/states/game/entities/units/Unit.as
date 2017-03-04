@@ -395,6 +395,7 @@ package states.game.entities.units
 			UnitModel(model).moving = false;
 			UnitModel(model).inWayPoint = true;
 			UnitModel(model).moveCounter = 0;
+			//
 			//resetRowCol();
 			if (_startShooting)
 			{

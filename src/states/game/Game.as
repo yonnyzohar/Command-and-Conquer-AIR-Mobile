@@ -70,7 +70,7 @@ package states.game
 		public var levelNum:int;
 		private var savedObject:Object;
 		
-		private var aiGame:Boolean = true;
+		private var aiGame:Boolean = false;
 		
 		public var ai1Controller:AIController;
 		public var ai2Controller:AIController;
@@ -79,7 +79,7 @@ package states.game
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(5);
+			setSpeed(4);
 		}
 		
 		private function setSpeed(number:Number):void 
@@ -482,7 +482,7 @@ package states.game
 			Board.mapContainerArr[Board.OBSTACLE_LAYER] = null;
 			Board.mapContainerArr[Board.UNITS_LAYER] = null;
 		    Board.mapContainerArr[Board.EFFECTS_LAYER] = null;
-		   Board.mapContainerArr = null;
+			Board.mapContainerArr = null;
 		  }
 		
 		private function removeAllChildren(a:Array):void 

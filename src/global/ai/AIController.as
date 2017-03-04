@@ -798,7 +798,7 @@ package global.ai
 		{
 			if (PRINT_AI_FLOW)
 			{
-				trace(pcTeamObj.teamName + " : " + _str);
+				//trace(pcTeamObj.teamName + " : " + _str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}

@@ -67,32 +67,7 @@ package states.game.entities
 			healthBar.hurt(helathDelta);
 		}
 		
-		public function update(_pulse:Boolean):void
-		{
-			if (model != null && model.dead == false)
-			{
-				if (ENTITY_BEING_REPAIRED)
-				{
-					var moreTHanZero:Boolean = myTeamObj.reduceCash(Parameters.CASH_INCREMENT);
-					if (moreTHanZero)
-					{
-						if (healthBar.addHealth())
-						{
-							ENTITY_BEING_REPAIRED = false;
-						}
-					}
-					else
-					{
-						ENTITY_BEING_REPAIRED = false;
-					}
-					
-				}
-			}
-			else
-			{
-				ENTITY_BEING_REPAIRED = false;
-			}
-		}
+		
 		
 		public function sayHello():void 
 		{
@@ -232,7 +207,36 @@ package states.game.entities
 		}
 		
 		
-		
+		public function update(_pulse:Boolean):void
+		{
+			if (model != null && model.dead == false)
+			{
+				if (ENTITY_BEING_REPAIRED)
+				{
+					var moreTHanZero:Boolean = myTeamObj.reduceCash(Parameters.CASH_INCREMENT);
+					if (moreTHanZero)
+					{
+						model.totalHealth += 1;
+						var healthScale:Number = healthBar.hurt(-1);
+						view.setViewByHealth(healthScale);
+						
+						if (healthScale >= 1)
+						{
+							ENTITY_BEING_REPAIRED = false;
+						}
+					}
+					else
+					{
+						ENTITY_BEING_REPAIRED = false;
+					}
+					
+				}
+			}
+			else
+			{
+				ENTITY_BEING_REPAIRED = false;
+			}
+		}
 
 		
 		public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
@@ -244,18 +248,16 @@ package states.game.entities
 			if(model != null)
 			{
 				//if (model.controllingAgent == Agent.PC){}
-				if (this is Harvester)
+				/*if (this is Harvester)
 				{
 					
 				}
 				else
 				{
 					changeAI(AiBehaviours.SEEK_AND_DESTROY);
-				}
+				}*/
 				
 				
-				
-				//trace"totalHealth: " + model.totalHealth + " _hitVal: " + _hitVal);
 				model.totalHealth -= _hitVal;
 				var healthScale:Number = healthBar.hurt(_hitVal);
 				

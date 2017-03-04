@@ -108,10 +108,9 @@ package states.startScreen
 				chooseSideScreen = null;
 			}
 			//view.editBTN.removeEventListener(TouchEvent.TOUCH, onEditClicked);
-			view.dispose();
 			view.removeFromParent(true);
+			view.dispose();
 			view = null;
 		}
-				
 	}
 }

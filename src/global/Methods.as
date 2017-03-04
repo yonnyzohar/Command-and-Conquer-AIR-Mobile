@@ -352,14 +352,7 @@ package global
 			return true;
 		}
 		
-		static public function isValidEnemy(e:GameEntity, teamNum:int):Boolean
-		{
-			if (e == null)return false;
-			if ( e.model == null ) return false;
-			if (e.model.dead) return false;
-			if (e.teamNum == teamNum) return false;
-			return true;
-		}
+		
 		
 		public static function countKeysInDict(myDictionary:flash.utils.Dictionary):int 
 		{
@@ -449,8 +442,62 @@ package global
 
 		}
 		
+		static public function isValidEnemy(e:GameEntity, teamNum:int):Boolean
+		{
+			if (e == null)return false;
+			if ( e.model == null ) return false;
+			if (e.model.dead) return false;
+			if (e.teamNum == teamNum) return false;
+			return true;
+		}
+		
+		static public function isInRange(shooter:GameEntity, currentEnemy:GameEntity):Boolean
+		{
+			if(shooter.aiBehaviour == AiBehaviours.HELPLESS)return false;
+			if(currentEnemy == null)return false;
+			if(currentEnemy.model == null)return false;
+			if (currentEnemy.model.dead == true) return false;
+			var model:EntityModel = shooter.model;
+			
+			var shootRange:int = shooter.model.stats.weapon.range;
+			
+			var rowDiff:int;
+			var colDiff:int;
+			
+			var dist:int = Methods.distanceTwoPoints(currentEnemy.model.col, model.col, currentEnemy.model.row, model.row);
+			if (dist <= shootRange)
+			{
+				return true;
+			}
+			else
+			{
+				if (currentEnemy is Building)
+				{
+					var buildingTiles:Array = Building(currentEnemy).getBuildingTiles();
+					var n:Node;
+					var inRange:Boolean = false;
+					var buildingTilesLen:int = buildingTiles.length;
+					for (var j:int = 0; j < buildingTilesLen; j++ )
+					{
+						n = buildingTiles[j];
+						dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+						if (dist <= shootRange)
+						{
+							inRange = true;
+							break;
+						}
+					}
+					return inRange;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		
 		//use searchWholeMap for search and destroy	
-		public static function findClosestTargetOnMap(shooter:GameEntity, searcWholeMap:Boolean, dontTargetBuildings:Boolean = false ):GameEntity
+		public static function findClosestTargetOnMap(shooter:GameEntity,dontTargetBuildings:Boolean = false ):GameEntity
 		{
 			var model:EntityModel = shooter.model;
 			
@@ -515,23 +562,79 @@ package global
 							}
 						}
 						
-						if (searcWholeMap)
+						if (dist < shortestDist)
+						{
+							shortestDist = dist;
+							closestEnemny = p;
+						}
+					}
+				}
+			}
+			
+			return closestEnemny;
+		}
+		
+		//use searchWholeMap for search and destroy	
+		public static function findClosestTargetinSight(shooter:GameEntity ):GameEntity
+		{
+			var model:EntityModel = shooter.model;
+			
+			if (shooter.aiBehaviour == AiBehaviours.HELPLESS) return null;
+			
+			var p:GameEntity;
+			var closestEnemny:GameEntity;
+			
+
+			if(model.enemyTeam == null)
+			{
+				return null;
+			}
+			
+			if(model.enemyTeam.length == 0)
+			{
+				return null;
+			}
+			
+			var sightRange:int = model.stats.weapon.range;
+			var enemyTeamLength:int = model.enemyTeam.length;
+			var shortestDist:int = 100000;
+			
+			for(var i:int = enemyTeamLength -1; i >= 0; i--)
+			{
+				p = GameEntity(model.enemyTeam[i]);
+				
+				if(p.model != null)
+				{
+					if(p.model.dead == false)
+					{
+						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
+						
+						if (p is Building)
+						{
+							var buildingTiles:Array = Building(p).getBuildingTiles();
+							var n:Node;
+							var buildingTilesLen:int = buildingTiles.length;
+							for (var j:int = 0; j < buildingTilesLen; j++ )
+							{
+								n = buildingTiles[j];
+								dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+								if (dist <= sightRange)
+								{
+									if (dist < shortestDist)
+									{
+										shortestDist = dist;
+										closestEnemny = p;
+									}
+								}
+							}
+						}
+
+						if (dist <= sightRange)
 						{
 							if (dist < shortestDist)
 							{
 								shortestDist = dist;
 								closestEnemny = p;
-							}
-						}
-						else
-						{
-							if (dist <= sightRange)
-							{
-								if (dist < shortestDist)
-								{
-									shortestDist = dist;
-									closestEnemny = p;
-								}
 							}
 						}
 					}

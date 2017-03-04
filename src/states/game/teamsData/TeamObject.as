@@ -59,6 +59,8 @@ package states.game.teamsData
 		public var BUILDINGS_COLOR:uint;
 		private var fromSaveGame:Boolean;
 		
+		public var currentBaseEnemy:GameEntity;
+		
 		
 		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object, _fromSaveGame:Boolean)
 		{
@@ -281,17 +283,21 @@ package states.game.teamsData
 			}
 		}
 		
-		private function removeBuildingFromDict(_buildingType:String):void 
+		private function removeBuildingFromDict(_buildingType:String):int
 		{
+			var numBuildingsOfThisType:int = 0;
 			if (teamBuildingsDict[_buildingType])
 			{
 				teamBuildingsDict[_buildingType]--;
+				numBuildingsOfThisType = teamBuildingsDict[_buildingType];
 				
 				if (teamBuildingsDict[_buildingType] <= 0)
 				{
+					numBuildingsOfThisType = 0;
 					delete teamBuildingsDict[_buildingType];
 				}
 			}
+			return numBuildingsOfThisType;
 		}
 		
 		private var callingForHelp:Boolean = false;
@@ -642,13 +648,14 @@ package states.game.teamsData
 						spawnSoldier(row, col);
 						
 					}
-					
-					buildManager.removeDependantUnitsAndBuildings(Building(p).name);
-					
 				}
 				if (BuildingsStats.dict[p.name])
 				{
-					removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
+					var numBuildingsOfThisType:int = removeBuildingFromDict(BuildingsStats.dict[p.name].buildingType);
+					if (numBuildingsOfThisType == 0)
+					{
+						buildManager.removeDependantUnitsAndBuildings(Building(p).name);
+					}
 				}
 				
 				handleHud();

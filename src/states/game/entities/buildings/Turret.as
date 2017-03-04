@@ -98,68 +98,18 @@ package  states.game.entities.buildings
 			
 			if(Methods.isValidEnemy(currentEnemy, teamNum))
 			{
-				if(isInRange(currentEnemy))
+				if(Methods.isInRange(this, currentEnemy))
 				{
 					setState(UnitStates.SHOOT);
 				}
 				else
 				{
-					//yes
-					if(currentEnemy != null)
-					{
-						if(isInRange(currentEnemy))
-						{
-							setState(UnitStates.SHOOT);
-						}
-					}
-					else
-					{
-						//no one closer in sight - pursue!!!
-						//walk towards the enemy!!!
-						if (aiBehaviour != AiBehaviours.SEEK_AND_DESTROY)
-						{
-							currentEnemy = null;
-						}
-					}
+					currentEnemy = Methods.findClosestTargetinSight(this);
 				}
 			}
 			else
 			{
-				//if no current enenmy
-				//is there a target in range?
-				
-				currentEnemy = Methods.findClosestTargetOnMap(this, false);
-				
-				
-				if(currentEnemy != null)
-				{
-					setState(UnitStates.SHOOT);
-				}
-				else
-				{
-					////trace"there is no target in range!");
-					//if i'm in seek and destroy, and i'm a computer
-					if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && model.controllingAgent == Agent.PC)
-					{
-						currentEnemy = Methods.findClosestTargetOnMap(this, true);
-						if(currentEnemy != null)
-						{
-							setState(UnitStates.SHOOT);
-						}
-					}
-					else if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
-					{
-						currentEnemy = findEnemyWithinBase();
-						if(currentEnemy != null)
-						{
-							setState(UnitStates.SHOOT);
-						}
-					}
-					else
-					{
-						setState(UnitStates.IDLE);
-					}
-				}
+				currentEnemy = Methods.findClosestTargetinSight(this);
 			}
 		}
 		
@@ -168,37 +118,7 @@ package  states.game.entities.buildings
 			return SightManager.getInstance().getTargetWithinBase(model.controllingAgent, myTeamObj.teamName);
 		}
 
-		
-		
-		protected function isInRange(currentEnemy:GameEntity):Boolean
-		{
-			if(aiBehaviour == AiBehaviours.HELPLESS)return false;
-			if(currentEnemy == null)return false;
-			if(currentEnemy.model == null)return false;
-			if(currentEnemy.model.dead == true)return false;
-			var shootRange:int = model.stats.weapon.range;
-			//////trace("shootRange " + shootRange);
-			
-			var rowDiff:int;
-			var colDiff:int;
-			
-			//var dist:int = int(Math.abs(currentEnemy.row - model.row) + Math.abs(currentEnemy.col - model.col));
-			var dist:int = Methods.distanceTwoPoints(currentEnemy.model.col, model.col, currentEnemy.model.row, model.row);
-			if (dist <= shootRange)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		
-		
-		
-		
-		
-		
+
 
 		protected function handleIdleState(_pulse:Boolean):void
 		{
@@ -221,7 +141,7 @@ package  states.game.entities.buildings
 		{
 			if (model.dead == false && BuildingView(view).state != "_build")
 			{
-				if (Methods.isValidEnemy(currentEnemy, teamNum) && isInRange(currentEnemy))
+				if (Methods.isValidEnemy(currentEnemy, teamNum) && Methods.isInRange(this, currentEnemy))
 				{
 					var model:TurretModel = TurretModel(model)
 					
@@ -303,7 +223,6 @@ package  states.game.entities.buildings
 		
 		protected function doNothing():void
 		{
-			currentEnemy = null;
 			TurretModel(model).shootCount = 0;
 		}
 		

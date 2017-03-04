@@ -35,19 +35,6 @@ package  states.game.entities
 			frameMC.y -= frameMC.height;
 		}
 		
-		public function addHealth():Boolean
-		{
-			var healthy:Boolean = false;
-			if (currentHealth < totalHealth)
-			{
-				hurt(-1);
-			}
-			else
-			{
-				healthy = true;
-			}
-			return healthy;
-		}
 		
 		public function hurt(hitVal:int):Number 
 		{
@@ -65,9 +52,14 @@ package  states.game.entities
 				{
 					greenMC.color = 0xFF0000;
 				}
-				else {
+				else 
+				{
 					greenMC.color = 0xFFCC00;
 				}
+			}
+			else
+			{
+				greenMC.color = 0x00CC00;
 			}
 			
 			return greenMC.scaleX;

@@ -97,66 +97,85 @@ package  states.game.entities.units
 				return;
 			}
 			
+			var search:Boolean = false;
+			var possibleEnemy:GameEntity;
+			var isValidEnemy:Boolean = false;
 			//if valid enemy
 			if(Methods.isValidEnemy(currentEnemy, teamNum))
 			{
+				isValidEnemy = true;
 				//in range
-				if(isInRange(currentEnemy) )
+				if(Methods.isInRange(this, currentEnemy) )
 				{
 					if (UnitModel(model).inWayPoint)
 					{
 						stopMovingAndSplicePath(true);
 						setState(UnitStates.SHOOT);
-					}
-					else
-					{
-						setState(UnitStates.WALK);
+						return;
 					}
 				}
 				else
 				{
-					//if not in range and there is a pulse (one each second)
-					if (_pulse)
-					{
-						//look for CLOSER enemies
-						if (aiBehaviour == AiBehaviours.SELF_DEFENSE )
-						{
-							currentEnemy = Methods.findClosestTargetOnMap(this, false)
-						}
-						
-						if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
-						{
-							currentEnemy = Methods.findClosestTargetOnMap(this, true)
-							
-						}
-						if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
-						{
-							currentEnemy = findEnemyWithinBase();
-						}
-					}
-					else
-					{
-						//go towards current enemy
-						setState(UnitStates.WALK);
-					}
+					search = true;
 				}
 			}
 			else
 			{
+				search = true;
+			}
 				
-				if (aiBehaviour == AiBehaviours.SELF_DEFENSE )
+			if (search)
+			{
+				
+				possibleEnemy = Methods.findClosestTargetinSight(this);
+				
+				if (possibleEnemy)
 				{
-					currentEnemy = Methods.findClosestTargetOnMap(this, false)
+					currentEnemy = possibleEnemy;
+					setState(UnitStates.WALK);
+					return;
 				}
+				
 				
 				if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
 				{
-					currentEnemy = Methods.findClosestTargetOnMap(this, true)
+					possibleEnemy = Methods.findClosestTargetOnMap(this);
+					
+					if (possibleEnemy)
+					{
+						currentEnemy = possibleEnemy;
+						setState(UnitStates.WALK);
+						return;
+					}
 				}
+				
 				if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
 				{
-					currentEnemy = findEnemyWithinBase();
+					if (Methods.isValidEnemy(myTeamObj.currentBaseEnemy, teamNum))
+					{
+
+						currentEnemy = myTeamObj.currentBaseEnemy;
+						setState(UnitStates.WALK);
+						return;
+					}
+					else
+					{
+						possibleEnemy = findEnemyWithinBase();
+					
+						if (possibleEnemy)
+						{
+							myTeamObj.currentBaseEnemy = possibleEnemy;
+							currentEnemy = possibleEnemy;
+							setState(UnitStates.WALK);
+							return;
+						}
+					}
 				}
+			}
+			
+			if (isValidEnemy)
+			{
+				setState(UnitStates.WALK);
 			}
 		}
 		
@@ -171,13 +190,13 @@ package  states.game.entities.units
 			{
 				if (currentEnemy == null)
 				{
-					currentEnemy = Methods.findClosestTargetOnMap(this, false, true)
+					currentEnemy = Methods.findClosestTargetOnMap(this, true)
 				}
 				else
 				{
 					if (currentEnemy is Building && ((currentEnemy is Turret) == false))
 					{
-						currentEnemy = Methods.findClosestTargetOnMap(this, false, true);
+						currentEnemy = Methods.findClosestTargetOnMap(this, true);
 					}
 				}
 				
@@ -187,49 +206,7 @@ package  states.game.entities.units
 
 		
 		
-		protected function isInRange(currentEnemy:GameEntity):Boolean
-		{
-			if(aiBehaviour == AiBehaviours.HELPLESS)return false;
-			if(currentEnemy == null)return false;
-			if(currentEnemy.model == null)return false;
-			if(currentEnemy.model.dead == true)return false;
-			var shootRange:int = UnitModel(model).stats.weapon.range;
-			//////trace("shootRange " + shootRange);
-			
-			var rowDiff:int;
-			var colDiff:int;
-			
-			var dist:int = Methods.distanceTwoPoints(currentEnemy.model.col, model.col, currentEnemy.model.row, model.row);
-			if (dist <= shootRange)
-			{
-				return true;
-			}
-			else
-			{
-				if (currentEnemy is Building)
-				{
-					var buildingTiles:Array = Building(currentEnemy).getBuildingTiles();
-					var n:Node;
-					var inRange:Boolean = false;
-					var buildingTilesLen:int = buildingTiles.length;
-					for (var j:int = 0; j < buildingTilesLen; j++ )
-					{
-						n = buildingTiles[j];
-						dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-						if (dist <= shootRange)
-						{
-							inRange = true;
-							break;
-						}
-					}
-					return inRange;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		}
+		
 		
 		
 		
@@ -318,7 +295,7 @@ package  states.game.entities.units
 			if (model.dead == false)
 			{
 				
-				if (Methods.isValidEnemy(currentEnemy, teamNum) && isInRange(currentEnemy))
+				if (Methods.isValidEnemy(currentEnemy, teamNum) && Methods.isInRange(this, currentEnemy))
 				{
 					
 					var rateOfFire:int = UnitModel(model).stats.weapon.rateOfFire;

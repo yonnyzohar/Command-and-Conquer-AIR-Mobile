@@ -44,6 +44,12 @@ package  states.game.entities.units
 			
 		}
 		
+		override protected function stopMovingAndSplicePath(_startShooting:Boolean = false):void
+		{
+			super.stopMovingAndSplicePath(_startShooting);
+			UnitView(view).shootAnimPlaying = false;
+		}
+		
 		private function playExplosion(deathAnimation:String):void 
 		{
 			if (explosionMC == null)
