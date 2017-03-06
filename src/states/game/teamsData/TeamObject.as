@@ -62,7 +62,7 @@ package states.game.teamsData
 		public var cashManager:CashManager;
 		
 		public var currentBaseEnemy:GameEntity;
-		
+		public var currentSearchAndDestroyEnemy:GameEntity;
 		
 		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object, _fromSaveGame:Boolean)
 		{
@@ -784,6 +784,21 @@ package states.game.teamsData
 			sellRepairManager = null;
 			cashManager.dispose();
 			cashManager = null;
+		}
+		
+		public function getNumTrrets():int 
+		{
+			var teamLen:int = team.length;
+			var numTurrets:int = 0;
+			
+			for (var i:int = 0; i < teamLen; i++ )
+			{
+				if (team[i] is Turret)
+				{
+					numTurrets++;
+				}
+			}
+			return numTurrets;
 		}
 	}
 }

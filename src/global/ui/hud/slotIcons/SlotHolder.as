@@ -302,7 +302,6 @@ package global.ui.hud.slotIcons
 		
 		public function forceFinishBuild():void
 		{
-			trace("forcing finish build!");
 			done();
 		}
 		
@@ -346,7 +345,7 @@ package global.ui.hud.slotIcons
 			
 			if (currentBuildState == SlotHolder.BUILD_IN_PROGRESS)
 			{
-				dispatchEvent(new Event("BUILD_CANCELLED_ABRUPTLY"));
+				dispatchEventWith("BUILD_CANCELLED_ABRUPTLY", {name : assetName});
 			}
 			
 			GameTimer.getInstance().removeUser(this);

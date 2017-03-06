@@ -56,7 +56,7 @@ package global
 		static public var team2Obj:TeamObject;
 		static public var team1Obj:TeamObject;
 		
-		static public var AI_ONLY_GAME:Boolean = false;
+		static public var AI_ONLY_GAME:Boolean = true;
 		
 		static public var editLoad:Boolean = false;
 		

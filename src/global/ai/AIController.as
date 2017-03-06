@@ -45,7 +45,7 @@ package global.ai
 		private var myInfantrySlot:SlotHolder;
 		private var myVehicleSlot:SlotHolder;
 		private var myBuildSlot:SlotHolder;
-		private var myTurretSlot:SlotHolder
+		private var myTurretSlot:SlotHolder;
 		
 		public function AIController() 
 		{
@@ -107,7 +107,6 @@ package global.ai
 			//buildQueue
 			buildBuilding(true);
 			
-			buildUnits();
 			
 			minNumOfAttackParty = [];
 			for (var i:int = 0; i < 10; i++ )
@@ -199,6 +198,12 @@ package global.ai
 				{
 					return;
 				}
+				
+				if (pcTeamObj.getNumTrrets() > 5)
+				{
+					return;
+				}
+				
 				myTurretSlot = pcTeamObj.buildManager.hud.getSlot(currentTurretObj.name);
 				if (myTurretSlot)
 				{
@@ -221,7 +226,8 @@ package global.ai
 		
 		private function placeTurret(e:Event):void 
 		{
-			printAI(myTurretSlot.assetName + " CONSTRUCTION_COMPLETED - now let's place it");
+			printAI(myTurretSlot.assetName + " TURRET_CONSTRUCTION_COMPLETED - now let's place it");
+			myTurretSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onTurretCancelledAbruptly);
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
@@ -235,8 +241,10 @@ package global.ai
 		private function onTurretContructed(e:Event = null):void 
 		{
 			printAI("onTurretContructed");
+			myTurretSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onTurretCancelledAbruptly);
 			if (pcTeamObj)
 			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
 				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onTurretContructed);
 			}
 			turretCount++;
@@ -245,16 +253,20 @@ package global.ai
 		
 		private function onTurretCancelledAbruptly(e:Event):void 
 		{
-			var slot:SlotHolder = SlotHolder(e.target);
-			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onTurretCancelledAbruptly);
-			if (pcTeamObj)
+			if (myTurretSlot && e.data.name == myTurretSlot.assetName)
 			{
-				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
-				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onTurretContructed);
+				myTurretSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onTurretCancelledAbruptly);
+				if (pcTeamObj)
+				{
+					pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeTurret);
+					pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onTurretContructed);
+				}
+				
+				printAI("onBuildCancelledAbruptly - building");
+				myTurretSlot = null;
+				buildingBeingBuilt = false;
 			}
 			
-			printAI("onBuildCancelledAbruptly - building");
-			buildingBeingBuilt = false;
 		}
 		
 		////////////////////////////////////////////---BUILDINGS---------/////////////////////////////////////
@@ -272,8 +284,10 @@ package global.ai
 					return;
 				}
 				
-				if (myBuildSlot.currentBuildState == SlotHolder.BUILD_DONE )
+				if (myBuildSlot.currentBuildState == SlotHolder.BUILD_DONE  || myBuildSlot.currentBuildState == SlotHolder.IDLE);
 				{
+					printAI("forcing finish build!");
+					pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 					myBuildSlot.forceFinishBuild();
 				}
 				
@@ -311,6 +325,11 @@ package global.ai
 				{
 					currentBuildingObj = Methods.getCurretStatsObj("refinery");
 				}
+				
+				if ( pcTeamObj.cashManager.REACHEED_LIMIT)
+				{
+					currentBuildingObj = Methods.getCurretStatsObj("tiberium-silo");
+				}
 			}
 
 			if (currentBuildingObj)
@@ -319,12 +338,15 @@ package global.ai
 				//if we have power - proceed
 				if (!buildPowerPlant)
 				{
-					
-					if (pcTeamObj.doesBuildingExist(BuildingsStatsObj(currentBuildingObj).buildingType))
+					if (currentBuildingObj.name != "tiberium-silo")
 					{
-						buildCount++;
-						return;
+						if (pcTeamObj.doesBuildingExist(BuildingsStatsObj(currentBuildingObj).buildingType))
+						{
+							buildCount++;
+							return;
+						}
 					}
+					
 					
 					//if we have money - build, on complete come back to here
 					if (pcTeamObj.cashManager.cash >= currentBuildingObj.cost)
@@ -403,8 +425,11 @@ package global.ai
 		
 		private function onBuildCancelledAbruptly(e:Event):void 
 		{
-			var slot:SlotHolder = SlotHolder(e.target);
-			slot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+			if (myBuildSlot && e.data.name == myBuildSlot.assetName)
+			{
+				myBuildSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+			}
+			
 			if (pcTeamObj)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
@@ -426,6 +451,11 @@ package global.ai
 				return;
 			}
 			if (pcTeamObj.doesBuildingExist("refinery") == false)
+			{
+				return;
+			}
+			
+			if ( pcTeamObj.cashManager.REACHEED_LIMIT)
 			{
 				return;
 			}
@@ -728,9 +758,7 @@ package global.ai
 		{
 			if (_pulse)
 			{
-				
-				
-				
+
 				if (Math.random() > 0.5)
 				{
 					buildUnits();
@@ -790,15 +818,12 @@ package global.ai
 				
 			}
 		}
-		
-		
-		
-		
+
 		private function printAI(_str:String):void
 		{
 			if (PRINT_AI_FLOW)
 			{
-				//trace(pcTeamObj.teamName + " : " + _str);
+				trace(pcTeamObj.teamName + " : " + _str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}

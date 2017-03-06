@@ -139,13 +139,24 @@ package  states.game.entities.units
 				
 				if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
 				{
-					possibleEnemy = Methods.findClosestTargetOnMap(this);
 					
-					if (possibleEnemy)
+					if (Methods.isValidEnemy(myTeamObj.currentSearchAndDestroyEnemy, teamNum))
 					{
-						currentEnemy = possibleEnemy;
+						currentEnemy = myTeamObj.currentSearchAndDestroyEnemy;
 						setState(UnitStates.WALK);
 						return;
+					}
+					else
+					{
+						possibleEnemy = Methods.findClosestTargetOnMap(this);
+					
+						if (possibleEnemy)
+						{
+							myTeamObj.currentSearchAndDestroyEnemy = possibleEnemy;
+							currentEnemy = possibleEnemy;
+							setState(UnitStates.WALK);
+							return;
+						}
 					}
 				}
 				
@@ -349,7 +360,7 @@ package  states.game.entities.units
 			var enemyUnit:GameEntity = GameEntity(e.currentTarget);
 			enemyUnit.removeEventListener("DEAD", onEnemyDead);
 			
-			if (model && model.controllingAgent == Agent.HUMAN && aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
+			if (model && model.controllingAgent == Agent.HUMAN && aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && Parameters.AI_ONLY_GAME == false)
 			{
 				aiBehaviour = AiBehaviours.SELF_DEFENSE;
 			}

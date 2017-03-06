@@ -69,7 +69,6 @@ package states.game
 		public var levelNum:int;
 		private var savedObject:Object;
 		
-		private var aiGame:Boolean = false;
 		
 		public var ai1Controller:AIController;
 		public var ai2Controller:AIController;
@@ -154,7 +153,7 @@ package states.game
 			SightManager.getInstance().init();
 			BGSoundManager.playBGSound();
 			dispatchEvent(new Event("GAME_LOAD_COMPLETE"))
-			
+			Parameters.loadingScreen.remove();
 			//SightManager.getInstance().showAllSightSquares();
 		}
 		
