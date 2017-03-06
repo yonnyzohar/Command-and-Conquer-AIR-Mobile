@@ -116,7 +116,8 @@ package states.game.entities
 			if(addCircle)
 			{
 				circle = PoolsManager.selectorCirclesPool.getAsset();
-				circle.y =  -model.stats.pixelOffsetY;
+				circle.scaleX = circle.scaleY = Parameters.gameScale;
+				circle.y =  (model.stats.pixelOffsetY / 2) * -1;
 				addChildAt(circle, 0);
 			}
 		}

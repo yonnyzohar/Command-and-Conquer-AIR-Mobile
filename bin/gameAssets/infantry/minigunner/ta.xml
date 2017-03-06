@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas imagePath="ta.png">
-<SubTexture name="minigunner_stand_north00" x="0" y="0" width="50" height="39" pivotX="1" pivotY="1"/>
+
 <SubTexture name="minigunner_fire_SOUTH_west00" x="0" y="39" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_SOUTH_west01" x="0" y="78" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_SOUTH_west02" x="0" y="117" width="50" height="39" pivotX="1" pivotY="1"/>
@@ -87,9 +87,7 @@
 <SubTexture name="minigunner_run_south03" x="150" y="117" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_run_south04" x="150" y="156" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_run_south05" x="150" y="195" width="50" height="39" pivotX="1" pivotY="1"/>
-<SubTexture name="minigunner_stand_SOUTH_west00" x="150" y="234" width="50" height="39" pivotX="1" pivotY="1"/>
-<SubTexture name="minigunner_stand_NORTH_east00" x="150" y="273" width="50" height="39" pivotX="1" pivotY="1"/>
-<SubTexture name="minigunner_stand_NORTH_west00" x="150" y="312" width="50" height="39" pivotX="1" pivotY="1"/>
+
 <SubTexture name="minigunner_fire_south00" x="150" y="351" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_south01" x="150" y="390" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_south02" x="150" y="429" width="50" height="39" pivotX="1" pivotY="1"/>
@@ -134,8 +132,7 @@
 <SubTexture name="minigunner_fire_NORTH_east05" x="200" y="897" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_NORTH_east06" x="200" y="936" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_NORTH_east07" x="200" y="975" width="50" height="39" pivotX="1" pivotY="1"/>
-<SubTexture name="minigunner_stand_south00" x="200" y="1014" width="50" height="39" pivotX="1" pivotY="1"/>
-<SubTexture name="minigunner_stand_east00" x="250" y="0" width="50" height="39" pivotX="1" pivotY="1"/>
+
 <SubTexture name="minigunner_run_SOUTH_west00" x="250" y="39" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_run_SOUTH_west01" x="250" y="78" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_run_SOUTH_west02" x="250" y="117" width="50" height="39" pivotX="1" pivotY="1"/>
@@ -158,7 +155,7 @@
 <SubTexture name="minigunner_fire_NORTH_west05" x="250" y="780" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_NORTH_west06" x="250" y="819" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_NORTH_west07" x="250" y="858" width="50" height="39" pivotX="1" pivotY="1"/>
-<SubTexture name="minigunner_stand_west00" x="250" y="897" width="50" height="39" pivotX="1" pivotY="1"/>
+
 <SubTexture name="minigunner_fire_west00" x="250" y="936" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_west01" x="250" y="975" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_fire_west02" x="250" y="1014" width="50" height="39" pivotX="1" pivotY="1"/>
@@ -173,5 +170,13 @@
 <SubTexture name="minigunner_run_west03" x="300" y="312" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_run_west04" x="300" y="351" width="50" height="39" pivotX="1" pivotY="1"/>
 <SubTexture name="minigunner_run_west05" x="300" y="390" width="50" height="39" pivotX="1" pivotY="1"/>
+
 <SubTexture name="minigunner_stand_SOUTH_east00" x="300" y="429" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_north00" x="0" y="0" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_SOUTH_west00" x="150" y="234" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_NORTH_east00" x="150" y="273" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_NORTH_west00" x="150" y="312" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_west00" x="250" y="897" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_south00" x="200" y="1014" width="50" height="39" pivotX="1" pivotY="1"/>
+<SubTexture name="minigunner_stand_east00" x="250" y="0" width="50" height="39" pivotX="1" pivotY="1"/>
 </TextureAtlas>

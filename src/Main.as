@@ -64,7 +64,7 @@ package
 			{
 				var origWidth:int = 400//480;
 				MouseStates.currentState = MouseStates.REG_PLAY;
-				Parameters.gameScale = Parameters.flashStage.fullScreenWidth / origWidth ; //stage.stageWidth / origWidth; fullScreenWidth
+				Parameters.gameScale = Parameters.flashStage.fullScreenWidth / origWidth ; 
 				Parameters.theStage = stage;
 				Methods.isAndroid();
 				Methods.isIOS();
