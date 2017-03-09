@@ -77,7 +77,7 @@ package states.game
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(10);
+			setSpeed(4);
 		}
 		
 		private function setSpeed(number:Number):void 

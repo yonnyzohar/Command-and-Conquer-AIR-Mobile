@@ -21,6 +21,7 @@
   <build>
     <option accessible="False" />
     <option advancedTelemetry="False" />
+    <option advancedTelemetryPassword="yonny" />
     <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
     <option es="False" />

@@ -20,6 +20,8 @@ package states.game.entities.buildings
 	{
 		
 		public var hasBuildingClickFunction:Boolean = false;
+		private var buildingTiles:Array;
+		private var sightTiles:Array;
 		
 		
 		public function Building(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
@@ -111,32 +113,34 @@ package states.game.entities.buildings
 		
 		override public function getSight():Array
 		{
-			var sightTiles:Array = [];
-			if (model && model.stats.sight)
+			if (sightTiles == null)
 			{
-				var sight:int = model.stats.sight;
-				
-				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-				var occupyArrayLen:int = occupyArray.length + sight;
-				var occuPyArrayLenZero:int = occupyArray[0].length;
-				for(var i:int = -sight; i <=occupyArrayLen + sight; i++)
+				if (model && model.stats.sight)
 				{
-					for (var j:int = -sight; j <= occuPyArrayLenZero + sight; j++ )
+					sightTiles = [];
+					var sight:int = model.stats.sight;
+					var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+					var occupyArrayLen:int = occupyArray.length + sight;
+					var occuPyArrayLenZero:int = occupyArray[0].length;
+					for(var i:int = -sight; i <=occupyArrayLen + sight; i++)
 					{
-						//i don't care about the building itself
-						/*if (i >= 0 && i < occupyArray.length && j >= 0 && j < occupyArray[0].length )
+						for (var j:int = -sight; j <= occuPyArrayLenZero + sight; j++ )
 						{
-							continue;
-						}*/
-						
-						if(nodeExists(model.row + j, model.col + i))
-						{
-							sightTiles.push(Parameters.boardArr[model.row + j][model.col + i]);
+							//i don't care about the building itself
+							/*if (i >= 0 && i < occupyArray.length && j >= 0 && j < occupyArray[0].length )
+							{
+								continue;
+							}*/
+							
+							if(nodeExists(model.row + j, model.col + i))
+							{
+								sightTiles.push(Parameters.boardArr[model.row + j][model.col + i]);
+							}
 						}
 					}
 				}
-
 			}
+			
 			
 			return sightTiles;
 		}
@@ -145,22 +149,26 @@ package states.game.entities.buildings
 		
 		public function getBuildingTiles():Array
 		{
-			var n:Node;
-			var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-			var buildingTiles:Array = [];
-			var occupyArrayRowsLength:int = occupyArray.length;
-			var occupyArrayColsLength:int = occupyArray[0].length;
-			for(var i:int = 0; i < occupyArrayRowsLength; i++)
+			if (buildingTiles == null)
 			{
-				for (var j:int = 0; j < occupyArrayColsLength; j++ )
+				buildingTiles = [];
+				var n:Node;
+				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+				var occupyArrayRowsLength:int = occupyArray.length;
+				var occupyArrayColsLength:int = occupyArray[0].length;
+				for(var i:int = 0; i < occupyArrayRowsLength; i++)
 				{
-					var curTile:int = occupyArray[i][j];
-					
-					if (curTile == 0) continue;//this is only for build indication
-					n = Node( Parameters.boardArr[model.row + j][model.col + i] );
-					buildingTiles.push(n);
+					for (var j:int = 0; j < occupyArrayColsLength; j++ )
+					{
+						var curTile:int = occupyArray[i][j];
+						
+						if (curTile == 0) continue;//this is only for build indication
+						n = Node( Parameters.boardArr[model.row + j][model.col + i] );
+						buildingTiles.push(n);
+					}
 				}
 			}
+			
 			
 			return buildingTiles;
 		}

@@ -63,8 +63,7 @@
 			//
 			_starling = new Starling(Main, stage, viewPort);
 			//_starling.showStats=true;
-			
-			_starling.simulateMultitouch = true;
+			//_starling.simulateMultitouch = true;
 			
 			_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreated );
 		}

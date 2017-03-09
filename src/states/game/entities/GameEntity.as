@@ -88,7 +88,7 @@ package states.game.entities
 		}
 
 		
-		protected function removeAllTiles():void 
+		/*protected function removeAllTiles():void 
 		{
 			for (var k:String in allTilesDict)
 			{
@@ -98,7 +98,7 @@ package states.game.entities
 				allTilesDict[k] = null;
 				delete allTilesDict[k];
 			}
-		}
+		}*/
 		
 		protected function clearTile(proposedRow:int, proposedCol:int):void
 		{
@@ -109,7 +109,7 @@ package states.game.entities
 				n = Node(Parameters.boardArr[proposedRow][proposedCol]);
 				if (n.occupyingUnit == this )
 				{
-					hideTile(proposedRow, proposedCol)
+					//hideTile(proposedRow, proposedCol)
 					n.occupyingUnit = null;
 				}
 			}
@@ -141,7 +141,7 @@ package states.game.entities
 					model.row = proposedRow;
 					model.col = proposedCol;	
 					
-					showTile(proposedRow, proposedCol , n)
+					//showTile(proposedRow, proposedCol , n)
 					
 				}
 				else
@@ -155,7 +155,7 @@ package states.game.entities
 			}
 		}
 		
-		private function hideTile(proposedRow:int, proposedCol:int):void 
+		/*private function hideTile(proposedRow:int, proposedCol:int):void 
 		{
 			if (showOccupyTiles)
 			{
@@ -179,7 +179,7 @@ package states.game.entities
 
 			allTilesDict[proposedRow + "_" + proposedCol] = {quad : q, node : n};
 			
-		}
+		}*/
 		
 		protected function nodeExists(_row:int, _col:int):Boolean
 		{

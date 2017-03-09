@@ -6,6 +6,11 @@ package global
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 	import flash.net.URLRequest;
+	import flash.system.MessageChannel;
+	import flash.system.Worker;
+	import flash.system.WorkerDomain;
+	import flash.system.WorkerState;
+	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import global.assets.GameAssets;
 	import global.Parameters;
@@ -13,36 +18,77 @@ package global
 	public class GameSounds
 	{
 
-		public static var dict:Dictionary = new Dictionary();
+		/*private static var dict:Dictionary = new Dictionary();
 		private static var channelsPool:Array = [];
-		private static var soundsPool:Dictionary = new Dictionary();
+		private static var soundsPool:Dictionary = new Dictionary();*/
 		private static var sounds:Object;
+		static private var soundWorkerToMain:MessageChannel;
+		static private var mainToSoundWorker:MessageChannel;
+		private static var worker:Worker;
 		
+		[Embed(source="../../bin/GameSoundManager.swf", mimeType="application/octet-stream")]
+		private static var GameSoundWorker:Class;
 		
-		public function GameSounds()
-		{
-			//var myTransform = new SoundTransform();
-			//myTransform.volume = 0.5;
-			//myChannel.soundTransform = myTransform;
-		}
-		
+		private static var workerInstance:ByteArray;
 		
 		
 		public static function init():void
 		{
 			sounds = JSON.parse(new GameAssets.SoundsJson());
+			initWorker();
 			//SoundMixer.soundTransform = new SoundTransform(Parameters.globalSoundVol);
 
-			for(var i:int = 0; i < 30; i++)
+			/*for(var i:int = 0; i < 30; i++)
 			{
 				channelsPool.push( {channel : new SoundChannel(), transform : new SoundTransform()});
-			}
+			}*/
 			
 		}
 		
+		static private function initWorker():void 
+		{
+			workerInstance = new GameSoundWorker()
+			worker = WorkerDomain.current.createWorker(workerInstance, true);
+			//this is a message channel between the worker to main thread
+			soundWorkerToMain = worker.createMessageChannel(Worker.current);
+			//this is a message channel between the main to worker thread
+			mainToSoundWorker = Worker.current.createMessageChannel(worker);
+			
+			worker.setSharedProperty("soundWorkerToMain", soundWorkerToMain);
+			worker.setSharedProperty("mainToSoundWorker", mainToSoundWorker)
+			soundWorkerToMain.addEventListener(flash.events.Event.CHANNEL_MESSAGE, onBackgroundMessageToMain);
+			worker.addEventListener(flash.events.Event.WORKER_STATE, handleBGWorkerStateChange);
+			worker.start(); 
+			
+		}
+		
+		static private function handleBGWorkerStateChange(e:flash.events.Event):void 
+		{
+			if (worker.state == WorkerState.RUNNING) 
+            {
+                mainToSoundWorker.send({soundsJsonObj : sounds });
+            }
+		}
+		
+		static private function onBackgroundMessageToMain(e:flash.events.Event):void 
+		{
+			var result:Object = soundWorkerToMain.receive() as Object;
+			
+		}
+		
+		
+		
 		public static function playSound(_triggerId:String, _deeperLevelName:String = null, vol:Number = 1):SoundChannel
 		{
-			var req:URLRequest;
+			if (worker.state == WorkerState.RUNNING) 
+            {
+                mainToSoundWorker.send({soundToPlay : true,  triggerId : _triggerId, deeperLevelName : _deeperLevelName, vol : vol});
+            }
+			
+			return null;
+			
+			
+			/*var req:URLRequest;
 			var snd:Sound;
 			var sndName:String;
 			var obj:Object = sounds;
@@ -97,9 +143,10 @@ package global
 				}
 			}
 			
-			return ch;
+			return ch;*/
 		}
 		
+		/*
 		public static function playSoundFile(file:Sound, vol:Number):SoundChannel
 		{	
 			var o:Object =  getSoundChannel();
@@ -152,39 +199,7 @@ package global
 		private static function onSndComplete(event:Event):void
 		{
 			SoundChannel(event.target).removeEventListener(Event.SOUND_COMPLETE, onSndComplete);
-		}
-		
-		
-		
-		/*
-		
-		
-		public static function playSound(snd:String):void
-		{
-			var ch:SoundChannel = getSoundChannel();
-			if(ch== null)return;
-			
-			var SndClass:Class;
-			var sound:Sound;
-			
-			if(soundsPool[snd] == null)
-			{
-				SndClass = GameSounds.dict[snd];
-				sound = new SndClass();
-				soundsPool[snd] = sound;
-			}
-			try
-			{
-				ch = soundsPool[snd].play();
-				ch.addEventListener(Event.SOUND_COMPLETE, onSndComplete);
-			}
-			catch(e:Error)
-			{
-				
-			}
-			
-			
-			
 		}*/
+
 	}
 }

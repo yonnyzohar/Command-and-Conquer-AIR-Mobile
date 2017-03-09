@@ -143,15 +143,14 @@ package  states.game.entities.buildings
 			{
 				if (Methods.isValidEnemy(currentEnemy, teamNum) && Methods.isInRange(this, currentEnemy))
 				{
-					var model:TurretModel = TurretModel(model)
 					
-					var rateOfFire:int = model.stats.weapon.rateOfFire;
+					var rateOfFire:int = TurretModel(model).stats.weapon.rateOfFire;
 					
-					if(model.shootCount == rateOfFire)
+					if(TurretModel(model).shootCount == rateOfFire)
 					{
 						view.shoot(currentEnemy , currentEnemy.model.row, currentEnemy.model.col);
 						
-						if(model.stats.weapon != null && model.rotating == false)
+						if(TurretModel(model).stats.weapon != null && TurretModel(model).rotating == false)
 						{
 							fireWeaponActual(currentEnemy)
 						}
@@ -161,7 +160,7 @@ package  states.game.entities.buildings
 						}
 					}
 
-					model.shootCount++;
+					TurretModel(model).shootCount++;
 				}
 				else
 				{

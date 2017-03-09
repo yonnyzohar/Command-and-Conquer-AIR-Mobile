@@ -82,6 +82,11 @@ package states.game.entities.units
 		{
 			if(model != null && model.dead == false)
 			{
+				if (model.totalHealth < 0)
+				{
+					setState(UnitStates.DIE);
+				}
+
 				resetRowCol()
 				switch(model.currentState)
 				{
@@ -276,7 +281,7 @@ package states.game.entities.units
 		override public function onDestinationReceived(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{
 			////trace"override walk to dest!!!");
-			removeAllTiles();
+			//removeAllTiles();
 			removeEventListener("WAYPOINT_REACHED", onWayPointReachedFromError);
 			handlingError = false;
 			
@@ -391,7 +396,11 @@ package states.game.entities.units
 		protected function stopMovingAndSplicePath(_startShooting:Boolean = false):void
 		{
 			if (model == null) return;
-			UnitModel(model).path.splice(0);
+			if (UnitModel(model).path && UnitModel(model).path.length)
+			{
+				UnitModel(model).path.splice(0);
+			}
+			
 			UnitModel(model).moving = false;
 			UnitModel(model).inWayPoint = true;
 			UnitModel(model).moveCounter = 0;
@@ -399,7 +408,7 @@ package states.game.entities.units
 			//resetRowCol();
 			if (_startShooting)
 			{
-				removeAllTiles();
+				//removeAllTiles();
 			}
 		}
 		
