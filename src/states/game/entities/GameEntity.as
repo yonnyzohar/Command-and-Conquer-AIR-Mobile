@@ -88,18 +88,6 @@ package states.game.entities
 		}
 
 		
-		/*protected function removeAllTiles():void 
-		{
-			for (var k:String in allTilesDict)
-			{
-				var o:Object = allTilesDict[k];
-				if(showOccupyTiles)o.quad.removeFromParent(true);
-				o.node.occupyingUnit = null;
-				allTilesDict[k] = null;
-				delete allTilesDict[k];
-			}
-		}*/
-		
 		protected function clearTile(proposedRow:int, proposedCol:int):void
 		{
 			var n:Node;

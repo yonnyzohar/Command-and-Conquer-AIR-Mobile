@@ -1,4 +1,4 @@
-package global.ai 
+﻿package global.ai 
 {
 	import flash.utils.setTimeout;
 	import global.assets.GameAssets;
@@ -106,12 +106,12 @@ package global.ai
 			
 			//buildQueue
 			buildBuilding(true);
-			
+			var rnd:int;
 			
 			minNumOfAttackParty = [];
-			for (var i:int = 0; i < 10; i++ )
+			for(var i:int = 0; i < 10; i++ )
 			{
-				var rnd:int = 3 + int(Math.random() * 15)
+				rnd = 3 + int(Math.random() * 15)
 				minNumOfAttackParty.push(rnd);
 			}
 			//minNumOfAttackParty = aiJSON.minNumOfAttackParty;
@@ -128,15 +128,17 @@ package global.ai
 		{
 			var allInfantry:Object = aiJSON.infantryQueue
 			var currentObj:AssetStatsObj;
+			var probabilityNum:int;
+			var i:int = 0;
 			
-			for (var k:String in allInfantry)
+			for(var k:String in allInfantry)
 			{
 				currentObj = Methods.getCurretStatsObj(k);
 				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.teamName)
 				{
-					var probabilityNum:int = allInfantry[k];
+					probabilityNum = allInfantry[k];
 					
-					for (var i:int = 0; i <  probabilityNum; i++ )
+					for(i = 0; i <  probabilityNum; i++ )
 					{
 						infantryArr.push(k);
 					}
@@ -146,14 +148,14 @@ package global.ai
 			
 			var allVehicles:Object = aiJSON.vehicleQueue
 			
-			for (k in allVehicles)
+			for(k in allVehicles)
 			{
 				currentObj = Methods.getCurretStatsObj(k);
 				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.teamName)
 				{
 					probabilityNum = allVehicles[k];
 					
-					for (i = 0; i < probabilityNum; i++ )
+					for(i = 0; i < probabilityNum; i++ )
 					{
 						vehiclesArr.push(k);
 					}
@@ -284,7 +286,7 @@ package global.ai
 					return;
 				}
 				
-				if (myBuildSlot.currentBuildState == SlotHolder.BUILD_DONE  || myBuildSlot.currentBuildState == SlotHolder.IDLE);
+				if (myBuildSlot.currentBuildState == SlotHolder.BUILD_DONE  || myBuildSlot.currentBuildState == SlotHolder.IDLE)
 				{
 					printAI("forcing finish build!");
 					pcTeamObj.buildManager.addEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
@@ -787,9 +789,11 @@ package global.ai
 				var numUnits:int = 0;
 				var myTeam:Array = [];
 				var teamLen:int = pcTeamObj.team.length;
-				for (var i:int = 0; i < teamLen; i++ )
+				var p:GameEntity;
+				
+				for(var i:int = 0; i < teamLen; i++ )
 				{
-					var p:GameEntity = pcTeamObj.team[i];
+					p = pcTeamObj.team[i];
 					if (p is Unit && p != null && p.model != null && p.model.dead == false && !(p is Harvester))
 					{
 						if (p.aiBehaviour != AiBehaviours.SEEK_AND_DESTROY)
@@ -801,7 +805,7 @@ package global.ai
 				
 				if (myTeam.length >= minNumOfAttackParty[currentAttackPartyCount])
 				{
-					for (i = 0; i < minNumOfAttackParty[currentAttackPartyCount]; i++ )
+					for(i = 0; i < minNumOfAttackParty[currentAttackPartyCount]; i++ )
 					{
 						p = myTeam[i];
 						p.changeAI(AiBehaviours.SEEK_AND_DESTROY);
@@ -813,9 +817,7 @@ package global.ai
 					{
 						currentAttackPartyCount = 0;
 					}
-					
 				}
-				
 			}
 		}
 

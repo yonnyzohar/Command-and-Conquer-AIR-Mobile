@@ -1,7 +1,6 @@
 package states.game 
 {
 	
-	import com.greensock.TweenLite;
 	import com.greensock.TweenMax;
 	import flash.events.DataEvent;
 	import global.ai.AIController;
@@ -77,7 +76,7 @@ package states.game
 		{
 			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
-			setSpeed(4);
+			setSpeed(Parameters.gameSpeed);
 		}
 		
 		private function setSpeed(number:Number):void 

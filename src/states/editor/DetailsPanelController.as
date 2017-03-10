@@ -3,7 +3,6 @@ package states.editor
 	import com.dynamicTaMaker.loaders.TemplateLoader;
 	import com.dynamicTaMaker.utils.ButtonManager;
 	import com.dynamicTaMaker.views.GameSprite;
-	import com.greensock.TweenLite;
 	import starling.events.EventDispatcher;
 	import global.Parameters;
 

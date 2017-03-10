@@ -357,7 +357,7 @@ package global
 		public static function countKeysInDict(myDictionary:flash.utils.Dictionary):int 
 		{
 			var n:int = 0;
-			for (var key:* in myDictionary) {
+			for(var key:* in myDictionary) {
 				n++;
 			}
 			return n;
@@ -403,7 +403,8 @@ package global
 		
 		static public function shakeMap(numResidents:int):void 
 		{
-			var origPosX:int = Parameters.gameHolder.x;
+			return;
+			/*var origPosX:int = Parameters.gameHolder.x;
 			var origPosY:int = Parameters.gameHolder.y;
 			
 			TweenLite.to(Parameters.gameHolder, 0.1, 
@@ -426,7 +427,7 @@ package global
 						}
 					})
 				}
-			})
+			})*/
 		}
 		
 
@@ -477,7 +478,7 @@ package global
 					var n:Node;
 					var inRange:Boolean = false;
 					var buildingTilesLen:int = buildingTiles.length;
-					for (var j:int = 0; j < buildingTilesLen; j++ )
+					for(var j:int = 0; j < buildingTilesLen; j++ )
 					{
 						n = buildingTiles[j];
 						dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
@@ -531,7 +532,8 @@ package global
 					{
 						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
 						
-						if (p is Building)
+						/*this is not relevant for search and destroy
+						 * if (p is Building)
 						{
 							if (dontTargetBuildings)
 							{
@@ -547,7 +549,7 @@ package global
 							var buildingTiles:Array = Building(p).getBuildingTiles();
 							var n:Node;
 							var buildingTilesLen:int = buildingTiles.length;
-							for (var j:int = 0; j < buildingTilesLen; j++ )
+							for(var j:int = 0; j < buildingTilesLen; j++ )
 							{
 								n = buildingTiles[j];
 								if (n)
@@ -564,7 +566,7 @@ package global
 								}
 								
 							}
-						}
+						}*/
 						
 						if (dist < shortestDist)
 						{
@@ -578,7 +580,6 @@ package global
 			return closestEnemny;
 		}
 		
-		//use searchWholeMap for search and destroy	
 		public static function findClosestTargetinSight(shooter:GameEntity ):GameEntity
 		{
 			var model:EntityModel = shooter.model;
@@ -602,6 +603,9 @@ package global
 			var sightRange:int = model.stats.weapon.range;
 			var enemyTeamLength:int = model.enemyTeam.length;
 			var shortestDist:int = 100000;
+			var buildingTiles:Array;
+			var n:Node;
+			var buildingTilesLen:int;
 			
 			for(var i:int = enemyTeamLength -1; i >= 0; i--)
 			{
@@ -615,10 +619,10 @@ package global
 						
 						if (p is Building)
 						{
-							var buildingTiles:Array = Building(p).getBuildingTiles();
-							var n:Node;
-							var buildingTilesLen:int = buildingTiles.length;
-							for (var j:int = 0; j < buildingTilesLen; j++ )
+							buildingTiles = Building(p).getBuildingTiles();
+							buildingTilesLen = buildingTiles.length;
+							
+							for(var j:int = 0; j < buildingTilesLen; j++ )
 							{
 								n = buildingTiles[j];
 								if (n)
@@ -633,7 +637,6 @@ package global
 										}
 									}
 								}
-								
 							}
 						}
 
@@ -652,20 +655,111 @@ package global
 			return closestEnemny;
 		}
 		
+		public static function findClosestTargetinSight2(shooter:GameEntity ):GameEntity
+		{
+			if (shooter.aiBehaviour == AiBehaviours.HELPLESS) return null;
+			
+			var model:EntityModel = shooter.model;
+
+			if(model.enemyTeam == null)
+			{
+				return null;
+			}
+			
+			if(model.enemyTeam.length == 0)
+			{
+				return null;
+			}
+			
+			var p:GameEntity;
+			var closestEnemny:GameEntity;
+			var sightRange:int = model.stats.weapon.range;
+			var enemyTeamLength:int = model.enemyTeam.length;
+			var shortestDist:int = 100000;
+			var buildingTiles:Array;
+			var n:Node;
+			var buildingTilesLen:int;
+			
+			outer : for (var row:int = model.row - sightRange; row < model.row + sightRange; row++)
+			{
+				for (var col:int = model.col - sightRange; col < model.col + sightRange; col++ )
+				{
+					if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
+					{
+						n = Parameters.boardArr[row][col];
+						if (n.occupyingUnit && n.occupyingUnit.teamNum != shooter.teamNum)
+						{
+							closestEnemny = n.occupyingUnit;
+							break outer;
+						}
+					}
+					
+				}
+			}
+			
+			
+			/*for(var i:int = enemyTeamLength -1; i >= 0; i--)
+			{
+				p = GameEntity(model.enemyTeam[i]);
+				
+				if(p.model != null)
+				{
+					if(p.model.dead == false)
+					{
+						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
+						
+						if (p is Building)
+						{
+							buildingTiles = Building(p).getBuildingTiles();
+							buildingTilesLen = buildingTiles.length;
+							
+							for(var j:int = 0; j < buildingTilesLen; j++ )
+							{
+								n = buildingTiles[j];
+								if (n)
+								{
+									dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+									if (dist <= sightRange)
+									{
+										if (dist < shortestDist)
+										{
+											shortestDist = dist;
+											closestEnemny = p;
+										}
+									}
+								}
+							}
+						}
+
+						if (dist <= sightRange)
+						{
+							if (dist < shortestDist)
+							{
+								shortestDist = dist;
+								closestEnemny = p;
+							}
+						}
+					}
+				}
+			}*/
+			
+			return closestEnemny;
+		}
+		
 		public static function printTech():void
 		{
 			var allLists:Array = [Assets.buildings.list, Assets.vehicles.list, Assets.turrets.list, Assets.infantry.list];
+			var a:Array;
 			
-			
-			for (var i:int = 0; i < allLists.length; i++ )
+			for(var i:int = 0; i < allLists.length; i++ )
 			{
-				var a:Array = [];
-				for (var k:Object in allLists[i])
+				a = [];
+				for(var k:Object in allLists[i])
 				{
 					a.push(allLists[i][k]);
 				}
 				a.sortOn("tech", [Array.NUMERIC]);
-				for (var j:int = 0; j < a.length; j++ )
+				for(var j:int = 0; j < a.length; j++ )
 				{
 					trace(a[j].name + " " + a[j].tech);
 				}

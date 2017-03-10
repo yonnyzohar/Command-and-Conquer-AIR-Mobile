@@ -57,6 +57,7 @@ package global
 		static public var team1Obj:TeamObject;
 		
 		static public var AI_ONLY_GAME:Boolean = false;
+		static public var gameSpeed:int = 4;
 		
 		static public var editLoad:Boolean = false;
 		

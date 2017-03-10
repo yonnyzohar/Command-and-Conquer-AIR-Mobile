@@ -1,7 +1,6 @@
 package states.game.entities.units.views
 {
 	
-	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
 	import global.enums.UnitStates;
 	import global.Methods;
@@ -18,7 +17,6 @@ package states.game.entities.units.views
 	import global.Parameters;
 	import global.GameAtlas;
 	
-	import starling.animation.Tween;
 	import starling.display.Image;
 	import starling.filters.ColorMatrixFilter;
 	import starling.textures.Texture;
@@ -29,10 +27,8 @@ package states.game.entities.units.views
 	{
 		public var degrees:Number = 1;
 		public var currentFrameNum:int = 8;
-		private var tweenPlay:Tween;
 		private var endFrame:int = 8;
 		private var oldDegrees:int = 45;
-		private var tween:TweenLite;
 		
 		private var rotArr:Array = [];
 		private var rotI:Number = 0;
@@ -41,6 +37,7 @@ package states.game.entities.units.views
 		
 		private var turretMC:GunTurretView;
 		private var turnSpeed:Number;
+		private static var DONE_ROTATING_EVENT:Event = new starling.events.Event("DONE_ROTATING")
 		
 		
 		
@@ -258,9 +255,8 @@ package states.game.entities.units.views
 			}
 			
 			 UnitModel(model).rotating = false;
-			 if (model.currentState == UnitStates.SHOOT)
-			 {}
-			dispatchEvent(new starling.events.Event("DONE_ROTATING"))
+			 if (model.currentState == UnitStates.SHOOT){}
+			dispatchEvent(DONE_ROTATING_EVENT)
 			 
 			
 		}

@@ -32,6 +32,7 @@ package states.game.entities.units
 		private var userPathReached:Boolean = false;
 		private var handlingError:Boolean = false;
 		private var finalNodeAfterError:Node;
+		private static var WAYPOINT_REACHED_EVENT:starling.events.Event = new Event("WAYPOINT_REACHED");
 		
 		
 		public function Unit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
@@ -415,7 +416,7 @@ package states.game.entities.units
 		
 		private function walk():void
 		{
-			traceMe( " walk, moving: " + UnitModel(model).moving + " model.inWayPoint " + UnitModel(model).inWayPoint);
+			//traceMe( " walk, moving: " + UnitModel(model).moving + " model.inWayPoint " + UnitModel(model).inWayPoint);
 			
 			if(!UnitModel(model).moving)
 			{
@@ -534,7 +535,7 @@ package states.game.entities.units
 				stopMovingAndSplicePath();
 				//clearTile(model.row, model.col);
 				//occupyTile(  int(view.y / Parameters.tileSize) , int(view.x / Parameters.tileSize) );
-				dispatchEvent(new Event("WAYPOINT_REACHED"));
+				dispatchEvent(WAYPOINT_REACHED_EVENT);
 				setState(UnitStates.IDLE);
 			}
 			//update to next node!
@@ -599,19 +600,13 @@ package states.game.entities.units
 					
 					if (!inFirstNodeOfPath())
 					{
-						//trace( "inWayPoint");
-
 						view.x = UnitModel(model).destX;
 						view.y = UnitModel(model).destY;
 						
 					}
-					else
-					{
-						//trace("bug!")
-					}
 					
 					UnitModel(model).inWayPoint = true;
-					dispatchEvent(new Event("WAYPOINT_REACHED"));
+					dispatchEvent(WAYPOINT_REACHED_EVENT);
 					
 				}
 			}

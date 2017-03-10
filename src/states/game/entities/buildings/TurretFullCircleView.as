@@ -23,6 +23,7 @@ package states.game.entities.buildings
 		private var framesToPlay:Number;
 		private var rotArr:Array = [];
 		private var rotI:Number = 0;
+		private static var DONE_ROTATING_EVENT:Event = new starling.events.Event("DONE_ROTATING")
 		
 		private var divisionValue:int;
 		
@@ -205,7 +206,7 @@ package states.game.entities.buildings
 			////trace("doneRotate: currentFrameNum = " + currentFrameNum + " endFrame: " + endFrame);
 			currentFrameNum = endFrame;
 			
-			if (mc && endFrame <= mc.numFrames)
+			if (mc && endFrame < mc.numFrames)
 			{
 				mc.currentFrame = endFrame
 			}
@@ -214,7 +215,7 @@ package states.game.entities.buildings
 			TurretModel(model).rotating = false;
 			if (model.currentState == UnitStates.SHOOT)
 			{
-				 dispatchEvent(new starling.events.Event("DONE_ROTATING"))
+				 dispatchEvent(DONE_ROTATING_EVENT)
 			}
 		}
 		

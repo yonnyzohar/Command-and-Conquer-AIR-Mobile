@@ -1,7 +1,5 @@
 package global.ui.hud.slotIcons
 {
-	import com.greensock.TweenLite;
-	import com.greensock.easing.Linear;
 	import global.GameSounds;
 	import global.Parameters;
 	import global.ui.hud.HUD;

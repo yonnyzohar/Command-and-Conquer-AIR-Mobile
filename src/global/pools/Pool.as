@@ -57,6 +57,7 @@ package global.pools
 			b.y = 0;
 			b.visible = true;
 			b.alpha = 1;
+			b.touchable = false;
 			b.scaleX = b.scaleY = Parameters.gameScale;
 			b.rotation = 0;
 			return b;

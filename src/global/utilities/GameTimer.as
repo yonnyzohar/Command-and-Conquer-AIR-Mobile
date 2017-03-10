@@ -2,12 +2,12 @@ package global.utilities
 {
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
-	import flash.utils.setInterval;
 	import flash.utils.clearInterval;
 	import global.Parameters;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import flash.utils.getQualifiedClassName; 
+	import states.game.entities.GameEntity;
 	
 	public class GameTimer extends EventDispatcher
 	{
@@ -17,6 +17,7 @@ package global.utilities
 		private var users:Array = new Array();
 		private var interval:Number;
 		private var globalI:int = 0;
+		private var running:Boolean = false;
 		
 		public function GameTimer()
 		{
@@ -36,15 +37,10 @@ package global.utilities
 		{
 			updatables[mc] = mc;
 			
-			var len:int = 0;
 			
-			for(var k:* in updatables)
+			if(!running)
 			{
-				len++;
-			}
-			
-			if(len != 0)
-			{
+				running = true;
 				Parameters.theStage.addEventListener(Event.ENTER_FRAME, update);
 			}
 		}
@@ -56,8 +52,9 @@ package global.utilities
 			{
 				globalI = 0;
 			}
+			var k:*;
 			
-			for(var k:* in updatables)
+			for(k in updatables)
 			{
 				updatables[k].update(globalI == 0);
 			}
@@ -72,6 +69,7 @@ package global.utilities
 			
 			delete updatables[mc];
 			
+			/*
 			var len:int = 0;
 			
 			for(var k:String in updatables)
@@ -82,7 +80,7 @@ package global.utilities
 			if(len == 0)
 			{
 				Parameters.theStage.removeEventListener(Event.ENTER_FRAME, update);
-			}
+			}*/
 				
 		}
 		
@@ -92,6 +90,7 @@ package global.utilities
 			{
 				removeUser(updatables[k]);
 			}
+			running = false;
 			Parameters.theStage.removeEventListener(Event.ENTER_FRAME, update);
 			updatables = new Dictionary();
 			globalI = 0;
@@ -99,11 +98,13 @@ package global.utilities
 		
 		public function freezeTimer():void
 		{
+			running = false;
 			Parameters.theStage.removeEventListener(Event.ENTER_FRAME, update);
 		}
 		
 		public function resumeTimer():void
 		{
+			running = true;
 			Parameters.theStage.addEventListener(Event.ENTER_FRAME, update);
 			
 		}

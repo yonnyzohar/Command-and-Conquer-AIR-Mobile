@@ -247,22 +247,31 @@ package  states.game.weapons
 		public function update(_pulse:Boolean):void
 		{
 			var currentBulletsLen:int = currentBullets.length;
-			for (var i:int = 0; i < currentBulletsLen; i++ )
+			var b:PoolElement;
+			var angle:Number;
+			var i:int = 0;
+			var vx:Number;
+			var vy:Number;
+			var smokeMC:PoolElement;
+			var distX:Number;
+			var distY:Number;
+			
+			for (i = 0; i < currentBulletsLen; i++ )
 			{
-				var b:PoolElement = currentBullets[i];
+				b = currentBullets[i];
 				if (b == null)
 				{
 					return;
 				}
-				var angle:Number = Math.atan2(dy, dx);
+				angle = Math.atan2(dy, dx);
 			
 				if (speed <= 0)
 				{
 					speed = .1;
 				}
 					
-				var vx:Number = Math.cos(angle) * speed;
-				var vy:Number = Math.sin(angle) * speed;
+				vx = Math.cos(angle) * speed;
+				vy = Math.sin(angle) * speed;
 				b.x += vx;
 				b.y += vy;
 				
@@ -272,31 +281,25 @@ package  states.game.weapons
 				{
 					if (trailCounter%4 == 0)
 					{
-						var smokeMC:PoolElement = trailPool.getAsset();
+						smokeMC = trailPool.getAsset();
 						smokeMC.loop = false;
 						smokeMC.addEventListener(Event.COMPLETE, onMCComplte);
-						smokeMC.scaleX = smokeMC.scaleY = Parameters.gameScale;
-						smokeMC.touchable = false;
+
 						Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(smokeMC);
 						smokeMC.currentFrame = int(Math.random() * smokeMC.numFrames);
 						Starling.juggler.add(smokeMC);
 						smokeMC.play();
 						smokeMC.x = b.x;
 						smokeMC.y = b.y;
-						
-						//smokeMC.x += ((model.stats.pixelOffsetX*Parameters.gameScale)/2);
-						//smokeMC.y += ((model.stats.pixelOffsetY*Parameters.gameScale)/2);
 					}
 				}
 			
-				var distX:Number = Math.abs(b.x - targetX);
-				var distY:Number = Math.abs(b.y - targetY);
+				distX = Math.abs(b.x - targetX);
+				distY = Math.abs(b.y - targetY);
 				
-				//////trace("dist " + distX + "," + distY);
 				
 				if((distX < 5 && distY < 5) || passedTarget(distX,distY ))
 				{
-					//GameTimer.getInstance().removeUser(this);
 					onDone(b);
 				}
 				
@@ -338,7 +341,10 @@ package  states.game.weapons
 		private function onDone(b:PoolElement):void
 		{
 			myTween = null;
-			if(!isMuzzleFlash)Methods.shakeMap(1);
+			if (!isMuzzleFlash)
+			{
+				Methods.shakeMap(1);
+			}
 			
 			if (enemy && enemy.model)
 			{
@@ -348,8 +354,6 @@ package  states.game.weapons
 			
 			playExplosion();
 			
-			
-			//GameSounds.playExplosionSound();
 			Starling.juggler.remove(b);
 			b.returnMe();
 			
@@ -366,11 +370,7 @@ package  states.game.weapons
 				}
 			}
 			
-			
-			
 			inflictDamadgeFnctn();
-			
-			
 		}
 		
 		public function playExplosion(_x:int = 0, _y:int = 0):void 
@@ -385,8 +385,6 @@ package  states.game.weapons
 				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(explosionMC);
 				explosionMC.x = targetX - ((offsetX * Parameters.gameScale) / 2);
 				explosionMC.y = targetY - ((offsetY * Parameters.gameScale) / 2);
-				//explosionMC.x += (explosionMC.width / 2);
-				//explosionMC.y += (explosionMC.height / 2);
 				Starling.juggler.add(explosionMC);
 				explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
 				explosionMC.currentFrame = 0;

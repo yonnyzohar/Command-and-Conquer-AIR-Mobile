@@ -38,18 +38,23 @@
 			var q:Quad;
 			var a:Array = [Parameters.humanTeam, Parameters.pcTeam];
 			var len:int = a.length;
+			var p:GameEntity;
+			var sightArray:Array;
+			var len3:int;
+			var n:Node;
+			
 			for (var i:int = 0; i < len; i++ )
 			{
 				var team:Array = a[i];
 				var len2:int = team.length;
 				for (var j:int = 0; j < len2; j++ )
 				{
-					var p:GameEntity = team[j];
-					var sightArray:Array = p.getSight();
-					var len3:int = sightArray.length;
+					p = team[j];
+					sightArray = p.getSight();
+					len3 = sightArray.length;
 					for (var g:int = 0; g < len3; g++ )
 					{
-						var n:Node = sightArray[g];
+						n = sightArray[g];
 						q = new Quad(Parameters.tileSize, Parameters.tileSize);
 						q.x = Parameters.tileSize * n.col;
 						q.y = Parameters.tileSize * n.row;
@@ -67,6 +72,8 @@
 			var p:GameEntity;
 			var n:Node;
 			var len:int = Parameters.boardArr.length;
+			var sightArray:Array;
+			var len5:int;
 			
 			for (var row:int = 0; row < len; row++ )
 			{
@@ -89,8 +96,8 @@
 			for (i = 0; i < len4; i++ )
 			{
 				p = Parameters.humanTeam[i];
-				var sightArray:Array = p.getSight();
-				var len5:int = sightArray.length;
+				sightArray = p.getSight();
+				len5 = sightArray.length;
 				for (var g:int = 0; g < len5; g++ )
 				{
 					n = sightArray[g];
@@ -111,6 +118,7 @@
 				var sightArray:Array;
 				var p:GameEntity;
 				var len:int = Parameters.humanTeam.length;
+				var n:Node;
 				
 				for (i = 0; i < len; i++ )
 				{
@@ -119,7 +127,7 @@
 					var len2:int = sightArray.length;
 					for (g = 0; g < len2; g++ )
 					{
-						var n:Node = sightArray[g];
+						n = sightArray[g];
 						n.seen = true;
 						if (p is Building && !(p is Turret))
 						{

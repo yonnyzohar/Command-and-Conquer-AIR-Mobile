@@ -53,7 +53,6 @@ package states.game.entities
 			{
 				var node:Node;
 				var _shootRange:int = model.stats.weapon.range;
-				////trace("_shootRange: " + _shootRange + " _row: " + _row + " _col " + _col)
 				
 				for (var i:int = -_shootRange; i <= _shootRange; i++ )
 				{

@@ -1,6 +1,5 @@
 ﻿package global.ui.hud
 {
-	import com.greensock.TweenLite;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Point;

@@ -4,10 +4,12 @@ package states
 	import com.dynamicTaMaker.utils.ButtonManager;
 	import com.dynamicTaMaker.views.GameSprite;
 	import flash.utils.setTimeout;
+	import global.enums.MouseStates;
 	import global.GameSounds;
 	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import global.utilities.FileSaver;
+	import global.utilities.GlobalEventDispatcher;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import states.game.stats.LevelManager;
@@ -26,11 +28,37 @@ package states
 			view = TemplateLoader.get("TouchOptionsBox");
 			view.y = Parameters.flashStage.stageHeight - view.height;
 			ButtonManager.setButton(view.menuBTN, "TOUCH", onMenuBTNClicked);
+			
+			ButtonManager.setButton(view.moveMapBTN, "TOUCH", onmoveMapBTNClicked);
+			view.moveMapBTN.visible = false;
+			GlobalEventDispatcher.getInstance().addEventListener("GAME_STATE_CHANGED", onGameStateChanged);
+		}
+		
+		private function onGameStateChanged(e:Event):void 
+		{
+			if (MouseStates.currentState == MouseStates.PLACE_BUILDING)
+			{
+				view.moveMapBTN.visible = true;
+			}
+			else
+			{
+				view.moveMapBTN.visible = false;
+			}
+			
 		}
 		
 		public function init():void
 		{
 			Parameters.gameHolder.addChild(view);
+		}
+		
+		private function onmoveMapBTNClicked(caller:GameSprite):void 
+		{
+			if (view.moveMapBTN.visible)
+			{
+				view.moveMapBTN.visible = false;
+				MouseStates.currentState = MouseStates.REG_PLAY;
+			}
 		}
 		
 		private function onMenuBTNClicked(caller:GameSprite):void 

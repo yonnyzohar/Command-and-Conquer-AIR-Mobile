@@ -1,13 +1,11 @@
 package states.game.teamsData
 {
-	import com.greensock.TweenLite;
 	import flash.net.ObjectEncoding;
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
 	import global.enums.Agent;
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
-	import global.GameAtlas;
 	import global.GameSounds;
 	import global.map.mapTypes.Board;
 	import global.map.SpiralBuilder;
@@ -123,9 +121,10 @@ package states.game.teamsData
 			o.startTurrets = [];
 			o.startUnits = [];
 			o.startBuildings = [];
+			var u:GameEntity;
 			for (var i:int = 0; i < teamLen; i++ )
 			{
-				var u:GameEntity = team[i];
+				u = team[i];
 				var stats:Object = {"row" : u.model.row, "col" : u.model.col, "health" : u.getHealth(), "ai" : u.aiBehaviour, "uniqueID" : u.uniqueID, "name" : u.name}
 				if (u is Infantry)
 				{
@@ -626,14 +625,10 @@ package states.game.teamsData
 			var cost:int = BuildingsStatsObj(BuildingModel(p.model).stats).cost;
 			cashManager.setCashToAdd(cost / 2);
 			
-			
 			onDead(e);
 		}
 		
-		
-		
-		
-		
+
 		private function onDead(e:Event):void
 		{
 			var residentSoldiersArr:Array = [];

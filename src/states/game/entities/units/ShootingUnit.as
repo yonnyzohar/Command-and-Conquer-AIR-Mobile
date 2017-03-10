@@ -116,7 +116,10 @@ package  states.game.entities.units
 				}
 				else
 				{
-					search = true;
+					if (_pulse)
+					{
+						search = true;
+					}
 				}
 			}
 			else
@@ -124,10 +127,12 @@ package  states.game.entities.units
 				search = true;
 			}
 				
-			if (search)
+			if (search )
 			{
-				
-				possibleEnemy = Methods.findClosestTargetinSight(this);
+				//var startTime:int = getTimer();
+				possibleEnemy = Methods.findClosestTargetinSight2(this);
+				//trace(getTimer() - startTime);
+				//trace("---")
 				
 				if (possibleEnemy)
 				{

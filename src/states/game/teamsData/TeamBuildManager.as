@@ -526,7 +526,6 @@ package states.game.teamsData
 			{
 				setTimeout(function():void 
 				{
-				
 					onBuildingComplete(assetName);
 				},1000);
 			}

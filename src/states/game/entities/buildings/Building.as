@@ -193,7 +193,7 @@ package states.game.entities.buildings
 		
 		override public function hurt(_hitVal:int, _currentInfantryDeath:String , projectileName:String = null):Boolean
 		{
-			if (Methods.assetIsOnScreen(model.row, model.col) && projectileName.indexOf("invisible") == -1 )
+			/*if (Methods.assetIsOnScreen(model.row, model.col) && projectileName.indexOf("invisible") == -1 )
 			{
 				var origPosX:int = Parameters.gameHolder.x;
 				var origPosY:int = Parameters.gameHolder.y;
@@ -219,7 +219,7 @@ package states.game.entities.buildings
 						})
 					}
 				})
-			}
+			}*/
 			
 			dispatchEvent(new Event("UNDER_ATTACK"));
 			

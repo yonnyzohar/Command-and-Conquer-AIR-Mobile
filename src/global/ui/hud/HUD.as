@@ -2,8 +2,6 @@
 {
 	
 	import com.dynamicTaMaker.utils.ButtonManager;
-	import com.greensock.TweenLite;
-	import com.greensock.easing.Linear;
 	import flash.geom.Point;
 	import global.enums.MouseStates;
 	import global.utilities.DragScroll;
