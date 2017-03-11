@@ -522,16 +522,16 @@ package states.game.teamsData
 		
 		private function onBuildingComplete(assetName:String):void
 		{
-			if (GameAtlas.loadingInProgress)
+			if (GameAtlas.completedAssets[assetName])
+			{
+				dispatchEvent(new Event("BUILDING_CONSTRUCTION_COMPLETED"))
+			}
+			else
 			{
 				setTimeout(function():void 
 				{
 					onBuildingComplete(assetName);
 				},1000);
-			}
-			else
-			{
-				dispatchEvent(new Event("BUILDING_CONSTRUCTION_COMPLETED"))
 			}
 			
 		}

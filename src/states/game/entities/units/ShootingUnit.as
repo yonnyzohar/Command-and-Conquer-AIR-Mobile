@@ -118,6 +118,7 @@ package  states.game.entities.units
 				{
 					if (_pulse)
 					{
+						
 						search = true;
 					}
 				}
@@ -129,10 +130,7 @@ package  states.game.entities.units
 				
 			if (search )
 			{
-				//var startTime:int = getTimer();
 				possibleEnemy = Methods.findClosestTargetinSight2(this);
-				//trace(getTimer() - startTime);
-				//trace("---")
 				
 				if (possibleEnemy)
 				{
@@ -252,13 +250,6 @@ package  states.game.entities.units
 			if(model.isSelected)
 			{
 				
-				if (currentEnemy)
-				{
-					currentEnemy.removeEventListener("DEAD", onEnemyDead);
-					currentEnemy = null;
-				}
-				
-				
 				dontShootCounter = 0;
 				UnitView(view).standCount = 0;
 				UnitModel(model).userOverrideAutoShoot = true;
@@ -319,11 +310,6 @@ package  states.game.entities.units
 					{
 						UnitView(view).shoot(currentEnemy , currentEnemy.model.row, currentEnemy.model.col);
 						
-						if(model.controllingAgent == Agent.HUMAN && aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
-						{
-							currentEnemy.addEventListener("DEAD", onEnemyDead);
-						}
-						
 						
 						if(UnitModel(model).stats.weapon != null && UnitModel(model).rotating == false)
 						{
@@ -360,16 +346,6 @@ package  states.game.entities.units
 		
 
 		
-		private function onEnemyDead(e:Event):void 
-		{
-			var enemyUnit:GameEntity = GameEntity(e.currentTarget);
-			enemyUnit.removeEventListener("DEAD", onEnemyDead);
-			
-			if (model && model.controllingAgent == Agent.HUMAN && aiBehaviour == AiBehaviours.SEEK_AND_DESTROY && Parameters.AI_ONLY_GAME == false)
-			{
-				aiBehaviour = AiBehaviours.SELF_DEFENSE;
-			}
-		}
 		
 		override protected function onDoneRotating(e:Event):void 
 		{
@@ -560,11 +536,7 @@ package  states.game.entities.units
 		{
 			closestEnemyArr = null;
 			enemiesInSight = null;
-			if (currentEnemy)
-			{
-				currentEnemy.removeEventListener("DEAD", onEnemyDead);
-				currentEnemy = null;
-			}
+
 			foundEnemy = null;
 			if (weapon)
 			{

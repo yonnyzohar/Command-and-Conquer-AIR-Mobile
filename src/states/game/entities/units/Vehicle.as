@@ -36,12 +36,10 @@ package  states.game.entities.units
 		
 		override protected function handleDeath(_pulse:Boolean):void
 		{
-			super.handleDeath(_pulse);
 			var deathAnimation:String = VehicleStatsObj(model.stats).deathAnimation;
 			playExplosion(deathAnimation);
 			clearTile(model.row, model.col);
-			dispatchEvent(new Event("DEAD"));
-			
+			super.handleDeath(_pulse);
 		}
 		
 		override protected function stopMovingAndSplicePath(_startShooting:Boolean = false):void

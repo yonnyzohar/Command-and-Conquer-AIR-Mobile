@@ -74,7 +74,6 @@
 			clearInterval(shootInterval)
 			playDeathAniamtion(model.stats.name +  "_" + currentInfantryDeath);
 			super.handleDeath(_pulse);
-			dispatchEvent(new Event("DEAD"));
 		}
 		
 		

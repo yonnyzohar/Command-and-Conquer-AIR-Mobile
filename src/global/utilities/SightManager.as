@@ -129,7 +129,7 @@
 					{
 						n = sightArray[g];
 						n.seen = true;
-						if (p is Building && !(p is Turret))
+						if (p is Building && !(p is Turret) && human_buildingsSight.indexOf(n) == -1)
 						{
 							human_buildingsSight.push(n);
 						}
@@ -153,7 +153,7 @@
 						}
 						
 						
-						if (p is Building && !(p is Turret))
+						if (p is Building && !(p is Turret)  && pc_buildingsSight.indexOf(n) == -1)
 						{
 							pc_buildingsSight.push(n);
 						}

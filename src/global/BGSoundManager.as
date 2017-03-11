@@ -1,54 +1,37 @@
 package global 
 {
-	import flash.events.Event;
-	import flash.media.SoundChannel;
+	import starling.events.Event;
+	import global.utilities.GlobalEventDispatcher;
 	/**
 	 * ...
 	 * @author Yonny Zohar
 	 */
 	public class BGSoundManager 
 	{
-		private static var bgSoundChannel:SoundChannel;
-		
-		public function BGSoundManager() 
-		{
-			
-		}
-		
+
 		static public function playBGSound():void 
 		{
-			bgSoundChannel = GameSounds.playSound("themes", null, 0.1);
-			if (bgSoundChannel)
+			if (!GlobalEventDispatcher.getInstance().hasEventListener("BG_SOUND_COMPLETE"))
 			{
-				bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
+				GlobalEventDispatcher.getInstance().addEventListener("BG_SOUND_COMPLETE", onBGSndComplete);
 			}
+			
+			GameSounds.playSound("themes", null, 0.1);
+			
 		}
 		
 		static public function stopBGSound():void 
 		{
-			if (bgSoundChannel)
-			{
-				bgSoundChannel.stop();
-			}
+			
+			GameSounds.stopBGSound();
+			
 		}
-		
 		
 		
 		static private function onBGSndComplete(e:Event):void 
 		{
-			bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
 			playBGSound();
 		}
-		
-		static public function stopAllSounds():void 
-		{
-			if (bgSoundChannel)
-			{
-				bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
-				bgSoundChannel = null;
-			}
-		}
-		
 	}
 
 }

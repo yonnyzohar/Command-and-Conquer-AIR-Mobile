@@ -37,6 +37,7 @@ package states.game.entities
 		public var name:String;
 		private var myColor:uint; 
 		protected var ENTITY_BEING_REPAIRED:Boolean = false;
+		public var underAttack:Boolean = false;
 		
 		public function GameEntity(_teamObj:TeamObject)
 		{

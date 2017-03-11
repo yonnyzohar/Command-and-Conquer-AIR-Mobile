@@ -680,9 +680,9 @@ package global
 			var n:Node;
 			var buildingTilesLen:int;
 			
-			outer : for (var row:int = model.row - sightRange; row < model.row + sightRange; row++)
+			outer : for (var row:int = model.row - sightRange; row <= model.row + sightRange; row++)
 			{
-				for (var col:int = model.col - sightRange; col < model.col + sightRange; col++ )
+				for (var col:int = model.col - sightRange; col <= model.col + sightRange; col++ )
 				{
 					if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
 					{

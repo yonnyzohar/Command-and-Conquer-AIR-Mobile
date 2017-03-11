@@ -463,7 +463,7 @@ package states.game
 			UnitSelectionManager.getInstance().dispose();
 			
 			SightManager.getInstance().dispose();
-			BGSoundManager.stopAllSounds();
+			BGSoundManager.stopBGSound();
 			Parameters.currentSquad = null;
 			TweenMax.killAll();
 			removeAllChildren([Parameters.gameHolder, Parameters.mapHolder , Board.mapContainerArr[Board.GROUND_LAYER], Board.mapContainerArr[Board.OBSTACLE_LAYER], Board.mapContainerArr[Board.UNITS_LAYER],Board.mapContainerArr[Board.EFFECTS_LAYER] ]);

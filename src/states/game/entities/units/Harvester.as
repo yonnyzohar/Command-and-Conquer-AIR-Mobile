@@ -220,7 +220,7 @@ package  states.game.entities.units
 			}
 			else
 			{
-				if (!inRefineryDock() && storageBar.currentStore == storageBar.totalStore)
+				if (!inRefineryDock() && storageBar.currentStore >= storageBar.totalStore)
 				{
 					setState(UnitStates.RETURN_TO_REFINERY);
 				}
@@ -574,7 +574,7 @@ package  states.game.entities.units
 		
 		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
 		{
-			dispatchEvent(new Event("UNDER_ATTACK"));
+			underAttack = true;
 			return super.hurt(_hitVal, _currentInfantryDeath,projectileName )
 		}
 		

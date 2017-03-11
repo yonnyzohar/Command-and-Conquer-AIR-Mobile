@@ -22,6 +22,7 @@ package states.game.entities.buildings
 		public var hasBuildingClickFunction:Boolean = false;
 		private var buildingTiles:Array;
 		private var sightTiles:Array;
+		private static var BUILDING_SOLD_EVENT:Event = new starling.events.Event("SOLD")
 		
 		
 		public function Building(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
@@ -94,7 +95,6 @@ package states.game.entities.buildings
 				{
 					BuildingView(view).playExplosion();
 					GameSounds.playSound("building_destroyed");
-					dispatchEvent(new Event("DEAD"));
 				}
 				
 				if (model)
@@ -149,28 +149,33 @@ package states.game.entities.buildings
 		
 		public function getBuildingTiles():Array
 		{
-			if (buildingTiles == null)
+			if (model && model.dead == false)
 			{
-				buildingTiles = [];
-				var n:Node;
-				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-				var occupyArrayRowsLength:int = occupyArray.length;
-				var occupyArrayColsLength:int = occupyArray[0].length;
-				for(var i:int = 0; i < occupyArrayRowsLength; i++)
+				if (buildingTiles == null)
 				{
-					for (var j:int = 0; j < occupyArrayColsLength; j++ )
+					buildingTiles = [];
+					var n:Node;
+					var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
+					var occupyArrayRowsLength:int = occupyArray.length;
+					var occupyArrayColsLength:int = occupyArray[0].length;
+					for(var i:int = 0; i < occupyArrayRowsLength; i++)
 					{
-						var curTile:int = occupyArray[i][j];
-						
-						if (curTile == 0) continue;//this is only for build indication
-						n = Node( Parameters.boardArr[model.row + j][model.col + i] );
-						buildingTiles.push(n);
+						for (var j:int = 0; j < occupyArrayColsLength; j++ )
+						{
+							var curTile:int = occupyArray[i][j];
+							
+							if (curTile == 0) continue;//this is only for build indication
+							n = Node( Parameters.boardArr[model.row + j][model.col + i] );
+							buildingTiles.push(n);
+						}
 					}
 				}
+				return buildingTiles;
 			}
-			
-			
-			return buildingTiles;
+			else
+			{
+				return [];
+			}
 		}
 		
 		override public function hasBeenTouched(_row:int, _col:int):Boolean
@@ -221,7 +226,7 @@ package states.game.entities.buildings
 				})
 			}*/
 			
-			dispatchEvent(new Event("UNDER_ATTACK"));
+			underAttack = true;
 			
 			return super.hurt(_hitVal, _currentInfantryDeath, projectileName)
 		}
@@ -283,7 +288,7 @@ package states.game.entities.buildings
 			{
 				model.dead = true;
 			}
-			dispatchEvent(new Event("SOLD"));
+			dispatchEvent( BUILDING_SOLD_EVENT );
 		}
 		
 		

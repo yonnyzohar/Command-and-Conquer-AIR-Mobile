@@ -237,7 +237,6 @@ package states.game.entities.units
 		{
 			if (model)
 			{
-				//trace(model.stats.name + " " + this.model.teamName + " is dead!")
 				model.dead = true;
 				UnitModel(model).moving = false;
 			}

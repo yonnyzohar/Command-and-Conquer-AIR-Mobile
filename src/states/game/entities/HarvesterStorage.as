@@ -38,6 +38,7 @@ package   states.game.entities
 			
 			if (currentStore >=  totalStore)
 			{
+				currentStore = totalStore;
 				return true;
 			}
 			else

@@ -14,6 +14,8 @@ package global
 	import flash.utils.Dictionary;
 	import global.assets.GameAssets;
 	import global.Parameters;
+	import global.utilities.GlobalEventDispatcher;
+	import starling.events.Event;
 
 	public class GameSounds
 	{
@@ -73,7 +75,21 @@ package global
 		static private function onBackgroundMessageToMain(e:flash.events.Event):void 
 		{
 			var result:Object = soundWorkerToMain.receive() as Object;
-			
+			if (result && result.message)
+			{
+				if (result.message == "BG_SOUND_COMPLETE")
+				{
+					GlobalEventDispatcher.getInstance().dispatchEvent(new starling.events.Event("BG_SOUND_COMPLETE"));
+				}
+			}
+		}
+		
+		static public function stopBGSound():void 
+		{
+			if (worker.state == WorkerState.RUNNING) 
+			{
+				mainToSoundWorker.send({message : "STOP_BG_SOUND"});
+			}
 		}
 		
 		
@@ -145,6 +161,8 @@ package global
 			
 			return ch;*/
 		}
+		
+		
 		
 		/*
 		public static function playSoundFile(file:Sound, vol:Number):SoundChannel

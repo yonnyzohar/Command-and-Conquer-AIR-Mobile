@@ -1,5 +1,6 @@
 package states.game.teamsData
 {
+	import flash.desktop.NativeProcessStartupInfo;
 	import flash.net.ObjectEncoding;
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
@@ -82,6 +83,8 @@ package states.game.teamsData
 			{
 				sellRepairManager = new SellRepairManager(this);
 			}
+			
+			GameTimer.getInstance().addUser(this);
 		}
 		
 		
@@ -206,7 +209,6 @@ package states.game.teamsData
 					if (obj.name == "harvester")
 					{
 						ent = new Harvester(VehicleStatsObj(statsObj), this, enemyTeam, teamNum);
-						ent.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					else if (obj.name == "refinery")
 					{
@@ -217,13 +219,11 @@ package states.game.teamsData
 						ent = new CLS(statsObj, this, enemyTeam, teamNum);
 					}
 					
-					ent.addEventListener("DEAD", onDead);
 					Board.mapContainerArr[Board.UNITS_LAYER].addChild(ent.view);
 					
 					if (curType == "startBuildings" || curType == "startTurrets")
 					{
 						ent.addEventListener("SOLD", onSold);
-						ent.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					
 					placementsArr = SpiralBuilder.getSpiral(selRow, selCol, 1);
@@ -320,78 +320,106 @@ package states.game.teamsData
 		
 		private var callingForHelp:Boolean = false;
 		private var timeoutRunning:Boolean = false;
+		private var timeoutCounter:int = 0;
+		private var timeoutTime:int = 5;
 		
-		private function underAttack(e:Event):void 
+		
+		public function update(_pulse:Boolean):void
 		{
-			if (agent == Agent.PC || Parameters.AI_ONLY_GAME)
+			checkDead();
+			
+			if (_pulse)
 			{
-				if (callingForHelp)
+				if (agent == Agent.PC || Parameters.AI_ONLY_GAME)
 				{
-					if (timeoutRunning == false)
+					if (callingForHelp)
 					{
-						trace("setting harvester timeout");
-						timeoutRunning = true;
-						setTimeout(function():void
+						if (timeoutRunning == false)
 						{
-							timeoutRunning = false;
-							callingForHelp = false;
-						},5000);
-					}
-					
-					
-					return;
-				}
-				else
-				{
-					trace("calling for help!")
-					callingForHelp = true;
-					var attackedEntity:GameEntity = GameEntity(e.currentTarget);
-					if (attackedEntity && attackedEntity.model && attackedEntity.model.dead == false)
-					{
-						var selRow:int = attackedEntity.model.row;
-						var selCol:int = attackedEntity.model.col;
-						var unit:GameEntity;
+							trace("setting harvester timeout");
+							timeoutRunning = true;
+						}
+						else
+						{
+							timeoutCounter++;
+							if (timeoutCounter >= timeoutTime)
+							{
+								timeoutCounter = 0;
+								timeoutRunning = false;
+								callingForHelp = false;
+							}
+						}
 						
-						var squadSize:int = 5;
-						var mySquad:Array = [];
-						var teamLength:int = team.length; 
-						//send help
+						return;
+					}
+					else
+					{
+						trace("calling for help!")
+						callingForHelp = true;
+						var teamLength:int = team.length;
+						var p:GameEntity;
+				
 						for (var i:int = 0; i < teamLength; i++ )
 						{
-							unit = team[i];
-							if (unit is Building)  
+							p = team[i];
+							if (p.underAttack)
 							{
-								continue;
-							}
-							if (unit is Harvester)
-							{
-								continue;
-							}
-							if (unit.aiBehaviour == AiBehaviours.HELPLESS || unit.aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
-							{
-								continue;
-							}
-							
-							if (mySquad.length <= squadSize)
-							{
-								mySquad.push(unit);
-							}
-							
-						}
-						
-						if (mySquad.length)
-						{
-							//trace("TO THE RESCUE!!!!")
-							//var placementsArr:Array = SpiralBuilder.getSpiral(selRow, selCol, mySquad.length);
-							var squadLength:int = mySquad.length;
-						
-							for (i = 0; i < squadLength; i++ )
-							{
-								unit = mySquad[i];
-								Unit(unit).getWalkPath(selRow, selCol);
-								unit.setState(UnitStates.WALK);
+								underAttack(p);
+								p.underAttack = false;
+								return;
 							}
 						}
+					}
+				}
+			}
+		}
+		
+		
+		
+		private function underAttack(attackedEntity:GameEntity):void 
+		{
+
+			if (attackedEntity && attackedEntity.model && attackedEntity.model.dead == false)
+			{
+				var selRow:int = attackedEntity.model.row;
+				var selCol:int = attackedEntity.model.col;
+				var unit:GameEntity;
+				
+				var squadSize:int = 5;
+				var mySquad:Array = [];
+				var teamLength:int = team.length; 
+				//send help
+				for (var i:int = 0; i < teamLength; i++ )
+				{
+					unit = team[i];
+					if (unit is Building)  
+					{
+						continue;
+					}
+					if (unit is Harvester)
+					{
+						continue;
+					}
+					if (unit.aiBehaviour == AiBehaviours.HELPLESS || unit.aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
+					{
+						continue;
+					}
+					
+					if (mySquad.length <= squadSize)
+					{
+						mySquad.push(unit);
+					}
+					
+				}
+				
+				if (mySquad.length)
+				{
+					var squadLength:int = mySquad.length;
+				
+					for (i = 0; i < squadLength; i++ )
+					{
+						unit = mySquad[i];
+						unit.aiBehaviour = AiBehaviours.SEEK_AND_DESTROY;
 					}
 				}
 			}
@@ -491,7 +519,6 @@ package states.game.teamsData
 			
 			if (p)
 			{
-				p.addEventListener("DEAD", onDead);
 				Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 				
 				team.push(p);
@@ -541,9 +568,7 @@ package states.game.teamsData
 				p = new Turret(TurretStats.dict[assetName], this, enemyTeam, teamNum);
 			}
 			
-			p.addEventListener("DEAD", onDead);
 			p.addEventListener("SOLD", onSold);
-			p.addEventListener("UNDER_ATTACK", underAttack);
 			Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 			team.push(p);
 			p.placeUnit(buildManager.targetRow, buildManager.targetCol);
@@ -598,7 +623,6 @@ package states.game.teamsData
 					p.placeUnit(placementsArr[0].row, placementsArr[0].col);
 				}
 				
-				p.addEventListener("DEAD", onDead);
 				Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
 				
 				team.push(p);
@@ -625,21 +649,34 @@ package states.game.teamsData
 			var cost:int = BuildingsStatsObj(BuildingModel(p.model).stats).cost;
 			cashManager.setCashToAdd(cost / 2);
 			
-			onDead(e);
+			onDead(p);
+		}
+		
+		private function checkDead():void 
+		{
+			var teamLength:int = team.length;
+			var p:GameEntity;
+				
+			for (var i:int = 0; i < teamLength; i++ )
+			{
+				p = team[i];
+				if (p.model && p.model.dead)
+				{
+					onDead(p);
+					return;
+				}
+			}
 		}
 		
 
-		private function onDead(e:Event):void
+		private function onDead(p:GameEntity):void
 		{
 			var residentSoldiersArr:Array = [];
-			var p:GameEntity = GameEntity(e.target);
 			var row:int;
 			var col:int;
 			var currentTeamObj:TeamObject = GameEntity(p).myTeamObj;
 			var numResidents:int = 0;
 			var i:int = 0;
-			p.removeEventListener("DEAD", onDead);
-			p.removeEventListener("UNDER_ATTACK", underAttack);
 			p.removeEventListener("SOLD", onSold);
 			
 			if (p is Building && (p is Turret) == false)
@@ -705,7 +742,6 @@ package states.game.teamsData
 			soldier.placeUnit(placementsArr[0].row, placementsArr[0].col);
 			Board.mapContainerArr[Board.UNITS_LAYER].addChild(soldier.view);
 			team.push(soldier);
-			soldier.addEventListener("DEAD", onDead);
 			if(searchAndDestroy)soldier.changeAI(AiBehaviours.SEEK_AND_DESTROY);
 		}
 		
@@ -763,8 +799,6 @@ package states.game.teamsData
 			
 			for (var i:int = 0; i < teamLen; i++ )
 			{
-				team[i].removeEventListener("DEAD", onDead);
-				team[i].removeEventListener("UNDER_ATTACK", underAttack);
 				team[i].removeEventListener("SOLD", onSold);
 				team[i].dispose();
 				team[i] = null;

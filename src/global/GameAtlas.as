@@ -74,7 +74,8 @@
 		static private var backToMain:MessageChannel;
 		static private var mainToBack:MessageChannel;
 		static public var loadingInProgress:Boolean = false;
-		static private var loadedAssets:Object = { };
+		static private var selectedAssets:Object = { };
+		static public var completedAssets:Object = { };
 		private static var stopMe:Boolean = false;
 		private static var workerInstance:ByteArray;
 		
@@ -90,7 +91,8 @@
 			assetNames.splice(0);
 			atlasDicts = new Dictionary();
 			loadingInProgress = false;
-			loadedAssets = { };
+			selectedAssets = { };
+			completedAssets = { };
 			if (workerInstance)
 			{
 				workerInstance = null;
@@ -188,7 +190,7 @@
 								var assetDir:File = assets[j];
 								if (assetDir.name == mustMap[currentTypeName][g])
 								{
-									loadedAssets[assetDir.name] = true;
+									selectedAssets[assetDir.name] = true;
 									////trace(assetDir.name);
 									
 									var obj:Object = 
@@ -264,10 +266,10 @@
 								if (assetDir.exists)
 								{
 									//this is to make sure we haven't loaded this asset already
-									if(dirsToLoadMap[assetDir.name] && loadedAssets[assetDir.name] == undefined)
+									if(dirsToLoadMap[assetDir.name] && selectedAssets[assetDir.name] == undefined)
 									{
 										trace("----------adding " + assetDir.name + " TA")
-										loadedAssets[assetDir.name] = true;
+										selectedAssets[assetDir.name] = true;
 										var obj:Object = {
 											
 											xml :assetDir.name+"XML" , 
@@ -427,6 +429,8 @@
 			
 			bmpd.dispose();
 			counter++;
+			
+			completedAssets[assetName] = true;
 				
 			if (counter >= assetNames.length)
 			{
