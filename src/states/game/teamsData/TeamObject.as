@@ -326,7 +326,12 @@
 		
 		public function update(_pulse:Boolean):void
 		{
-			team.sortOn(["row"], Array.NUMERIC);
+			
+			if (_pulse)
+			{
+				team.sortOn(["row"], Array.NUMERIC);
+			}
+			
 		
 			var teamLength:int = team.length;
 			var p:GameEntity;
@@ -342,15 +347,17 @@
 					{
 						if(p.model.dead == false)
 						{
-							if (p.model.col >= Parameters.screenDisplayArea.col && p.model.col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
-								p.model.row >= Parameters.screenDisplayArea.row && p.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
-							{
-								Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
-							}
-							
 							
 							if (_pulse)
 							{
+								if (p.model.col >= Parameters.screenDisplayArea.col && p.model.col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
+									p.model.row >= Parameters.screenDisplayArea.row && p.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
+								{
+									Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
+								}
+							
+							
+							
 								if (agent == Agent.PC || Parameters.AI_ONLY_GAME)
 								{
 									if (callingForHelp)
