@@ -172,37 +172,7 @@
 
 		}
 		
-		private function addTileTocorrectCanves(node:Node, img:Image):void
-		{
-			var row:Number = node.row / Parameters.numRows;
-			var col:Number = node.col / Parameters.numCols;
-			
-			var renderRows:int = renderTextures.length;
-			var renderCols:int = renderTextures[0].length;
-			
-			var rowPer:int = int( renderRows * row);
-			var colPer:int = int(renderCols * col);
-			
-			if (rowPer == Number.NEGATIVE_INFINITY || rowPer == Number.POSITIVE_INFINITY)
-			{
-				rowPer = 0;
-			}
-			if (colPer == Number.NEGATIVE_INFINITY || colPer == Number.POSITIVE_INFINITY)
-			{
-				colPer = 0;
-			}
-			
-			img.x = node.col * Parameters.tileSize;
-			img.y = node.row * Parameters.tileSize;
-			
-			img.x -= (1024 * colPer )
-			img.y -= (1024 *rowPer )
-			
-			//////trace(rowPer + " " + colPer );
-			var renderTex:RenderTexture = renderTextures[rowPer][colPer];
-			renderTex.draw(img);
-		}
-		
+				
 		
 		private function getGrassTile():Image
 		{

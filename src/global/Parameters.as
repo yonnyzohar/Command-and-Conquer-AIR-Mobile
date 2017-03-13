@@ -1,4 +1,4 @@
-package global 
+﻿package global 
 {
 	import flash.display.Stage;
 	import global.map.Node;
@@ -56,7 +56,7 @@ package global
 		static public var team2Obj:TeamObject;
 		static public var team1Obj:TeamObject;
 		
-		static public var AI_ONLY_GAME:Boolean = false;
+		static public var AI_ONLY_GAME:Boolean = true;
 		static public var gameSpeed:int = 10;
 		
 		static public var editLoad:Boolean = false;

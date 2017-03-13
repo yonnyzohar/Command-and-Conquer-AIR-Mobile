@@ -1,4 +1,4 @@
-package states.game.ui
+﻿package states.game.ui
 {
 	import starling.display.Quad;
 	import starling.display.Sprite;
@@ -16,10 +16,10 @@ package states.game.ui
 			bg = new Quad(50 , 40, 0x000000);
 			
 			team1TF = new TextField(50, 20, "")
-			team1TF.format.color = 0xffffff;
+			//team1TF.format.color = 0xffffff;
 			
 			team2TF = new TextField(50, 20, "")
-			team2TF.format.color = 0xffffff;
+			//team2TF.format.color = 0xffffff;
 			
 			view.addChild(bg);
 			view.addChild(team1TF);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!-- 
 	Usage:
 
@@ -17,29 +17,27 @@
 	</name>
 -->
 <application xmlns="http://ns.adobe.com/air/application/23.0">
-  <id>strategyGame</id>
-  <versionNumber>1.0.0</versionNumber>
-  <versionLabel></versionLabel>
-  <filename>strategyGame</filename>
-  <description/>
-  <name>strategyGame</name>
-  <copyright/>
-  <initialWindow>
-    <content>strategyGame.swf</content>
-    <systemChrome>standard</systemChrome>
-    <transparent>false</transparent>
-    <visible>true</visible>
-    <fullScreen>false</fullScreen>
-    <aspectRatio>landscape</aspectRatio>
-    <renderMode>direct</renderMode>
-    <autoOrients>false</autoOrients></initialWindow>
-  <icon/>
-  <customUpdateUI>false</customUpdateUI>
-  <allowBrowserInvocation>false</allowBrowserInvocation>
-  <android>
-    <manifestAdditions><![CDATA[<manifest>
-<uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.WAKE_LOCK"/>
-</manifest>]]></manifestAdditions>
-  </android>
+    <id>StrategyGame</id>
+    <versionNumber>1.0.0</versionNumber>
+    <versionLabel></versionLabel>
+    <filename>StrategyGame</filename>
+    <description></description>
+    <name>StrategyGame</name>
+    <copyright></copyright>
+    <initialWindow>
+        <content>StrategyGame.swf</content>
+        <systemChrome>standard</systemChrome>
+        <transparent>false</transparent>
+        <visible>true</visible>
+        <fullScreen>false</fullScreen>
+        <aspectRatio>landscape</aspectRatio>
+        <renderMode>direct</renderMode>
+        <autoOrients>false</autoOrients>
+    </initialWindow>
+    <icon></icon>
+    <customUpdateUI>false</customUpdateUI>
+    <allowBrowserInvocation>false</allowBrowserInvocation>
+    <android>
+        <manifestAdditions><![CDATA[<manifest><uses-permission android:name="android.permission.INTERNET"/><uses-permission android:name="android.permission.WAKE_LOCK"/></manifest>]]></manifestAdditions>
+    </android>
 </application>
