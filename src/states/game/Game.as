@@ -1,4 +1,4 @@
-﻿package states.game 
+package states.game 
 {
 	
 	import com.greensock.TweenMax;
@@ -17,7 +17,6 @@
 	import states.game.teamsData.TeamBuildManager;
 	import global.utilities.GlobalEventDispatcher;
 	import global.utilities.MapMover;
-	import global.utilities.SightManager;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.display.Quad;
@@ -147,11 +146,23 @@
 				fixOnBase();
 			}
 			
-			SightManager.getInstance().init();
 			GameSounds.playBGSound();
 			dispatchEvent(new Event("GAME_LOAD_COMPLETE"))
 			Parameters.loadingScreen.remove();
-			//SightManager.getInstance().showAllSightSquares();
+			
+			var n:Node;
+			var len:int = Parameters.boardArr.length;
+			
+			for (var row:int = 0; row < len; row++ )
+			{
+				var len2:int = Parameters.boardArr[0].length;
+				for (var col:int = 0; col < len2; col++ )
+				{
+					n = Parameters.boardArr[row][col];
+					n.seen = false;
+				}
+			}
+			
 		}
 		
 		
@@ -192,10 +203,10 @@
 				ai1Controller = new AIController();
 				ai2Controller = new AIController();
 				Parameters.team1Obj.agent = Agent.HUMAN;
-				Parameters.team1Obj.ai = AiBehaviours.BASE_DEFENSE;
+				Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
 					
 				Parameters.team2Obj.agent = Agent.PC;
-				Parameters.team2Obj.ai = AiBehaviours.BASE_DEFENSE;
+				Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
 				
 				Parameters.team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
 				Parameters.team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
@@ -213,12 +224,12 @@
 					Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
 					
 					Parameters.team2Obj.agent = Agent.PC;
-					Parameters.team2Obj.ai = AiBehaviours.BASE_DEFENSE;
+					Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
 				}
 				else
 				{
 					Parameters.team1Obj.agent = Agent.PC;
-					Parameters.team1Obj.ai = AiBehaviours.BASE_DEFENSE;
+					Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
 					
 					Parameters.team2Obj.agent = Agent.HUMAN;
 					Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
@@ -424,7 +435,6 @@
 			Parameters.pcTeam = [];
 			UnitSelectionManager.getInstance().dispose();
 			
-			SightManager.getInstance().dispose();
 			GameSounds.stopBGSound();
 			Parameters.currentSquad = null;
 			TweenMax.killAll();

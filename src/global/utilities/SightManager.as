@@ -9,31 +9,139 @@
 	import states.game.entities.buildings.Building;
 	import states.game.entities.buildings.Turret;
 	import states.game.entities.GameEntity;
+	import states.game.teamsData.TeamObject;
 	/**
 	 * ...
 	 * @author Yonny Zohar
 	 */
 	public class SightManager extends EventDispatcher
 	{
-		static private var instance:SightManager = new SightManager();
+		private var buildingsSight:Array;
+		private var teamObj:TeamObject;
 		
-		private static var human_buildingsSight:Array = [];
-		private static var pc_buildingsSight:Array = [];
-		
-		public function SightManager()
+		public function SightManager(_teamObj:TeamObject)
 		{
-			if (instance)
+			teamObj = _teamObj;
+			buildingsSight = [];
+		}
+		
+
+		public function init():void 
+		{
+			var p:GameEntity;
+			var n:Node;
+			var sightArray:Array;
+			var len5:int;
+			var agent:int = teamObj.agent;
+			
+			var len3:int = teamObj.team.length;
+			for (var i:int = 0; i < len3; i++ )
 			{
-				throw new Error("Singleton and can only be accessed through Singleton.getInstance()");
+				p = teamObj.team[i];
+				
+				if (agent == Agent.HUMAN)
+				{
+					sightArray = p.getSight();
+					len5 = sightArray.length;
+					for (var g:int = 0; g < len5; g++ )
+					{
+						n = sightArray[g];
+						n.seen = true;
+					}
+				}
+				else
+				{
+					p.view.visible = false;
+				}
 			}
 		}
 		
-		public static function getInstance():SightManager
+		public function resetSight():void
 		{
-			return instance;
+			buildingsSight.splice(0);
 		}
 		
-		public function showAllSightSquares():void 
+		public function addSight(p:GameEntity):void
+		{
+			var agent:int = teamObj.agent;
+			var sightArray:Array = p.getSight();
+			var len2:int = sightArray.length;
+			var agent:int = teamObj.agent;
+			var n:Node;
+			var g:int = 0;
+			for (g = 0; g < len2; g++ )
+			{
+				n = sightArray[g];
+				
+				if (agent == Agent.HUMAN)
+				{
+					n.seen = true;
+				}
+				else
+				{
+					if (Parameters.AI_ONLY_GAME)
+					{
+						n.seen = true;// -- setting this to true will make pc units appear in the minimap!
+					}
+				}
+				
+				
+				if (p is Building && !(p is Turret) && buildingsSight.indexOf(n) == -1)
+				{
+					buildingsSight.push(n);
+				}
+			}
+		}
+		
+		public function getBaseNodes():Array 
+		{
+			return buildingsSight;
+		}
+		
+		public function dispose():void 
+		{
+			buildingsSight = [];
+		}
+		
+		
+		
+		
+		/*public function getTargetWithinBase(_controlingAgent:int, teamName:String):GameEntity 
+		{
+			var callerTeam:Array;
+			var myTeamBuildings:Array;
+			var enemy:GameEntity;
+			var p:GameEntity;
+			var sightArray:Array;
+			var n:Node;
+			
+			if (_controlingAgent == Agent.PC)
+			{
+				callerTeam = Parameters.pcTeam;
+				myTeamBuildings = pc_buildingsSight;
+			}
+			else
+			{
+				callerTeam = Parameters.humanTeam;
+				myTeamBuildings = human_buildingsSight;
+			}
+			
+			var len:int = myTeamBuildings.length;
+			for (var g:int = 0; g < len; g++ )
+			{
+				n = myTeamBuildings[g];
+				if (n.occupyingUnit && n.occupyingUnit.myTeamObj.teamName != teamName )
+				{
+					enemy = n.occupyingUnit;
+					break;
+				}
+			}
+			return enemy;
+		}*/
+		
+		
+		
+		/*public function showAllSightSquares():void 
 		{
 			var q:Quad;
 			var a:Array = [Parameters.humanTeam, Parameters.pcTeam];
@@ -65,155 +173,6 @@
 					
 				}
 			}
-		}
-		
-		public function init():void 
-		{
-			var p:GameEntity;
-			var n:Node;
-			var len:int = Parameters.boardArr.length;
-			var sightArray:Array;
-			var len5:int;
-			
-			for (var row:int = 0; row < len; row++ )
-			{
-				var len2:int = Parameters.boardArr[0].length;
-				for (var col:int = 0; col < len2; col++ )
-				{
-					n = Parameters.boardArr[row][col];
-					n.seen = false;
-				}
-			}
-			
-			var len3:int = Parameters.pcTeam.length;
-			for (var i:int = 0; i < len3; i++ )
-			{
-				p = Parameters.pcTeam[i];
-				p.view.visible = false;
-			}
-			
-			var len4:int = Parameters.humanTeam.length;
-			for (i = 0; i < len4; i++ )
-			{
-				p = Parameters.humanTeam[i];
-				sightArray = p.getSight();
-				len5 = sightArray.length;
-				for (var g:int = 0; g < len5; g++ )
-				{
-					n = sightArray[g];
-					n.seen = true;
-				}
-			}
-			
-			GameTimer.getInstance().addUser(this);
-		}
-		
-		public function update(_pulse:Boolean):void
-		{
-			if (_pulse)
-			{
-				human_buildingsSight.splice(0);
-				var i:int = 0;
-				var g:int = 0;
-				var sightArray:Array;
-				var p:GameEntity;
-				var len:int = Parameters.humanTeam.length;
-				var n:Node;
-				
-				for (i = 0; i < len; i++ )
-				{
-					p = Parameters.humanTeam[i];
-					sightArray = p.getSight();
-					var len2:int = sightArray.length;
-					for (g = 0; g < len2; g++ )
-					{
-						n = sightArray[g];
-						n.seen = true;
-						if (p is Building && !(p is Turret) && human_buildingsSight.indexOf(n) == -1)
-						{
-							human_buildingsSight.push(n);
-						}
-					}
-				}
-				
-				pc_buildingsSight.splice(0);
-				var len3:int = Parameters.pcTeam.length;
-				for (i = 0; i < len3; i++ )
-				{
-					p = Parameters.pcTeam[i];
-					sightArray = p.getSight();
-					var len4:int = sightArray.length;
-					for (g = 0; g < len4; g++ )
-					{
-						n = sightArray[g];
-						
-						if (Parameters.AI_ONLY_GAME)
-						{
-							n.seen = true;// -- setting this to true will make pc units appear in the minimap!
-						}
-						
-						
-						if (p is Building && !(p is Turret)  && pc_buildingsSight.indexOf(n) == -1)
-						{
-							pc_buildingsSight.push(n);
-						}
-					}
-				}
-			}
-		}
-		
-		public function getTargetWithinBase(_controlingAgent:int, teamName:String):GameEntity 
-		{
-			var callerTeam:Array;
-			var myTeamBuildings:Array;
-			var enemy:GameEntity;
-			var p:GameEntity;
-			var sightArray:Array;
-			var n:Node;
-			
-			if (_controlingAgent == Agent.PC)
-			{
-				callerTeam = Parameters.pcTeam;
-				myTeamBuildings = pc_buildingsSight;
-			}
-			else
-			{
-				callerTeam = Parameters.humanTeam;
-				myTeamBuildings = human_buildingsSight;
-			}
-			
-			var len:int = myTeamBuildings.length;
-			for (var g:int = 0; g < len; g++ )
-			{
-				n = myTeamBuildings[g];
-				if (n.occupyingUnit && n.occupyingUnit.myTeamObj.teamName != teamName )
-				{
-					enemy = n.occupyingUnit;
-					break;
-				}
-			}
-			
-			
-			
-			return enemy;
-		}
-		
-		public function getBaseNodes(_agent:int):Array 
-		{
-			if (_agent == Agent.HUMAN)
-			{
-				return human_buildingsSight;
-			}
-			else
-			{
-				return pc_buildingsSight;
-			}
-		}
-		
-		public function dispose():void 
-		{
-			human_buildingsSight = [];
-			pc_buildingsSight = [];
-		}
+		}*/
 	}
 }

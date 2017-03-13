@@ -12,6 +12,7 @@
 	import global.map.SpiralBuilder;
 	import global.Methods;
 	import global.Parameters;
+	import global.utilities.SightManager;
 	import states.game.teamsData.PowerController;
 	import states.game.teamsData.TeamBuildManager;
 	import global.utilities.GameTimer;
@@ -60,8 +61,12 @@
 		private var fromSaveGame:Boolean;
 		public var cashManager:CashManager;
 		
-		public var currentBaseEnemy:GameEntity;
 		public var currentSearchAndDestroyEnemy:GameEntity;
+		private var teamHarvester:Harvester;
+		private var teamRefinery:Refinery;
+		private var numTurrets:int = 0;
+		private var numOfHarvesters:int = 0;
+		public var sightManager:SightManager;
 		
 		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object, _fromSaveGame:Boolean)
 		{
@@ -84,34 +89,14 @@
 				sellRepairManager = new SellRepairManager(this);
 			}
 			
+			sightManager = new SightManager(this);
+			
 			GameTimer.getInstance().addUser(this);
 		}
 		
 		
 		public function getSaveObj():Object
 		{
-			/*{
-			"tech":5,
-			"numTiles":70,
-			
-			"team2":{
-				"startVehicles":[
-				{"name":"light-tank","col":60,"row":56}
-				],
-			"Agent":1,
-			"teamName":"nod",
-			"cash":5000,
-			"startBuildings":[
-			{"name":"construction-yard","col":55,"row":60}
-			],
-		"AiBehaviour":2,
-		"startTurrets":[],
-		"startUnits":[
-			{"name":"minigunner","col":57,"row":57},
-			{"name":"minigunner","col":56,"row":58},
-			{"name":"minigunner","col":58,"row":58}
-			]
-		}*/
 		
 			var o:Object = { };
 			o.AiBehaviour = ai;
@@ -159,19 +144,14 @@
 			enemyTeam =  _enemyTeam;
 			
 			createStartAssets();
-			updatePower();
-		}
-		
-		private function updatePower():void
-		{
 			if (!powerCtrl)
 			{
-				powerCtrl = new PowerController(team)
+				powerCtrl = new PowerController();
 			}
 			
-			var powerObj:Object = powerCtrl.updatePower(agent);
-			buildManager.hud.updatePower(powerObj.totalPowerIn, powerObj.totalPowerOut);
+			sightManager.init();
 		}
+		
 		
 		
 		public function createStartAssets():void
@@ -321,15 +301,20 @@
 		private var callingForHelp:Boolean = false;
 		private var timeoutRunning:Boolean = false;
 		private var timeoutCounter:int = 0;
-		private var timeoutTime:int = 5;
+		private var timeoutTime:int = 10;
 		
-		
+		//many classes have been made obsolete - their functions moved to this udate loop/ rather have one loop over the entire team than 10
 		public function update(_pulse:Boolean):void
 		{
+			var totalPowerIn:int = 0;//how much it takes
+			var totalPowerOut:int = 0;//how much it gives
 			
 			if (_pulse)
 			{
 				team.sortOn(["row"], Array.NUMERIC);
+				numTurrets = 0;
+				numOfHarvesters = 0;
+				sightManager.resetSight();
 			}
 			
 		
@@ -347,9 +332,32 @@
 					{
 						if(p.model.dead == false)
 						{
-							
 							if (_pulse)
 							{
+								sightManager.addSight(p);
+								
+								if (p is Building)
+								{
+									totalPowerIn  += BuildingsStatsObj(BuildingModel(p.model).stats).powerIn;
+									totalPowerOut += BuildingsStatsObj(BuildingModel(p.model).stats).powerOut;
+								}
+								
+								if (p is Turret)
+								{
+									numTurrets++;
+								}
+								
+								if (p is Refinery)
+								{
+									teamRefinery = Refinery(p);
+								}
+								
+								if (p is Harvester)
+								{
+									teamHarvester = Harvester(p);
+									numOfHarvesters++;
+								}
+								
 								if (p.model.col >= Parameters.screenDisplayArea.col && p.model.col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
 									p.model.row >= Parameters.screenDisplayArea.row && p.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
 								{
@@ -364,13 +372,15 @@
 									{
 										if (timeoutRunning == false)
 										{
-											trace("setting harvester timeout");
 											timeoutCounter = 0;
 											timeoutRunning = true;
 										}
 										else
 										{
 											timeoutCounter++;
+											trace(teamName + " sending rescue!!")
+											sendRescue(p);
+											
 											if (timeoutCounter >= timeoutTime)
 											{
 												timeoutCounter = 0;
@@ -384,7 +394,7 @@
 										if (p.underAttack)
 										{
 											callingForHelp = true;
-											underAttack(p);
+											
 											p.underAttack = false;
 										}
 									}
@@ -398,56 +408,31 @@
 					}
 				}
 			}
+			
+			if (_pulse)
+			{
+				powerCtrl.updatePower(agent, totalPowerIn, totalPowerOut);
+				buildManager.hud.updatePower(totalPowerIn, totalPowerOut);
+			}
 		}
 		
 
-		private function underAttack(attackedEntity:GameEntity):void 
+		private function sendRescue(rescueingUnit:GameEntity):void 
 		{
-
-			if (attackedEntity && attackedEntity.model && attackedEntity.model.dead == false)
+			if (rescueingUnit is Building)  
 			{
-				var selRow:int = attackedEntity.model.row;
-				var selCol:int = attackedEntity.model.col;
-				var unit:GameEntity;
-				
-				var squadSize:int = 5;
-				var mySquad:Array = [];
-				var teamLength:int = team.length; 
-				//send help
-				for (var i:int = 0; i < teamLength; i++ )
-				{
-					unit = team[i];
-					if (unit is Building)  
-					{
-						continue;
-					}
-					if (unit is Harvester)
-					{
-						continue;
-					}
-					if (unit.aiBehaviour == AiBehaviours.HELPLESS || unit.aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
-					{
-						continue;
-					}
-					
-					if (mySquad.length <= squadSize)
-					{
-						mySquad.push(unit);
-					}
-					
-				}
-				
-				if (mySquad.length)
-				{
-					var squadLength:int = mySquad.length;
-				
-					for (i = 0; i < squadLength; i++ )
-					{
-						unit = mySquad[i];
-						unit.aiBehaviour = AiBehaviours.SEEK_AND_DESTROY;
-					}
-				}
+				return;
 			}
+			if (rescueingUnit is Harvester)
+			{
+				return;
+			}
+			if (rescueingUnit.aiBehaviour == AiBehaviours.HELPLESS || rescueingUnit.aiBehaviour == AiBehaviours.SEEK_AND_DESTROY)
+			{
+				return;
+			}
+			
+			rescueingUnit.aiBehaviour = AiBehaviours.SEEK_AND_DESTROY;
 		}
 		
 		public function doesBuildingExist(_buildingName:String):Boolean
@@ -463,34 +448,20 @@
 		
 		public function getRefinery():Refinery 
 		{
-			var myRefinery:Refinery;
-			var teamLength:int = team.length;
-			
-			for (var i:int = 0; i < teamLength; i++ )
-			{
-				if (team[i] is Refinery)
-				{
-					myRefinery = team[i];
-					break;
-				}
-			}
-			return myRefinery;
+			return teamRefinery;
 		}
 		
 		public function getHarvester():Harvester 
 		{
-			var myHarvester:Harvester;
-			var teamLength:int = team.length;
-			
-			for (var i:int = 0; i < teamLength; i++ )
+			if (teamHarvester && teamHarvester.model && teamHarvester.model.dead == false)
 			{
-				if (team[i] is Harvester)
-				{
-					myHarvester = team[i];
-					break;
-				}
+				return teamHarvester;
 			}
-			return myHarvester;
+			else
+			{
+				return null;
+			}
+
 		}
 		
 		private function onUnitContructed(e:Event):void
@@ -526,7 +497,6 @@
 					if (assetName == "harvester")
 					{
 						p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
-						p.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					else
 					{
@@ -606,7 +576,6 @@
 			
 			p.sayHello();
 			//this is temporary until the pc can build its own
-			updatePower();
 			
 			
 			buildManager.assetBuildComplete(assetName);
@@ -637,7 +606,6 @@
 					if (attachedUnit == "harvester")
 					{
 						p = new Harvester(VehicleStats.dict[attachedUnit], this, enemyTeam, teamNum);
-						p.addEventListener("UNDER_ATTACK", underAttack);
 					}
 					else
 					{
@@ -724,8 +692,6 @@
 					cashManager.reduceStorage(curBuildingObj.resourceStorage);
 				}
 				
-				//this is temporary until the pc can build its own
-				updatePower();
 			}
 			
 			var removed:Boolean = false;
@@ -786,23 +752,12 @@
 		
 		public function getNumOfHarvesters():int 
 		{
-			var numOfHarvesters:int = 0;
-			var teamLength:int = team.length;
-			
-			for (var i:int = 0; i < teamLength; i++ )
-			{
-				if (team[i] is Harvester)
-				{
-					numOfHarvesters++;
-				}
-			}
 			return numOfHarvesters;
 		}
 		
 		public function dispose():void 
 		{
 			GameTimer.getInstance().removeUser(this);
-			powerCtrl.dispose();
 			buildManager.dispose();
 			buildManager.removeEventListener("UNIT_CONSTRUCTED", onUnitContructed);
 			buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
@@ -826,18 +781,8 @@
 			cashManager = null;
 		}
 		
-		public function getNumTrrets():int 
+		public function getNumTurrets():int 
 		{
-			var teamLen:int = team.length;
-			var numTurrets:int = 0;
-			
-			for (var i:int = 0; i < teamLen; i++ )
-			{
-				if (team[i] is Turret)
-				{
-					numTurrets++;
-				}
-			}
 			return numTurrets;
 		}
 	}

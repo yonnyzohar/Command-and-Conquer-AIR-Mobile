@@ -225,8 +225,6 @@ package  states.game.weapons
 				u = currentTarget;
 				hitRow = destRow;
 				hitCol = destCol;
-				
-				
 			}
 
 			
@@ -242,8 +240,7 @@ package  states.game.weapons
 			var ii:int = 0;
 			var i:int;
 			var j:int;
-			var team1Length:int = Parameters.humanTeam.length;
-			var team2Length:int = Parameters.pcTeam.length;
+
 			damadgeRadius = 0;//till i figure this out...
 			
 			

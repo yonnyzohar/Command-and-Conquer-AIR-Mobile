@@ -13,36 +13,16 @@ package states.game.teamsData
 	 */
 	public class PowerController extends EventDispatcher
 	{
-		private var team:Array;
 		public var POWER_SHORTAGE:Boolean = false;
 		
-		public function PowerController(_team:Array)
+		public function PowerController()
 		{
-			team = _team;
 			
 		}
 		
 
-		public function updatePower(_agent:int):Object
+		public function updatePower(_agent:int, totalPowerIn:int, totalPowerOut:int):Object
 		{
-			var totalPowerIn:int = 0;//how much it takes
-			var totalPowerOut:int = 0;//how much it gives
-			var i:int = 0;
-			var p:GameEntity;
-			
-			for (i = 0; i < team.length; i++ )
-			{
-				p = team[i];
-				if (p is Building)
-				{
-					totalPowerIn  += BuildingsStatsObj(BuildingModel(p.model).stats).powerIn;
-					totalPowerOut += BuildingsStatsObj(BuildingModel(p.model).stats).powerOut;
-				}
-			}
-			
-			////trace("totalPowerIn " + totalPowerIn);
-			////trace("totalPowerOut " + totalPowerOut);
-			
 			var prevPower:Boolean = POWER_SHORTAGE;
 			
 			if (totalPowerIn > totalPowerOut)
@@ -61,12 +41,6 @@ package states.game.teamsData
 			}
 			
 			return {totalPowerIn : totalPowerIn , totalPowerOut : totalPowerOut}
-			
-		}
-		
-		public function dispose():void 
-		{
-			team = null;
 		}
 	}
 }

@@ -22,10 +22,14 @@ package states.startScreen
 		{
 			view = TemplateLoader.get("MenuScreenMC");
 			view.looping = false;
-			view.gotoAndPlay(0)
-			view.gameBTN.addEventListener(TouchEvent.TOUCH, onGameClicked);
-			view.loadBTN.addEventListener(TouchEvent.TOUCH, onLoadClicked);
-			view.multiplayerBTN.addEventListener(TouchEvent.TOUCH, onMultiplayerClicked);
+			view.gotoAndPlay(0);
+			view.btn1.tf.text = "NEW GAME";
+			view.btn2.tf.text = "LOAD GAME";
+			view.btn3.tf.text = "AI GAME";
+			
+			view.btn1.addEventListener(TouchEvent.TOUCH, onGameClicked);
+			view.btn2.addEventListener(TouchEvent.TOUCH, onLoadClicked);
+			view.btn3.addEventListener(TouchEvent.TOUCH, onAiGameClicked);
 			//view.editBTN.addEventListener(TouchEvent.TOUCH, onEditClicked);
 			view.disclaimerTXT.text = disclaimer;
 
@@ -37,6 +41,7 @@ package states.startScreen
 			
 			if(end)
 			{
+				Parameters.AI_ONLY_GAME = false;
 				chooseSideScreen = TemplateLoader.get("ChooseSideMC");
 				chooseSideScreen.width = Parameters.flashStage.stageWidth;
 				chooseSideScreen.height = Parameters.flashStage.stageHeight;
@@ -65,18 +70,20 @@ package states.startScreen
 			
 			if(end)
 			{
+				Parameters.AI_ONLY_GAME = false;
 				dispatchEvent(new Event("LOAD_CLICKED"));
 			}
 			
 		}
 		
-		private function onMultiplayerClicked(e:TouchEvent):void 
+		private function onAiGameClicked(e:TouchEvent):void 
 		{
 			var end:Touch    = e.getTouch(view, TouchPhase.ENDED);
 			
 			if(end)
 			{
-				dispatchEvent(new Event("MULTIPLAYER_CLICKED"));
+				Parameters.AI_ONLY_GAME = true;
+				dispatchEventWith("GAME_CLICKED", false, {playerSide : 1});
 			}
 			
 		}
@@ -96,9 +103,9 @@ package states.startScreen
 		
 		public function dispose():void
 		{
-			view.gameBTN.removeEventListener(TouchEvent.TOUCH, onGameClicked);
-			view.loadBTN.removeEventListener(TouchEvent.TOUCH, onLoadClicked);
-			view.multiplayerBTN.removeEventListener(TouchEvent.TOUCH, onMultiplayerClicked);
+			view.btn1.removeEventListener(TouchEvent.TOUCH, onGameClicked);
+			view.btn2.removeEventListener(TouchEvent.TOUCH, onLoadClicked);
+			view.btn3.removeEventListener(TouchEvent.TOUCH, onAiGameClicked);
 			if (chooseSideScreen)
 			{
 				ButtonManager.removeButtonEvents(chooseSideScreen.gdiSymbolMC);

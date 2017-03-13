@@ -201,7 +201,7 @@
 					return;
 				}
 				
-				if (pcTeamObj.getNumTrrets() > 5)
+				if (pcTeamObj.getNumTurrets() > 5)
 				{
 					return;
 				}

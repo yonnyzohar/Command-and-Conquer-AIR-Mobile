@@ -572,11 +572,6 @@ package  states.game.entities.units
 		}
 		
 		
-		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
-		{
-			underAttack = true;
-			return super.hurt(_hitVal, _currentInfantryDeath,projectileName )
-		}
 		
 		override public function dispose():void
 		{

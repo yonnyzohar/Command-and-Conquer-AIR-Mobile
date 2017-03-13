@@ -167,7 +167,7 @@ package global.ui.hud
 		//this is for AI!!!
 		public function getValidPlacement():void
 		{
-			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
+			var allBaseNodes:Array = teamObj.sightManager.getBaseNodes();
 			var foundValidPlace:Boolean = false;
 			var baseNodesLen:int = allBaseNodes.length;
 			var count:int = 0;
@@ -202,7 +202,7 @@ package global.ui.hud
 		public function getValidPlacementClosestToEnemy():void
 		{
 			var randomEnemyBuildingNode:Node = getRandomEneyBuilding();
-			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
+			var allBaseNodes:Array = teamObj.sightManager.getBaseNodes();
 			var foundValidPlace:Boolean = false;
 			var baseNodesLen:int = allBaseNodes.length;
 			var count:int = 0;
@@ -346,7 +346,7 @@ package global.ui.hud
 		
 		private function nodeOutSideBase(node:Node):Boolean 
 		{
-			var allBaseNodes:Array = SightManager.getInstance().getBaseNodes(teamObj.agent);
+			var allBaseNodes:Array = teamObj.sightManager.getBaseNodes();
 			if (allBaseNodes.indexOf(node) == -1)
 			{
 				return true;

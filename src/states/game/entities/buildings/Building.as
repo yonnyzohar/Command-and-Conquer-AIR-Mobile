@@ -226,7 +226,7 @@ package states.game.entities.buildings
 				})
 			}*/
 			
-			underAttack = true;
+			
 			
 			return super.hurt(_hitVal, _currentInfantryDeath, projectileName)
 		}

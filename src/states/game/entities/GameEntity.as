@@ -232,21 +232,9 @@ package states.game.entities
 		{
 			currentInfantryDeath = _currentInfantryDeath;
 			
-			
 			var dead:Boolean = false;
 			if(model != null)
 			{
-				//if (model.controllingAgent == Agent.PC){}
-				/*if (this is Harvester)
-				{
-					
-				}
-				else
-				{
-					changeAI(AiBehaviours.SEEK_AND_DESTROY);
-				}*/
-				
-				
 				model.totalHealth -= _hitVal;
 				var healthScale:Number = healthBar.hurt(_hitVal);
 				
@@ -258,6 +246,7 @@ package states.game.entities
 				}
 				else
 				{
+					underAttack = true;
 					view.setViewByHealth(healthScale);
 					healthBar.visible = true;
 					view.addChild(healthBar);

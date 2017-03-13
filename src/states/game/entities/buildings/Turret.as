@@ -104,21 +104,15 @@ package  states.game.entities.buildings
 				}
 				else
 				{
-					currentEnemy = Methods.findClosestTargetinSight(this);
+					currentEnemy = Methods.findClosestTargetinSight2(this);
 				}
 			}
 			else
 			{
-				currentEnemy = Methods.findClosestTargetinSight(this);
+				currentEnemy = Methods.findClosestTargetinSight2(this);
 			}
 		}
 		
-		private function findEnemyWithinBase():GameEntity 
-		{
-			return SightManager.getInstance().getTargetWithinBase(model.controllingAgent, myTeamObj.teamName);
-		}
-
-
 
 		protected function handleIdleState(_pulse:Boolean):void
 		{

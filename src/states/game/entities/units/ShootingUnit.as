@@ -162,29 +162,6 @@ package  states.game.entities.units
 						}
 					}
 				}
-				
-				if (aiBehaviour == AiBehaviours.BASE_DEFENSE)
-				{
-					if (Methods.isValidEnemy(myTeamObj.currentBaseEnemy, teamNum))
-					{
-
-						currentEnemy = myTeamObj.currentBaseEnemy;
-						setState(UnitStates.WALK);
-						return;
-					}
-					else
-					{
-						possibleEnemy = findEnemyWithinBase();
-					
-						if (possibleEnemy)
-						{
-							myTeamObj.currentBaseEnemy = possibleEnemy;
-							currentEnemy = possibleEnemy;
-							setState(UnitStates.WALK);
-							return;
-						}
-					}
-				}
 			}
 			
 			if (isValidEnemy)
@@ -193,10 +170,7 @@ package  states.game.entities.units
 			}
 		}
 		
-		private function findEnemyWithinBase():GameEntity 
-		{
-			return SightManager.getInstance().getTargetWithinBase(model.controllingAgent, myTeamObj.teamName);
-		}
+
 		
 		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
 		{
