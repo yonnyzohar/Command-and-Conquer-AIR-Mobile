@@ -389,7 +389,7 @@ package  states.game.weapons
 				explosionMC.addEventListener(Event.COMPLETE, onExplosionComplete);
 				explosionMC.currentFrame = 0;
 				explosionMC.play();
-				GameSounds.playSound("vehicle-die", null,0.5);
+				GameSounds.playSound("shell-hit", null,0.5);
 			}
 		}
 		

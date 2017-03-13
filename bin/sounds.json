@@ -80,6 +80,9 @@
 		"xplos",
 		"xplosml2"
 	],
+	"shell-hit":[
+		"xplos"
+	],
 	"themes": [
 		"aoi",
 		"befeared",
