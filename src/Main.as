@@ -79,7 +79,7 @@ package
 				BuildingsStats.init();//3
 				TurretStats.init();
 				
-				GameSounds.init(); // --deal with this later!!!
+				
 				Parameters.mapHolder = new Sprite()
 				Parameters.mapHolder.scaleX = Parameters.mapHolder.scaleY = 1;
 				init();
@@ -108,6 +108,7 @@ package
 			Parameters.loadingScreen = new LoadingScreen();
 			Parameters.loadingScreen.init();
 			GameAtlas.initGlobalAssets(globalAssetsLoaded);
+			GameSounds.init(); // --deal with this later!!!
 		}
 		
 		private function globalAssetsLoaded():void

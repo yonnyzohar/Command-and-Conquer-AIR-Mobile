@@ -28,7 +28,11 @@ package states
 				green = new Quad(Parameters.flashStage.stageWidth, Parameters.flashStage.stageHeight * 0.01, 0x0cc34);
 				
 			
-				tf = new starling.text.TextField(Parameters.flashStage.stageWidth, Parameters.flashStage.stageHeight, "", "Verdana", 20, 0xffffff);
+				tf = new starling.text.TextField(Parameters.flashStage.stageWidth, Parameters.flashStage.stageHeight, "");
+				tf.format.setTo("Verdana", 20);
+				tf.format.color = 0xffffff;
+				
+				
 				tf.touchable = false;
 				view.addChild(bg);
 				view.addChild(green);

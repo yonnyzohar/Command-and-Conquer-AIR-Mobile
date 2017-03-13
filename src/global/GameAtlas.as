@@ -166,6 +166,14 @@
 			}
 			
 			var gameAssetsDir:File = File.applicationDirectory.resolvePath("gameAssets");
+			Parameters.binPath = "";
+			
+			if (gameAssetsDir.exists == false)
+			{
+				gameAssetsDir = File.applicationDirectory.resolvePath("bin");
+				gameAssetsDir = gameAssetsDir.resolvePath("gameAssets");
+				Parameters.binPath = "bin/";
+			}
 			if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
 			{
 				//get all files
@@ -198,8 +206,8 @@
 										xml :assetDir.name+"XML" , 
 										ta  : assetDir.name+"IMG", 
 										assetName:assetDir.name,
-										xmlPath : gameAssetsDir.name + "/" + currentTypeName + "/" + assetDir.name+"/ta.xml",
-										imgPath : gameAssetsDir.name + "/" + currentTypeName + "/" + assetDir.name+"/ta.png",
+										xmlPath : Parameters.binPath + gameAssetsDir.name + "/" + currentTypeName + "/" + assetDir.name+"/ta.xml",
+										imgPath : Parameters.binPath + gameAssetsDir.name + "/" + currentTypeName + "/" + assetDir.name+"/ta.png",
 										side : findOwner(assetDir.name)
 									}
 									assetNames.push( obj );
@@ -241,6 +249,14 @@
 				callback = _callback;
 				var assetsToLoad:Array = [];
 				var gameAssetsDir:File = File.applicationDirectory.resolvePath("gameAssets");
+				Parameters.binPath = "";
+				
+				if (gameAssetsDir.exists == false)
+				{
+					gameAssetsDir = File.applicationDirectory.resolvePath("bin");
+					gameAssetsDir = gameAssetsDir.resolvePath("gameAssets");
+					Parameters.binPath = "bin/";
+				}
 				
 				//go over the gameAssetsdir
 				if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
@@ -275,8 +291,8 @@
 											xml :assetDir.name+"XML" , 
 											ta  : assetDir.name+"IMG", 
 											assetName:assetDir.name,
-											xmlPath : gameAssetsDir.name + "/" + assetType.name + "/" + assetDir.name+"/ta.xml",
-											imgPath : gameAssetsDir.name + "/" + assetType.name + "/" + assetDir.name+"/ta.png",
+											xmlPath : Parameters.binPath + gameAssetsDir.name + "/" + assetType.name + "/" + assetDir.name+"/ta.xml",
+											imgPath : Parameters.binPath + gameAssetsDir.name + "/" + assetType.name + "/" + assetDir.name+"/ta.png",
 											side : findOwner(assetDir.name)
 										}
 										

@@ -99,7 +99,11 @@ package global.ui.hud.slotIcons
 				
 				if (contextType == "building" || contextType == "turret")
 				{
-					readyTXT = new TextField(78, 20, "READY", "Verdana", 15, 0xffffff, true);// - Starling 1_7;
+					readyTXT = new TextField(78, 20, "READY");// - Starling 1_7;
+					readyTXT.format.setTo("Verdana", 15);
+					readyTXT.format.color = 0xffffff;
+					//, "Verdana", 15, 0xffffff, true
+					
 					view.addChild(readyTXT);
 					readyTXT.touchable = false;
 					readyTXT.x = (w - readyTXT.width) / 2;
@@ -187,10 +191,15 @@ package global.ui.hud.slotIcons
 			
 			if (showUI)
 			{
-				costTf = new TextField(mc.width, 15, cost + "$", "Verdana", 9, 0xffffff, true); //- Starling 1_7;
+				//"Verdana", 9, 0xffffff, true
+				costTf = new TextField(mc.width, 15, cost + "$"); //- Starling 1_7;
+				costTf.format.setTo("Verdana", 9);
+				costTf.format.color = 0xffffff;
+				
+				
 				costBg = new Quad(mc.width * 0.8, 15, 0x000000);
 				costBg.alpha = 0.7;
-				costTf.hAlign = "left";
+				costTf.format.horizontalAlign = "left";
 				view.addChild(costBg);
 				view.addChild(costTf);
 			}

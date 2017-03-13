@@ -4,7 +4,6 @@ package states.game
 	import com.greensock.TweenMax;
 	import flash.events.DataEvent;
 	import global.ai.AIController;
-	import global.BGSoundManager;
 	import global.enums.AiBehaviours;
 	import global.GameAtlas;
 	import global.GameSounds;
@@ -150,7 +149,7 @@ package states.game
 			}
 			
 			SightManager.getInstance().init();
-			BGSoundManager.playBGSound();
+			GameSounds.playBGSound();
 			dispatchEvent(new Event("GAME_LOAD_COMPLETE"))
 			Parameters.loadingScreen.remove();
 			//SightManager.getInstance().showAllSightSquares();
@@ -313,7 +312,7 @@ package states.game
 			finalMessage.x = (Parameters.theStage.stageWidth - finalMessage.width) / 2;
 			finalMessage.y = (Parameters.theStage.stageHeight - finalMessage.height) / 2;
 			GameSounds.playSound("mission_failure", "vo");
-			BGSoundManager.stopBGSound();
+			GameSounds.stopBGSound();
 			
 		}
 		
@@ -326,7 +325,7 @@ package states.game
 			finalMessage.x = (Parameters.theStage.stageWidth - finalMessage.width) / 2;
 			finalMessage.y = (Parameters.theStage.stageHeight - finalMessage.height) / 2;
 			GameSounds.playSound("mission_accomplished", "vo");
-			BGSoundManager.stopBGSound();
+			GameSounds.stopBGSound();
 		}
 		
 		
@@ -434,7 +433,7 @@ package states.game
 				finalMessage.removeFromParent();
 			}
 			GameTimer.getInstance().removeUser(this);
-			BGSoundManager.stopBGSound();
+			GameSounds.stopBGSound();
 			
 			baordMC.dispose();
 			
@@ -463,7 +462,7 @@ package states.game
 			UnitSelectionManager.getInstance().dispose();
 			
 			SightManager.getInstance().dispose();
-			BGSoundManager.stopBGSound();
+			GameSounds.stopBGSound();
 			Parameters.currentSquad = null;
 			TweenMax.killAll();
 			removeAllChildren([Parameters.gameHolder, Parameters.mapHolder , Board.mapContainerArr[Board.GROUND_LAYER], Board.mapContainerArr[Board.OBSTACLE_LAYER], Board.mapContainerArr[Board.UNITS_LAYER],Board.mapContainerArr[Board.EFFECTS_LAYER] ]);

@@ -58,7 +58,7 @@
 			var screenHeight:int = stage.stageHeight;
 			var viewPort:Rectangle = new Rectangle(0, 0, screenWidth, screenHeight);
 			
-			Starling.handleLostContext = true;  //- Starling 1_7;
+			//Starling.handleLostContext = true;  //- Starling 1_7;
 			//Starling.multitouchEnabled = true;
 			//
 			_starling = new Starling(Main, stage, viewPort);

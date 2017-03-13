@@ -10,7 +10,10 @@ package com.dynamicTaMaker.views
 		
 		public function GameTextField(_width:int, _height:int, _text:String, _fontName:String="Verdana", _fontSize:Number=12, _color:uint=0, _bold:Boolean=false) 
 		{
-			super( _width, _height, _text, _fontName, _fontSize, _color, _bold);
+			super( _width, _height, _text);
+			format.setTo(_fontName, _fontSize);
+			format.color = _color;
+			
 			//super( _width, _height, _text);
 		}
 		

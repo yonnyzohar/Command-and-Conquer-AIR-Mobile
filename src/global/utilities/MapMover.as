@@ -44,7 +44,6 @@
 		
 		
 		
-		private static var FLATTEN_SCREEN:Boolean = false;
 		static private var instance:MapMover = new MapMover();
 		
 		private var lastX:int = 0;
@@ -344,11 +343,7 @@
 					}
 				}
 				
-				if (FLATTEN_SCREEN)
-				{
-					
-					Board.mapContainerArr[Board.GROUND_LAYER].flatten(); // - Starling 1_7;
-				}
+
 			}
 			else
 			{
@@ -437,12 +432,7 @@
 							}
 						}
 					}
-					
-					if (FLATTEN_SCREEN)
-					{
-						
-						Board.mapContainerArr[Board.GROUND_LAYER].flatten() // - Starling 1_7;
-					}
+
 					
 				}
 			}

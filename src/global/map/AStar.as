@@ -29,13 +29,16 @@ package global.map
 			openList = [];
 			closedList = [];
 			startNode.g = 0;
-			startNode.h = estimateDistance(startNode, endNode);
+			startNode.h = int(Math.abs(endNode.row - startNode.row) + Math.abs(endNode.col - startNode.col));//estimateDistance(startNode, endNode);
 			startNode.f = startNode.g + startNode.h;
 			openList.push(startNode);
 			
 			while ( openList.length > 0 ) 
 			{
-				var curNode:Node = removeSmallest( openList );
+				
+				openList.sortOn(["f"], [Array.NUMERIC]);
+				var curNode:Node = openList.shift();
+				
 				closedList.push(curNode);
 				
 				if ( curNode == endNode ) 
@@ -62,7 +65,7 @@ package global.map
 						else 
 						{
 							neighbor.g = g;
-							neighbor.h = estimateDistance( neighbor, endNode );
+							neighbor.h = int(Math.abs(endNode.row - neighbor.row) + Math.abs(endNode.col - neighbor.col));//estimateDistance( neighbor, endNode );
 							neighbor.f = neighbor.h + g;
 							neighbor.parent = curNode;
 							openList.push(neighbor);
@@ -108,12 +111,13 @@ package global.map
 			var startCol : uint = Math.max( 0, curNode.col - 1 );
 			var endRow : uint = Math.min( Parameters.numRows - 1, curNode.row + 1 );
 			var endCol : uint = Math.min( Parameters.numCols - 1, curNode.col + 1 );
+			var neighbor:Node;
 			
 			for ( var r : uint = startRow; r <= endRow; r++ ) 
 			{
 				for ( var c : uint = startCol; c <= endCol; c++ ) 
 				{
-					var neighbor:Node = Parameters.boardArr[r][c];
+					neighbor = Parameters.boardArr[r][c];
 					if ( neighbor.walkable == true && neighbor.regionNum == curNode.regionNum && neighbor.occupyingUnit == null  ) 
 					{
 						neighbors.push( neighbor );
