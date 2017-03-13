@@ -57,7 +57,7 @@ package global
 		static public var team1Obj:TeamObject;
 		
 		static public var AI_ONLY_GAME:Boolean = false;
-		static public var gameSpeed:int = 4;
+		static public var gameSpeed:int = 10;
 		
 		static public var editLoad:Boolean = false;
 		
@@ -70,6 +70,7 @@ package global
 			UNITS : 0xff6600,
 			BUILDINGS : 0xff6600
 		};
+		static public var binPath:String;
 		
 		
 	}

@@ -468,12 +468,26 @@ package states.game.teamsData
 		private function onSpotFound(e:Event):void 
 		{
 			var selectedSlot:SlotHolder = hud.buildingsContainer.selectedSlot;
-			targetRow = buildingPlacementMarker.targetRow;
-			targetCol = buildingPlacementMarker.targetCol;
+			checkThatBuildingDoneLoading(selectedSlot.assetName);
 			
-			
-			hud.buildingsContainer.enableAllSlots();
-			dispatchEventWith("BUILDING_PLACED", false, { "name" : selectedSlot.assetName, "type" : "building" });
+		}
+		
+		private function checkThatBuildingDoneLoading(assetName:String):void 
+		{
+			if (GameAtlas.completedAssets[assetName])
+			{
+				targetRow = buildingPlacementMarker.targetRow;
+				targetCol = buildingPlacementMarker.targetCol;
+				hud.buildingsContainer.enableAllSlots();
+				dispatchEventWith("BUILDING_PLACED", false, { "name" : assetName, "type" : "building" });
+			}
+			else
+			{
+				setTimeout(function():void 
+				{
+					checkThatBuildingDoneLoading(assetName);
+				},1000);
+			}
 		}
 		
 		
@@ -552,18 +566,25 @@ package states.game.teamsData
 			
 		}
 		
+		
+		
+		
 		private function dispatchUnitContructed(completedActor:String, contextType:String):void 
 		{
-			if (GameAtlas.loadingInProgress)
+			if (GameAtlas.completedAssets[completedActor])
 			{
+				dispatchEventWith("UNIT_CONSTRUCTED", false, { "name" : completedActor, "type" : contextType });
+				
+				
+			}
+			else
+			{
+				
 				setTimeout(function():void {
 				
 					dispatchUnitContructed(completedActor, contextType);
 				},1000);
-			}
-			else
-			{
-				dispatchEventWith("UNIT_CONSTRUCTED", false, { "name" : completedActor, "type" : contextType });
+				
 			}
 			
 			
