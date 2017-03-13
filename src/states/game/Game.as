@@ -1,4 +1,4 @@
-package states.game 
+﻿package states.game 
 {
 	
 	import com.greensock.TweenMax;
@@ -134,7 +134,6 @@ package states.game
 			addTeams();
 			
 			UnitSelectionManager.getInstance().init();
-			GameTimer.getInstance().addUser(this);
 			Parameters.theStage.addChild(teamslisting.view);
 			teamslisting.view.x = Parameters.theStage.stageWidth - teamslisting.view.width;
 			
@@ -359,42 +358,7 @@ package states.game
 		
 				
 
-		public function update(_pulse:Boolean):void
-		{
-			var p:GameEntity;
-			var i:int = 0;
-			var len:int = Parameters.humanTeam.length;
-			for (i = 0; i <  len; i++ )
-			{
-				p = Parameters.humanTeam[i];
-				if (p)
-				{
-					p.update(_pulse);
-				}
-				
 
-			}
-			
-			len = Parameters.pcTeam.length;
-			for (i = 0; i <   len; i++ )
-			{
-				p = Parameters.pcTeam[i];
-				if (p)
-				{
-					p.update(_pulse);
-				}
-				
-			}
-				
-			if (_pulse)
-			{
-				
-				ZindexManager.setIndices(Parameters.humanTeam);
-				ZindexManager.setIndices(Parameters.pcTeam);
-				//ZindexManager.setIndices(baordMC.treesAndRocks);
-			}
-			
-		}
 
 		
 		public function endGame():void
@@ -432,7 +396,6 @@ package states.game
 			{
 				finalMessage.removeFromParent();
 			}
-			GameTimer.getInstance().removeUser(this);
 			GameSounds.stopBGSound();
 			
 			baordMC.dispose();

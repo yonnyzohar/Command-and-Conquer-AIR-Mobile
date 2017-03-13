@@ -15,11 +15,9 @@
 		{
 			bg = new Quad(50 , 40, 0x000000);
 			
-			team1TF = new TextField(50, 20, "")
-			//team1TF.format.color = 0xffffff;
+			team1TF = new TextField(50, 20, "", "Verdana", 12, 0xffffff)
 			
-			team2TF = new TextField(50, 20, "")
-			//team2TF.format.color = 0xffffff;
+			team2TF = new TextField(50, 20, "", "Verdana", 12, 0xffffff)
 			
 			view.addChild(bg);
 			view.addChild(team1TF);

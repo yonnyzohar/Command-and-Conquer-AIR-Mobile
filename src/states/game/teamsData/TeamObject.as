@@ -1,4 +1,4 @@
-package states.game.teamsData
+﻿package states.game.teamsData
 {
 	import flash.desktop.NativeProcessStartupInfo;
 	import flash.net.ObjectEncoding;
@@ -326,56 +326,74 @@ package states.game.teamsData
 		
 		public function update(_pulse:Boolean):void
 		{
-			checkDead();
-			
-			if (_pulse)
+			team.sortOn(["row"], Array.NUMERIC);
+		
+			var teamLength:int = team.length;
+			var p:GameEntity;
+				
+			for (var i:int = 0; i < teamLength; i++ )
 			{
-				if (agent == Agent.PC || Parameters.AI_ONLY_GAME)
+				p = team[i];
+				if(p)
 				{
-					if (callingForHelp)
+					p.update(_pulse);
+				
+					if (p.model)
 					{
-						if (timeoutRunning == false)
+						if(p.model.dead == false)
 						{
-							trace("setting harvester timeout");
-							timeoutRunning = true;
+							if (p.model.col >= Parameters.screenDisplayArea.col && p.model.col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
+								p.model.row >= Parameters.screenDisplayArea.row && p.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
+							{
+								Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
+							}
+							
+							
+							if (_pulse)
+							{
+								if (agent == Agent.PC || Parameters.AI_ONLY_GAME)
+								{
+									if (callingForHelp)
+									{
+										if (timeoutRunning == false)
+										{
+											trace("setting harvester timeout");
+											timeoutCounter = 0;
+											timeoutRunning = true;
+										}
+										else
+										{
+											timeoutCounter++;
+											if (timeoutCounter >= timeoutTime)
+											{
+												timeoutCounter = 0;
+												timeoutRunning = false;
+												callingForHelp = false;
+											}
+										}
+									}
+									else
+									{
+										if (p.underAttack)
+										{
+											callingForHelp = true;
+											underAttack(p);
+											p.underAttack = false;
+										}
+									}
+								}
+							}	
 						}
 						else
 						{
-							timeoutCounter++;
-							if (timeoutCounter >= timeoutTime)
-							{
-								timeoutCounter = 0;
-								timeoutRunning = false;
-								callingForHelp = false;
-							}
-						}
-						
-						return;
-					}
-					else
-					{
-						trace("calling for help!")
-						callingForHelp = true;
-						var teamLength:int = team.length;
-						var p:GameEntity;
-				
-						for (var i:int = 0; i < teamLength; i++ )
-						{
-							p = team[i];
-							if (p.underAttack)
-							{
-								underAttack(p);
-								p.underAttack = false;
-								return;
-							}
+							onDead(p);
 						}
 					}
 				}
 			}
 		}
 		
-		
-		
+
 		private function underAttack(attackedEntity:GameEntity):void 
 		{
 
@@ -652,21 +670,7 @@ package states.game.teamsData
 			onDead(p);
 		}
 		
-		private function checkDead():void 
-		{
-			var teamLength:int = team.length;
-			var p:GameEntity;
-				
-			for (var i:int = 0; i < teamLength; i++ )
-			{
-				p = team[i];
-				if (p.model && p.model.dead)
-				{
-					onDead(p);
-					return;
-				}
-			}
-		}
+
 		
 
 		private function onDead(p:GameEntity):void
