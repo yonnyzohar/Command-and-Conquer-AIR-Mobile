@@ -10,14 +10,14 @@
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
-	import global.GameAtlas;
+	import com.yonnyzohar.global.GameAtlas;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
 	
 	import Main;
-	import global.Methods;
-	import global.Parameters;
-	import global.utilities.GlobalEventDispatcher;
+	import com.yonnyzohar.global.Methods;
+	import com.yonnyzohar.global.Parameters;
+	import com.yonnyzohar.global.utilities.GlobalEventDispatcher;
 	
 	import starling.core.Starling;
 	import starling.events.Event;

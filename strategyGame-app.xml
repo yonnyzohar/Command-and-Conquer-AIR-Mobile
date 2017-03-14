@@ -33,7 +33,10 @@
         <aspectRatio>landscape</aspectRatio>
         <renderMode>direct</renderMode>
         <autoOrients>false</autoOrients>
-    </initialWindow>
+    <maximizable>true</maximizable>
+    <minimizable>true</minimizable>
+    <resizable>true</resizable>
+  </initialWindow>
     <icon/>
     <customUpdateUI>false</customUpdateUI>
     <allowBrowserInvocation>false</allowBrowserInvocation>

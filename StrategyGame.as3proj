@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin/StrategyGame.swf" />
+    <movie path="bin\StrategyGame.swf" />
     <movie fps="60" />
     <movie width="480" />
     <movie height="762" />
