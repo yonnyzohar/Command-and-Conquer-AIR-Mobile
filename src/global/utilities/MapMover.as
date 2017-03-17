@@ -576,6 +576,8 @@
 		{
 			Parameters.mapHolder.x = x;
 			Parameters.mapHolder.y = y;
+			lastX = Parameters.mapHolder.x;
+			lastY = Parameters.mapHolder.y;
 			
 			render(true)
 			moveMiniMap();

@@ -81,6 +81,7 @@ package states.game.entities.units
 
 		override public function update(_pulse:Boolean):void
 		{
+			super.update(_pulse);
 			if(model != null && model.dead == false)
 			{
 				if (model.totalHealth < 0)
@@ -115,7 +116,7 @@ package states.game.entities.units
 			}
 		}
 		
-		protected function resetRowCol():void
+		public function resetRowCol():void
 		{
 			if (view.recoilAnimating)
 			{
@@ -393,7 +394,7 @@ package states.game.entities.units
 		}
 		
 		
-		protected function stopMovingAndSplicePath(_startShooting:Boolean = false):void
+		public function stopMovingAndSplicePath(_startShooting:Boolean = false):void
 		{
 			if (model == null) return;
 			if (UnitModel(model).path && UnitModel(model).path.length)
@@ -404,7 +405,8 @@ package states.game.entities.units
 			UnitModel(model).moving = false;
 			UnitModel(model).inWayPoint = true;
 			UnitModel(model).moveCounter = 0;
-			//
+			UnitModel(model).destX = model.col * Parameters.tileSize;
+			UnitModel(model).destY = model.row * Parameters.tileSize;
 			//resetRowCol();
 			if (_startShooting)
 			{

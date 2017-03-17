@@ -13,6 +13,7 @@
 	import global.Methods;
 	import global.Parameters;
 	import global.utilities.SightManager;
+	import states.game.entities.buildings.RepairFacility;
 	import states.game.teamsData.PowerController;
 	import states.game.teamsData.TeamBuildManager;
 	import global.utilities.GameTimer;
@@ -206,6 +207,10 @@
 					{
 						ent = new Refinery(BuildingsStatsObj(statsObj), this, enemyTeam, teamNum);
 					}
+					else if (obj.name == "repair-facility")
+					{
+						ent = new RepairFacility(BuildingsStatsObj(statsObj), this, enemyTeam, teamNum);
+					}
 					else
 					{
 						ent = new CLS(statsObj, this, enemyTeam, teamNum);
@@ -373,7 +378,7 @@
 								if (p.model.col >= Parameters.screenDisplayArea.col && p.model.col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
 									p.model.row >= Parameters.screenDisplayArea.row && p.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
 								{
-									Board.mapContainerArr[Board.UNITS_LAYER].addChild(p.view);
+									p.addMeToBoard(Board.mapContainerArr[Board.UNITS_LAYER]);
 								}
 							
 							
@@ -559,6 +564,10 @@
 				if (assetName == "refinery")
 				{
 					p = new Refinery(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
+				}
+				else if (assetName == "repair-facility")
+				{
+					p = new RepairFacility(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
 				}
 				else
 				{

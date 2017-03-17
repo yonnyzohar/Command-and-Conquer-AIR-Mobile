@@ -9,6 +9,7 @@ package states.game.entities
 	import global.enums.UnitStates;
 	import global.map.Node;
 	import starling.display.Quad;
+	import starling.display.Sprite;
 	import starling.events.Event;
 	import states.game.entities.units.Harvester;
 	import states.game.entities.units.Unit;
@@ -20,7 +21,7 @@ package states.game.entities
 	public class GameEntity extends EventDispatcher
 	{
 		public var distanceFromTarget:int;
-		protected var healthBar:HealthBar ;
+		public var healthBar:HealthBar ;
 		public var uniqueID:int;
 		public static var GLOBAL_UNIQUE_ID:int = 0;
 		public var model:EntityModel;
@@ -36,7 +37,7 @@ package states.game.entities
 		public var aiBehaviour:int;
 		public var name:String;
 		private var myColor:uint; 
-		protected var ENTITY_BEING_REPAIRED:Boolean = false;
+		public var ENTITY_BEING_REPAIRED:Boolean = false;
 		public var underAttack:Boolean = false;
 		
 		public function GameEntity(_teamObj:TeamObject)
@@ -202,7 +203,7 @@ package states.game.entities
 			{
 				if (ENTITY_BEING_REPAIRED)
 				{
-					var moreTHanZero:Boolean = myTeamObj.reduceCash(Parameters.CASH_INCREMENT);
+					var moreTHanZero:Boolean = myTeamObj.reduceCash(1);
 					if (moreTHanZero)
 					{
 						model.totalHealth += 1;
@@ -352,10 +353,9 @@ package states.game.entities
 		
 		public function onDestinationReceived(targetRow:int, targetCol:int,_first:Boolean = true):void{}
 		
-		
-		
-		
-		
-		
+		public function addMeToBoard(container:Sprite):void 
+		{
+			container.addChild(view);
+		}
 	}
 }

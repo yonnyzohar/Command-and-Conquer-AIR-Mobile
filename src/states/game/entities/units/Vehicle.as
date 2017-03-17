@@ -42,7 +42,7 @@ package  states.game.entities.units
 			super.handleDeath(_pulse);
 		}
 		
-		override protected function stopMovingAndSplicePath(_startShooting:Boolean = false):void
+		override public function stopMovingAndSplicePath(_startShooting:Boolean = false):void
 		{
 			super.stopMovingAndSplicePath(_startShooting);
 			UnitView(view).shootAnimPlaying = false;

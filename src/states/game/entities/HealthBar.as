@@ -35,6 +35,16 @@ package  states.game.entities
 			frameMC.y -= frameMC.height;
 		}
 		
+		public function getHealthPer():Number
+		{
+			if (greenMC)
+			{
+				return greenMC.scaleX;
+			}
+			
+			return 0;
+		}
+		
 		
 		public function hurt(hitVal:int):Number 
 		{
