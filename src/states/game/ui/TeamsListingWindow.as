@@ -23,6 +23,7 @@
 			view.addChild(team1TF);
 			view.addChild(team2TF);
 			team2TF.y = 20;
+			view.touchable = false;
 		}
 		
 		public function updateTeams(team1:int, team2:int):void

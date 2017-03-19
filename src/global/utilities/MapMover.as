@@ -141,13 +141,18 @@
 				{
 					return;
 				}
-				//Parameters.tf.text = "start";
-				//Parameters.theStage.addChild(Parameters.tf)
+
 				easeMe = false;
 				location = startMulti[0].getLocation(Parameters.mapHolder, sHelperPoint2);
 				
 				startDragX = location.x;
 				startDragY = location.y;
+				
+				diffX = 0;
+				diffY = 0;
+				lastX = Parameters.mapHolder.x;
+				lastY = Parameters.mapHolder.y;
+				
 				myTimeout = setTimeout(changeToSelect, 500, location.x, location.y);
 				
 				
@@ -165,6 +170,8 @@
 				var px:int = (sHelperPoint.x - sHelperPoint2.x);
 				var py:int = (sHelperPoint.y - sHelperPoint2.y);
 				onPanUpdate(px, py);
+				
+				
 				
 				if (startDragX != 0 && startDragY != 0)
 				{
@@ -192,7 +199,7 @@
 				
 				diffX = Parameters.mapHolder.x - lastX;
 				diffY = Parameters.mapHolder.y - lastY;
-				////trace("diffX " + diffX, "diffY " + diffY);
+				trace("diffX " + diffX, "diffY " + diffY);
 				clearTimeout(myTimeout);
 				MouseStates.currentState = MouseStates.REG_PLAY;
 				if (diffX != 0 && diffY != 0)

@@ -47,8 +47,24 @@ package states.startScreen
 				chooseSideScreen.height = Parameters.flashStage.stageHeight;
 				Parameters.gameHolder.addChild(chooseSideScreen);
 				view.visible = false; 
+				ButtonManager.setButton(chooseSideScreen.xButton, "TOUCH", onXClicked);
 				ButtonManager.setButton(chooseSideScreen.gdiSymbolMC, "TOUCH", onTeam1Clicked);
 				ButtonManager.setButton(chooseSideScreen.nodSymbolMC, "TOUCH", onTeam2Clicked);
+			}
+			
+		}
+		
+		private function onXClicked(caller:GameSprite):void 
+		{
+			if (chooseSideScreen)
+			{
+				ButtonManager.removeButtonEvents(chooseSideScreen.xButton);
+				ButtonManager.removeButtonEvents(chooseSideScreen.gdiSymbolMC);
+				ButtonManager.removeButtonEvents(chooseSideScreen.nodSymbolMC);
+				chooseSideScreen.dispose();
+				chooseSideScreen.removeFromParent(true);
+				chooseSideScreen = null;
+				view.visible = true; 
 			}
 			
 		}
@@ -108,6 +124,7 @@ package states.startScreen
 			view.btn3.removeEventListener(TouchEvent.TOUCH, onAiGameClicked);
 			if (chooseSideScreen)
 			{
+				ButtonManager.removeButtonEvents(chooseSideScreen.xButton);
 				ButtonManager.removeButtonEvents(chooseSideScreen.gdiSymbolMC);
 				ButtonManager.removeButtonEvents(chooseSideScreen.nodSymbolMC);
 				chooseSideScreen.dispose();
