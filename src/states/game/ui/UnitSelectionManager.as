@@ -85,6 +85,11 @@
 			//var moving:Touch = e.getTouch(this, TouchPhase.MOVED);
 			//var end:Touch    = e.getTouch(this, TouchPhase.ENDED);
 			
+			if (Parameters.editMode)
+			{
+				return;
+			}
+			
 			var startMulti:Vector.<Touch> = e.getTouches(Parameters.theStage, TouchPhase.BEGAN);
 			var movingMulti:Vector.<Touch> = e.getTouches(Parameters.theStage, TouchPhase.MOVED);
 			var endMulti:Vector.<Touch> = e.getTouches(Parameters.theStage, TouchPhase.ENDED);

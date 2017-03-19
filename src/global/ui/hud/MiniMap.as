@@ -208,93 +208,97 @@
 				}
 			}
 			
+			if (Parameters.editMode == false)
+			{
+				var humanTeamLength:int =  Parameters.humanTeam.length;
+				var team1Obj:TeamObject;
+				
+				for (var i:int = 0; i < humanTeamLength; i++ )
+				{
+					g = Parameters.humanTeam[i];
+					if (team1Obj == null)
+					{
+						team1Obj = g.myTeamObj;
+					}
+					
+					if (!Parameters.editMode)
+					{
+						if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
+						{
+							continue;
+						}
+					}
+					
+					
+					if (g is Building)
+					{
+						occupyArray = BuildingsStatsObj(g.model.stats).gridShape;
+						
+						for (row = 0; row < occupyArray.length; row++ )
+						{
+							for (col = 0; col < occupyArray[row].length; col++ )
+							{
+								curTile = occupyArray[row][col];
+								
+								if (curTile == 1)
+								{
+									drawPixel( g.model.row + row, g.model.col+ col, tileSize,  team1Obj.BUILDINGS_COLOR, mapBd);
+								}
+							}
+						}
+					}
+					else
+					{
+						drawPixel( g.model.row, g.model.col, tileSize,  team1Obj.UNITS_COLOR,  mapBd);
+					}
+				}
+				team1Obj = null;
+				
+				var team2Obj:TeamObject;
+				
+				for (i = 0; i < Parameters.pcTeam.length; i++ )
+				{
+					g = Parameters.pcTeam[i];
+					if (team2Obj == null)
+					{
+						team2Obj = g.myTeamObj;
+					}
+					if (!Parameters.editMode)
+					{
+						if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
+						{
+							continue;
+						}
+					}
+					
+					
+					if (g is Building)
+					{
+						occupyArray = BuildingsStatsObj(g.model.stats).gridShape;
+						
+						for (row = 0; row < occupyArray.length; row++ )
+						{
+							for (col = 0; col < occupyArray[row].length; col++ )
+							{
+								curTile = occupyArray[row][col];
+								
+								if (curTile == 1)
+								{
+									drawPixel( g.model.row + row, g.model.col + col,tileSize,  team2Obj.BUILDINGS_COLOR,  mapBd);
+								}
+							}
+						}
+					}
+					else
+					{
+						drawPixel(  g.model.row, g.model.col,tileSize,  team2Obj.UNITS_COLOR,  mapBd);
+					}
+				}
+				
+				team2Obj = null;
+			}
 
-			var humanTeamLength:int =  Parameters.humanTeam.length;
-			var team1Obj:TeamObject;
 			
-			for (var i:int = 0; i < humanTeamLength; i++ )
-			{
-				g = Parameters.humanTeam[i];
-				if (team1Obj == null)
-				{
-					team1Obj = g.myTeamObj;
-				}
-				
-				if (!Parameters.editMode)
-				{
-					if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
-					{
-						continue;
-					}
-				}
-				
-				
-				if (g is Building)
-				{
-					occupyArray = BuildingsStatsObj(g.model.stats).gridShape;
-					
-					for (row = 0; row < occupyArray.length; row++ )
-					{
-						for (col = 0; col < occupyArray[row].length; col++ )
-						{
-							curTile = occupyArray[row][col];
-							
-							if (curTile == 1)
-							{
-								drawPixel( g.model.row + row, g.model.col+ col, tileSize,  team1Obj.BUILDINGS_COLOR, mapBd);
-							}
-						}
-					}
-				}
-				else
-				{
-					drawPixel( g.model.row, g.model.col, tileSize,  team1Obj.UNITS_COLOR,  mapBd);
-				}
-			}
-			team1Obj = null;
-			
-			var team2Obj:TeamObject;
-			
-			for (i = 0; i < Parameters.pcTeam.length; i++ )
-			{
-				g = Parameters.pcTeam[i];
-				if (team2Obj == null)
-				{
-					team2Obj = g.myTeamObj;
-				}
-				if (!Parameters.editMode)
-				{
-					if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
-					{
-						continue;
-					}
-				}
-				
-				
-				if (g is Building)
-				{
-					occupyArray = BuildingsStatsObj(g.model.stats).gridShape;
-					
-					for (row = 0; row < occupyArray.length; row++ )
-					{
-						for (col = 0; col < occupyArray[row].length; col++ )
-						{
-							curTile = occupyArray[row][col];
-							
-							if (curTile == 1)
-							{
-								drawPixel( g.model.row + row, g.model.col + col,tileSize,  team2Obj.BUILDINGS_COLOR,  mapBd);
-							}
-						}
-					}
-				}
-				else
-				{
-					drawPixel(  g.model.row, g.model.col,tileSize,  team2Obj.UNITS_COLOR,  mapBd);
-				}
-			}
-			
-			team2Obj = null;
 			
 
 			var texture:Texture = Texture.fromBitmapData(mapBd);

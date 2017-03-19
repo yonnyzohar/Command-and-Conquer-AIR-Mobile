@@ -5594,7 +5594,7 @@ package global.assets
 			
 		}
 		
-		public static var trees: Object = {
+		public static var trees:Object = {
             type: "trees",
             list: {
                 "tree-00": {

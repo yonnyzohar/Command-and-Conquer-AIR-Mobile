@@ -449,7 +449,9 @@
 				return;
 			}
 			
+		
 			rescueingUnit.aiBehaviour = AiBehaviours.SEEK_AND_DESTROY;
+			
 		}
 		
 		public function doesBuildingExist(_buildingName:String):Boolean

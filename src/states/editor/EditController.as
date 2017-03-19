@@ -1,5 +1,6 @@
 ﻿package states.editor
 {
+	import com.randomMap.RandomMapGenerator;
 	import flash.geom.Point;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
@@ -38,8 +39,8 @@
 		
 		public function EditController()
 		{
-			//LevelManager.init();
-			//LevelManager.currentlevelData = LevelManager.getLevelData(0);
+			LevelManager.init();
+			LevelManager.currentlevelData = LevelManager.getLevelData(0);
 			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
 		}
 		
@@ -48,13 +49,25 @@
 			unitsArr.splice(0);
 			model = new EditModel();
 			baordMC = Board.getInstance();
-			baordMC.init(true);
+			var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
+			baordMC.init(true, randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols));
 			hud = new HUD(true);
 			hud.init();
 			hud.addMiniMap();
 			hud.initEdit();
 			hud.unitsContainer.addEventListener("SLOT_SELECTED", onUnitSelected);
 			hud.buildingsContainer.addEventListener("SLOT_SELECTED", onBuildingSelected);
+			
+			
+			Board.mapContainerArr[Board.GROUND_LAYER].touchable = false;
+			Board.mapContainerArr[Board.OBSTACLE_LAYER].touchable = false;
+			Board.mapContainerArr[Board.UNITS_LAYER].touchable = false;
+			Board.mapContainerArr[Board.EFFECTS_LAYER].touchable = false;
+			
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.GROUND_LAYER]);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.OBSTACLE_LAYER]);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.UNITS_LAYER]);
+			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.EFFECTS_LAYER]);
 			
 			Parameters.editObj = new Object();
 			Parameters.editObj.team1 = new Object();

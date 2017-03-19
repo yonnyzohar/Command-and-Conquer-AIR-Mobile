@@ -100,7 +100,7 @@
 		
 		private function onStageTouch(e:TouchEvent):void
 		{
-			if (MouseStates.currentState != MouseStates.REG_PLAY || Parameters.editMode)
+			if (MouseStates.currentState != MouseStates.REG_PLAY || Parameters.editMode)//
 				return;
 			var checkStart:Touch = e.getTouch(Parameters.theStage, TouchPhase.BEGAN);
 			if (checkStart)
@@ -221,6 +221,10 @@
 		private function changeToSelect(_x:int, _y:int):void
 		{
 			////trace("SELECT")
+			if (Parameters.editMode)
+			{
+				return;
+			}
 			MouseStates.currentState = MouseStates.SELECT;
 			UnitSelectionManager.getInstance().beginDrawingRectangle(_x, _y);
 			

@@ -52,6 +52,7 @@
 		public static const UNITS_LAYER:int = 2;
 		public static const EFFECTS_LAYER:int = 3;
 		
+		private var mapObj:Array;
 		
 
 		public function Board()
@@ -72,8 +73,9 @@
 		
 
 		
-		public function init(editMode:Boolean):void
+		public function init(editMode:Boolean, _mapObj:Array):void
 		{
+			mapObj = _mapObj;
 			
 			if (Parameters.tileSize == 0)
 			{
@@ -219,31 +221,30 @@
 				}
 			}
 			
-			if (Parameters.editMode && Parameters.editLoad == false)
+/*			if (Parameters.editMode && Parameters.editLoad == false)
 			{
 				return
-			}
+			}*/
 				
 			var waterTextures:Vector.<Texture>  = GameAtlas.getTextures("water");
 			var waterTiles:Array = [];
-			var mapObj:Object;
+			var mapNode:Object;
+			
 			//create all water tiles
-			var currentLevelDataLen:int = LevelManager.currentlevelData.map.length;
+			var currentLevelDataLen:int = mapObj.length;
 			for (var i:int = 0; i < currentLevelDataLen; i++ )
 			{
-				mapObj = LevelManager.currentlevelData.map[i];
-				n =  Parameters.boardArr[mapObj.row][mapObj.col];
-				n.walkable = mapObj.walkable;
-				n.regionNum = mapObj.regionNum;
+				mapNode = mapObj[i];
+				n =  Parameters.boardArr[mapNode.row][mapNode.col];
+				n.walkable = mapNode.walkable;
+				n.regionNum = mapNode.regionNum;
 				
-				if (mapObj.groundTileTexture == "water")
+				if (mapNode.groundTileTexture == "water")
 				{
 					n.isWater = true;
 					var rndImg:int = Math.random() * waterTextures.length; 
 					n.groundTile.texture = waterTextures[rndImg];
 					n.groundTile.touchable = false;
-			
-					
 					
 				}
 			}
@@ -271,10 +272,10 @@
 			var resourceTextures:Vector.<Texture> = GameAtlas.getTextures("tiberium");
 			var resourceNode:ResourceNode;
 	
-			var mapLen:int = LevelManager.currentlevelData.map.length;
+			var mapLen:int = mapObj.length;
 			for (var i:int = 0; i < mapLen; i++ )
 			{
-				var obj:Object = LevelManager.currentlevelData.map[i];
+				var obj:Object = mapObj[i];
 				
 				/*if (obj.groundTileTexture != "grass")
 				{

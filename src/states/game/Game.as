@@ -2,6 +2,7 @@ package states.game
 {
 	
 	import com.greensock.TweenMax;
+	import com.randomMap.RandomMapGenerator;
 	import flash.events.DataEvent;
 	import global.ai.AIController;
 	import global.enums.AiBehaviours;
@@ -116,9 +117,12 @@ package states.game
 			Parameters.numRows = LevelManager.currentlevelData.numTiles;
 			Parameters.numCols = LevelManager.currentlevelData.numTiles;
 			
+			var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
+			LevelManager.currentlevelData.map =  randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols);
+			
 			
 			baordMC = Board.getInstance();
-			baordMC.init(false);
+			baordMC.init(false,LevelManager.currentlevelData.map);
 			
 			Board.mapContainerArr[Board.GROUND_LAYER].touchable = false;
 			Board.mapContainerArr[Board.OBSTACLE_LAYER].touchable = false;

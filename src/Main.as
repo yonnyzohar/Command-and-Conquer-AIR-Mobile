@@ -122,7 +122,7 @@ package
 			if (startScreen == null)
 			{
 				startScreen = new StartScreen();
-				//startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
+				startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
 				startScreen.addEventListener("GAME_CLICKED", onNewGameClicked);
 				startScreen.addEventListener("LOAD_CLICKED", onLoadClicked);
 				

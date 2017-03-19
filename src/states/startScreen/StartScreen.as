@@ -30,7 +30,7 @@ package states.startScreen
 			view.btn1.addEventListener(TouchEvent.TOUCH, onGameClicked);
 			view.btn2.addEventListener(TouchEvent.TOUCH, onLoadClicked);
 			view.btn3.addEventListener(TouchEvent.TOUCH, onAiGameClicked);
-			//view.editBTN.addEventListener(TouchEvent.TOUCH, onEditClicked);
+			view.editBTN.addEventListener(TouchEvent.TOUCH, onEditClicked);
 			view.disclaimerTXT.text = disclaimer;
 
 		}
@@ -131,7 +131,7 @@ package states.startScreen
 				chooseSideScreen.removeFromParent(true);
 				chooseSideScreen = null;
 			}
-			//view.editBTN.removeEventListener(TouchEvent.TOUCH, onEditClicked);
+			view.editBTN.removeEventListener(TouchEvent.TOUCH, onEditClicked);
 			view.removeFromParent(true);
 			view.dispose();
 			view = null;

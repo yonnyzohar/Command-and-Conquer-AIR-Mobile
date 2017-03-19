@@ -139,12 +139,12 @@ package global.map
 				
 		private static function validTile(row:int, col:int):Boolean
 		{
-			if(Parameters.boardArr[row] == undefined)return false;
-			if(Parameters.boardArr[row] == null)return false;
-			if(Parameters.boardArr[row][col] == undefined)return false;
-			if(Parameters.boardArr[row][col] == null)return false;
-			if(Parameters.boardArr[row][col].walkable == false)return false;
-			if(Node(Parameters.boardArr[row][col]).occupyingUnit != null)return false;
+			if (Parameters.boardArr[row] == undefined)return false;
+			if (Parameters.boardArr[row] == null)return false;
+			if (Parameters.boardArr[row][col] == undefined)return false;
+			if (Parameters.boardArr[row][col] == null)return false;
+			if (Parameters.boardArr[row][col].walkable == false) return false;
+			if (Parameters.boardArr[row][col].occupyingUnit != null)return false;
 			return true;
 		}
 	}

@@ -202,6 +202,7 @@
 			buildingsContainer.init(TurretStats.dict, false, "turret");
 			unitsContainer.init(InfantryStats.dict, false, "infantry");
 			unitsContainer.init(VehicleStats.dict, false, "vehicle");
+			enterHud();
 		}
 		
 		public function setHUD(infantry:Object, vehicles:Object, buildings:Object, turrets:Object):void
