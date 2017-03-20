@@ -141,7 +141,8 @@
 			
 			
 			////////////////
-			
+			var dir:File;
+			var len:int;
 			gameAssetsDir = getGameAssetsDir();
 			
 			if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
@@ -156,12 +157,11 @@
 					
 					if(currentTypeName != "sounds")
 					{
-						var dir:File = assetTypesDir[i];
+						dir = assetTypesDir[i];
 						if(dir.isDirectory)
 						{
-							trace(dir.name)
 							var assets:Array = dir.getDirectoryListing();
-							var len:int = assets.length;
+							len = assets.length;
 							for (var g:int = 0; g < len; g++ )
 							{
 								var len1:int = assets.length;
@@ -196,7 +196,7 @@
 			{
 				var assetTypeName:String = mustMap[j];
 				selectedAssets[assetTypeName] = true;
-				var dir:File = assetDirsMap[assetTypeName]
+				dir = assetDirsMap[assetTypeName]
 									
 				var obj:Object = 
 				{
@@ -254,64 +254,33 @@
 			
 			function runMe(e:starling.events.Event = null):void
 			{
-				////trace("running!");
 				callback = _callback;
 				var assetsToLoad:Array = [];
+				var dir:File;
 				
-				gameAssetsDir = getGameAssetsDir();
-				
-				//go over the gameAssetsdir
-				if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
+				for (var k:String in dirsToLoadMap)
 				{
-					//get all files
-					var assetTypesDir:Array = gameAssetsDir.getDirectoryListing();
-					var assetTypesDirLen:int = assetTypesDir.length;
-					
-					for (var i:int = 0; i < assetTypesDirLen; i++ )
+					if(selectedAssets[k] == undefined)
 					{
-						var assetType:File = assetTypesDir[i];
-						
-						if (assetType.isDirectory)
-						{
-							//go over all subdirs in type
-							var assets:Array = assetType.getDirectoryListing();
-							var len:int = assets.length;
+						trace("----------adding " + k + " TA")
+						selectedAssets[k] = true;
+						dir = assetDirsMap[k]
+						var obj:Object = {
 							
-							for (var j:int = 0; j < len; j++ )
-							{
-								var assetDir:File = assets[j];
-								
-								if (assetDir.exists)
-								{
-									//this is to make sure we haven't loaded this asset already
-									if(dirsToLoadMap[assetDir.name] && selectedAssets[assetDir.name] == undefined)
-									{
-										trace("----------adding " + assetDir.name + " TA")
-										selectedAssets[assetDir.name] = true;
-										var obj:Object = {
-											
-											xml :assetDir.name+"XML" , 
-											ta  : assetDir.name+"IMG", 
-											assetName:assetDir.name,
-											xmlPath : Parameters.binPath + gameAssetsDir.name + "/" + assetType.name + "/" + assetDir.name+"/ta.xml",
-											imgPath : Parameters.binPath + gameAssetsDir.name + "/" + assetType.name + "/" + assetDir.name+"/ta.png",
-											side : findOwner(assetDir.name)
-										}
-										
-										assetsToLoad.push( obj );
-									}
-								}
-							}
+							xml :k +"XML" , 
+							ta  : k +"IMG", 
+							assetName:k,
+							xmlPath : dir.nativePath + File.separator + "ta.xml",
+							imgPath : dir.nativePath + File.separator + "ta.png",
+							side : findOwner(k)
 						}
+						
+						assetsToLoad.push( obj );
 					}
 				}
 				
-				//loadManager = new GameLoadManager();
-				//loadManager.addEventListener("LOAD_COMPLETE", completeHandler);
-				//loadManager.init(xmlArr, imgArr);
-				//var worker:Worker = WorkerFactory.getWorkerFromClass(GameLoadManager, Parameters.flashStage.loaderInfo.bytes, true);
-				//worker.start();
-			
+				
+						
 				if (assetsToLoad.length)
 				{
 					assetNames = assetsToLoad;

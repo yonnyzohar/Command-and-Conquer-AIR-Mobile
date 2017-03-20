@@ -164,6 +164,7 @@
 					n = new Node();
 					n.row = i;
 					n.col = j;
+					n.name = i + "_" + j;
 					if (Parameters.editMode)
 					{
 						n.seen = true;

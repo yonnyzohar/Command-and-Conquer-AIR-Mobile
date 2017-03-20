@@ -23,12 +23,13 @@
 		"team2":
 		{
 			"startVehicles":[
-				{"name":"light-tank","col":60,"row":56}
+				{"name":"light-tank","col":60,"row":56},
+				{"name":"light-tank","col":61,"row":56}
 			],
 			"teamName":"nod",
 			"cash":5000,
 			"startBuildings":[
-				{"name":"construction-yard","col":55,"row":60},{"name":"repair-facility","col":60,"row":60}
+				{"name":"construction-yard","col":55,"row":60}
 			],
 			"AiBehaviour":2,
 			"startTurrets":[],

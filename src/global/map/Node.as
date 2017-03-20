@@ -39,6 +39,7 @@ package  global.map
 		public static var CHANGE_MADE_TO_MAP:Boolean = true;
 		public var num:int = 0;
 		private var debugTile:Quad;
+		public var name:String;
 		
 		public function Node() 
 		{

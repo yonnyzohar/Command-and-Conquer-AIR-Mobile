@@ -1,5 +1,6 @@
 ﻿package global.utilities
 {
+	import flash.utils.Dictionary;
 	import global.enums.Agent;
 	import global.map.mapTypes.Board;
 	import global.map.Node;
@@ -16,13 +17,13 @@
 	 */
 	public class SightManager extends EventDispatcher
 	{
-		private var buildingsSight:Array;
+		
 		private var teamObj:TeamObject;
 		
 		public function SightManager(_teamObj:TeamObject)
 		{
 			teamObj = _teamObj;
-			buildingsSight = [];
+			
 		}
 		
 
@@ -56,20 +57,18 @@
 			}
 		}
 		
-		public function resetSight():void
-		{
-			buildingsSight.splice(0);
-		}
-		
+				
 		public function addSight(p:GameEntity):void
 		{
 			var agent:int = teamObj.agent;
+			//get this units sight array
 			var sightArray:Array = p.getSight();
 			var len2:int = sightArray.length;
 			var n:Node;
 			var g:int = 0;
 			for (g = 0; g < len2; g++ )
 			{
+				//current node in sight array
 				n = sightArray[g];
 				
 				if (agent == Agent.HUMAN)
@@ -83,23 +82,13 @@
 						n.seen = true;// -- setting this to true will make pc units appear in the minimap!
 					}
 				}
-				
-				
-				if (p is Building && !(p is Turret) && buildingsSight.indexOf(n) == -1)
-				{
-					buildingsSight.push(n);
-				}
 			}
 		}
 		
-		public function getBaseNodes():Array 
-		{
-			return buildingsSight;
-		}
 		
 		public function dispose():void 
 		{
-			buildingsSight = [];
+			
 		}
 		
 		

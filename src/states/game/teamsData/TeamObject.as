@@ -9,6 +9,7 @@
 	import global.enums.UnitStates;
 	import global.GameSounds;
 	import global.map.mapTypes.Board;
+	import global.map.Node;
 	import global.map.SpiralBuilder;
 	import global.Methods;
 	import global.Parameters;
@@ -54,7 +55,7 @@
 		public var startParams:Object;
 		private var enemyTeam1Obj:TeamObject;
 		public var teamBuildingsDict:Dictionary = new Dictionary();
-		
+		private var buildingsSight:Object;
 		
 		private var sellRepairManager:SellRepairManager;
 		public var UNITS_COLOR:uint;
@@ -80,6 +81,7 @@
 			teamNum = _teamNum;
 			UNITS_COLOR = colorsObj.UNITS;
 			BUILDINGS_COLOR = colorsObj.BUILDINGS;
+			buildingsSight = new Object();
 			
 			if (cashManager == null)
 			{
@@ -250,6 +252,7 @@
 						
 						
 						addBuildingToDict(curBuildingObj.buildingType);
+						addBuildingSightToBase(ent.getSight());
 						
 					}
 					
@@ -331,7 +334,6 @@
 				team.sortOn(["row"], Array.NUMERIC);
 				numTurrets = 0;
 				numOfHarvesters = 0;
-				sightManager.resetSight();
 			}
 			
 		
@@ -357,6 +359,13 @@
 								{
 									totalPowerIn  += BuildingsStatsObj(BuildingModel(p.model).stats).powerIn;
 									totalPowerOut += BuildingsStatsObj(BuildingModel(p.model).stats).powerOut;
+									
+									if ((p is Turret) == false)
+									{
+										addBuildingSightToBase(p.getSight());
+									}
+									
+									
 								}
 								
 								if (p is Turret)
@@ -550,12 +559,13 @@
 			var p:GameEntity;
 			var teamObject:TeamObject;
 			var currenteamNum:int = 0;
-			
+			var isBuilding:Boolean = false;
 			
 			
 			if (BuildingsStats.dict[assetName])
 			{
 				var curBuildingObj:BuildingsStatsObj = BuildingsStats.dict[assetName];
+				isBuilding = true;
 						
 				if (curBuildingObj.resourceStorage)
 				{
@@ -580,6 +590,7 @@
 				handleHud();
 				
 				
+				
 			}
 			else
 			{
@@ -599,12 +610,37 @@
 			
 			p.sayHello();
 			//this is temporary until the pc can build its own
-			
-			
+
 			buildManager.assetBuildComplete(assetName);
 			
 			dispatchEvent( new Event("ASSET_CONSTRUCTED"))
 			
+		}
+		
+		private function addBuildingSightToBase(sight:Array):void 
+		{
+			var len2:int = sight.length;
+			var n:Node;
+			var g:int = 0;
+			for (g = 0; g < len2; g++ )
+			{
+				n = sight[g];
+				var nodeName:String = n.name;
+				buildingsSight[nodeName] = n;
+			}
+		}
+		
+		private function removeBuildingSightFromBase(sight:Array):void 
+		{
+			var len2:int = sight.length;
+			var n:Node;
+			var g:int = 0;
+			for (g = 0; g < len2; g++ )
+			{
+				n = sight[g];
+				var nodeName:String = n.name;
+				delete buildingsSight[nodeName];
+			}
 		}
 		
 		public function handleAtachedUnit(assetName:String, _buildingRow:int, _buildingCol:int):GameEntity 
@@ -685,6 +721,7 @@
 			{
 				row = p.model.row;
 				col = p.model.col;
+				removeBuildingSightFromBase(p.getSight());
 				
 				var curBuildingObj:BuildingsStatsObj = BuildingsStatsObj(BuildingModel(p.model).stats);
 				
@@ -715,6 +752,8 @@
 					cashManager.reduceStorage(curBuildingObj.resourceStorage);
 				}
 				
+				
+				
 			}
 			
 			var removed:Boolean = false;
@@ -732,6 +771,8 @@
 			
 			dispatchEventWith("ASSET_DESTROYED", false, {numResidents: numResidents});
 		}
+		
+		
 		
 		
 		
@@ -807,6 +848,11 @@
 		public function getNumTurrets():int 
 		{
 			return numTurrets;
+		}
+		
+		public function getBaseNodes():Object 
+		{
+			return buildingsSight;
 		}
 	}
 }

@@ -117,8 +117,8 @@ package states.game
 			Parameters.numRows = LevelManager.currentlevelData.numTiles;
 			Parameters.numCols = LevelManager.currentlevelData.numTiles;
 			
-			var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
-			LevelManager.currentlevelData.map =  randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols);
+			//var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
+			//LevelManager.currentlevelData.map =  randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols);
 			
 			
 			baordMC = Board.getInstance();

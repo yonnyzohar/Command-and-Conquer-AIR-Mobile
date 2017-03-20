@@ -109,6 +109,10 @@
 				
 				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
+					diffX = 0;
+					diffY = 0;
+					lastX = Parameters.mapHolder.x;
+					lastY = Parameters.mapHolder.y;
 					return;
 				}
 			}
@@ -191,14 +195,16 @@
 			{
 				p = endMulti[0].getLocation(Parameters.theStage);
 				
+				diffX = Parameters.mapHolder.x - lastX;
+				diffY = Parameters.mapHolder.y - lastY;
+				
 				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
 					return;
 				}
 				
 				
-				diffX = Parameters.mapHolder.x - lastX;
-				diffY = Parameters.mapHolder.y - lastY;
+				
 				trace("diffX " + diffX, "diffY " + diffY);
 				clearTimeout(myTimeout);
 				MouseStates.currentState = MouseStates.REG_PLAY;
@@ -247,10 +253,10 @@
 				
 				changeHappened = true;
 				
-				if (Math.abs(diffX) < 1 && Math.abs(diffY) < 1)
+				if (Math.abs(diffX) <= 0 && Math.abs(diffY) <= 0)
 				{
+					changeHappened = false;
 					easeMe = false;
-					////trace("STOP EASE!")
 				}
 				
 			}
@@ -553,21 +559,26 @@
 			if (Parameters.mapHolder.y > 0)
 			{
 				Parameters.mapHolder.y = 0;
+				diffY = 0;
+				
 			}
 			
 			if (Parameters.mapHolder.y + Parameters.mapHeight <= stageHeight)
 			{
 				Parameters.mapHolder.y = stageHeight - Parameters.mapHeight;
+				diffY = 0;
 			}
 			
 			if (Parameters.mapHolder.x > 0)
 			{
 				Parameters.mapHolder.x = 0;
+				diffX = 0;
 			}
 			
 			if (Parameters.mapHolder.x + Parameters.mapWidth < stageWidth - HUD.hudWidth)
 			{
 				Parameters.mapHolder.x = (stageWidth - HUD.hudWidth) - Parameters.mapWidth;
+				diffX = 0;
 			}
 			
 			render(true)

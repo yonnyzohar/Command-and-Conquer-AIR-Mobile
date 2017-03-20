@@ -167,16 +167,15 @@ package global.ui.hud
 		//this is for AI!!!
 		public function getValidPlacement():void
 		{
-			var allBaseNodes:Array = teamObj.sightManager.getBaseNodes();
+			var allBaseNodes:Object = teamObj.getBaseNodes();
 			var foundValidPlace:Boolean = false;
-			var baseNodesLen:int = allBaseNodes.length;
 			var count:int = 0;
 			var used:Array = [];
 
 			
-			for (var i:int = 0; i < baseNodesLen; i++ )
+			for (var k:String in  allBaseNodes )
 			{
-				var n:Node = allBaseNodes[i];
+				var n:Node = allBaseNodes[k];
 				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
 				if (isValidPlacementArea)
 				{
@@ -202,17 +201,16 @@ package global.ui.hud
 		public function getValidPlacementClosestToEnemy():void
 		{
 			var randomEnemyBuildingNode:Node = getRandomEneyBuilding();
-			var allBaseNodes:Array = teamObj.sightManager.getBaseNodes();
+			var allBaseNodes:Object = teamObj.getBaseNodes();
 			var foundValidPlace:Boolean = false;
-			var baseNodesLen:int = allBaseNodes.length;
 			var count:int = 0;
 			var used:Array = [];
 			var shortestDist:int = 100000;
 			var closestTile:Node;
 			
-			for (var i:int = 0; i < baseNodesLen; i++ )
+			for (var k:String in  allBaseNodes )
 			{
-				var n:Node = allBaseNodes[i];
+				var n:Node = allBaseNodes[k];
 				var isValidPlacementArea:Boolean = setCorrectColors(n.row, n.col);
 				if (isValidPlacementArea)
 				{
@@ -232,6 +230,20 @@ package global.ui.hud
 			if(view)view.removeFromParent(true );
 			dispatchEvent(new Event(BUILDNG_SPOT_FOUND));
 
+		}
+		
+		
+		private function nodeOutSideBase(node:Node):Boolean 
+		{
+			var allBaseNodes:Object = teamObj.getBaseNodes();
+			if (allBaseNodes[node.name])
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 		
 		private function getRandomEneyBuilding():Node 
@@ -310,8 +322,9 @@ package global.ui.hud
 		private function isValidTile(node:Node):Boolean
 		{
 			var valid:Boolean = true;
+			var isOutsideBase:Boolean = nodeOutSideBase(node)
 			
-			if (node.isResource || node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || nodeOutSideBase(node))
+			if (node.isResource || node.cliffTile || node.shoreTile || node.occupyingUnit || node.walkable == false || isOutsideBase)
 			{
 				valid = false;
 			}
@@ -344,18 +357,7 @@ package global.ui.hud
 			return valid;
 		}
 		
-		private function nodeOutSideBase(node:Node):Boolean 
-		{
-			var allBaseNodes:Array = teamObj.sightManager.getBaseNodes();
-			if (allBaseNodes.indexOf(node) == -1)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+		
 		
 		
 		public function dispose():void 
