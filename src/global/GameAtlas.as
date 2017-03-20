@@ -79,6 +79,10 @@
 		private static var stopMe:Boolean = false;
 		private static var workerInstance:ByteArray;
 		
+		private static var gameAssetsDir:File;
+		
+		private static var assetDirsMap:Object = {};
+		
 		//private static var mapMC:MapMC;
 		//private static var uiMC:UIAssets;
 		
@@ -136,44 +140,10 @@
 			assetNames.splice(0);
 			
 			
-			var mustMap:Object = {
-				
-				icons:[
-					"icons"
-				],
-				bullets: [
-					"bullets"
-					
-				],
-				effects: [
-					"effects"	
-					
-				],
-				tiberium:[
-					"tiberium"
-				],
-				map:[
-					"trees",
-					"shores",
-					"ridges",
-					"tiles"
-					
-				],
-				ui:[
-					"ui"
-				]
-				
-			}
+			////////////////
 			
-			var gameAssetsDir:File = File.applicationDirectory.resolvePath("gameAssets");
-			Parameters.binPath = "";
+			gameAssetsDir = getGameAssetsDir();
 			
-			if (gameAssetsDir.exists == false)
-			{
-				gameAssetsDir = File.applicationDirectory.resolvePath("bin");
-				gameAssetsDir = gameAssetsDir.resolvePath("gameAssets");
-				Parameters.binPath = "bin/";
-			}
 			if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
 			{
 				//get all files
@@ -182,35 +152,23 @@
 				
 				for (var i:int = 0; i < assetTypesDirLen; i++ )
 				{
-					var currentTypeName:String = assetTypesDir[i].name;
+					var currentTypeName:String = assetTypesDir[i].name; // tiberium, map, infantry, vehicles, turrets
 					
-					if (mustMap[currentTypeName])// e.g "trees"
+					if(currentTypeName != "sounds")
 					{
 						var dir:File = assetTypesDir[i];
-						var assets:Array = dir.getDirectoryListing();
-						var len:int =  mustMap[currentTypeName].length; 
-						
-						for (var g:int = 0; g < len; g++ )
+						if(dir.isDirectory)
 						{
-							var len1:int = assets.length;
-							for (var j:int = 0; j < len1; j++ )
+							trace(dir.name)
+							var assets:Array = dir.getDirectoryListing();
+							var len:int = assets.length;
+							for (var g:int = 0; g < len; g++ )
 							{
-								var assetDir:File = assets[j];
-								if (assetDir.name == mustMap[currentTypeName][g])
+								var len1:int = assets.length;
+								for (var j:int = 0; j < len1; j++ )
 								{
-									selectedAssets[assetDir.name] = true;
-									////trace(assetDir.name);
-									
-									var obj:Object = 
-									{
-										xml :assetDir.name+"XML" , 
-										ta  : assetDir.name+"IMG", 
-										assetName:assetDir.name,
-										xmlPath : Parameters.binPath + gameAssetsDir.name + "/" + currentTypeName + "/" + assetDir.name+"/ta.xml",
-										imgPath : Parameters.binPath + gameAssetsDir.name + "/" + currentTypeName + "/" + assetDir.name+"/ta.png",
-										side : findOwner(assetDir.name)
-									}
-									assetNames.push( obj );
+									var assetDir:File = assets[j];
+									assetDirsMap[assetDir.name] = assetDir;
 								}
 							}
 						}
@@ -218,10 +176,61 @@
 				}
 			}
 			
+			///////////////
 			
+			
+			var mustMap:Array = [
+					"icons",
+					"bullets",
+					"effects",	
+					"tiberium",
+					"trees",
+					"shores",
+					"ridges",
+					"tiles",
+					"ui"
+				];
+				
+			var len1:int = mustMap.length;
+			for (var j:int = 0; j < len1; j++ )
+			{
+				var assetTypeName:String = mustMap[j];
+				selectedAssets[assetTypeName] = true;
+				var dir:File = assetDirsMap[assetTypeName]
+									
+				var obj:Object = 
+				{
+					xml : assetTypeName+"XML" , 
+					ta  : assetTypeName+"IMG", 
+					assetName:assetTypeName,
+					xmlPath : dir.nativePath + File.separator + "ta.xml",
+					imgPath : dir.nativePath + File.separator + "ta.png",
+					side : findOwner(assetDir.name)
+				}
+				assetNames.push( obj );
+			}
+
 			initWorker();
 			
+		}
+		
+		private static function getGameAssetsDir():File
+		{
+			if(gameAssetsDir == null)
+			{
+				gameAssetsDir = File.applicationDirectory.resolvePath("gameAssets");
+				Parameters.binPath = "";
+				
+				if (gameAssetsDir.exists == false)
+				{
+					gameAssetsDir = File.applicationDirectory.resolvePath("bin");
+					gameAssetsDir = gameAssetsDir.resolvePath("gameAssets");
+					Parameters.binPath = "bin/";
+				}
+			}
 			
+			
+			return gameAssetsDir;
 		}
 		
 		
@@ -248,15 +257,8 @@
 				////trace("running!");
 				callback = _callback;
 				var assetsToLoad:Array = [];
-				var gameAssetsDir:File = File.applicationDirectory.resolvePath("gameAssets");
-				Parameters.binPath = "";
 				
-				if (gameAssetsDir.exists == false)
-				{
-					gameAssetsDir = File.applicationDirectory.resolvePath("bin");
-					gameAssetsDir = gameAssetsDir.resolvePath("gameAssets");
-					Parameters.binPath = "bin/";
-				}
+				gameAssetsDir = getGameAssetsDir();
 				
 				//go over the gameAssetsdir
 				if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
