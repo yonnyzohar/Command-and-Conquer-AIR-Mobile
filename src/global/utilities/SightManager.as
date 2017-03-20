@@ -66,7 +66,6 @@
 			var agent:int = teamObj.agent;
 			var sightArray:Array = p.getSight();
 			var len2:int = sightArray.length;
-			var agent:int = teamObj.agent;
 			var n:Node;
 			var g:int = 0;
 			for (g = 0; g < len2; g++ )
