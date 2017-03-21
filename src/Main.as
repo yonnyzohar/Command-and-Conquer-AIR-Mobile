@@ -1,4 +1,4 @@
-package
+﻿package
 {
 	import com.dynamicTaMaker.views.GameSprite;
 	import flash.display.BitmapData;
@@ -36,6 +36,7 @@ package
 	import com.dynamicTaMaker.loaders.TemplateLoader;
 	import com.dynamicTaMaker.atlases.MyTA;
 	import com.emibap.textureAtlas.DynamicAtlas;
+	import flash.system.Capabilities;
 	
 	public class Main extends Sprite
 	{
@@ -62,6 +63,17 @@ package
 			
 			setTimeout(function():void
 			{
+				
+				switch (Capabilities.playerType) {
+					case 'Desktop':
+						Parameters.runningInWeb = false;
+						break;
+					case 'PlugIn':
+					case 'ActiveX':
+						Parameters.runningInWeb = true;
+						break;
+				}
+				
 				var origWidth:int = 400//480;
 				MouseStates.currentState = MouseStates.REG_PLAY;
 				Parameters.gameScale = Parameters.flashStage.fullScreenWidth / origWidth ; 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!-- 
 	Usage:
 
@@ -19,11 +19,11 @@
 <application xmlns="http://ns.adobe.com/air/application/23.0">
     <id>StrategyGame</id>
     <versionNumber>1.0.0</versionNumber>
-    <versionLabel/>
+    <versionLabel></versionLabel>
     <filename>StrategyGame</filename>
-    <description/>
+    <description></description>
     <name>StrategyGame</name>
-    <copyright/>
+    <copyright></copyright>
     <initialWindow>
         <content>StrategyGame.swf</content>
         <systemChrome>standard</systemChrome>
@@ -33,11 +33,11 @@
         <aspectRatio>landscape</aspectRatio>
         <renderMode>direct</renderMode>
         <autoOrients>false</autoOrients>
-    <maximizable>true</maximizable>
-    <minimizable>true</minimizable>
-    <resizable>true</resizable>
-  </initialWindow>
-    <icon/>
+        <maximizable>true</maximizable>
+        <minimizable>true</minimizable>
+        <resizable>true</resizable>
+    </initialWindow>
+    <icon></icon>
     <customUpdateUI>false</customUpdateUI>
     <allowBrowserInvocation>false</allowBrowserInvocation>
     <android>

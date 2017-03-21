@@ -1,4 +1,4 @@
-package global 
+﻿package global 
 {
 	import flash.display.Stage;
 	import global.map.Node;
@@ -71,6 +71,7 @@ package global
 			BUILDINGS : 0xff6600
 		};
 		static public var binPath:String;
+		static public var runningInWeb:Boolean = false;
 		
 		
 	}

@@ -144,32 +144,30 @@
 			var dirPath:String;
 			var len:int;
 			var len1:int;
-			gameAssetsDir = getGameAssetsDir();
-			
-			if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
+			if(Parameters.runningInWeb == false)
 			{
-				//get all files
-				var assetTypesDir:Array = gameAssetsDir.getDirectoryListing();
-				var assetTypesDirLen:int = assetTypesDir.length;
-				
-				for (var i:int = 0; i < assetTypesDirLen; i++ )
+				gameAssetsDir = getGameAssetsDir();
+				if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
 				{
-					var currentTypeName:String = assetTypesDir[i].name; // tiberium, map, infantry, vehicles, turrets
+					//get all files
+					var assetTypesDir:Array = gameAssetsDir.getDirectoryListing();
+					var assetTypesDirLen:int = assetTypesDir.length;
 					
-					if(currentTypeName != "sounds")
+					for (var i:int = 0; i < assetTypesDirLen; i++ )
 					{
-						dir = assetTypesDir[i];
-						if(dir.isDirectory)
+						var currentTypeName:String = assetTypesDir[i].name; // tiberium, map, infantry, vehicles, turrets
+						
+						if(currentTypeName != "sounds")
 						{
-							var assets:Array = dir.getDirectoryListing();
-							len = assets.length;
-							for (var g:int = 0; g < len; g++ )
+							dir = assetTypesDir[i];
+							if(dir.isDirectory)
 							{
-								len1 = assets.length;
-								for (var j:int = 0; j < len1; j++ )
+								var assets:Array = dir.getDirectoryListing();//this is minigunner etc...
+								len = assets.length;
+								for (var g:int = 0; g < len; g++ )
 								{
-									var assetDir:File = assets[j];
-									
+									var assetDir:File = assets[g];
+										
 									var assetPathStr:String = assetDir.nativePath;
 									assetPathStr = assetPathStr.substring(assetPathStr.indexOf("bin/"));
 									trace(assetPathStr);
@@ -179,7 +177,78 @@
 						}
 					}
 				}
+				else
+				{
+					assetDirsMap = {
+						'apache' : 'bin/gameAssets/aircraft/apache',
+						'chinook' : 'bin/gameAssets/aircraft/chinook',
+						'advanced-communications-tower' : 'bin/gameAssets/buildings/advanced-communications-tower',
+						'advanced-power-plant' : 'bin/gameAssets/buildings/advanced-power-plant',
+						'airstrip' : 'bin/gameAssets/buildings/airstrip',
+						'barracks' : 'bin/gameAssets/buildings/barracks',
+						'communications-center' : 'bin/gameAssets/buildings/communications-center',
+						'construction-yard' : 'bin/gameAssets/buildings/construction-yard',
+						'hand-of-nod' : 'bin/gameAssets/buildings/hand-of-nod',
+						'helipad' : 'bin/gameAssets/buildings/helipad',
+						'power-plant' : 'bin/gameAssets/buildings/power-plant',
+						'refinery' : 'bin/gameAssets/buildings/refinery',
+						'repair-facility' : 'bin/gameAssets/buildings/repair-facility',
+						'temple-of-nod' : 'bin/gameAssets/buildings/temple-of-nod',
+						'tiberium-silo' : 'bin/gameAssets/buildings/tiberium-silo',
+						'weapons-factory' : 'bin/gameAssets/buildings/weapons-factory',
+						'atombomb' : 'bin/gameAssets/bullets/atombomb',
+						'bullets' : 'bin/gameAssets/bullets/bullets',
+						'atomsfx' : 'bin/gameAssets/effects/atomsfx',
+						'atomsmoke' : 'bin/gameAssets/effects/atomsmoke',
+						'chem' : 'bin/gameAssets/effects/chem',
+						'effects' : 'bin/gameAssets/effects/effects',
+						'fball1' : 'bin/gameAssets/effects/fball1',
+						'flame' : 'bin/gameAssets/effects/flame',
+						'flare' : 'bin/gameAssets/effects/flare',
+						'ioncannon' : 'bin/gameAssets/effects/ioncannon',
+						'minigun-fire' : 'bin/gameAssets/effects/minigun-fire',
+						'icons' : 'bin/gameAssets/icons/icons',
+						'bazooka' : 'bin/gameAssets/infantry/bazooka',
+						'chem-warrior' : 'bin/gameAssets/infantry/chem-warrior',
+						'commando' : 'bin/gameAssets/infantry/commando',
+						'engineer' : 'bin/gameAssets/infantry/engineer',
+						'flame-thrower' : 'bin/gameAssets/infantry/flame-thrower',
+						'grenadier' : 'bin/gameAssets/infantry/grenadier',
+						'minigunner' : 'bin/gameAssets/infantry/minigunner',
+						'ridges' : 'bin/gameAssets/map/ridges',
+						'shores' : 'bin/gameAssets/map/shores',
+						'tiles' : 'bin/gameAssets/map/tiles',
+						'trees' : 'bin/gameAssets/map/trees',
+						'tiberium' : 'bin/gameAssets/tiberium/tiberium',
+						'advanced-guard-tower' : 'bin/gameAssets/turrets/advanced-guard-tower',
+						'guard-tower' : 'bin/gameAssets/turrets/guard-tower',
+						'gun-turret' : 'bin/gameAssets/turrets/gun-turret',
+						'obelisk' : 'bin/gameAssets/turrets/obelisk',
+						'sam-site' : 'bin/gameAssets/turrets/sam-site',
+						'ui' : 'bin/gameAssets/ui/ui',
+						'apc' : 'bin/gameAssets/vehicles/apc',
+						'artillery' : 'bin/gameAssets/vehicles/artillery',
+						'buggy' : 'bin/gameAssets/vehicles/buggy',
+						'flame-tank' : 'bin/gameAssets/vehicles/flame-tank',
+						'harvester' : 'bin/gameAssets/vehicles/harvester',
+						'jeep' : 'bin/gameAssets/vehicles/jeep',
+						'light-tank' : 'bin/gameAssets/vehicles/light-tank',
+						'mammoth-tank' : 'bin/gameAssets/vehicles/mammoth-tank',
+						'mcv' : 'bin/gameAssets/vehicles/mcv',
+						'medium-tank' : 'bin/gameAssets/vehicles/medium-tank',
+						'mobile-rocket-launch-system' : 'bin/gameAssets/vehicles/mobile-rocket-launch-system',
+						'recon-bike' : 'bin/gameAssets/vehicles/recon-bike',
+						'ssm-launcher' : 'bin/gameAssets/vehicles/ssm-launcher',
+						'stealth-tank' : 'bin/gameAssets/vehicles/stealth-tank',
+						'chain-link' : 'bin/gameAssets/walls/chain-link',
+						'concrete-wall' : 'bin/gameAssets/walls/concrete-wall',
+						'sandbag' : 'bin/gameAssets/walls/sandbag'
+					}
+				}
 			}
+			
+			
+			
 			
 			///////////////
 			
@@ -208,15 +277,14 @@
 					xml : assetTypeName+"XML" , 
 					ta  : assetTypeName+"IMG", 
 					assetName:assetTypeName,
-					xmlPath : dirPath + File.separator + "ta.xml",
-					imgPath : dirPath + File.separator + "ta.png",
+					xmlPath : dirPath + "/ta.xml",
+					imgPath : dirPath + "/ta.png",
 					side : findOwner(assetDir.name)
 				}
 				assetNames.push( obj );
 			}
 
 			initWorker();
-			
 		}
 		
 		private static function getGameAssetsDir():File
