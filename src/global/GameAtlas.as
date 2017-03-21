@@ -141,8 +141,9 @@
 			
 			
 			////////////////
-			var dir:File;
+			var dirPath:String;
 			var len:int;
+			var len1:int;
 			gameAssetsDir = getGameAssetsDir();
 			
 			if (gameAssetsDir.exists && gameAssetsDir.isDirectory)
@@ -164,11 +165,15 @@
 							len = assets.length;
 							for (var g:int = 0; g < len; g++ )
 							{
-								var len1:int = assets.length;
+								len1 = assets.length;
 								for (var j:int = 0; j < len1; j++ )
 								{
 									var assetDir:File = assets[j];
-									assetDirsMap[assetDir.name] = assetDir;
+									
+									var assetPathStr:String = assetDir.nativePath;
+									assetPathStr = assetPathStr.substring(assetPathStr.indexOf("bin/"));
+									trace(assetPathStr);
+									assetDirsMap[assetDir.name] = assetPathStr;//assetDir;
 								}
 							}
 						}
@@ -191,20 +196,20 @@
 					"ui"
 				];
 				
-			var len1:int = mustMap.length;
+			len1 = mustMap.length;
 			for (var j:int = 0; j < len1; j++ )
 			{
 				var assetTypeName:String = mustMap[j];
 				selectedAssets[assetTypeName] = true;
-				dir = assetDirsMap[assetTypeName]
+				dirPath = assetDirsMap[assetTypeName]
 									
 				var obj:Object = 
 				{
 					xml : assetTypeName+"XML" , 
 					ta  : assetTypeName+"IMG", 
 					assetName:assetTypeName,
-					xmlPath : dir.nativePath + File.separator + "ta.xml",
-					imgPath : dir.nativePath + File.separator + "ta.png",
+					xmlPath : dirPath + File.separator + "ta.xml",
+					imgPath : dirPath + File.separator + "ta.png",
 					side : findOwner(assetDir.name)
 				}
 				assetNames.push( obj );
