@@ -35,7 +35,7 @@ package states.game.entities.units
 		private static var WAYPOINT_REACHED_EVENT:starling.events.Event = new Event("WAYPOINT_REACHED");
 		
 		
-		public function Unit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
+		public function Unit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeams:Array, myTeam:int) 
 		{
 			name = _unitStats.name;
 			super(teamObj);
@@ -43,7 +43,7 @@ package states.game.entities.units
 			model.teamName = teamObj.teamName;
 			UnitModel(model).stats = _unitStats;
 			teamNum = myTeam;
-			model.enemyTeam = _enemyTeam;
+			model.enemyTeams = _enemyTeams;
 			
 			model.totalHealth = _unitStats.totalHealth;
 			

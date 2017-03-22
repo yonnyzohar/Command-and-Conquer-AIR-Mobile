@@ -23,6 +23,7 @@
 	import states.game.entities.GameEntity;
 	import flash.utils.setTimeout;
 	import flash.utils.clearTimeout;
+	import states.game.teamsData.TeamObject;
 	import states.game.ui.UnitSelectionManager;
 	;
 	
@@ -322,11 +323,12 @@
 				showHideTiles();
 			if (Parameters.editMode == false)
 			{
-				showHideUnits(Parameters.humanTeam);
-				showHideUnits(Parameters.pcTeam);
+				var teamObject:TeamObject;
+				for (var i:int = 0; i < Parameters.gameTeamObjects.length; i++ )
+				{
+					showHideUnits(Parameters.gameTeamObjects[i].team);
+				}
 			}
-			
-		
 		}
 		
 		private function showHideTiles():void

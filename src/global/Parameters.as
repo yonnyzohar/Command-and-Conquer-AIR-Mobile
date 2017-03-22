@@ -31,7 +31,6 @@
 		public static  var numCols:int;
 		public static  var tileSize:int = 0;
 		
-		public static var pcTeam:Array = [];
 		public static var humanTeam:Array = [];
 		public static var currentSquad:Array;
 		
@@ -53,25 +52,28 @@
 		
 		static public var useFilters:Boolean = false;
 		
-		static public var team2Obj:TeamObject;
-		static public var team1Obj:TeamObject;
-		
 		static public var AI_ONLY_GAME:Boolean = false;
 		static public var gameSpeed:int = 10;
 		
 		static public var editLoad:Boolean = false;
 		
-		static public var team1Colors:Object = {
-			UNITS : 0xffcc00,
-			BUILDINGS : 0xffcc00
+		static public var colors:Object = {
+			
+			yellow: 0xffcc00,
+			red: 	0xff6600,
+			teal: 	0x008080,
+			orange: 0xffa500,
+			green: 	0x00b300,
+			gray: 	0x808080,
+			neutral: 0x000000,
+			darkgray :0xa9a9a9,
+			brown: 	0xa52a2a
 		};
-		
-		static public var team2Colors:Object = {
-			UNITS : 0xff6600,
-			BUILDINGS : 0xff6600
-		};
+
 		static public var binPath:String;
 		static public var runningInWeb:Boolean = false;
+		
+		static public var gameTeamObjects:Array = [];
 		
 		
 	}

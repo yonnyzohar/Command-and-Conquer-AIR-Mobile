@@ -8,7 +8,7 @@ package states.game.entities
 		public var controllingAgent:int;
 		public var dead:Boolean = false;
 		public var teamName:String;
-		public var enemyTeam:Array;
+		public var enemyTeams:Array;
 		public var isSelected:Boolean;
 		public var row:int;
 		public var col:int;
@@ -27,7 +27,7 @@ package states.game.entities
 		
 		public function dispose():void
 		{
-			enemyTeam = null;
+			enemyTeams = null;
 			stats = null;
 		}
 	}

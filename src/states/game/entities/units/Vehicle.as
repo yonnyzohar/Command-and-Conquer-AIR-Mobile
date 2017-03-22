@@ -18,10 +18,10 @@ package  states.game.entities.units
 		private var turretMC:GunTurretView;
 		private var explosionMC:MovieClip;
 		
-		public function Vehicle(_unitStats:VehicleStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
+		public function Vehicle(_unitStats:VehicleStatsObj, teamObj:TeamObject, _enemyTeams:Array, myTeam:int) 
 		{
-			super(_unitStats, teamObj, _enemyTeam, myTeam);
-			model.enemyTeam = _enemyTeam;
+			super(_unitStats, teamObj, _enemyTeams, myTeam);
+			model.enemyTeams = _enemyTeams;
 			if (_unitStats.weapon)
 			{
 				UnitModel(model).shootCount = UnitModel(model).stats.weapon.rateOfFire;

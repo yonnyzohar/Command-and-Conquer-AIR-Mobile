@@ -3,42 +3,67 @@
     {
 		"tech":2,
 		"numTiles":70,
-		"team1":{
-			"startVehicles":[
-				{"name":"medium-tank","col":25,"row":4}
-			],
-			"teamName":"gdi",
-			"cash":5000,
-			"startBuildings":[
-				{"name":"construction-yard","col":32,"row":3}
-			],
-			"AiBehaviour":1,
-			"startTurrets":[],
-			"startUnits":[
-				{"name":"minigunner","col":34,"row":7},
-				{"name":"minigunner","col":33,"row":6},
-				{"name":"minigunner","col":33,"row":7}
-			]
-		},
-		"team2":
-		{
-			"startVehicles":[
-				{"name":"light-tank","col":60,"row":56},
-				{"name":"light-tank","col":61,"row":56}
-			],
-			"teamName":"nod",
-			"cash":5000,
-			"startBuildings":[
-				{"name":"construction-yard","col":55,"row":60}
-			],
-			"AiBehaviour":2,
-			"startTurrets":[],
-			"startUnits":[
-				{"name":"minigunner","col":57,"row":57},
-				{"name":"minigunner","col":56,"row":58},
-				{"name":"minigunner","col":58,"row":58}
-			]
-		},
+		"teams":[
+		
+			{
+				"agent" : 0,
+				"color": "teal",
+				"startVehicles":[
+					{"name":"medium-tank","col":25,"row":4}
+				],
+				"teamName":"gdi",
+				"cash":5000,
+				"startBuildings":[
+					{"name":"construction-yard","col":32,"row":3}
+				],
+				"AiBehaviour":1,
+				"startTurrets":[],
+				"startUnits":[
+					{"name":"minigunner","col":34,"row":7},
+					{"name":"minigunner","col":33,"row":6},
+					{"name":"minigunner","col":33,"row":7}
+				]
+			},
+			
+			{
+				"agent" : 1,
+				"color": "gray",
+				"startVehicles":[
+					{"name":"light-tank","col":60,"row":56},
+					{"name":"light-tank","col":61,"row":56}
+				],
+				"teamName":"nod",
+				"cash":5000,
+				"startBuildings":[
+					{"name":"construction-yard","col":55,"row":60}
+				],
+				"AiBehaviour":2,
+				"startTurrets":[],
+				"startUnits":[
+					{"name":"minigunner","col":57,"row":57},
+					{"name":"minigunner","col":56,"row":58},
+					{"name":"minigunner","col":58,"row":58}
+				]
+			},
+			{
+				"agent" : 1,
+				"color": "gray",
+				"startVehicles":[
+					{"name":"light-tank","col":10,"row":56},
+					{"name":"light-tank","col":12,"row":56}
+				],
+				"teamName":"nod",
+				"cash":5000,
+				"startBuildings":[
+					{"name":"construction-yard","col":3,"row":60}
+				],
+				"AiBehaviour":2,
+				"startTurrets":[],
+				"startUnits":[
+					
+				]
+			}
+		],
 		"map":[
 			{"col":0,"groundTileTexture":"water","walkable":true,"row":0,"regionNum":1},
 			{"col":1,"groundTileTexture":"water","walkable":true,"row":0,"regionNum":1},

@@ -508,74 +508,49 @@ package global
 			var closestEnemny:GameEntity;
 			
 
-			if(model.enemyTeam == null)
+			if(model.enemyTeams == null)
 			{
 				return null;
 			}
 			
-			if(model.enemyTeam.length == 0)
+			
+			if(model.enemyTeams.length == 0)
 			{
 				return null;
 			}
 			
 			var sightRange:int = model.stats.weapon.range;
-			var enemyTeamLength:int = model.enemyTeam.length;
+			var enemyTeamsLength:int = model.enemyTeams.length;
+			var currentEnemyTeam:Array;
+			var currentEnemyTeamLen:int;
 			var shortestDist:int = 100000;
 			
-			for(var i:int = enemyTeamLength -1; i >= 0; i--)
+			for (var j:int = 0; j < enemyTeamsLength; j++ )
 			{
-				p = GameEntity(model.enemyTeam[i]);
+				currentEnemyTeam = model.enemyTeams[j];
+				currentEnemyTeamLen = currentEnemyTeam.length;
 				
-				if(p.model != null)
+				for(var i:int = currentEnemyTeamLen -1; i >= 0; i--)
 				{
-					if(p.model.dead == false)
+					p = GameEntity(currentEnemyTeam[i]);
+					
+					if(p.model != null)
 					{
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						
-						/*this is not relevant for search and destroy
-						 * if (p is Building)
+						if(p.model.dead == false)
 						{
-							if (dontTargetBuildings)
+							var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
+
+							if (dist < shortestDist)
 							{
-								if (p is Turret)
-								{
-									
-								}
-								else
-								{
-									continue;
-								}
+								shortestDist = dist;
+								closestEnemny = p;
 							}
-							var buildingTiles:Array = Building(p).getBuildingTiles();
-							var n:Node;
-							var buildingTilesLen:int = buildingTiles.length;
-							for(var j:int = 0; j < buildingTilesLen; j++ )
-							{
-								n = buildingTiles[j];
-								if (n)
-								{
-									dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-									if (dist <= sightRange)
-									{
-										if (dist < shortestDist)
-										{
-											shortestDist = dist;
-											closestEnemny = p;
-										}
-									}
-								}
-								
-							}
-						}*/
-						
-						if (dist < shortestDist)
-						{
-							shortestDist = dist;
-							closestEnemny = p;
 						}
 					}
 				}
 			}
+			
+			
 			
 			return closestEnemny;
 		}
@@ -590,62 +565,73 @@ package global
 			var closestEnemny:GameEntity;
 			
 
-			if(model.enemyTeam == null)
+			if(model.enemyTeams == null)
 			{
 				return null;
 			}
 			
-			if(model.enemyTeam.length == 0)
+			if(model.enemyTeams.length == 0)
 			{
 				return null;
 			}
 			
 			var sightRange:int = model.stats.weapon.range;
-			var enemyTeamLength:int = model.enemyTeam.length;
+			var enemyTeamsLength:int = model.enemyTeams.length;
+			
+			var currentEnemyTeam:Array;
+			var currentEnemyTeamLen:int;
+			
+			
 			var shortestDist:int = 100000;
 			var buildingTiles:Array;
 			var n:Node;
 			var buildingTilesLen:int;
 			
-			for(var i:int = enemyTeamLength -1; i >= 0; i--)
+			for(var g:int = enemyTeamsLength -1; g >= 0; g--)
 			{
-				p = GameEntity(model.enemyTeam[i]);
+				currentEnemyTeam = enemyTeamsLength[g];
+				currentEnemyTeamLen = currentEnemyTeam.length;
 				
-				if(p.model != null)
+				for (var i:int = currentEnemyTeamLen -1; i >= 0; i--)
 				{
-					if(p.model.dead == false)
+					p = GameEntity(currentEnemyTeam[i]);
+				
+					if(p.model != null)
 					{
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						
-						if (p is Building)
+						if(p.model.dead == false)
 						{
-							buildingTiles = Building(p).getBuildingTiles();
-							buildingTilesLen = buildingTiles.length;
+							var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
 							
-							for(var j:int = 0; j < buildingTilesLen; j++ )
+							if (p is Building)
 							{
-								n = buildingTiles[j];
-								if (n)
+								buildingTiles = Building(p).getBuildingTiles();
+								buildingTilesLen = buildingTiles.length;
+								
+								for(var j:int = 0; j < buildingTilesLen; j++ )
 								{
-									dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-									if (dist <= sightRange)
+									n = buildingTiles[j];
+									if (n)
 									{
-										if (dist < shortestDist)
+										dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+										if (dist <= sightRange)
 										{
-											shortestDist = dist;
-											closestEnemny = p;
+											if (dist < shortestDist)
+											{
+												shortestDist = dist;
+												closestEnemny = p;
+											}
 										}
 									}
 								}
 							}
-						}
 
-						if (dist <= sightRange)
-						{
-							if (dist < shortestDist)
+							if (dist <= sightRange)
 							{
-								shortestDist = dist;
-								closestEnemny = p;
+								if (dist < shortestDist)
+								{
+									shortestDist = dist;
+									closestEnemny = p;
+								}
 							}
 						}
 					}
@@ -661,12 +647,12 @@ package global
 			
 			var model:EntityModel = shooter.model;
 
-			if(model.enemyTeam == null)
+			if(model.enemyTeams == null)
 			{
 				return null;
 			}
 			
-			if(model.enemyTeam.length == 0)
+			if(model.enemyTeams.length == 0)
 			{
 				return null;
 			}
@@ -674,7 +660,6 @@ package global
 			var p:GameEntity;
 			var closestEnemny:GameEntity;
 			var sightRange:int = model.stats.weapon.range;
-			var enemyTeamLength:int = model.enemyTeam.length;
 			var shortestDist:int = 100000;
 			var buildingTiles:Array;
 			var n:Node;
@@ -696,53 +681,7 @@ package global
 					
 				}
 			}
-			
-			
-			/*for(var i:int = enemyTeamLength -1; i >= 0; i--)
-			{
-				p = GameEntity(model.enemyTeam[i]);
-				
-				if(p.model != null)
-				{
-					if(p.model.dead == false)
-					{
-						var dist:int = Methods.distanceTwoPoints(p.model.col, model.col, p.model.row, model.row);
-						
-						if (p is Building)
-						{
-							buildingTiles = Building(p).getBuildingTiles();
-							buildingTilesLen = buildingTiles.length;
-							
-							for(var j:int = 0; j < buildingTilesLen; j++ )
-							{
-								n = buildingTiles[j];
-								if (n)
-								{
-									dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-									if (dist <= sightRange)
-									{
-										if (dist < shortestDist)
-										{
-											shortestDist = dist;
-											closestEnemny = p;
-										}
-									}
-								}
-							}
-						}
 
-						if (dist <= sightRange)
-						{
-							if (dist < shortestDist)
-							{
-								shortestDist = dist;
-								closestEnemny = p;
-							}
-						}
-					}
-				}
-			}*/
-			
 			return closestEnemny;
 		}
 		

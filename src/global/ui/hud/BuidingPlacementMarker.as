@@ -200,7 +200,7 @@ package global.ui.hud
 		//this is for AI!!!
 		public function getValidPlacementClosestToEnemy():void
 		{
-			var randomEnemyBuildingNode:Node = getRandomEneyBuilding();
+			var randomEnemyBuildingNode:Node = getRandomEnemyBuilding();
 			var allBaseNodes:Object = teamObj.getBaseNodes();
 			var foundValidPlace:Boolean = false;
 			var count:int = 0;
@@ -246,26 +246,38 @@ package global.ui.hud
 			}
 		}
 		
-		private function getRandomEneyBuilding():Node 
+		private function getRandomEnemyBuilding():Node 
 		{
 			var b:Building;
 			var n:Node = Parameters.boardArr[0][0];
+			var allEnemies:Array = teamObj.enemyTeams;
+			var allEnemiesLen:int = allEnemies.length;
+			var enemyTeam:Array;
+			var enemyTeamLen:int;
 			
-			for (var i:int = 0; i < teamObj.enemyTeam.length; i++ )
+			outer : for (var j:int = 0; j < allEnemiesLen; j++ )
 			{
-				if (teamObj.enemyTeam[i] is Building)
+				enemyTeam = allEnemies[j];
+				enemyTeamLen = enemyTeam.length; 
+				
+				for (var i:int = 0; i < enemyTeamLen; i++ )
 				{
-					b = teamObj.enemyTeam[i];
-					if (b && b.model && b.model.dead == false)
+					if (enemyTeam[i] is Building)
 					{
-						break;
-					}
-					else
-					{
-						b = null;
+						b = enemyTeam[i];
+						if (b && b.model && b.model.dead == false)
+						{
+							break outer;
+						}
+						else
+						{
+							b = null;
+						}
 					}
 				}
 			}
+			
+			
 			
 			if (b)
 			{

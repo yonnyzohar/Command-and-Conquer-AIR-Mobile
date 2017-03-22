@@ -242,60 +242,67 @@
 								
 								if (curTile == 1)
 								{
-									drawPixel( g.model.row + row, g.model.col+ col, tileSize,  team1Obj.BUILDINGS_COLOR, mapBd);
+									drawPixel( g.model.row + row, g.model.col+ col, tileSize,  team1Obj.color, mapBd);
 								}
 							}
 						}
 					}
 					else
 					{
-						drawPixel( g.model.row, g.model.col, tileSize,  team1Obj.UNITS_COLOR,  mapBd);
+						drawPixel( g.model.row, g.model.col, tileSize,  team1Obj.color,  mapBd);
 					}
 				}
 				team1Obj = null;
 				
-				var team2Obj:TeamObject;
+				 var teamObject:TeamObject;
+				 var team:Array;
+				 var teamLen:int = 0;
 				
-				for (i = 0; i < Parameters.pcTeam.length; i++ )
+				for (var j:int = 0; j < Parameters.gameTeamObjects.length; j++ )
 				{
-					g = Parameters.pcTeam[i];
-					if (team2Obj == null)
+					teamObject = Parameters.gameTeamObjects[j];
+					if (teamObject.agent ==  Agent.PC)
 					{
-						team2Obj = g.myTeamObj;
-					}
-					if (!Parameters.editMode)
-					{
-						if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
+						team =  teamObject.team;
+						teamLen = team.length;
+						for (i = 0; i < teamLen; i++ )
 						{
-							continue;
-						}
-					}
-					
-					
-					if (g is Building)
-					{
-						occupyArray = BuildingsStatsObj(g.model.stats).gridShape;
-						
-						for (row = 0; row < occupyArray.length; row++ )
-						{
-							for (col = 0; col < occupyArray[row].length; col++ )
+							g = team[i];
+
+							if (!Parameters.editMode)
 							{
-								curTile = occupyArray[row][col];
-								
-								if (curTile == 1)
+								if (g.model.controllingAgent == Agent.PC && g.view.visible == false)
 								{
-									drawPixel( g.model.row + row, g.model.col + col,tileSize,  team2Obj.BUILDINGS_COLOR,  mapBd);
+									continue;
 								}
+							}
+							
+							
+							if (g is Building)
+							{
+								occupyArray = BuildingsStatsObj(g.model.stats).gridShape;
+								
+								for (row = 0; row < occupyArray.length; row++ )
+								{
+									for (col = 0; col < occupyArray[row].length; col++ )
+									{
+										curTile = occupyArray[row][col];
+										
+										if (curTile == 1)
+										{
+											drawPixel( g.model.row + row, g.model.col + col,tileSize,  teamObject.color,  mapBd);
+										}
+									}
+								}
+							}
+							else
+							{
+								drawPixel(  g.model.row, g.model.col,tileSize,  teamObject.color,  mapBd);
 							}
 						}
 					}
-					else
-					{
-						drawPixel(  g.model.row, g.model.col,tileSize,  team2Obj.UNITS_COLOR,  mapBd);
-					}
+					
 				}
-				
-				team2Obj = null;
 			}
 
 			

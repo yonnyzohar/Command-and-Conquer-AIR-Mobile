@@ -61,13 +61,16 @@
 			
 			if (!Parameters.editMode)
 			{
-				for (a = 1; a <= 2; a++  )
+				var numTeams:int = _levelData.teams.length;
+				var teams:Array = _levelData.teams;
+				
+				for (a = 0; a < numTeams; a++  )
 				{
 					for (i = 0; i < arrs.length; i++ )
 					{
-						for (j = 0; j < _levelData["team"+a][arrs[i]].length; j++ )
+						for (j = 0; j < teams[a][arrs[i]].length; j++ )
 						{
-							var currentObj:Object = _levelData["team"+a][arrs[i]][j];
+							var currentObj:Object = teams[a][arrs[i]][j];
 							var n:String = currentObj.name;
 							var correspondingObj:Object = stats[i][currentObj.name];
 							dirsToLoadMap[n] = n;

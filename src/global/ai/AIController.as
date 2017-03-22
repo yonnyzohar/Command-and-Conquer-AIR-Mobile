@@ -94,7 +94,7 @@
 			//o.aiData
 			pcTeamObj = teamObj;
 			
-			if (savedObject)
+			if (savedObject && savedObject.aiData)
 			{
 				buildCount = savedObject.aiData.buildCount;
 				turretCount = savedObject.aiData.turretCount;

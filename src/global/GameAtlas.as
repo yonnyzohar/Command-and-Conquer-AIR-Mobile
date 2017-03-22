@@ -144,6 +144,7 @@
 			var dirPath:String;
 			var len:int;
 			var len1:int;
+			var dir:File;
 			if(Parameters.runningInWeb == false)
 			{
 				gameAssetsDir = getGameAssetsDir();
@@ -329,7 +330,7 @@
 			{
 				callback = _callback;
 				var assetsToLoad:Array = [];
-				var dir:File;
+				var dirPath:String;
 				
 				for (var k:String in dirsToLoadMap)
 				{
@@ -337,14 +338,14 @@
 					{
 						trace("----------adding " + k + " TA")
 						selectedAssets[k] = true;
-						dir = assetDirsMap[k]
+						dirPath = assetDirsMap[k]
 						var obj:Object = {
 							
 							xml :k +"XML" , 
 							ta  : k +"IMG", 
 							assetName:k,
-							xmlPath : dir.nativePath + File.separator + "ta.xml",
-							imgPath : dir.nativePath + File.separator + "ta.png",
+							xmlPath : dirPath + File.separator + "ta.xml",
+							imgPath : dirPath + File.separator + "ta.png",
 							side : findOwner(k)
 						}
 						

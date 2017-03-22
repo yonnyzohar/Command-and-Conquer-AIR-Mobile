@@ -19,10 +19,10 @@
 		private var deathMC:MovieClip;
 		private var shootInterval:int;
 		
-		public function Infantry(_unitStats:InfantryStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
+		public function Infantry(_unitStats:InfantryStatsObj, teamObj:TeamObject, _enemyTeams:Array, myTeam:int)
 		{
-			super(_unitStats, teamObj, _enemyTeam, myTeam);
-			model.enemyTeam = _enemyTeam;
+			super(_unitStats, teamObj, _enemyTeams, myTeam);
+			model.enemyTeams = _enemyTeams;
 			if (UnitModel(model).stats.weapon)
 			{
 				UnitModel(model).shootCount = UnitModel(model).stats.weapon.rateOfFire;

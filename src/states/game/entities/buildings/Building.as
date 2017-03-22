@@ -25,7 +25,7 @@ package states.game.entities.buildings
 		private static var BUILDING_SOLD_EVENT:Event = new starling.events.Event("SOLD")
 		
 		
-		public function Building(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int)
+		public function Building(_buildingStats:BuildingsStatsObj, teamObj:TeamObject, _enemyTeams:Array, myTeam:int)
 		{
 			super(teamObj);
 			teamNum = myTeam;
@@ -34,7 +34,7 @@ package states.game.entities.buildings
 			initModel();
 			
 			model.teamName = teamObj.teamName;
-			model.enemyTeam = _enemyTeam;
+			model.enemyTeams = _enemyTeams;
 			model.controllingAgent = teamObj.agent;
 			BuildingModel(model).stats = _buildingStats;
 			model.totalHealth = _buildingStats.totalHealth;

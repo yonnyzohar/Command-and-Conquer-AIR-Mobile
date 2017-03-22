@@ -4,6 +4,7 @@ package states
 	import com.dynamicTaMaker.utils.ButtonManager;
 	import com.dynamicTaMaker.views.GameSprite;
 	import flash.utils.setTimeout;
+	import global.enums.Agent;
 	import global.enums.MouseStates;
 	import global.GameSounds;
 	import global.map.mapTypes.Board;
@@ -134,8 +135,22 @@ package states
 		private function saveGame():void 
 		{
 			var o:Object = { };
+			var teamObject:TeamObject;
+			o.aiData = [];
+			o.teams = [];
 			
-			o.aiData = { buildCount : Parameters.gameHolder.game.ai1Controller.buildCount, turretCount : Parameters.gameHolder.game.ai1Controller.turretCount }
+			for (var i:int = 0; i < Parameters.gameTeamObjects.length; i++ )
+			{
+				teamObject = Parameters.gameTeamObjects[i]
+				if (teamObject.agent ==  Agent.PC)
+				{
+					o.aiData.push( { buildCount : teamObject.aiController.buildCount, turretCount : teamObject.aiController.turretCount })
+				}
+				var saveObj:Object = teamObject.getSaveObj();
+				o.teams.push(saveObj);
+			}
+			
+			
 			o.levelNum  = Parameters.gameHolder.game.levelNum;
 			o.playerSide = Parameters.gameHolder.game.playerSide;
 			o.tech = LevelManager.currentlevelData.tech;
@@ -144,14 +159,6 @@ package states
 			o.currX = Parameters.mapHolder.x;
 			o.currY = Parameters.mapHolder.y;
 			
-			var teams:Array = [Parameters.team1Obj, Parameters.team2Obj];
-			for (var i:int = 0; i < teams.length; i++ )
-			{
-				var team:TeamObject = teams[i];
-				var saveObj:Object = team.getSaveObj();
-				
-				o["team" + saveObj.teamNum] = saveObj;
-			}
 			var jsonObj:String = JSON.stringify(o);
 			FileSaver.getInstance().save("save.json", jsonObj );
 			optionsMenu.foreGround.visible = false;

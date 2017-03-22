@@ -4,6 +4,7 @@
 	import flash.net.ObjectEncoding;
 	import flash.utils.Dictionary;
 	import flash.utils.setTimeout;
+	import global.ai.AIController;
 	import global.enums.Agent;
 	import global.enums.AiBehaviours;
 	import global.enums.UnitStates;
@@ -22,7 +23,6 @@
 	import starling.display.MovieClip;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
-	import starling.filters.ColorMatrixFilter;
 	import states.game.entities.buildings.Building;
 	import states.game.entities.buildings.BuildingModel;
 	import states.game.entities.buildings.BuildingView;
@@ -45,21 +45,27 @@
 		public var agent:int;
 		public var teamName:String;
 		
-		public var team:Array;
-		public var enemyTeam:Array;
+		public var team:Array = [];
+		
+		public var enemyTeams:Array = [];
+		private var enemyTeamObjs:Array = [];
+		
+		
+		
 		public var teamNum:int;
 		
 		public var buildManager:TeamBuildManager;
 		
 		public var powerCtrl:PowerController;
 		public var startParams:Object;
-		private var enemyTeam1Obj:TeamObject;
+		
+		
+		
 		public var teamBuildingsDict:Dictionary = new Dictionary();
 		private var buildingsSight:Object;
 		
 		private var sellRepairManager:SellRepairManager;
-		public var UNITS_COLOR:uint;
-		public var BUILDINGS_COLOR:uint;
+
 		private var fromSaveGame:Boolean;
 		public var cashManager:CashManager;
 		
@@ -69,18 +75,20 @@
 		private var numTurrets:int = 0;
 		private var numOfHarvesters:int = 0;
 		public var sightManager:SightManager;
+		public var color:uint;
+		public var aiController:AIController;
 		
-		public function TeamObject(_startParams:Object, _teamNum:int, colorsObj:Object, _fromSaveGame:Boolean)
+		public function TeamObject(_startParams:Object, _teamNum:int, _color:uint, _fromSaveGame:Boolean)
 		{
 			startParams = _startParams;
+			color = _color;
 			ai = startParams.AiBehaviour;
-			agent = startParams.Agent;
+			agent = startParams.agent;
 			teamName = startParams.teamName;
 			fromSaveGame = _fromSaveGame;
 			
 			teamNum = _teamNum;
-			UNITS_COLOR = colorsObj.UNITS;
-			BUILDINGS_COLOR = colorsObj.BUILDINGS;
+
 			buildingsSight = new Object();
 			
 			if (cashManager == null)
@@ -147,11 +155,9 @@
 			return o;
 		}
 		
-		public function init(_myTeam:Array, _enemyTeam:Array):void
+		public function init():void
 		{
-			team = _myTeam;
-			enemyTeam =  _enemyTeam;
-			
+		
 			createStartAssets();
 			if (!powerCtrl)
 			{
@@ -197,7 +203,7 @@
 					
 					if (obj.name == "harvester")
 					{
-						ent = new Harvester(VehicleStatsObj(statsObj), this, enemyTeam, teamNum);
+						ent = new Harvester(VehicleStatsObj(statsObj), this, enemyTeams, teamNum);
 						
 						if (obj.storageAmount)
 						{
@@ -207,15 +213,15 @@
 					}
 					else if (obj.name == "refinery")
 					{
-						ent = new Refinery(BuildingsStatsObj(statsObj), this, enemyTeam, teamNum);
+						ent = new Refinery(BuildingsStatsObj(statsObj), this, enemyTeams, teamNum);
 					}
 					else if (obj.name == "repair-facility")
 					{
-						ent = new RepairFacility(BuildingsStatsObj(statsObj), this, enemyTeam, teamNum);
+						ent = new RepairFacility(BuildingsStatsObj(statsObj), this, enemyTeams, teamNum);
 					}
 					else
 					{
-						ent = new CLS(statsObj, this, enemyTeam, teamNum);
+						ent = new CLS(statsObj, this, enemyTeams, teamNum);
 					}
 					
 					Board.mapContainerArr[Board.UNITS_LAYER].addChild(ent.view);
@@ -511,7 +517,7 @@
 				if (curRowCol)
 				{
 					placementsArr = SpiralBuilder.getSpiral(curRowCol.row, curRowCol.col, 1);
-					p = new Infantry(InfantryStats.dict[assetName], this, enemyTeam, teamNum);
+					p = new Infantry(InfantryStats.dict[assetName], this, enemyTeams, teamNum);
 					Infantry(p).placeUnit(placementsArr[0].row, placementsArr[0].col);
 				}
 				
@@ -524,11 +530,11 @@
 				{
 					if (assetName == "harvester")
 					{
-						p = new Harvester(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
+						p = new Harvester(VehicleStats.dict[assetName], this, enemyTeams, teamNum);
 					}
 					else
 					{
-						p = new Vehicle(VehicleStats.dict[assetName], this, enemyTeam, teamNum);
+						p = new Vehicle(VehicleStats.dict[assetName], this, enemyTeams, teamNum);
 					}
 					
 					
@@ -575,15 +581,15 @@
 				
 				if (assetName == "refinery")
 				{
-					p = new Refinery(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
+					p = new Refinery(BuildingsStats.dict[assetName], this, enemyTeams, teamNum);
 				}
 				else if (assetName == "repair-facility")
 				{
-					p = new RepairFacility(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
+					p = new RepairFacility(BuildingsStats.dict[assetName], this, enemyTeams, teamNum);
 				}
 				else
 				{
-					p = new Building(BuildingsStats.dict[assetName], this, enemyTeam, teamNum);
+					p = new Building(BuildingsStats.dict[assetName], this, enemyTeams, teamNum);
 				}
 				
 				addBuildingToDict(BuildingsStats.dict[assetName].buildingType);
@@ -594,7 +600,7 @@
 			}
 			else
 			{
-				p = new Turret(TurretStats.dict[assetName], this, enemyTeam, teamNum);
+				p = new Turret(TurretStats.dict[assetName], this, enemyTeams, teamNum);
 			}
 			
 			p.addEventListener("SOLD", onSold);
@@ -655,7 +661,7 @@
 				
 				if (InfantryStats.dict[attachedUnit])
 				{
-					p = new Infantry(InfantryStats.dict[attachedUnit], this, enemyTeam, teamNum);
+					p = new Infantry(InfantryStats.dict[attachedUnit], this, enemyTeams, teamNum);
 					curRowCol = buildManager.getProducingBuilding(InfantryStats.dict[attachedUnit], team);
 					placementsArr = SpiralBuilder.getSpiral(buildManager.targetRow, buildManager.targetCol, 1);
 					p.placeUnit(placementsArr[0].row, placementsArr[0].col);
@@ -664,11 +670,11 @@
 				{
 					if (attachedUnit == "harvester")
 					{
-						p = new Harvester(VehicleStats.dict[attachedUnit], this, enemyTeam, teamNum);
+						p = new Harvester(VehicleStats.dict[attachedUnit], this, enemyTeams, teamNum);
 					}
 					else
 					{
-						p = new Vehicle(VehicleStats.dict[attachedUnit], this, enemyTeam, teamNum);
+						p = new Vehicle(VehicleStats.dict[attachedUnit], this, enemyTeams, teamNum);
 					}
 					
 					placementsArr = SpiralBuilder.getSpiral(_buildingRow, _buildingCol, 1);
@@ -684,14 +690,15 @@
 			return p;
 		}
 		
-		public function setEnemyTeamObj(_enemyTeam1Obj:TeamObject):void 
+		public function setEnemyTeamObj(_enemyTeamObj:TeamObject):void 
 		{
-			enemyTeam1Obj = _enemyTeam1Obj;
+			enemyTeamObjs.push(_enemyTeamObj);
+			enemyTeams.push(_enemyTeamObj.team);
 		}
 		
 		public function spawnEnemyUnit(row:int, col:int, searchAndDestroy:Boolean = true):void 
 		{
-			enemyTeam1Obj.spawnSoldier(row, col, searchAndDestroy);
+			enemyTeamObjs[0].spawnSoldier(row, col, searchAndDestroy);
 		}
 		
 		private function onSold(e:Event):void
@@ -778,7 +785,7 @@
 		
 		public function spawnSoldier(row:int, col:int, searchAndDestroy:Boolean = true):void 
 		{
-			var soldier:Infantry = new Infantry(InfantryStats.dict["minigunner"], this, enemyTeam, teamNum);
+			var soldier:Infantry = new Infantry(InfantryStats.dict["minigunner"], this, enemyTeams, teamNum);
 			var placementsArr:Array = SpiralBuilder.getSpiral(row, col, 1);
 			soldier.placeUnit(placementsArr[0].row, placementsArr[0].col);
 			Board.mapContainerArr[Board.UNITS_LAYER].addChild(soldier.view);
@@ -835,14 +842,17 @@
 			}
 			
 			team = null;
-			enemyTeam = null;
+			enemyTeams = null;
 			powerCtrl = null;
-			enemyTeam1Obj = null;
 			teamBuildingsDict = null;
 			sellRepairManager.dispose();
 			sellRepairManager = null;
 			cashManager.dispose();
 			cashManager = null;
+			enemyTeamObjs = null;
+			
+			if(aiController)aiController.dispose();
+			aiController = null;
 		}
 		
 		public function getNumTurrets():int 
@@ -853,6 +863,12 @@
 		public function getBaseNodes():Object 
 		{
 			return buildingsSight;
+		}
+		
+		public function applyAI():void 
+		{
+			aiController = new AIController();
+			aiController.applyAI(this, startParams);
 		}
 	}
 }

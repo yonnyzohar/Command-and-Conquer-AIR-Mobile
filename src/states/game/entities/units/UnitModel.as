@@ -36,7 +36,7 @@ package states.game.entities.units
 		override public function dispose():void
 		{
 			path = null;
-			enemyTeam = null;
+			enemyTeams = null;
 			
 			
 		}

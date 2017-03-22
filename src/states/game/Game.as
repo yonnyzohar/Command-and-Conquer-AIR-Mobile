@@ -68,8 +68,8 @@ package states.game
 		private var savedObject:Object;
 		
 		
-		public var ai1Controller:AIController;
-		public var ai2Controller:AIController;
+		
+		
 
 		public function Game() 
 		{
@@ -177,94 +177,63 @@ package states.game
 			var selRow:int;
 			var selCol:int;
 			var p:Unit;
-			var teamStatsObj:TeamObject;
+			var teamObject:TeamObject;
 			var teamsData:Object;
 			var b:Building;
+			var jsonTeams:Array = LevelManager.currentlevelData.teams;
+			var teamStartObj:Object;
+			var j:int;
 			
-			var team1StartObj:Object = LevelManager.currentlevelData.team1;
-			var team2StartObj:Object = LevelManager.currentlevelData.team2;
-			
-			if (savedObject)
+			for (i = 0; i < jsonTeams.length; i++ )
 			{
-				team1StartObj = savedObject.team1;
-				team2StartObj = savedObject.team2;
-			}
-			
-			Parameters.team1Obj = new TeamObject(team1StartObj, 1, Parameters.team1Colors, (savedObject != null));
-			Parameters.team2Obj = new TeamObject(team2StartObj, 2, Parameters.team2Colors, (savedObject != null));
-			
-			Parameters.team1Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			Parameters.team2Obj.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			Parameters.team1Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			Parameters.team2Obj.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			
-			
-			Parameters.team1Obj.setEnemyTeamObj(Parameters.team2Obj);
-			Parameters.team2Obj.setEnemyTeamObj(Parameters.team1Obj);
-			
-			if (Parameters.AI_ONLY_GAME)
-			{
-				ai1Controller = new AIController();
-				ai2Controller = new AIController();
-				Parameters.team1Obj.agent = Agent.HUMAN;
-				Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
-					
-				Parameters.team2Obj.agent = Agent.PC;
-				Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
+				teamStartObj = jsonTeams[i];
+				teamObject = new TeamObject(teamStartObj, i, Parameters.colors[teamStartObj.color], (savedObject != null));
+				teamObject.ai = AiBehaviours.SELF_DEFENSE;
+				teamObject.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
+				teamObject.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
 				
-				Parameters.team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-				Parameters.team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
-				ai1Controller.applyAI(Parameters.team1Obj);
-				ai2Controller.applyAI(Parameters.team2Obj);	
-					
+				Parameters.gameTeamObjects.push(teamObject);
 			}
-			else
+			
+			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
 			{
-				ai1Controller = new AIController();
-				//team 1 is ALWAYS GDI, team 2 is ALWAYS NOD
-				if (playerSide == 1)
+				teamObject = Parameters.gameTeamObjects[i]
+				for (j = 0; j < Parameters.gameTeamObjects.length; j++ )
 				{
-					Parameters.team1Obj.agent = Agent.HUMAN;
-					Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
-					
-					Parameters.team2Obj.agent = Agent.PC;
-					Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
+					if (i != j)
+					{
+						var enemyTeamObj:TeamObject = Parameters.gameTeamObjects[j];
+						teamObject.setEnemyTeamObj(enemyTeamObj);
+					}
+				}
+			}
+			
+			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
+			{
+				teamObject = Parameters.gameTeamObjects[i]
+				teamObject.init();
+				if (teamObject.agent ==  Agent.PC)
+				{
+					teamObject.applyAI();
 				}
 				else
 				{
-					Parameters.team1Obj.agent = Agent.PC;
-					Parameters.team1Obj.ai = AiBehaviours.SELF_DEFENSE;
-					
-					Parameters.team2Obj.agent = Agent.HUMAN;
-					Parameters.team2Obj.ai = AiBehaviours.SELF_DEFENSE;
-				}
-				
-				
-				if(Parameters.team1Obj.agent == Agent.HUMAN)
-				{
-					Parameters.team1Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-					Parameters.team2Obj.init(Parameters.pcTeam, Parameters.humanTeam);
-					ai1Controller.applyAI(Parameters.team2Obj, savedObject);
-					
-				}
-				else if(Parameters.team2Obj.agent == Agent.HUMAN)
-				{
-					Parameters.team1Obj.init(Parameters.pcTeam, Parameters.humanTeam);
-					Parameters.team2Obj.init(Parameters.humanTeam, Parameters.pcTeam);
-					ai1Controller.applyAI(Parameters.team1Obj, savedObject);//
+					Parameters.humanTeam = teamObject.team;
 				}
 			}
+			updateTeams();
+
 			
-			
-			
-			
-			
-			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
 			
 			if (savedObject)
 			{
 				Board.getInstance().showVisibleTiles(savedObject.visibleTiles);
 			}
+		}
+		
+		private function updateTeams():void 
+		{
+			teamslisting.updateTeams(Parameters.gameTeamObjects[0].team.length, Parameters.gameTeamObjects[1].team.length);
 		}
 		
 		private function onAssetDestroyed(e:Event):void 
@@ -276,25 +245,37 @@ package states.game
 				
 			}
 			
-			teamslisting.updateTeams(Parameters.humanTeam.length, Parameters.pcTeam.length);
+			updateTeams();
+			
+			var humanDead:Boolean = false;
+			var allPCSDead:Boolean = true;
+			var teamObject:TeamObject;
+			
+			for (var i:int = 0; i < Parameters.gameTeamObjects.length; i++ )
+			{
+				teamObject = Parameters.gameTeamObjects[i];
+				if (teamObject.agent == Agent.PC && teamObject.team.length != 0)
+				{
+					allPCSDead = false;
+					break;
+				}
+				
+			}
 			
 			
 			
-			if (Parameters.pcTeam.length == 0)
+			if (allPCSDead == true)
 			{
 				showMissionAccomplished();
 			}
 			if (Parameters.humanTeam.length == 0)
 			{
 				showMissionFailed();
-				
 			}
 			
-			if(Parameters.pcTeam.length == 0 || Parameters.humanTeam.length == 0)
+			if(allPCSDead == true || Parameters.humanTeam.length == 0)
 			{
 				endGame();
-				
-				
 			}
 			
 		}
@@ -304,8 +285,6 @@ package states.game
 			GameTimer.getInstance().freezeTimer();
 			MapMover.getInstance().freeze();
 			UnitSelectionManager.getInstance().freeze();
-			//Parameters.humaTeamObject.buildManager.hud.unitsContainer.freeze();
-			//Parameters.humaTeamObject.buildManager.hud.buildingsContainer.freeze();
 		}
 		
 		
@@ -313,8 +292,7 @@ package states.game
 			GameTimer.getInstance().resumeTimer();
 			MapMover.getInstance().resume();
 			UnitSelectionManager.getInstance().resume();
-			//Parameters.humaTeamObject.buildManager.hud.unitsContainer.resume();
-			//Parameters.humaTeamObject.buildManager.hud.buildingsContainer.resume();
+
 		}
 		
 		private function showMissionFailed():void 
@@ -381,14 +359,21 @@ package states.game
 			//stage.removeEventListener(Event.ENTER_FRAME, loop);
 			var i:int = 0;
 			
-			for (i = 0; i <  Parameters.humanTeam.length; i++ )
-			{
-				Parameters.humanTeam[i].end();
-			}
 			
-			for (i = 0; i <   Parameters.pcTeam.length; i++ )
+			var teamObject:TeamObject;
+			var team:Array;
+			
+			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
 			{
-				Parameters.pcTeam[i].end();
+				teamObject = Parameters.gameTeamObjects[i];
+				team = teamObject.team;
+				for (var j:int = 0; j < team.length; j++ )
+				{
+					team[j].end();
+				}
+				
+				
+				
 			}
 			
 			setTimeout(function():void
@@ -415,28 +400,21 @@ package states.game
 			
 			baordMC.dispose();
 			
-			Parameters.team1Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			Parameters.team2Obj.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
-			Parameters.team1Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			Parameters.team2Obj.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
-			Parameters.team1Obj.dispose();
-			Parameters.team2Obj.dispose();
-			Parameters.team1Obj = null;
-			Parameters.team2Obj = null;
+			var teamObject:TeamObject;
+			for (var i:int = 0; i < Parameters.gameTeamObjects.length; i++ )
+			{
+				teamObject = Parameters.gameTeamObjects[i];
+				teamObject.removeEventListener("ASSET_DESTROYED", onAssetDestroyed);
+				teamObject.removeEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+				teamObject.dispose();
+				teamObject = null;
+			}
+			
 			teamslisting.dispose();
 			teamslisting = null;
-			ai1Controller.dispose();
-			ai1Controller = null;
-			
-			if (ai2Controller)
-			{
-				ai2Controller.dispose();
-				ai2Controller = null;
-			}
-				
+	
 			
 			Parameters.humanTeam = [];
-			Parameters.pcTeam = [];
 			UnitSelectionManager.getInstance().dispose();
 			
 			GameSounds.stopBGSound();

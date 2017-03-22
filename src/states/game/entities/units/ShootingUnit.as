@@ -43,9 +43,9 @@ package  states.game.entities.units
 		private var shootCount:int;
 		
 		
-		public function ShootingUnit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeam:Array, myTeam:int) 
+		public function ShootingUnit(_unitStats:AssetStatsObj, teamObj:TeamObject, _enemyTeams:Array, myTeam:int) 
 		{
-			super(_unitStats, teamObj, _enemyTeam, myTeam);
+			super(_unitStats, teamObj, _enemyTeams, myTeam);
 			
 			if (_unitStats.weapon)
 			{
@@ -92,7 +92,7 @@ package  states.game.entities.units
 			if (aiBehaviour == AiBehaviours.HELPLESS || model.stats.weapon == null) return;
 			
 			
-			if(model.enemyTeam == null || model.enemyTeam.length == 0)
+			if(model.enemyTeams == null || model.enemyTeams.length == 0)
 			{
 				return;
 			}

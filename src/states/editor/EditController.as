@@ -36,6 +36,7 @@
 		
 		private var unitsArr:Array = [];
 		private var controlsPane:ControlsPane;
+		private var editTeamsArr:Array;
 		
 		public function EditController()
 		{
@@ -112,7 +113,7 @@
 			var names:Array = ["vehicle", "infantry", "building", "turret" ];
 			var teams:Array = ["team1", "team2"];
 			var gdiNod:Array = ["gdi", "nod"];
-			var teamsArr:Array = [Parameters.humanTeam, Parameters.pcTeam]
+			editTeamsArr = [[], []]
 			
 			Parameters.editObj = LevelManager.currentlevelData;
 			
@@ -138,7 +139,7 @@
 						currentImage.model.col = selCol;
 						currentImage.model.name = obj.name;
 						obj.asset = currentImage;
-						teamsArr[j].push(currentImage);
+						editTeamsArr[j].push(currentImage);
 					}
 				}
 			}
@@ -315,11 +316,11 @@
 					
 					if (HUD.currentTeam == 1)
 					{
-						Parameters.humanTeam.push(currentImage);
+						editTeamsArr[0].push(currentImage);
 					}
 					else
 					{
-						Parameters.pcTeam.push(currentImage);
+						editTeamsArr[1].push(currentImage);
 					}
 					
 					addToCorrectArray(currentImage);

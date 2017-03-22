@@ -90,7 +90,7 @@ package  states.game.entities.buildings
 			if (aiBehaviour == AiBehaviours.HELPLESS || model.stats.weapon == null) return;
 			
 			
-			if(model.enemyTeam == null || model.enemyTeam.length == 0)
+			if(model.enemyTeams == null || model.enemyTeams.length == 0)
 			{
 				return;
 			}
