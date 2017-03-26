@@ -110,10 +110,10 @@
 				
 				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
-					diffX = 0;
+					/*diffX = 0;
 					diffY = 0;
 					lastX = Parameters.mapHolder.x;
-					lastY = Parameters.mapHolder.y;
+					lastY = Parameters.mapHolder.y;*/
 					return;
 				}
 			}
@@ -196,15 +196,15 @@
 			{
 				p = endMulti[0].getLocation(Parameters.theStage);
 				
-				diffX = Parameters.mapHolder.x - lastX;
-				diffY = Parameters.mapHolder.y - lastY;
+				
 				
 				if (p.x >= (stageWidth - HUD.hudWidth))
 				{
 					return;
 				}
 				
-				
+				diffX = Parameters.mapHolder.x - lastX;
+				diffY = Parameters.mapHolder.y - lastY;
 				
 				trace("diffX " + diffX, "diffY " + diffY);
 				clearTimeout(myTimeout);
@@ -619,19 +619,10 @@
 		{
 			Parameters.theStage.removeEventListener(TouchEvent.TOUCH, onStageTouch);
 			
-			var numChildreLeft:int = Board.mapContainerArr[Board.GROUND_LAYER].numChildren; 
-			if (numChildreLeft)
-			{
-				for (var j:int = numChildreLeft-1; j >= 0; j-- )
-				{
-					var child = Board.mapContainerArr[Board.GROUND_LAYER].getChildAt(j);
-					child.removeFromParent();
-					child = null;
-				}
-			}
+			
 			
 
-			Board.mapContainerArr[Board.GROUND_LAYER] = new Sprite();
+			
 			prevRow = -1;
 			prevCol = -1;
 			firstTime = true;

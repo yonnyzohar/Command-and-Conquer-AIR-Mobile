@@ -63,15 +63,29 @@
 			{
 				var numTeams:int = _levelData.teams.length;
 				var teams:Array = _levelData.teams;
+				var color:String;
+				var weaponsProvider:String;
+				var assetObj:Object = { };
 				
 				for (a = 0; a < numTeams; a++  )
 				{
+					weaponsProvider = teams[a].weaponsProvider;
+					color = teams[a].color;
+					
+					
+					if (assetObj[weaponsProvider] == undefined)
+					{
+						assetObj[weaponsProvider] = [];
+					}
+					assetObj[weaponsProvider].push(color);
+					
 					for (i = 0; i < arrs.length; i++ )
 					{
 						for (j = 0; j < teams[a][arrs[i]].length; j++ )
 						{
 							var currentObj:Object = teams[a][arrs[i]][j];
 							var n:String = currentObj.name;
+							
 							var correspondingObj:Object = stats[i][currentObj.name];
 							dirsToLoadMap[n] = n;
 							if (correspondingObj.connectedSprites)
@@ -93,6 +107,9 @@
 					}
 				}
 			}
+			
+			GameAtlas.setGameColors(assetObj);
+			
 
 			//now that i have the assets i need to load in this level - go load only them!!!
 			GameAtlas.init(dirsToLoadMap , _completeFunction);//1

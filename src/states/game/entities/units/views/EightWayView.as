@@ -93,7 +93,7 @@ package states.game.entities.units.views
 				
 				if (!texturesDict[frameName])
 				{
-					texturesDict[frameName] = GameAtlas.getTextures(frameName, this.model.teamName);
+					texturesDict[frameName] = GameAtlas.getTextures(frameName, model.teamColor);
 				}
 				else
 				{
@@ -123,7 +123,7 @@ package states.game.entities.units.views
 		override protected function createView():void
 		{
 			
-			mc = GameAtlas.createMovieClip(frameName, this.model.teamName);
+			mc = GameAtlas.createMovieClip(frameName, model.teamColor);
 			if (mc == null)
 			{
 				return;

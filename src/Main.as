@@ -134,14 +134,15 @@
 			if (startScreen == null)
 			{
 				startScreen = new StartScreen();
-				startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
-				startScreen.addEventListener("GAME_CLICKED", onNewGameClicked);
-				startScreen.addEventListener("LOAD_CLICKED", onLoadClicked);
 				
-				addChildAt(startScreen.view,0);
-				startScreen.view.width = Parameters.flashStage.stageWidth;
-				startScreen.view.height = Parameters.flashStage.stageHeight;
 			}
+			startScreen.addEventListener("EDIT_CLICKED", onEditClicked);
+			startScreen.addEventListener("GAME_CLICKED", onNewGameClicked);
+			startScreen.addEventListener("LOAD_CLICKED", onLoadClicked);
+				
+			addChildAt(startScreen.view,0);
+			startScreen.view.width = Parameters.flashStage.stageWidth;
+			startScreen.view.height = Parameters.flashStage.stageHeight;
 			
 		}
 		
@@ -272,7 +273,7 @@
 				game.removeEventListener("LEAVE_MISSION", onLeaveMissionRestartGame);
 				game.removeEventListener("LEAVE_MISSION", onMissionOver);
 				game.dispose();
-				game = null;
+				//game = null;
 			}
 		}
 		

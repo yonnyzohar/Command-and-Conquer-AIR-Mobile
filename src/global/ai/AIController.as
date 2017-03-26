@@ -427,7 +427,7 @@
 		
 		private function onBuildCancelledAbruptly(e:Event):void 
 		{
-			if (myBuildSlot && e.data.name == myBuildSlot.assetName)
+			if (myBuildSlot && e.data &&  e.data.name == myBuildSlot.assetName)
 			{
 				myBuildSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 			}
@@ -825,7 +825,7 @@
 		{
 			if (PRINT_AI_FLOW)
 			{
-				trace(pcTeamObj.teamName + " : " + _str);
+				trace(pcTeamObj.teamColor + " : " + _str);
 				//Parameters.loadingScreen.displayMessage(_str);
 			}
 		}

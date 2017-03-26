@@ -7,11 +7,13 @@
 		
 			{
 				"agent" : 0,
-				"color": "teal",
+				"color": "yellow",
+				"weaponsProvider":"gdi",
+				"teamName":"Yonny",
 				"startVehicles":[
 					{"name":"medium-tank","col":25,"row":4}
 				],
-				"teamName":"gdi",
+				
 				"cash":5000,
 				"startBuildings":[
 					{"name":"construction-yard","col":32,"row":3}
@@ -27,12 +29,14 @@
 			
 			{
 				"agent" : 1,
-				"color": "gray",
+				"color": "red",
+				"teamName":"dudi",
+				"weaponsProvider":"nod",
 				"startVehicles":[
 					{"name":"light-tank","col":60,"row":56},
 					{"name":"light-tank","col":61,"row":56}
 				],
-				"teamName":"nod",
+				
 				"cash":5000,
 				"startBuildings":[
 					{"name":"construction-yard","col":55,"row":60}
@@ -47,21 +51,20 @@
 			},
 			{
 				"agent" : 1,
-				"color": "gray",
+				"color": "green",
+				"weaponsProvider":"nod",
+				"teamName":"barvaz",
 				"startVehicles":[
 					{"name":"light-tank","col":10,"row":56},
 					{"name":"light-tank","col":12,"row":56}
 				],
-				"teamName":"nod",
 				"cash":5000,
 				"startBuildings":[
 					{"name":"construction-yard","col":3,"row":60}
 				],
 				"AiBehaviour":2,
 				"startTurrets":[],
-				"startUnits":[
-					
-				]
+				"startUnits":[]
 			}
 		],
 		"map":[

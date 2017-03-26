@@ -157,7 +157,7 @@ package states.game.teamsData
 							{
 								if (allBuildingsExist)
 								{
-									if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+									if (curUnit.owner == "both" || curUnit.owner == teamObj.weaponsProvider)
 									{
 										units[k] = curUnit;
 									}
@@ -167,7 +167,7 @@ package states.game.teamsData
 							{
 								if (!allBuildingsExist)
 								{
-									if (curUnit.owner == "both" || curUnit.owner == teamObj.teamName)
+									if (curUnit.owner == "both" || curUnit.owner == teamObj.weaponsProvider)
 									{
 										units[k] = curUnit;
 									}
@@ -224,7 +224,7 @@ package states.game.teamsData
 								{
 									if (allBuildingsExist)
 									{
-										if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+										if (curVehicle.owner == "both" || curVehicle.owner == teamObj.weaponsProvider)
 										{
 											units[k] = curVehicle;
 										}
@@ -234,7 +234,7 @@ package states.game.teamsData
 								{
 									if (!allBuildingsExist)
 									{
-										if (curVehicle.owner == "both" || curVehicle.owner == teamObj.teamName)
+										if (curVehicle.owner == "both" || curVehicle.owner == teamObj.weaponsProvider)
 										{
 											units[k] = curVehicle;
 										}
@@ -294,7 +294,7 @@ package states.game.teamsData
 							{
 								if (allBuildingsExist)
 								{
-									if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
+									if (curTurret.owner == "both" || curTurret.owner == teamObj.weaponsProvider)
 									{
 										buildings[k] = curTurret;
 									}
@@ -304,7 +304,7 @@ package states.game.teamsData
 							{
 								if (!allBuildingsExist)
 								{
-									if (curTurret.owner == "both" || curTurret.owner == teamObj.teamName)
+									if (curTurret.owner == "both" || curTurret.owner == teamObj.weaponsProvider)
 									{
 										buildings[k] = curTurret;
 									}
@@ -363,7 +363,7 @@ package states.game.teamsData
 								{
 									if (allBuildingsExist)
 									{
-										if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
+										if (curBuilding.owner == "both" || curBuilding.owner == teamObj.weaponsProvider)
 										{
 											buildings[k] = curBuilding;
 										}
@@ -373,7 +373,7 @@ package states.game.teamsData
 								{
 									if (!allBuildingsExist)
 									{
-										if (curBuilding.owner == "both" || curBuilding.owner == teamObj.teamName)
+										if (curBuilding.owner == "both" || curBuilding.owner == teamObj.weaponsProvider)
 										{
 											buildings[k] = curBuilding;
 										}

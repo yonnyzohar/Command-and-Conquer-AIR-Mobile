@@ -76,12 +76,18 @@
 		private var numOfHarvesters:int = 0;
 		public var sightManager:SightManager;
 		public var color:uint;
+		public var teamColor:String;
 		public var aiController:AIController;
+		public var weaponsProvider:String;
 		
-		public function TeamObject(_startParams:Object, _teamNum:int, _color:uint, _fromSaveGame:Boolean)
+		public function TeamObject(_startParams:Object, _teamNum:int,  _fromSaveGame:Boolean)
 		{
+			teamColor = _startParams.color;
+			weaponsProvider = _startParams.weaponsProvider;
+			
+			color=  Parameters.colors[_startParams.color]
+			
 			startParams = _startParams;
-			color = _color;
 			ai = startParams.AiBehaviour;
 			agent = startParams.agent;
 			teamName = startParams.teamName;
@@ -115,6 +121,9 @@
 			o.teamName = teamName;
 			o.cash = cashManager.cash;
 			o.teamNum = teamNum;
+			o.color = teamColor;
+			o.weaponsProvider = weaponsProvider;
+			
 			var teamLen:int = team.length;
 			o.startVehicles = [];
 			o.startTurrets = [];
@@ -410,7 +419,6 @@
 										else
 										{
 											timeoutCounter++;
-											//trace(teamName + " sending rescue!!")
 											sendRescue(p);
 											
 											if (timeoutCounter >= timeoutTime)
@@ -772,7 +780,6 @@
 					team.splice(team.indexOf(p), 1);
 				}
 			}
-			//trace(p.model.stats.name + " " + p.model.teamName + " is removed: " + removed)
 			p.dispose();
 			p = null;
 			

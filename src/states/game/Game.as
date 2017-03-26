@@ -105,6 +105,10 @@ package states.game
 			{
 				dataObj = savedObject;
 			}
+			
+			
+			
+			
 			Parameters.loadingScreen.init();
 			LevelManager.loadRelevantAssets(dataObj, onLoadAssetsComplete);
 			
@@ -187,13 +191,20 @@ package states.game
 			for (i = 0; i < jsonTeams.length; i++ )
 			{
 				teamStartObj = jsonTeams[i];
-				teamObject = new TeamObject(teamStartObj, i, Parameters.colors[teamStartObj.color], (savedObject != null));
+				teamObject = new TeamObject(teamStartObj, i, (savedObject != null));
 				teamObject.ai = AiBehaviours.SELF_DEFENSE;
 				teamObject.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
 				teamObject.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
 				
 				Parameters.gameTeamObjects.push(teamObject);
 			}
+			
+			if (playerSide != 0)
+			{
+				
+			}
+			
+			
 			
 			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
 			{
@@ -212,6 +223,7 @@ package states.game
 			{
 				teamObject = Parameters.gameTeamObjects[i]
 				teamObject.init();
+				
 				if (teamObject.agent ==  Agent.PC)
 				{
 					teamObject.applyAI();
@@ -219,6 +231,11 @@ package states.game
 				else
 				{
 					Parameters.humanTeam = teamObject.team;
+					
+					if (Parameters.AI_ONLY_GAME)
+					{
+						teamObject.applyAI();
+					}
 				}
 			}
 			updateTeams();
@@ -233,6 +250,10 @@ package states.game
 		
 		private function updateTeams():void 
 		{
+			if (teamslisting == null)
+			{
+				teamslisting = new TeamsListingWindow();
+			}
 			teamslisting.updateTeams(Parameters.gameTeamObjects[0].team.length, Parameters.gameTeamObjects[1].team.length);
 		}
 		
@@ -410,7 +431,11 @@ package states.game
 				teamObject = null;
 			}
 			
-			teamslisting.dispose();
+			if (teamslisting)
+			{
+				teamslisting.dispose();
+			}
+			
 			teamslisting = null;
 	
 			
@@ -423,16 +448,13 @@ package states.game
 			removeAllChildren([Parameters.gameHolder, Parameters.mapHolder , Board.mapContainerArr[Board.GROUND_LAYER], Board.mapContainerArr[Board.OBSTACLE_LAYER], Board.mapContainerArr[Board.UNITS_LAYER],Board.mapContainerArr[Board.EFFECTS_LAYER] ]);
 			GameTimer.getInstance().dispose();
 			
-			Board.mapContainerArr[Board.GROUND_LAYER].removeFromParent();
-			Board.mapContainerArr[Board.UNITS_LAYER].removeFromParent();
-			Board.mapContainerArr[Board.EFFECTS_LAYER].removeFromParent();
-			Board.mapContainerArr[Board.OBSTACLE_LAYER].removeFromParent();
 			
 			Board.mapContainerArr[Board.GROUND_LAYER] = null;
 			Board.mapContainerArr[Board.OBSTACLE_LAYER] = null;
 			Board.mapContainerArr[Board.UNITS_LAYER] = null;
 		    Board.mapContainerArr[Board.EFFECTS_LAYER] = null;
-			Board.mapContainerArr = null;
+			
+			Parameters.gameTeamObjects = [];
 		  }
 		
 		private function removeAllChildren(a:Array):void 
@@ -440,16 +462,20 @@ package states.game
 			for (var i:int = 0; i < a.length; i++ )
 			{
 				var sp:Sprite = a[i];
-				var numChildreLeft:int = sp.numChildren; 
-				if (numChildreLeft)
+				if (sp)
 				{
-					for (var j:int = numChildreLeft-1; j >= 0; j-- )
+					var numChildreLeft:int = sp.numChildren; 
+					if (numChildreLeft)
 					{
-						var child = sp.getChildAt(j);
-						child.removeFromParent();
-						child = null;
+						for (var j:int = numChildreLeft-1; j >= 0; j-- )
+						{
+							var child = sp.getChildAt(j);
+							child.removeFromParent();
+							child = null;
+						}
 					}
 				}
+				
 				
 			}
 		}

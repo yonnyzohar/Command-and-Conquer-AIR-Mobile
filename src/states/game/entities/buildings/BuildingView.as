@@ -35,7 +35,7 @@ package states.game.entities.buildings
 			model = _model;
 			currentState = _name + state;
 			
-			mc = GameAtlas.createMovieClip(currentState, model.teamName);
+			mc = GameAtlas.createMovieClip(currentState, model.teamColor);
 			mc.scaleX = mc.scaleY = Parameters.gameScale;
 			mc.addEventListener(Event.COMPLETE, onBuildAnimComplete)
 			mc.loop = true;
@@ -63,7 +63,7 @@ package states.game.entities.buildings
 			{
 				if (baseIMG == null)
 				{
-					baseIMG = new Image(GameAtlas.getTexture(model.stats.name +"-base"+ healthAnim + "00", model.teamName));
+					baseIMG = new Image(GameAtlas.getTexture(model.stats.name +"-base"+ healthAnim + "00", model.teamColor));
 					baseIMG.scaleX = baseIMG.scaleY = Parameters.gameScale;
 					addChildAt(baseIMG, 0);
 				}
@@ -124,14 +124,14 @@ package states.game.entities.buildings
 					mc.removeFrameAt(0);
 				}
 				
-				var textures:Vector.<Texture> = GameAtlas.getTextures(newStateName, this.model.teamName);
+				var textures:Vector.<Texture> = GameAtlas.getTextures(newStateName, this.model.teamColor);
 				
 				if (textures == null || textures.length == 0)
 				{
 					state = "";
 					mc.loop = true;
 					newStateName = model.stats.name + (healthAnim.toLowerCase());
-					textures = GameAtlas.getTextures(newStateName, this.model.teamName);
+					textures = GameAtlas.getTextures(newStateName, this.model.teamColor);
 				}
 			
 				for each (var texture:SubTexture in textures)
@@ -158,7 +158,7 @@ package states.game.entities.buildings
 				mc.removeFrameAt(0);
 			}
 			
-			var textures:Vector.<Texture> = GameAtlas.getTextures(sellState, this.model.teamName);
+			var textures:Vector.<Texture> = GameAtlas.getTextures(sellState, this.model.teamColor);
 			textures.reverse();
 			
 			

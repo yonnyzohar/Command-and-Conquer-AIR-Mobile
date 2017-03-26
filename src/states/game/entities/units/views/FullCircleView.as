@@ -77,7 +77,7 @@ package states.game.entities.units.views
 		override protected function createView():void
 		{
 			if (mc != null) return;
-			var defaultTextures:Vector.<Texture>  = GameAtlas.getTextures(model.stats.name+"_move", model.teamName);
+			var defaultTextures:Vector.<Texture>  = GameAtlas.getTextures(model.stats.name+"_move", model.teamColor);
 			texturesDict["default"] = defaultTextures;
 			mc = new MovieClip(defaultTextures, 10);
 			mc.scaleX = mc.scaleY = Parameters.gameScale;

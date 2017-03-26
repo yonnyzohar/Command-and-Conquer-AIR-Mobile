@@ -62,8 +62,8 @@
 		private static var counter:int = 0;
 		
 		private static var sharedTextures:Vector.<starling.textures.TextureAtlas> 
-		private static var nodTextures:Vector.<starling.textures.TextureAtlas>
-		private static var gdiTextures:Vector.<starling.textures.TextureAtlas>
+		//private static var nodTextures:Vector.<starling.textures.TextureAtlas>
+		//private static var gdiTextures:Vector.<starling.textures.TextureAtlas>
 		
 		private static var callback:Function;
 		private static var assetNames:Array = [];
@@ -81,7 +81,8 @@
 		
 		private static var gameAssetsDir:File;
 		
-		private static var assetDirsMap:Object = {};
+		private static var assetDirsMap:Object = { };
+		private static var weaponsColorsMap:Object = {} ;
 		
 		//private static var mapMC:MapMC;
 		//private static var uiMC:UIAssets;
@@ -89,8 +90,8 @@
 		public static function reset():void
 		{
 			sharedTextures = new Vector.<starling.textures.TextureAtlas>();
-			nodTextures = new Vector.<starling.textures.TextureAtlas>();
-			gdiTextures = new Vector.<starling.textures.TextureAtlas>();
+			//nodTextures = new Vector.<starling.textures.TextureAtlas>();
+			//gdiTextures = new Vector.<starling.textures.TextureAtlas>();
 			callback = null;
 			assetNames.splice(0);
 			atlasDicts = new Dictionary();
@@ -272,7 +273,7 @@
 				var assetTypeName:String = mustMap[j];
 				selectedAssets[assetTypeName] = true;
 				dirPath = assetDirsMap[assetTypeName]
-									
+				var weaponsProvider:String = findOwner(assetTypeName);					
 				var obj:Object = 
 				{
 					xml : assetTypeName+"XML" , 
@@ -280,7 +281,8 @@
 					assetName:assetTypeName,
 					xmlPath : dirPath + "/ta.xml",
 					imgPath : dirPath + "/ta.png",
-					side : findOwner(assetDir.name)
+					side : weaponsProvider,
+					colors: weaponsColorsMap
 				}
 				assetNames.push( obj );
 			}
@@ -308,12 +310,32 @@
 		}
 		
 		
+		static public function setGameColors(_weaponsColorsMap:Object):void 
+		{
+			weaponsColorsMap = _weaponsColorsMap;
+			var color:String;
+			
+			for (var k:String in weaponsColorsMap)
+			{
+				for (var i:int = 0; i < weaponsColorsMap[k].length; i++ )
+				{
+					color = weaponsColorsMap[k][i];
+					if (atlasDicts[color] == undefined)
+					{
+						atlasDicts[color] = new Vector.<starling.textures.TextureAtlas>();
+					}
+				}
+				
+			}
+			
+			
+			
+		}
 		
 		public static function init(dirsToLoadMap:Object, _callback:Function):void
 		{
-			
-			atlasDicts["gdi"] = gdiTextures;
-			atlasDicts["nod"] = nodTextures;
+			//atlasDicts["gdi"] = gdiTextures;
+			//atlasDicts["nod"] = nodTextures;
 			atlasDicts["none"] = sharedTextures;
 			
 			if (loadingInProgress)
@@ -338,7 +360,8 @@
 					{
 						trace("----------adding " + k + " TA")
 						selectedAssets[k] = true;
-						dirPath = assetDirsMap[k]
+						dirPath = assetDirsMap[k];
+						var weaponsProvider:String = findOwner(k);
 						var obj:Object = {
 							
 							xml :k +"XML" , 
@@ -346,7 +369,8 @@
 							assetName:k,
 							xmlPath : dirPath + File.separator + "ta.xml",
 							imgPath : dirPath + File.separator + "ta.png",
-							side : findOwner(k)
+							side : weaponsProvider,//gdi or nod
+							colors: weaponsColorsMap
 						}
 						
 						assetsToLoad.push( obj );
@@ -430,21 +454,41 @@
 			var bmpd:BitmapData;
 			var xml:XML = XML(_obj.xml);
 
-			
-			var side:String = _obj.side;// findOwner(assetName);
+			var side:String = _obj.side;//gdi or nod
 			
 			var texture:Texture;
 			var atlas:starling.textures.TextureAtlas;
+			var bitmapDatas = _obj.bitmapDatas;
 			
-			if (side == "gdi" )
+			if (side == "none" )
 			{
-				byteArrayBD = _obj.gdiBD; 
+				byteArrayBD = _obj.bitmapDatas["none"]; 
 				byteArrayBD.position = 0; // read informations from start.
 				bmpd = new BitmapData(_obj.width, _obj.height, true, 0xFFFFFF);
 				bmpd.setPixels(bmpd.rect, byteArrayBD);
 				texture = Texture.fromBitmapData(bmpd);
 				atlas = new starling.textures.TextureAtlas(texture, xml);
-				gdiTextures.push(atlas);
+				sharedTextures.push(atlas);
+			}
+			else
+			{
+				for (var color:String in _obj.bitmapDatas)
+				{
+					byteArrayBD = _obj.bitmapDatas[color]; 
+					byteArrayBD.position = 0; // read informations from start.
+					bmpd = new BitmapData(_obj.width, _obj.height, true, 0xFFFFFF);
+					bmpd.setPixels(bmpd.rect, byteArrayBD);
+					texture = Texture.fromBitmapData(bmpd);
+					atlas = new starling.textures.TextureAtlas(texture, xml);
+					atlasDicts[color].push(atlas);
+				}
+			}
+			
+			
+			
+			/*if (side == "gdi" )
+			{
+				
 			}
 			if (side == "nod" )
 			{
@@ -457,16 +501,7 @@
 				nodTextures.push(atlas);
 			}
 			
-			if (side == "none" )
-			{
-				byteArrayBD = _obj.noneBD; 
-				byteArrayBD.position = 0; // read informations from start.
-				bmpd = new BitmapData(_obj.width, _obj.height, true, 0xFFFFFF);
-				bmpd.setPixels(bmpd.rect, byteArrayBD);
-				texture = Texture.fromBitmapData(bmpd);
-				atlas = new starling.textures.TextureAtlas(texture, xml);
-				sharedTextures.push(atlas);
-			}
+			
 			//here we have to color i for nod units
 			if (side == "both" )
 			{
@@ -486,7 +521,7 @@
 				atlas = new starling.textures.TextureAtlas(texture, xml);
 				nodTextures.push(atlas);
 				
-			}
+			}*/
 			
 			bmpd.dispose();
 			counter++;
@@ -663,6 +698,8 @@
 				return null;
 			}
 		}
+		
+		
 	}
 }
 

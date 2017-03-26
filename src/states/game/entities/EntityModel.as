@@ -19,6 +19,7 @@ package states.game.entities
 		public var sounds:UnitSounds;
 		public var currentState:int = UnitStates.IDLE;
 		public var lastState:int;
+		public var teamColor:String;
 		
 		public function EntityModel()
 		{

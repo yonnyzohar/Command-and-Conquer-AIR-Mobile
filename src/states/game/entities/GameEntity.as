@@ -28,6 +28,7 @@ package states.game.entities
 		public var view:EntityView;
 		
 		public var teamNum:int;
+		
 		public var myTeamObj:TeamObject;
 		protected var currentInfantryDeath:String;
 		
@@ -43,6 +44,7 @@ package states.game.entities
 		public function GameEntity(_teamObj:TeamObject)
 		{
 			myTeamObj = _teamObj;
+			
 			
 			uniqueID = GLOBAL_UNIQUE_ID;
 			GLOBAL_UNIQUE_ID++;

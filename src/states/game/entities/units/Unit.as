@@ -40,6 +40,7 @@ package states.game.entities.units
 			name = _unitStats.name;
 			super(teamObj);
 			model = new UnitModel();
+			model.teamColor = teamObj.teamColor;
 			model.teamName = teamObj.teamName;
 			UnitModel(model).stats = _unitStats;
 			teamNum = myTeam;

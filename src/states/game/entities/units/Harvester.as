@@ -495,7 +495,7 @@ package  states.game.entities.units
 			
 			if (!view.texturesDict[frameName])
 			{
-				view.texturesDict[frameName] = GameAtlas.getTextures(frameName, this.model.teamName);
+				view.texturesDict[frameName] = GameAtlas.getTextures(frameName, this.myTeamObj.teamColor);
 			}
 			
 			for each (var texture:SubTexture in view.texturesDict[frameName])

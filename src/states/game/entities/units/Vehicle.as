@@ -29,7 +29,7 @@ package  states.game.entities.units
 			
 			if (_unitStats.hasTurret)
 			{
-				turretMC = new GunTurretView( GameAtlas.getTextures(_unitStats.name + "_turret", teamObj.teamName) );
+				turretMC = new GunTurretView( GameAtlas.getTextures(_unitStats.name + "_turret", teamObj.teamColor) );
 				FullCircleView(view).addTurret(turretMC);
 			}
 		}

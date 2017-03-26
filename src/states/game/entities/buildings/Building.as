@@ -34,6 +34,7 @@ package states.game.entities.buildings
 			initModel();
 			
 			model.teamName = teamObj.teamName;
+			model.teamColor = teamObj.teamColor;
 			model.enemyTeams = _enemyTeams;
 			model.controllingAgent = teamObj.agent;
 			BuildingModel(model).stats = _buildingStats;

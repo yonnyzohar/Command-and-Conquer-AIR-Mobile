@@ -82,7 +82,7 @@
 			if (deathMC == null)
 			{
 				//trace(_deathStateName)
-				deathMC = GameAtlas.createMovieClip(_deathStateName, this.model.teamName);
+				deathMC = GameAtlas.createMovieClip(_deathStateName, this.myTeamObj.teamColor);
 				deathMC.loop = false;
 				deathMC.touchable = false;
 				deathMC.addEventListener(Event.COMPLETE, onDeathComplte);
