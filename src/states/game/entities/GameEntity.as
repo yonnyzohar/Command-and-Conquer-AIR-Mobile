@@ -26,6 +26,7 @@ package states.game.entities
 		public static var GLOBAL_UNIQUE_ID:int = 0;
 		public var model:EntityModel;
 		public var view:EntityView;
+		private var q:Quad;
 		
 		public var teamNum:int;
 		
@@ -101,7 +102,6 @@ package states.game.entities
 				n = Node(Parameters.boardArr[proposedRow][proposedCol]);
 				if (n.occupyingUnit == this )
 				{
-					//hideTile(proposedRow, proposedCol)
 					n.occupyingUnit = null;
 				}
 			}
@@ -147,31 +147,25 @@ package states.game.entities
 			}
 		}
 		
-		/*private function hideTile(proposedRow:int, proposedCol:int):void 
-		{
-			if (showOccupyTiles)
-			{
-				allTilesDict[proposedRow + "_" + proposedCol].quad.removeFromParent(true);
-			}
-			delete allTilesDict[proposedRow + "_" + proposedCol];
-		}
+
 		
 		private function showTile(proposedRow:int, proposedCol:int, n:Node):void 
 		{
-			var q:Quad;
-			if (showOccupyTiles)
+			if (q == null)
 			{
 				q = new Quad(Parameters.tileSize, Parameters.tileSize, myColor);
-				q.x = Parameters.tileSize * proposedCol;
-				q.y = Parameters.tileSize * proposedRow;
-				q.touchable = false;
-				q.alpha = 0.2;
-				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(q);
 			}
-
-			allTilesDict[proposedRow + "_" + proposedCol] = {quad : q, node : n};
 			
-		}*/
+			
+			q.x = Parameters.tileSize * proposedCol;
+			q.y = Parameters.tileSize * proposedRow;
+			q.touchable = false;
+			q.alpha = 0.2;
+			Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(q);
+			
+
+			
+		}
 		
 		protected function nodeExists(_row:int, _col:int):Boolean
 		{
@@ -349,6 +343,12 @@ package states.game.entities
 			model = null;
 			myTeamObj = null;
 			allTilesDict = null;
+			
+			if (q != null)
+			{
+				q.removeFromParent(true);
+				q = null;
+			}
 		}
 		
 		public function end():void{}

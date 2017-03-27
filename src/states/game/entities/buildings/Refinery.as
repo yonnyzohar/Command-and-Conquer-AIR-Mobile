@@ -108,10 +108,11 @@
 			{
 				var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
 			
-				var row:int = model.row + int(occupyArray.length);
-				var col:int = model.col;
+				var row:int = model.row + int(occupyArray.length - 1);
+				var col:int = model.col + 1;
 				
 				n = Parameters.boardArr[row][col];
+			
 				
 				removeBlockingUnits(n);
 			}
@@ -175,7 +176,7 @@
 			BuildingView(view).mc.removeEventListener(Event.COMPLETE, onLoadComplete);
 			if (loadCompleteFNCTB != null)
 			{
-				loadCompleteFNCTB();
+				loadCompleteFNCTB(currentStore);
 			}
 			super.dispose()
 		}

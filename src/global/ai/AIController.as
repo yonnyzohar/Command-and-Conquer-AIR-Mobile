@@ -134,7 +134,7 @@
 			for(var k:String in allInfantry)
 			{
 				currentObj = Methods.getCurretStatsObj(k);
-				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.teamName)
+				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.weaponsProvider)
 				{
 					probabilityNum = allInfantry[k];
 					
@@ -151,7 +151,7 @@
 			for(k in allVehicles)
 			{
 				currentObj = Methods.getCurretStatsObj(k);
-				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.teamName)
+				if (currentObj.owner == "both" ||  currentObj.owner ==pcTeamObj.weaponsProvider)
 				{
 					probabilityNum = allVehicles[k];
 					
@@ -317,7 +317,7 @@
 				{
 					currentBuildingObj = Methods.getCurretStatsObj("barracks");
 					
-					if (currentBuildingObj.owner != pcTeamObj.teamName)
+					if (currentBuildingObj.owner != pcTeamObj.weaponsProvider)
 					{
 						currentBuildingObj = Methods.getCurretStatsObj("hand-of-nod");
 					}

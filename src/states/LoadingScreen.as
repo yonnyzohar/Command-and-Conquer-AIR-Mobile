@@ -60,6 +60,7 @@
 		
 		public function displayMessage(str:String):void 
 		{
+			Parameters.gameHolder.addChild(view);
 			tf.text += (str +br) ;
 			if (tf.textBounds.height > Parameters.flashStage.stageHeight)
 			{

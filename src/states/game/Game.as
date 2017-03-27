@@ -73,7 +73,6 @@ package states.game
 
 		public function Game() 
 		{
-			teamslisting = new TeamsListingWindow();
 			LevelManager.init();
 			setSpeed(Parameters.gameSpeed);
 		}
@@ -105,9 +104,6 @@ package states.game
 			{
 				dataObj = savedObject;
 			}
-			
-			
-			
 			
 			Parameters.loadingScreen.init();
 			LevelManager.loadRelevantAssets(dataObj, onLoadAssetsComplete);
@@ -141,8 +137,7 @@ package states.game
 			addTeams();
 			
 			UnitSelectionManager.getInstance().init();
-			Parameters.theStage.addChild(teamslisting.view);
-			teamslisting.view.x = Parameters.theStage.stageWidth - teamslisting.view.width;
+			
 			
 			
 			if (savedObject)
@@ -188,6 +183,11 @@ package states.game
 			var teamStartObj:Object;
 			var j:int;
 			
+			if (savedObject)
+			{
+				jsonTeams = savedObject.teams;
+			}
+			
 			for (i = 0; i < jsonTeams.length; i++ )
 			{
 				teamStartObj = jsonTeams[i];
@@ -195,17 +195,36 @@ package states.game
 				teamObject.ai = AiBehaviours.SELF_DEFENSE;
 				teamObject.addEventListener("ASSET_DESTROYED", onAssetDestroyed);
 				teamObject.addEventListener("ASSET_CONSTRUCTED", onAssetDestroyed);
+				teamObject.agent =  Agent.PC;
 				
 				Parameters.gameTeamObjects.push(teamObject);
 			}
 			
 			if (playerSide != 0)
 			{
-				
+				for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
+				{
+					teamObject = Parameters.gameTeamObjects[i]
+					if (playerSide == 1)
+					{
+						if (teamObject.weaponsProvider == "gdi")
+						{
+							teamObject.agent = Agent.HUMAN;
+							break;
+						}
+					}
+					if (playerSide == 2)
+					{
+						if (teamObject.weaponsProvider == "nod")
+						{
+							teamObject.agent = Agent.HUMAN;
+							break;
+						}
+					}
+				}
 			}
 			
-			
-			
+
 			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
 			{
 				teamObject = Parameters.gameTeamObjects[i]
@@ -250,11 +269,13 @@ package states.game
 		
 		private function updateTeams():void 
 		{
-			if (teamslisting == null)
+			/*if (teamslisting == null)
 			{
 				teamslisting = new TeamsListingWindow();
+				Parameters.theStage.addChild(teamslisting.view);
+				teamslisting.view.x = Parameters.theStage.stageWidth - teamslisting.view.width;
 			}
-			teamslisting.updateTeams(Parameters.gameTeamObjects[0].team.length, Parameters.gameTeamObjects[1].team.length);
+			teamslisting.updateTeams(Parameters.gameTeamObjects[0].team.length, Parameters.gameTeamObjects[1].team.length);*/
 		}
 		
 		private function onAssetDestroyed(e:Event):void 

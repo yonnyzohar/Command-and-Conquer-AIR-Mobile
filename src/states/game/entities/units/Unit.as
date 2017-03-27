@@ -385,7 +385,10 @@ package states.game.entities.units
 			
 			UnitModel(model).path = aStar.getPath( Parameters.boardArr[UnitModel(model).row][UnitModel(model).col], Parameters.boardArr[targetRow][targetCol], uniqueID);
 			//after we get the path, we can return the tiles so that others wont come too close to me.
-			if(PathTest.showPath)PathTest.createSelectedPath(UnitModel(model).path);
+			if (PathTest.showPath)
+			{
+				PathTest.createSelectedPath(UnitModel(model).path);
+			}
 
 
 			UnitModel(model).moveCounter = 0;
@@ -408,11 +411,7 @@ package states.game.entities.units
 			UnitModel(model).moveCounter = 0;
 			UnitModel(model).destX = model.col * Parameters.tileSize;
 			UnitModel(model).destY = model.row * Parameters.tileSize;
-			//resetRowCol();
-			if (_startShooting)
-			{
-				//removeAllTiles();
-			}
+
 		}
 		
 		
@@ -510,11 +509,11 @@ package states.game.entities.units
 				}
 				else
 				{
-					/*var destNode:Node = model.path[model.path.length-1];
+					var destNode:Node = UnitModel(model).path[UnitModel(model).path.length-1];
 					UnitView(view).stopShootingAndStandIdlly();
 					stopMovingAndSplicePath();
 					getWalkPath(destNode.row, destNode.col);
-					setState(UnitStates.WALK);*/
+					setState(UnitStates.WALK);
 				}
 			}
 			else
