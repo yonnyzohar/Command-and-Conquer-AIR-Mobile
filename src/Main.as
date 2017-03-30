@@ -1,9 +1,11 @@
 ﻿package
 {
 	import com.dynamicTaMaker.views.GameSprite;
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.text.Font;
 	import flash.utils.setTimeout;
+	import global.assets.GameAssets;
 	import global.enums.MouseStates;
 	import global.GameSounds;
 	import global.Methods;
@@ -49,6 +51,9 @@
 		
 		private var tf:starling.text.TextField;
 		private var menu:MenuScreen;
+		
+		
+		
 		
 		
 		public function Main()
@@ -116,6 +121,7 @@
 			var taPlacementsXML:XML = new XML(dymanicTaCreator.taPlacements)
 			MyTA.init(bitmapData, taPlacementsXML);
 			TemplateLoader.init(MyTA.ta, dymanicTaCreator.viewHeirarchyObj);
+
 
 			Parameters.loadingScreen = new LoadingScreen();
 			Parameters.loadingScreen.init();

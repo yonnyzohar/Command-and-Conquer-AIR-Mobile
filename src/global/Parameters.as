@@ -53,21 +53,21 @@
 		static public var useFilters:Boolean = false;
 		
 		static public var AI_ONLY_GAME:Boolean = false;
-		static public var gameSpeed:int = 10;
+		static public var gameSpeed:int = 4;
 		
 		static public var editLoad:Boolean = false;
 		
 		static public var colors:Object = {
 			
 			yellow: 0xffcc00,
-			red: 	0xff6600,
+			red: 	0xff0000,
 			teal: 	0x008080,
 			orange: 0xffa500,
 			green: 	0x00b300,
 			gray: 	0x808080,
 			neutral: 0x000000,
 			darkgray :0xa9a9a9,
-			brown: 	0xa52a2a
+			brown: 	0x663300
 		};
 
 		static public var binPath:String;

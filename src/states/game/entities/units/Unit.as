@@ -629,20 +629,7 @@ package states.game.entities.units
 		protected function traceMe(msg:String):void
 		{
 			return;
-			if(model == null)return;
-			if(model.controllingAgent == Agent.HUMAN)
-			{
-				if(model.isSelected)
-				{
-					var myMessage:String = "team: " + model.teamName + " state : " +  getCurrentState(currentState) + " msg : " + msg + " / row " + model.row + " , col " + model.col;
-					if (prevMsg != myMessage)
-					{
-						////trace(myMessage);
-						prevMsg = myMessage;
-					}
-					
-				}
-			}
+			
 		}
 		
 

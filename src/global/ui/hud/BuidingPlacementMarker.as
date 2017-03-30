@@ -39,6 +39,7 @@ package global.ui.hud
 		
 		public static const BUILDNG_SPOT_FOUND:String = "BUILDNG_SPOT_FOUND"
 		static public const FORBID_PADDING:Boolean = true;
+		static public const  BUILDNG_SPOT_NOT_FOUND:String = "BUILDNG_SPOT_NOT_FOUND"
 		
 		public function BuidingPlacementMarker(_teamObj:TeamObject) 
 		{
@@ -191,7 +192,8 @@ package global.ui.hud
 			if (!foundValidPlace)
 			{
 				//Parameters.loadingScreen.displayMessage("HOLY SHIT!!! " + allBaseNodes.length);
-				throw new Error("HOLY SHIT!!!");
+				trace("HOLY SHIT!!!");
+				dispatchEvent(new Event(BUILDNG_SPOT_NOT_FOUND));
 			}
 			
 			//trace("foundValidPlace " + foundValidPlace + " " + used);

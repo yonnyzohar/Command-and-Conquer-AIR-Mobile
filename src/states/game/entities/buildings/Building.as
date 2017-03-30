@@ -106,11 +106,7 @@ package states.game.entities.buildings
 			}
 		}
 		
-		private function onExplosionComplete(e:Event):void 
-		{
-			view.removeEventListener("EXPLOSION_COMPLETE", onExplosionComplete);
-			
-		}
+
 		
 		override public function getSight():Array
 		{
@@ -166,8 +162,11 @@ package states.game.entities.buildings
 							var curTile:int = occupyArray[i][j];
 							
 							if (curTile == 0) continue;//this is only for build indication
-							n = Node( Parameters.boardArr[model.row + j][model.col + i] );
-							buildingTiles.push(n);
+							if (Parameters.boardArr[model.row + j] && Parameters.boardArr[model.row + j][model.col + i])
+							{
+								n = Node( Parameters.boardArr[model.row + j][model.col + i] );
+								buildingTiles.push(n);
+							}
 						}
 					}
 				}

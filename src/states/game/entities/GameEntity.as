@@ -332,14 +332,30 @@ package states.game.entities
 		
 		public function dispose():void
 		{
-			healthBar.removeFromParent(true);
+			if (healthBar)
+			{
+				healthBar.removeFromParent(true);
+			}
+			
 			healthBar = null;
-			clearTile(model.prevRow, model.prevCol);
-			clearTile(model.row, model.col);
-			view.dispose();
+			
+			
+			if (view)
+			{
+				view.dispose();
+			}
+			
 			view = null;
-			model.dead = true;
-			model.dispose();
+			
+			if (model)
+			{
+				clearTile(model.prevRow, model.prevCol);
+				clearTile(model.row, model.col);
+				model.dead = true;
+				model.dispose();
+			}
+			
+			
 			model = null;
 			myTeamObj = null;
 			allTilesDict = null;

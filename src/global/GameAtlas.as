@@ -216,6 +216,8 @@
 				}
 				assetNames.push( obj );
 			}
+			
+			atlasDicts["none"] = sharedTextures;
 
 			initWorker();
 		}
@@ -275,7 +277,7 @@
 		{
 			//atlasDicts["gdi"] = gdiTextures;
 			//atlasDicts["nod"] = nodTextures;
-			atlasDicts["none"] = sharedTextures;
+			
 			
 			if (loadingInProgress)
 			{
@@ -397,7 +399,7 @@
 			
 			var texture:Texture;
 			var atlas:starling.textures.TextureAtlas;
-			var bitmapDatas = _obj.bitmapDatas;
+			var bitmapDatas:Object = _obj.bitmapDatas;
 			
 			if (side == "none" )
 			{
@@ -461,8 +463,11 @@
 				nodTextures.push(atlas);
 				
 			}*/
+			if (bmpd)
+			{
+				bmpd.dispose();
+			}
 			
-			bmpd.dispose();
 			counter++;
 			
 			completedAssets[assetName] = true;

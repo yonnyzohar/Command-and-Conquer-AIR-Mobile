@@ -47,6 +47,7 @@ package  states.game.entities.units
 		{
 			if(model != null && model.dead == false)
 			{
+				
 				if (loadingBegan == false)
 				{
 					resetRowCol()
@@ -78,6 +79,12 @@ package  states.game.entities.units
 						handleWalkError(_pulse);
 						break;
 				}
+				
+				if (ENTITY_BEING_REPAIRED)
+				{
+					super.update((_pulse));
+				}
+				
 			}
 			
 			//model.lastState - HANDLE HARVESTER WALK ERROR

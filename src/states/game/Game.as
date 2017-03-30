@@ -298,6 +298,7 @@ package states.game
 				teamObject = Parameters.gameTeamObjects[i];
 				if (teamObject.agent == Agent.PC && teamObject.team.length != 0)
 				{
+					teamObject.dispose();
 					allPCSDead = false;
 					break;
 				}

@@ -42,7 +42,8 @@
 		{
 			LevelManager.init();
 			LevelManager.currentlevelData = LevelManager.getLevelData(0);
-			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
+			//LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
+			onLoadAssetsComplete();
 		}
 		
 		private function onLoadAssetsComplete():void

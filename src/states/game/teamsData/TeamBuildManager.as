@@ -78,6 +78,7 @@ package states.game.teamsData
 
 			buildingPlacementMarker = new BuidingPlacementMarker(teamObj);
 			buildingPlacementMarker.addEventListener(BuidingPlacementMarker.BUILDNG_SPOT_FOUND, onSpotFound);
+			buildingPlacementMarker.addEventListener(BuidingPlacementMarker.BUILDNG_SPOT_NOT_FOUND, onSpotNotFound);
 			
 			
 		}
@@ -465,6 +466,13 @@ package states.game.teamsData
 			}
 		}
 		
+		private function onSpotNotFound(e:Event):void 
+		{
+			var selectedSlot:SlotHolder = hud.buildingsContainer.selectedSlot;
+			selectedSlot.dispatchEvent(new Event("BUILD_CANCELLED_ABRUPTLY"));
+			hud.buildingsContainer.enableAllSlots();
+		}
+		
 		private function onSpotFound(e:Event):void 
 		{
 			var selectedSlot:SlotHolder = hud.buildingsContainer.selectedSlot;
@@ -709,6 +717,7 @@ package states.game.teamsData
 			hud.unitsContainer.removeEventListener("SLOT_SELECTED", onUnitSelected);
 			hud.buildingsContainer.removeEventListener("SLOT_SELECTED", onBuildingSelected);
 			buildingPlacementMarker.removeEventListener(BuidingPlacementMarker.BUILDNG_SPOT_FOUND, onSpotFound);
+			buildingPlacementMarker.removeEventListener(BuidingPlacementMarker.BUILDNG_SPOT_NOT_FOUND, onSpotNotFound);
 			
 			buildingPlacementMarker.dispose();
 			hud.dispose();

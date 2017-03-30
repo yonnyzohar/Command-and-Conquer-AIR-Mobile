@@ -199,10 +199,15 @@ package states.game.entities
 		
 		override public function dispose():void
 		{
+			if (mc == null)
+			{
+				return;
+			}
 			if (mc is MovieClip) 
 			{
 				Starling.juggler.remove(MovieClip(mc));
 			}
+			
 			mc.visible = false;
 			mc.removeFromParent();
 			mc = null;

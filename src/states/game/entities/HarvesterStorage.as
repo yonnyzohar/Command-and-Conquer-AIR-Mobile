@@ -28,6 +28,10 @@ package   states.game.entities
 			currentStore += _harvestAmount;
 			
 			var boxCapacity:int = totalStore / numBoxes;
+			if (boxesArr == null)
+			{
+				return false;
+			}
 			for (var i:int = 1; i <= boxesArr.length; i++ )
 			{
 				if (currentStore >= (boxCapacity*i) )

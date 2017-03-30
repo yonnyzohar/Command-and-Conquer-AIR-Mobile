@@ -61,6 +61,7 @@ package  states.game.weapons
 		private var animDirections:int;
 		private var isMuzzleFlash:Boolean = false;
 		private var myTween:TweenMax;
+		private var projectileVisible:Boolean = true;
 		
 		public function WeaponView(_model:EntityModel, _explosionAnimName:String, _projectileImgName:String, _smokeTrail:Boolean, _movingProjectile:Boolean, _animDirections:int) 
 		{
@@ -108,6 +109,13 @@ package  states.game.weapons
 			
 		
 			projectileMC = pool.getAsset();
+			
+			projectileVisible = false;
+			if ( (Methods.isOnScreen(shooter.model.row, shooter.model.col) && shooter.visible) || (Methods.isOnScreen(enemy.model.row, enemy.model.col) && enemy.view.visible))
+			{
+				projectileVisible = true;
+			}
+			
 			
 			if (projectileMC)
 			{
@@ -179,6 +187,12 @@ package  states.game.weapons
 						halfy -= (dist * 0.2);
 						var time:Number = (speed * dist * 0.002);
 						
+						projectileMC.visible = false;
+						if (projectileVisible)
+						{
+							projectileMC.visible = true;
+						}
+						
 						myTween = TweenMax.to(projectileMC, time, 
 									{
 										ease: Linear.easeNone,
@@ -210,6 +224,13 @@ package  states.game.weapons
 						dy = targetY - projectileMC.y;
 						
 						currentBullets.push(projectileMC);
+						
+						projectileMC.visible = false;
+						if (projectileVisible)
+						{
+							projectileMC.visible = true;
+						}
+						
 						GameTimer.getInstance().addUser(this);
 					}
 					
@@ -218,6 +239,13 @@ package  states.game.weapons
 				}
 				else
 				{
+					projectileMC.visible = false;
+					if (projectileVisible)
+					{
+						projectileMC.visible = true;
+					}
+					
+					
 					if (animDirections == 32 && projectileMC.numFrames != 1 )
 					{
 						projectileMC.setDirection32( projectileMC.x, projectileMC.y, enemy.view.x + (enemy.view.width / 2), enemy.view.y + (enemy.view.height / 2));
@@ -275,9 +303,11 @@ package  states.game.weapons
 				b.x += vx;
 				b.y += vy;
 				
+				
+				
 				trailCounter++;
 				
-				if (trailPool )
+				if (trailPool && projectileVisible)
 				{
 					if (trailCounter%4 == 0)
 					{

@@ -401,7 +401,7 @@
 			printAI(myBuildSlot.assetName + " BUILDING_CONSTRUCTION_COMPLETED - now let's place it");
 			if (pcTeamObj)
 			{
-				myBuildSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
+				
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 				pcTeamObj.buildManager.addEventListener("BUILDING_PLACED", onBuildingPlaced);
 				pcTeamObj.buildManager.buildingPlacementMarker.pupulateTilesSprite(myBuildSlot.assetName);
@@ -414,6 +414,7 @@
 		{
 			if (pcTeamObj)
 			{
+				if(myBuildSlot)myBuildSlot.removeEventListener("BUILD_CANCELLED_ABRUPTLY", onBuildCancelledAbruptly);
 				printAI("onBuildingPlaced " + myBuildSlot.assetName);
 				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
 			}

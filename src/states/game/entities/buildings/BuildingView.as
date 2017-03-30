@@ -2,6 +2,7 @@ package states.game.entities.buildings
 {
 	import global.GameAtlas;
 	import global.GameSounds;
+	import global.Methods;
 	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import global.utilities.GameTimer;
@@ -195,8 +196,19 @@ package states.game.entities.buildings
 		{
 			if (explosionAnim == null)
 			{
-				
 				mc.visible = false;
+				
+				if (!Methods.isOnScreen(model.row, model.col))
+				{
+					return;
+				}
+				
+				if (visible == false )
+				{
+					return;
+				}
+				
+				
 				explosionAnim = GameAtlas.createMovieClip("fball1");
 				explosionAnim.loop = false;
 				explosionAnim.touchable = false;
@@ -218,10 +230,10 @@ package states.game.entities.buildings
 		
 		private function onExplosionComplte(e:Event):void 
 		{
+			explosionAnim.removeFromParent();
 			Starling.juggler.remove(explosionAnim);
-			explosionAnim.removeFromParent(true)
 			explosionAnim.removeEventListener(Event.COMPLETE, onExplosionComplte);
-			dispatchEvent(new Event("EXPLOSION_COMPLETE"))
+			explosionAnim = null;
 		}
 		
 		private var flashTotal:int = 50;

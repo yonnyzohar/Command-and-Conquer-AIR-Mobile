@@ -258,7 +258,7 @@
 				 var team:Array;
 				 var teamLen:int = 0;
 				
-				for (var j:int = 0; j < Parameters.gameTeamObjects.length; j++ )
+				for (j = 0; j < Parameters.gameTeamObjects.length; j++ )
 				{
 					teamObject = Parameters.gameTeamObjects[j];
 					if (teamObject.agent ==  Agent.PC)

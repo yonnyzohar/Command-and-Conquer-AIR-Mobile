@@ -81,6 +81,17 @@
 		{
 			if (deathMC == null)
 			{
+				if (!Methods.isOnScreen(model.row, model.col))
+				{
+					return;
+				}
+				
+				if (view.visible == false )
+				{
+					return;
+				}
+				
+				
 				//trace(_deathStateName)
 				deathMC = GameAtlas.createMovieClip(_deathStateName, this.myTeamObj.teamColor);
 				deathMC.loop = false;

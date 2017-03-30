@@ -399,11 +399,13 @@
 									numOfHarvesters++;
 								}
 								
-								if (p.model.col >= Parameters.screenDisplayArea.col && p.model.col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
-									p.model.row >= Parameters.screenDisplayArea.row && p.model.row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
+								if (Methods.isOnScreen(p.model.row, p.model.col))
 								{
 									p.addMeToBoard(Board.mapContainerArr[Board.UNITS_LAYER]);
 								}
+								
+								
+								
 							
 							
 							
@@ -836,29 +838,50 @@
 		public function dispose():void 
 		{
 			GameTimer.getInstance().removeUser(this);
-			buildManager.dispose();
-			buildManager.removeEventListener("UNIT_CONSTRUCTED", onUnitContructed);
-			buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
-			var teamLen:int = team.length;
-			
-			for (var i:int = 0; i < teamLen; i++ )
+			if (buildManager)
 			{
-				team[i].removeEventListener("SOLD", onSold);
-				team[i].dispose();
-				team[i] = null;
+				buildManager.dispose();
+				buildManager.removeEventListener("UNIT_CONSTRUCTED", onUnitContructed);
+				buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
 			}
+			
+			buildManager = null;
+			
+			if (team)
+			{
+				var teamLen:int = team.length;
+				for (var i:int = 0; i < teamLen; i++ )
+				{
+					team[i].removeEventListener("SOLD", onSold);
+					team[i].dispose();
+					team[i] = null;
+				}
+			}
+			
+			
 			
 			team = null;
 			enemyTeams = null;
 			powerCtrl = null;
 			teamBuildingsDict = null;
-			sellRepairManager.dispose();
+			if (sellRepairManager)
+			{
+				sellRepairManager.dispose();
+			}
+			
 			sellRepairManager = null;
-			cashManager.dispose();
+			if (cashManager)
+			{
+				cashManager.dispose();
+			}
+			
 			cashManager = null;
 			enemyTeamObjs = null;
 			
-			if(aiController)aiController.dispose();
+			if (aiController)
+			{
+				aiController.dispose();
+			}
 			aiController = null;
 		}
 		

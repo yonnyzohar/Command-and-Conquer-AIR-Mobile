@@ -48,13 +48,6 @@
 					{
 						dirsToLoadMap[k] = k;
 					}
-					else
-					{
-						/*if (curDict[k].tech <= levelTech)
-						{
-							dirsToLoadMap[k] = k;
-						}*/
-					}
 				}
 			}
 			

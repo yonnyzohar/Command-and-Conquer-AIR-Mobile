@@ -481,12 +481,17 @@ package global
 					for(var j:int = 0; j < buildingTilesLen; j++ )
 					{
 						n = buildingTiles[j];
-						dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
-						if (dist <= shootRange)
+						if (n)
 						{
-							inRange = true;
-							break;
+							dist = Methods.distanceTwoPoints(n.col, model.col, n.row, model.row);
+							if (dist <= shootRange)
+							{
+								inRange = true;
+								break;
+							}
 						}
+						
+						
 					}
 					return inRange;
 				}
@@ -703,6 +708,19 @@ package global
 					trace(a[j].name + " " + a[j].tech);
 				}
 				trace("//////")
+			}
+		}
+		
+		static public function isOnScreen(row:int, col:int):Boolean 
+		{
+			if (col >= Parameters.screenDisplayArea.col && col < Parameters.screenDisplayArea.col + Parameters.screenDisplayArea.width &&
+				row >= Parameters.screenDisplayArea.row && row < Parameters.screenDisplayArea.row + Parameters.screenDisplayArea.height	)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
 	}

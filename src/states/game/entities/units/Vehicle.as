@@ -1,6 +1,7 @@
 package  states.game.entities.units
 {
 	import global.GameAtlas;
+	import global.Methods;
 	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import starling.core.Starling;
@@ -36,6 +37,16 @@ package  states.game.entities.units
 		
 		override protected function handleDeath(_pulse:Boolean):void
 		{
+			if (!Methods.isOnScreen(model.row, model.col))
+			{
+				return;
+			}
+			
+			if (view.visible == false )
+			{
+				return;
+			}
+			
 			var deathAnimation:String = VehicleStatsObj(model.stats).deathAnimation;
 			playExplosion(deathAnimation);
 			clearTile(model.row, model.col);
