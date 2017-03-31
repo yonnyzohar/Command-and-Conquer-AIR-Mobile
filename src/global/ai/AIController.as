@@ -852,11 +852,15 @@
 			}
 			myBuildSlot = null;
 			
+			if (pcTeamObj)
+			{
+				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
+				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
+				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
+				pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			}
 			
-			pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
-			pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);
-			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onInfantryComplete);
-			pcTeamObj.buildManager.removeEventListener("UNIT_CONSTRUCTED", onVehicleComplete);
+			
 			
 			pcTeamObj = null;
 			

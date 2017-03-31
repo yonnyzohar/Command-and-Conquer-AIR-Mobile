@@ -382,7 +382,11 @@ package  states.game.weapons
 				offsetY = enemy.model.stats.pixelOffsetY;
 			}
 			
-			playExplosion();
+			if (projectileVisible)
+			{
+				playExplosion();
+			}
+			
 			
 			Starling.juggler.remove(b);
 			b.returnMe();

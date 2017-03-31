@@ -509,11 +509,11 @@ package states.game.entities.units
 				}
 				else
 				{
-					var destNode:Node = UnitModel(model).path[UnitModel(model).path.length-1];
+					/*var destNode:Node = UnitModel(model).path[UnitModel(model).path.length-1];
 					UnitView(view).stopShootingAndStandIdlly();
 					stopMovingAndSplicePath();
 					getWalkPath(destNode.row, destNode.col);
-					setState(UnitStates.WALK);
+					setState(UnitStates.WALK);*/
 				}
 			}
 			else

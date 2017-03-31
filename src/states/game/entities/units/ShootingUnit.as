@@ -73,6 +73,11 @@ package  states.game.entities.units
 		//main find target loop
 		protected function findATarget(_pulse:Boolean):void
 		{
+			
+			if (uniqueID == 1)
+			{
+				//trace("bob");
+			}
 
 			if(UnitModel(model).userOverrideAutoShoot)
 			{
@@ -118,7 +123,6 @@ package  states.game.entities.units
 				{
 					if (_pulse)
 					{
-						
 						search = true;
 					}
 				}
@@ -135,6 +139,12 @@ package  states.game.entities.units
 				if (possibleEnemy)
 				{
 					currentEnemy = possibleEnemy;
+					
+						if(Methods.isValidEnemy(currentEnemy, teamNum))
+						{
+							getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
+						}
+					
 					setState(UnitStates.WALK);
 					return;
 				}
@@ -145,9 +155,13 @@ package  states.game.entities.units
 					
 					if (Methods.isValidEnemy(myTeamObj.currentSearchAndDestroyEnemy, teamNum))
 					{
+						
 						currentEnemy = myTeamObj.currentSearchAndDestroyEnemy;
+						getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
 						setState(UnitStates.WALK);
 						return;
+						
+						
 					}
 					else
 					{
@@ -156,9 +170,16 @@ package  states.game.entities.units
 						if (possibleEnemy)
 						{
 							myTeamObj.currentSearchAndDestroyEnemy = possibleEnemy;
+
 							currentEnemy = possibleEnemy;
-							setState(UnitStates.WALK);
-							return;
+							if(Methods.isValidEnemy(currentEnemy, teamNum))
+							{
+								
+								getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
+								setState(UnitStates.WALK);
+								return;
+								
+							}
 						}
 					}
 				}
@@ -170,7 +191,7 @@ package  states.game.entities.units
 			}
 		}
 		
-
+		
 		
 		override public function hurt(_hitVal:int, _currentInfantryDeath:String, projectileName:String = null ):Boolean
 		{
@@ -199,22 +220,7 @@ package  states.game.entities.units
 		
 		
 		
-		override protected function lookAround():void
-		{
-			traceMe("lookAround");
-			if(aiBehaviour != AiBehaviours.HELPLESS)
-			{
-				if(Methods.isValidEnemy(currentEnemy, teamNum))
-				{
-					getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
-				}
-				else
-				{
-					stopMovingAndSplicePath();
-					setState(UnitStates.IDLE);
-				}
-			}
-		}	
+		
 		
 		override public function onDestinationReceived(targetRow:int, targetCol:int, _first:Boolean = true):void
 		{

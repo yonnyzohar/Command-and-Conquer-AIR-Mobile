@@ -293,15 +293,15 @@ package states.game
 			var allPCSDead:Boolean = true;
 			var teamObject:TeamObject;
 			
-			for (var i:int = 0; i < Parameters.gameTeamObjects.length; i++ )
+			for (var i:int = Parameters.gameTeamObjects.length-1; i >= 0 ; i-- )
 			{
 				teamObject = Parameters.gameTeamObjects[i];
 				if (teamObject.agent == Agent.PC && teamObject.team.length != 0)
 				{
-					teamObject.dispose();
 					allPCSDead = false;
 					break;
 				}
+				
 				
 			}
 			

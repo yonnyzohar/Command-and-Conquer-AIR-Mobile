@@ -3,6 +3,7 @@
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	import global.GameAtlas;
+	import global.Methods;
 	import global.map.mapTypes.Board;
 	import global.Parameters;
 	import starling.core.Starling;

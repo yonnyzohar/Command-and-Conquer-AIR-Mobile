@@ -263,8 +263,12 @@ package states.game.entities
 		
 		public function setState(state:int):void
 		{
-			model.lastState = model.currentState;
-			model.currentState = state;
+			if (model.currentState != state)
+			{
+				model.lastState = model.currentState;
+				model.currentState = state;
+			}
+			
 		}
 		
 		public function hasBeenTouched(_row:int, _col:int):Boolean
