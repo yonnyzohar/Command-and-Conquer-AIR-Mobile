@@ -136,14 +136,14 @@ package  states.game.entities.units
 			{
 				possibleEnemy = Methods.findClosestTargetinSight2(this);
 				
-				if (possibleEnemy)
+				if (possibleEnemy && (currentEnemy != possibleEnemy))
 				{
 					currentEnemy = possibleEnemy;
 					
-						if(Methods.isValidEnemy(currentEnemy, teamNum))
-						{
-							getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
-						}
+					if(Methods.isValidEnemy(currentEnemy, teamNum))
+					{
+						getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
+					}
 					
 					setState(UnitStates.WALK);
 					return;

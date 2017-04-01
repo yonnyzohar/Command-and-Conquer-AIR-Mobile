@@ -852,7 +852,7 @@
 			}
 			myBuildSlot = null;
 			
-			if (pcTeamObj)
+			if (pcTeamObj && pcTeamObj.buildManager)
 			{
 				pcTeamObj.buildManager.removeEventListener("BUILDING_CONSTRUCTION_COMPLETED", placeBuilding);
 				pcTeamObj.buildManager.removeEventListener("BUILDING_PLACED", onBuildingPlaced);

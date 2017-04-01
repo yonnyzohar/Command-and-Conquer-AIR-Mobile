@@ -9,6 +9,7 @@ package global.map
 		private var openList : Array;
 		public var visitedList : Array;
 		private var selectedUnitID:int;
+		private var numTries:int = 1000;
 		
 		public function AStar() 
 		{
@@ -19,6 +20,7 @@ package global.map
 		public function getPath( startNode : Node, endNode : Node , _selectedUnitID:int) : Array 
 		{
 			selectedUnitID = _selectedUnitID;
+			numTries = 1000;
 			
 			if ( Node(endNode).walkable == false || Node(endNode).occupyingUnit != null  ) 
 			{
@@ -47,6 +49,11 @@ package global.map
 				}
 				else 
 				{
+					numTries--;
+					if (numTries <= 0)
+					{
+						return [];
+					}
 					for each ( var neighbor : Node in getNeighbors( Parameters.boardArr, curNode ) ) 
 					{
 						visitedList.push(neighbor);

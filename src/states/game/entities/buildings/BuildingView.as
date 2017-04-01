@@ -212,10 +212,12 @@ package states.game.entities.buildings
 				explosionAnim = GameAtlas.createMovieClip("fball1");
 				explosionAnim.loop = false;
 				explosionAnim.touchable = false;
-				explosionAnim.addEventListener(Event.COMPLETE, onExplosionComplte);
+				
 				explosionAnim.scaleX = explosionAnim.scaleY = Parameters.gameScale;
 				Board.mapContainerArr[Board.UNITS_LAYER].addChild(explosionAnim);
 				Starling.juggler.add(explosionAnim);
+				explosionAnim.addEventListener(Event.COMPLETE, onExplosionComplte);
+				explosionAnim.play();
 				explosionAnim.x = x;// + (width / 2);
 				explosionAnim.y = y;// + (height / 2);
 			}

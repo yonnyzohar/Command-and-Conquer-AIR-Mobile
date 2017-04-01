@@ -31,7 +31,7 @@ package global.map
 		
 		public function update(_pulse:Boolean):void
 		{
-			if (_pulse)
+			if (_pulse && (Math.random() < 0.5))
 			{
 				if (quantity < totalQuantity)
 				{

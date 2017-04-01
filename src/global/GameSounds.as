@@ -38,7 +38,11 @@
 		static public function playBGSound():void 
 		{
 			bgSoundChannel = playSound("themes", null, 0.1);
-			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
+			if (bgSoundChannel)
+			{
+				bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, onBGSndComplete);
+			}
+			
 		}
 		
 		private static function onBGSndComplete(e:Event):void 

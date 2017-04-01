@@ -59,7 +59,7 @@ package states.game.entities.units.views
 			super.setViewByHealth(healthScale);
 			if (healthScale < .25)
 			{
-				Methods.createSmoke(((model.stats.pixelOffsetX*Parameters.gameScale)/2), ((model.stats.pixelOffsetY * Parameters.gameScale) / 2), this);
+				Methods.createSmoke(mc.x, mc.y, this);
 			}
 		}
 		
