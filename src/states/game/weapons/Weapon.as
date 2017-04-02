@@ -89,7 +89,12 @@ package  states.game.weapons
 		{
 			if (weaponStats.sound)
 			{
-				GameSounds.playSound(weaponStats.sound);
+				var vol:Number = 1;
+				if (!Methods.isOnScreen(model.row, model.col))
+				{
+					vol = 0.1;
+				}
+				GameSounds.playSound(weaponStats.sound, null, vol);
 			}
 			else
 			{

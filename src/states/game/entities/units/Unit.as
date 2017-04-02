@@ -1,5 +1,6 @@
 package states.game.entities.units 
 {
+	import global.Methods;
 	import global.enums.AiBehaviours;
 	import global.GameSounds;
 	import global.map.SpiralBuilder;
@@ -253,13 +254,19 @@ package states.game.entities.units
 		
 		public function playDeathSound():void
 		{
+			var vol:Number = 1;
+			if (!Methods.isOnScreen(model.row, model.col))
+			{
+				vol = 0.1;
+			}
+			
 			if (this is Infantry)
 			{
-				GameSounds.playSound("infantry-die")
+				GameSounds.playSound("infantry-die", null, vol)
 			}
 			if (this is Vehicle)
 			{
-				GameSounds.playSound("vehicle-die")
+				GameSounds.playSound("vehicle-die", null, vol)
 			}
 			
 			

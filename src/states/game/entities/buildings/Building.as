@@ -95,7 +95,14 @@ package states.game.entities.buildings
 				if (!model.dead)
 				{
 					BuildingView(view).playExplosion();
-					GameSounds.playSound("building_destroyed");
+					
+					var vol:Number = 1;
+					if (!Methods.isOnScreen(model.row, model.col))
+					{
+						vol = 0.1;
+					}
+					
+					GameSounds.playSound("building_destroyed", null, vol);
 				}
 				
 				if (model)

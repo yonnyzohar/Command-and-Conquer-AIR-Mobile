@@ -193,7 +193,8 @@ package  states.game.weapons
 							projectileMC.visible = true;
 						}
 						
-						myTween = TweenMax.to(projectileMC, time, 
+						myTween = TweenMax.to(
+								projectileMC, time, 
 									{
 										ease: Linear.easeNone,
 										bezier: { 

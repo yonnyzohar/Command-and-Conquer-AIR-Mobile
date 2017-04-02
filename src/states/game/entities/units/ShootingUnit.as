@@ -1,4 +1,4 @@
-﻿package  states.game.entities.units
+package  states.game.entities.units
 {
 	import starling.events.Event;
 	import flash.geom.Point;
@@ -136,51 +136,46 @@
 			{
 				possibleEnemy = Methods.findClosestTargetinSight2(this);
 				
-				if (possibleEnemy)
+				if(Methods.isValidEnemy(possibleEnemy, teamNum))
 				{
+					if(currentEnemy && currentEnemy.uniqueID == possibleEnemy.uniqueID)
+					{
+						if (Math.random() > 0.1)
+						{
+							return;
+						}
+					}
+					
 					currentEnemy = possibleEnemy;
 					
-					if(Methods.isValidEnemy(currentEnemy, teamNum))
-					{
-						getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
-						setState(UnitStates.WALK);
-					}
+					getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
+					setState(UnitStates.WALK);
+					
 					return;
 				}
 				
 				
 				if(aiBehaviour == AiBehaviours.SEEK_AND_DESTROY )
 				{
+					possibleEnemy = Methods.findClosestTargetOnMap(this);
 					
-					if (Methods.isValidEnemy(myTeamObj.currentSearchAndDestroyEnemy, teamNum))
+
+					if(Methods.isValidEnemy(possibleEnemy, teamNum))
 					{
-						if(currentEnemy.uniqueID == myTeamObj.currentSearchAndDestroyEnemy.uniqueID)
+					
+						if(currentEnemy && currentEnemy.uniqueID == possibleEnemy.uniqueID)
 						{
-							return;
+							if (Math.random() > 0.1)
+							{
+								return;
+							}
+							
 						}
-						currentEnemy = myTeamObj.currentSearchAndDestroyEnemy;
+					
+						currentEnemy = possibleEnemy;
 						getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
 						setState(UnitStates.WALK);
 						return;
-						
-						
-					}
-					else
-					{
-						possibleEnemy = Methods.findClosestTargetOnMap(this);
-					
-						if (possibleEnemy)
-						{
-							if(Methods.isValidEnemy(possibleEnemy, teamNum))
-							{
-								myTeamObj.currentSearchAndDestroyEnemy = possibleEnemy;
-								currentEnemy = possibleEnemy;
-								getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
-								setState(UnitStates.WALK);
-								return;
-								
-							}
-						}
 					}
 				}
 			}
