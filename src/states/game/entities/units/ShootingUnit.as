@@ -1,4 +1,4 @@
-package  states.game.entities.units
+﻿package  states.game.entities.units
 {
 	import starling.events.Event;
 	import flash.geom.Point;
@@ -136,16 +136,15 @@ package  states.game.entities.units
 			{
 				possibleEnemy = Methods.findClosestTargetinSight2(this);
 				
-				if (possibleEnemy && (currentEnemy != possibleEnemy))
+				if (possibleEnemy)
 				{
 					currentEnemy = possibleEnemy;
 					
 					if(Methods.isValidEnemy(currentEnemy, teamNum))
 					{
 						getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
+						setState(UnitStates.WALK);
 					}
-					
-					setState(UnitStates.WALK);
 					return;
 				}
 				
@@ -155,7 +154,10 @@ package  states.game.entities.units
 					
 					if (Methods.isValidEnemy(myTeamObj.currentSearchAndDestroyEnemy, teamNum))
 					{
-						
+						if(currentEnemy.uniqueID == myTeamObj.currentSearchAndDestroyEnemy.uniqueID)
+						{
+							return;
+						}
 						currentEnemy = myTeamObj.currentSearchAndDestroyEnemy;
 						getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
 						setState(UnitStates.WALK);
@@ -169,12 +171,10 @@ package  states.game.entities.units
 					
 						if (possibleEnemy)
 						{
-							myTeamObj.currentSearchAndDestroyEnemy = possibleEnemy;
-
-							currentEnemy = possibleEnemy;
-							if(Methods.isValidEnemy(currentEnemy, teamNum))
+							if(Methods.isValidEnemy(possibleEnemy, teamNum))
 							{
-								
+								myTeamObj.currentSearchAndDestroyEnemy = possibleEnemy;
+								currentEnemy = possibleEnemy;
 								getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
 								setState(UnitStates.WALK);
 								return;
