@@ -27,7 +27,7 @@
 
 	public class EditController extends Sprite
 	{
-		private var detailsPanel:DetailsPanelController;
+		
 		private var baordMC:Board;
 		private var hud:HUD;
 		private var model:EditModel;
@@ -257,17 +257,14 @@
 			controlsPane.addEventListener("SAVE_CLICKED", onSaveClicked);
 			controlsPane.addEventListener("DETAILS_PANEL_CLICKED", onDetailsPanelClicked);
 			
-			detailsPanel = new DetailsPanelController();
-			Parameters.gameHolder.addChild(detailsPanel.view);
-			detailsPanel.view.width = Parameters.flashStage.stageWidth;
-			detailsPanel.view.height = Parameters.flashStage.stageHeight;
+			
 					
 
 		}
 		
 		private function onDetailsPanelClicked(e:Event):void 
 		{
-			detailsPanel.view.visible = true;
+			//detailsPanel.view.visible = true;
 		}
 		
 		
@@ -409,14 +406,14 @@
 			Parameters.editObj.team1.teamName =  "gdi";
 			Parameters.editObj.team2.teamName =  "nod";
 			
-			Parameters.editObj.team1.AiBehaviour = DetailsPanelController.team1Behaviour;
+			/*Parameters.editObj.team1.AiBehaviour = DetailsPanelController.team1Behaviour;
 			Parameters.editObj.team2.AiBehaviour = DetailsPanelController.team2Behaviour;
 			
 			Parameters.editObj.team1.Agent = DetailsPanelController.team1Controller;
 			Parameters.editObj.team2.Agent = DetailsPanelController.team2Controller;
 			
 			Parameters.editObj.team1.cash = DetailsPanelController.team1StartCash;
-			Parameters.editObj.team2.cash = DetailsPanelController.team2StartCash;
+			Parameters.editObj.team2.cash = DetailsPanelController.team2StartCash;*/
 			Parameters.editObj.numTiles = Parameters.numRows;
 			Parameters.editObj.map = getMap();
 			

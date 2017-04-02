@@ -14,6 +14,7 @@
 	import global.pools.PoolsManager;
 	import global.utilities.FileSaver;
 	import starling.text.TextField;
+	import states.editor.DetailsPanelController;
 	import states.game.stats.BuildingsStats;
 	import states.game.stats.BulletStats;
 	import states.game.stats.InfantryStats;
@@ -51,7 +52,7 @@
 		
 		private var tf:starling.text.TextField;
 		private var menu:MenuScreen;
-		
+		private var detailsPanel:DetailsPanelController;
 		
 		
 		
@@ -335,6 +336,12 @@
 		
 		private function onLaunchEditNew(e:starling.events.Event):void 
 		{
+			detailsPanel = new DetailsPanelController();
+			addChild(detailsPanel.view);
+			detailsPanel.view.width = Parameters.flashStage.stageWidth;
+			detailsPanel.view.height = Parameters.flashStage.stageHeight;
+			removeEditPopUp();
+			return;
 			Parameters.numRows = chooseSizeView.numTiles;
 			Parameters.numCols = chooseSizeView.numTiles;
 			loadEdit();

@@ -16,7 +16,6 @@ package states.editor
 		public function TeamDetailsPane(_mc:GameSprite, i:int)
 		{
 			mc = _mc;
-			mc.teamMC.text = "Team " + (i + 1);
 			
 			controllers = [mc.humanMC, mc.pcMC];
 			
