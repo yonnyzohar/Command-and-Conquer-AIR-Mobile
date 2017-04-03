@@ -54,8 +54,7 @@ package states.editor
 			
 
 			
-			ButtonManager.setButton(mc.humanMC, "TOUCH", onControllerClicked);
-			ButtonManager.setButton(mc.pcMC, "TOUCH", onControllerClicked);
+			
 			
 			ButtonManager.setButton(mc.thousandMC, "TOUCH", onCashClicked);
 			ButtonManager.setButton(mc.fiveThousand, "TOUCH", onCashClicked);

@@ -7,7 +7,7 @@
 			"numTiles":70,
 			"teams":[
 				{
-					"agent" : 0,
+					"agent" : 1,
 					"color": "yellow",
 					"weaponsProvider":"gdi",
 					"teamName":"Yonny",

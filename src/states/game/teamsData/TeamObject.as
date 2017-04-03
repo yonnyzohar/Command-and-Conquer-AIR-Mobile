@@ -49,6 +49,7 @@
 		
 		public var enemyTeams:Array = [];
 		private var enemyTeamObjs:Array = [];
+		public var enemyTeamNums:Array = [];
 		
 		
 		
@@ -704,6 +705,8 @@
 		{
 			if(enemyTeamObjs.indexOf(_enemyTeamObj) == -1)
 			{
+				trace(teamName + " enemy is " + _enemyTeamObj.teamName);
+				enemyTeamNums.push(_enemyTeamObj.teamNum);
 				enemyTeamObjs.push(_enemyTeamObj);
 				enemyTeams.push(_enemyTeamObj.team);
 			}
@@ -862,7 +865,7 @@
 			}
 			
 			
-			
+			enemyTeamNums = null;
 			team = null;
 			enemyTeams = null;
 			powerCtrl = null;

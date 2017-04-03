@@ -669,6 +669,7 @@ package global
 			var buildingTiles:Array;
 			var n:Node;
 			var buildingTilesLen:int;
+			var enemyTeamNums:Array = shooter.myTeamObj.enemyTeamNums;
 			
 			outer : for (var row:int = model.row - sightRange; row <= model.row + sightRange; row++)
 			{
@@ -677,7 +678,7 @@ package global
 					if (Parameters.boardArr[row] && Parameters.boardArr[row][col])
 					{
 						n = Parameters.boardArr[row][col];
-						if (n.occupyingUnit && n.occupyingUnit.teamNum != shooter.teamNum)
+						if (n.occupyingUnit && enemyTeamNums.indexOf(n.occupyingUnit.teamNum) != -1 )
 						{
 							closestEnemny = n.occupyingUnit;
 							break outer;

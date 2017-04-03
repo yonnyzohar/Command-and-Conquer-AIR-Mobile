@@ -187,10 +187,10 @@ package  states.game.weapons
 						halfy -= (dist * 0.2);
 						var time:Number = (speed * dist * 0.002);
 						
-						projectileMC.visible = false;
+						projectileMC.alpha = 0;
 						if (projectileVisible)
 						{
-							projectileMC.visible = true;
+							projectileMC.alpha = 1;
 						}
 						
 						myTween = TweenMax.to(
@@ -226,10 +226,10 @@ package  states.game.weapons
 						
 						currentBullets.push(projectileMC);
 						
-						projectileMC.visible = false;
+						projectileMC.alpha = 0;
 						if (projectileVisible)
 						{
-							projectileMC.visible = true;
+							projectileMC.alpha = 1;
 						}
 						
 						GameTimer.getInstance().addUser(this);
