@@ -1,4 +1,4 @@
-package global.assets 
+﻿package global.assets 
 {
     /**
      * ...
@@ -1391,7 +1391,6 @@ package global.assets
                     sight: 5,
                     hitPoints: 800,
                     dependency: undefined,
-					resourceStorage: 5000,
                     hasBib: true,
                     armor: 1,
                     owner: "both",

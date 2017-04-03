@@ -1,4 +1,4 @@
-package states.game.teamsData 
+﻿package states.game.teamsData 
 {
 	import global.enums.Agent;
 	import global.GameSounds;
@@ -14,7 +14,7 @@ package states.game.teamsData
 		public var cash:int;
 		private var cashToAdd:int = 0;
 		private var targetBalance:int;
-		public var totalCashCapacity:int = 0;
+		public var totalCashCapacity:int = 5000;
 		public var REACHEED_LIMIT:Boolean = false;
 		private var teamObj:TeamObject;
 		
