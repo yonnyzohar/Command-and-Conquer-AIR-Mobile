@@ -1,4 +1,4 @@
-package states.game 
+﻿package states.game 
 {
 	
 	import com.greensock.TweenMax;
@@ -200,6 +200,7 @@ package states.game
 				Parameters.gameTeamObjects.push(teamObject);
 			}
 			
+			//this is to determine human side on new game click
 			if (playerSide != 0)
 			{
 				for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
@@ -224,19 +225,42 @@ package states.game
 				}
 			}
 			
-
-			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
+			var enemyTeamObj:TeamObject;
+			
+			//determine enemies. in AI game everyone is figting everyone
+			if (Parameters.AI_ONLY_GAME)
 			{
-				teamObject = Parameters.gameTeamObjects[i]
-				for (j = 0; j < Parameters.gameTeamObjects.length; j++ )
+				for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
 				{
-					if (i != j)
+					teamObject = Parameters.gameTeamObjects[i]
+					for (j = 0; j < Parameters.gameTeamObjects.length; j++ )
 					{
-						var enemyTeamObj:TeamObject = Parameters.gameTeamObjects[j];
-						teamObject.setEnemyTeamObj(enemyTeamObj);
+						if (i != j)
+						{
+							enemyTeamObj = Parameters.gameTeamObjects[j];
+							teamObject.setEnemyTeamObj(enemyTeamObj);
+						}
 					}
 				}
 			}
+			else
+			{
+				for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
+				{
+					teamObject = Parameters.gameTeamObjects[i]
+					for (j = 0; j < Parameters.gameTeamObjects.length; j++ )
+					{
+						
+						enemyTeamObj = Parameters.gameTeamObjects[j];
+						if(enemyTeamObj.agent != teamObject.agent)
+						{
+							teamObject.setEnemyTeamObj(enemyTeamObj);
+						}
+					}
+				}
+			}
+
+			
 			
 			for (i = 0; i < Parameters.gameTeamObjects.length; i++ )
 			{

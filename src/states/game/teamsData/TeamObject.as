@@ -702,8 +702,11 @@
 		
 		public function setEnemyTeamObj(_enemyTeamObj:TeamObject):void 
 		{
-			enemyTeamObjs.push(_enemyTeamObj);
-			enemyTeams.push(_enemyTeamObj.team);
+			if(enemyTeamObjs.indexOf(_enemyTeamObj) == -1)
+			{
+				enemyTeamObjs.push(_enemyTeamObj);
+				enemyTeams.push(_enemyTeamObj.team);
+			}
 		}
 		
 		public function spawnEnemyUnit(row:int, col:int, searchAndDestroy:Boolean = true):void 
