@@ -1,4 +1,4 @@
-package  states.game.entities.units
+﻿package  states.game.entities.units
 {
 	import global.GameAtlas;
 	import global.Methods;
@@ -37,7 +37,13 @@ package  states.game.entities.units
 		
 		override protected function handleDeath(_pulse:Boolean):void
 		{
-			if (!Methods.isOnScreen(model.row, model.col))
+			var row:int = model.row;
+			var col:int = model.col;
+			
+			clearTile(model.row, model.col);
+			super.handleDeath(_pulse);
+			
+			if (!Methods.isOnScreen(row, col))
 			{
 				return;
 			}
@@ -49,8 +55,8 @@ package  states.game.entities.units
 			
 			var deathAnimation:String = VehicleStatsObj(model.stats).deathAnimation;
 			playExplosion(deathAnimation);
-			clearTile(model.row, model.col);
-			super.handleDeath(_pulse);
+			
+			
 		}
 		
 		override public function stopMovingAndSplicePath(_startShooting:Boolean = false):void

@@ -240,10 +240,10 @@ package  states.game.weapons
 				}
 				else
 				{
-					projectileMC.visible = false;
+					projectileMC.alpha = 0;
 					if (projectileVisible)
 					{
-						projectileMC.visible = true;
+						projectileMC.alpha = 1;
 					}
 					
 					

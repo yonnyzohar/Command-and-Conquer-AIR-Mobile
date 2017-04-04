@@ -1,4 +1,4 @@
-package states.startScreen
+﻿package states.startScreen
 {
 	import com.dynamicTaMaker.utils.ButtonManager;
 	import com.dynamicTaMaker.views.GameSprite;
@@ -31,7 +31,7 @@ package states.startScreen
 			view.btn2.addEventListener(TouchEvent.TOUCH, onLoadClicked);
 			view.btn3.addEventListener(TouchEvent.TOUCH, onAiGameClicked);
 			view.editBTN.addEventListener(TouchEvent.TOUCH, onEditClicked);
-			//view.editBTN.visible = false;
+			view.editBTN.visible = false;
 			view.disclaimerTXT.text = disclaimer;
 
 		}
