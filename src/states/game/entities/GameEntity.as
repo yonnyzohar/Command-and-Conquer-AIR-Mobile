@@ -162,9 +162,6 @@ package states.game.entities
 			q.touchable = false;
 			q.alpha = 0.2;
 			Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(q);
-			
-
-			
 		}
 		
 		protected function nodeExists(_row:int, _col:int):Boolean

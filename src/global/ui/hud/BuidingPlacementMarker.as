@@ -36,6 +36,7 @@ package global.ui.hud
 		private var COLLOR_GREEN:uint = 0x00FF00;
 		private var isValidPlacementArea:Boolean = false;
 		private var teamObj:TeamObject;
+		private var showAvaliableTiles:Boolean = false;
 		
 		public static const BUILDNG_SPOT_FOUND:String = "BUILDNG_SPOT_FOUND"
 		static public const FORBID_PADDING:Boolean = true;
@@ -136,6 +137,13 @@ package global.ui.hud
 				{
 					lastLoc = location;
 					
+					
+					if (showAvaliableTiles)
+					{
+						showAvaliableTiles = false
+						showBaseTiles(teamObj.getBaseNodes());
+					}
+					
 					boardCoordinates = Parameters.mapHolder.globalToLocal(new Point(lastLoc.x, lastLoc.y));
 					
 					targetCol = (boardCoordinates.x / Parameters.tileSize)
@@ -165,6 +173,23 @@ package global.ui.hud
 			e.stopPropagation();
 		}
 		
+		
+		private function showBaseTiles(allBaseNodes:Object):void 
+		{
+			var myColor:uint = Math.random() * 0xFFFFFF;
+			for (var k:String in  allBaseNodes )
+			{
+				var n:Node = allBaseNodes[k];
+				var q:Quad = new Quad(Parameters.tileSize, Parameters.tileSize, myColor);
+				q.x = Parameters.tileSize * n.col;
+				q.y = Parameters.tileSize * n.row;
+				q.touchable = false;
+				q.alpha = 0.2;
+				Board.mapContainerArr[Board.EFFECTS_LAYER].addChild(q);
+			}
+		}
+		
+		
 		//this is for AI!!!
 		public function getValidPlacement():void
 		{
@@ -172,6 +197,11 @@ package global.ui.hud
 			var foundValidPlace:Boolean = false;
 			var count:int = 0;
 			var used:Array = [];
+			
+			if (showAvaliableTiles)
+			{
+				showBaseTiles(allBaseNodes);
+			}
 
 			
 			for (var k:String in  allBaseNodes )

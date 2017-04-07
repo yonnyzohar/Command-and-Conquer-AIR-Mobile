@@ -298,23 +298,7 @@ package global
 		}
 		
 		
-		static public function assetIsOnScreen(_row:int, _col:int):Boolean
-		{
-			var assetOnScreen:Boolean = false;
-			var screenRow:int   = Math.abs( Parameters.mapHolder.y  /  (Parameters.tileSize  )  );
-			var screenCol:int   = Math.abs( Parameters.mapHolder.x  /  (Parameters.tileSize  )  );
-			var _stageWidth:int  = (Parameters.flashStage.stageWidth - HUD.hudWidth) / Parameters.tileSize;
-			var _stageHeight:int = Parameters.flashStage.stageHeight / Parameters.tileSize;
-			
-			if (_row >= screenRow && _row <= (_stageHeight + screenRow))
-			{
-				if (_col >= screenCol && _col <= (_stageWidth + screenCol) )
-				{
-					assetOnScreen = true;
-				}
-			}
-			return assetOnScreen;
-		}
+		
 		
 		static public function getTargetLocation(enemy:GameEntity):Object 
 		{
@@ -724,5 +708,6 @@ package global
 				return false;
 			}
 		}
+
 	}
 }

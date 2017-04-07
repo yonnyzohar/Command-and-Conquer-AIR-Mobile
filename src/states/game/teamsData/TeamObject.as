@@ -102,10 +102,7 @@
 			{
 				cashManager = new CashManager(startParams.cash, this);
 			}
-			if (sellRepairManager == null)
-			{
-				sellRepairManager = new SellRepairManager(this);
-			}
+			
 			
 			sightManager = new SightManager(this);
 			
@@ -905,6 +902,15 @@
 		{
 			aiController = new AIController();
 			aiController.applyAI(this, startParams);
+		}
+		
+		public function setHuman():void 
+		{
+			agent = Agent.HUMAN;
+			if (sellRepairManager == null)
+			{
+				sellRepairManager = new SellRepairManager(this);
+			}
 		}
 	}
 }

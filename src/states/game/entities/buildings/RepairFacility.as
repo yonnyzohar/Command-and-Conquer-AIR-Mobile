@@ -35,7 +35,7 @@ package states.game.entities.buildings
 		public function checkVehicle():void 
 		{
 			var locNode:Node = getLoadingLoacation();
-			if (locNode.occupyingUnit && locNode.occupyingUnit is Vehicle && locNode.occupyingUnit.teamNum == teamNum && GameEntity(locNode.occupyingUnit).healthBar.getHealthPer() < 1)
+			if (locNode.occupyingUnit && locNode.occupyingUnit is Vehicle && locNode.occupyingUnit.teamNum == teamNum && GameEntity(locNode.occupyingUnit).healthBar.getHealthPer() < 1 && myTeamObj.cashManager.cash > 0)
 			{
 				if (centerNode == null)
 				{
@@ -71,7 +71,7 @@ package states.game.entities.buildings
 			super.update(_pulse);
 			if (dockedVehicle)
 			{
-				if (dockedVehicle.ENTITY_BEING_REPAIRED == false || (dockedVehicle.model.row != centerNode.row && dockedVehicle.model.col != centerNode.col))
+				if (dockedVehicle.ENTITY_BEING_REPAIRED == false || (dockedVehicle.model.row != centerNode.row && dockedVehicle.model.col != centerNode.col) || myTeamObj.cashManager.cash <= 0)
 				{
 					unloadVehilce();
 				}

@@ -124,7 +124,7 @@ package states.game.entities.buildings
 					sightTiles = [];
 					var sight:int = model.stats.sight;
 					var occupyArray:Array = BuildingsStatsObj(model.stats).gridShape;
-					var occupyArrayLen:int = occupyArray.length + sight;
+					var occupyArrayLen:int = occupyArray.length ;
 					var occuPyArrayLenZero:int = occupyArray[0].length;
 					for(var i:int = -sight; i <=occupyArrayLen + sight; i++)
 					{
@@ -203,40 +203,6 @@ package states.game.entities.buildings
 			return touched;
 		}
 		
-		override public function hurt(_hitVal:int, _currentInfantryDeath:String , projectileName:String = null):Boolean
-		{
-			/*if (Methods.assetIsOnScreen(model.row, model.col) && projectileName.indexOf("invisible") == -1 )
-			{
-				var origPosX:int = Parameters.gameHolder.x;
-				var origPosY:int = Parameters.gameHolder.y;
-				
-				TweenLite.to(Parameters.gameHolder, 0.1, 
-				{
-					x:origPosX + (Math.random() /2), 
-					y:origPosY + (Math.random() /2 ), 
-					onComplete:function():void
-					{
-						TweenLite.to(Parameters.gameHolder, 0.1, 
-						{ 
-							x:origPosX - (Math.random() /2 ), 
-							y: origPosY - (Math.random() /2 ), 
-							onComplete:function():void
-							{
-								TweenLite.to(Parameters.gameHolder, 0.1, 
-								{ 
-									x:origPosX, 
-									y: origPosY 
-								})
-							}
-						})
-					}
-				})
-			}*/
-			
-			
-			
-			return super.hurt(_hitVal, _currentInfantryDeath, projectileName)
-		}
 		
 		public function onBuildingClickedFNCTN(o:Object):Object{return null}
 		

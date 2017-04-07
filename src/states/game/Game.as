@@ -210,7 +210,7 @@
 					{
 						if (teamObject.weaponsProvider == "gdi")
 						{
-							teamObject.agent = Agent.HUMAN;
+							teamObject.setHuman();
 							break;
 						}
 					}
@@ -218,7 +218,7 @@
 					{
 						if (teamObject.weaponsProvider == "nod")
 						{
-							teamObject.agent = Agent.HUMAN;
+							teamObject.setHuman();
 							break;
 						}
 					}

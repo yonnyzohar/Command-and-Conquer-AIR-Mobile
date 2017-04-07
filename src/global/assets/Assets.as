@@ -1388,7 +1388,7 @@
                     powerIn: 15,
                     powerOut: 30,
                     cost: 5e3,
-                    sight: 5,
+                    sight: 4,
                     hitPoints: 800,
                     dependency: undefined,
                     hasBib: true,
