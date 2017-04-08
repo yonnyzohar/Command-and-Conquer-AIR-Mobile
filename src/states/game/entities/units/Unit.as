@@ -378,19 +378,49 @@ package states.game.entities.units
 		
 		public function getWalkPath(targetRow:int, targetCol:int):void 
 		{
-			
+			var _row:int = UnitModel(model).row;
+			var _col:int = UnitModel(model).col;
+			var n:Node;
 			if(aStar == null)return;
 			
 			if(Parameters.boardArr == null)return;
-			if(Parameters.boardArr[UnitModel(model).row] == undefined ||  Parameters.boardArr[UnitModel(model).row] == null)return;
-			if(Parameters.boardArr[UnitModel(model).row][UnitModel(model).col] == undefined ||  Parameters.boardArr[UnitModel(model).row][UnitModel(model).col] == null)return;
+			if(Parameters.boardArr[_row] == undefined ||  Parameters.boardArr[_row] == null)return;
+			if(Parameters.boardArr[_row][_col] == undefined ||  Parameters.boardArr[_row][_col] == null)return;
 			
-			if(Parameters.boardArr == null)return;
 			if(Parameters.boardArr[targetRow] == undefined ||  Parameters.boardArr[targetRow] == null)return;
-			if(Parameters.boardArr[targetRow][targetCol] == undefined ||  Parameters.boardArr[targetRow][targetCol] == null)return;
+			if (Parameters.boardArr[targetRow][targetCol] == undefined ||  Parameters.boardArr[targetRow][targetCol] == null) return;
+			
+			var allBlocked:Boolean = true;
+			
+			outer : for (var i:int = -1; i <= 1; i++ )
+			{
+				for (var j:int = -1; j <= 1; j++ )
+				{
+					if (i == 0 && j == 0 )
+					{
+						continue;
+					}
+					
+					if (Parameters.boardArr[_row + i] && Parameters.boardArr[_row + i][_col + j])
+					{
+						n = Node(Parameters.boardArr[_row + i][_col + j]);
+						if (n.walkable && n.occupyingUnit == null)
+						{
+							allBlocked = false;
+							break outer;
+						}
+					}
+				}
+			}
+			
+			if (allBlocked)
+			{
+				setState(UnitStates.IDLE);
+				return;
+			}
 			
 			
-			UnitModel(model).path = aStar.getPath( Parameters.boardArr[UnitModel(model).row][UnitModel(model).col], Parameters.boardArr[targetRow][targetCol], uniqueID);
+			UnitModel(model).path = aStar.getPath( Parameters.boardArr[_row][_col], Parameters.boardArr[targetRow][targetCol], uniqueID);
 			//after we get the path, we can return the tiles so that others wont come too close to me.
 			if (PathTest.showPath)
 			{
