@@ -415,12 +415,20 @@ package states.game.entities.units
 			
 			if (allBlocked)
 			{
+				UnitModel(model).moving = false;
 				setState(UnitStates.IDLE);
 				return;
 			}
 			
 			
 			UnitModel(model).path = aStar.getPath( Parameters.boardArr[_row][_col], Parameters.boardArr[targetRow][targetCol], uniqueID);
+			
+			if (UnitModel(model).path.length == 0)
+			{
+				UnitModel(model).moving = false;
+				setState(UnitStates.IDLE);
+				return;
+			}
 			//after we get the path, we can return the tiles so that others wont come too close to me.
 			if (PathTest.showPath)
 			{
@@ -483,7 +491,6 @@ package states.game.entities.units
 		
 		private function calculateNextStep():void
 		{
-			traceMe( " calculateNextStep: moveCounter - > " + UnitModel(model).moveCounter + " path.length: " + UnitModel(model).path.length);
 			var n:Node;
 			
 			resetRowCol();
@@ -591,7 +598,7 @@ package states.game.entities.units
 				var path:Array = UnitModel(model).path;
 				var currNode:Node = path[UnitModel(model).moveCounter];
 				
-				if (currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
+				if (currNode && currNode.occupyingUnit != null && currNode.occupyingUnit != this && handlingError == false)
 				{
 					if (errorCount < 20)
 					{

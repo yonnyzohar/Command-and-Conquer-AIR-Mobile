@@ -113,11 +113,11 @@ package  states.game.entities.units
 				if(Methods.isInRange(this, currentEnemy) )
 				{
 					if (UnitModel(model).inWayPoint)
-					{
+					{}
 						stopMovingAndSplicePath(true);
 						setState(UnitStates.SHOOT);
 						return;
-					}
+					
 				}
 				else
 				{
@@ -165,7 +165,8 @@ package  states.game.entities.units
 					
 						if(currentEnemy && currentEnemy.uniqueID == possibleEnemy.uniqueID)
 						{
-							if (Math.random() > 0.1)
+							
+							if (model.currentState == UnitStates.WALK && Math.random() > 0.1)
 							{
 								return;
 							}
