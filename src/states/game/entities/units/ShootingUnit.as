@@ -50,9 +50,16 @@ package  states.game.entities.units
 			if (_unitStats.weapon)
 			{
 				weapon = new Weapon(_unitStats.weapon, model);
+				weapon.addEventListener("TARGET_DEAD", onTargetDead);
 			}
 			
 			shootCount = UnitModel(model).shootCount;
+		}
+		
+		private function onTargetDead(e:Event):void 
+		{
+			stopMovingAndSplicePath();
+			setState(UnitStates.IDLE);
 		}
 		
 		override public function setState(state:int):void
@@ -113,11 +120,11 @@ package  states.game.entities.units
 				if(Methods.isInRange(this, currentEnemy) )
 				{
 					if (UnitModel(model).inWayPoint)
-					{}
+					{
 						stopMovingAndSplicePath(true);
 						setState(UnitStates.SHOOT);
 						return;
-					
+					}
 				}
 				else
 				{
@@ -149,9 +156,26 @@ package  states.game.entities.units
 					currentEnemy = possibleEnemy;
 					
 					getWalkPath(currentEnemy.model.row, currentEnemy.model.col);
-					setState(UnitStates.WALK);
+					if(Methods.isInRange(this, currentEnemy) )
+					{
+						if (UnitModel(model).inWayPoint)
+						{
+							stopMovingAndSplicePath(true);
+							setState(UnitStates.SHOOT);
+							return;
+						}
+						else
+						{
+							setState(UnitStates.WALK);
+							return;
+						}
+					}
+					else
+					{
+						setState(UnitStates.WALK);
+						return;
+					}
 					
-					return;
 				}
 				
 				
@@ -516,6 +540,7 @@ package  states.game.entities.units
 			foundEnemy = null;
 			if (weapon)
 			{
+				weapon.removeEventListener("TARGET_DEAD", onTargetDead);
 				weapon.dispose();
 			}
 			

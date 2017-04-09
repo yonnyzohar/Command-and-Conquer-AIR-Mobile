@@ -182,9 +182,7 @@ package states.game.entities.units
 					//trace("TRYING TO HANDLE ERROR")
 				}
 				
-				
-				
-				
+
 				setState(UnitStates.WALK);
 			}
 
@@ -456,6 +454,7 @@ package states.game.entities.units
 			UnitModel(model).moveCounter = 0;
 			UnitModel(model).destX = model.col * Parameters.tileSize;
 			UnitModel(model).destY = model.row * Parameters.tileSize;
+			resetRowCol()
 
 		}
 		

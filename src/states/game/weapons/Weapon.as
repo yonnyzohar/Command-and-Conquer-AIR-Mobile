@@ -10,6 +10,7 @@ package  states.game.weapons
 	import global.pools.Pool;
 	import global.utilities.CircleRadiusBuilder;
 	import starling.display.Sprite;
+	import starling.events.EventDispatcher;
 	import states.game.entities.EntityModel;
 	import states.game.entities.EntityView;
 	import states.game.entities.units.UnitModel;
@@ -32,7 +33,7 @@ package  states.game.weapons
 	 * ...
 	 * @author Yonny Zohar
 	 */
-	public class Weapon// extends PoolElement
+	public class Weapon extends EventDispatcher
 	{
 		private var view:WeaponView;
 		
@@ -275,6 +276,7 @@ package  states.game.weapons
 			
 			if (dead || model.dead || u == null)
 			{
+				dispatchEventWith("TARGET_DEAD");
 				stop();
 			}
 
