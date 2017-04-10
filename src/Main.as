@@ -340,8 +340,15 @@
 			addChild(detailsPanel.view);
 			detailsPanel.view.width = Parameters.flashStage.stageWidth;
 			detailsPanel.view.height = Parameters.flashStage.stageHeight;
+			detailsPanel.addEventListener("TEAMS_SELECTED", onTeamsSelected);
 			removeEditPopUp();
-			return;
+			
+		}
+		
+		private function onTeamsSelected(e:starling.events.Event):void 
+		{
+			detailsPanel.view.removeFromParent();
+			detailsPanel.removeEventListener("TEAMS_SELECTED", onTeamsSelected);
 			Parameters.numRows = chooseSizeView.numTiles;
 			Parameters.numCols = chooseSizeView.numTiles;
 			loadEdit();

@@ -64,19 +64,39 @@
 		
 		private var shoreCliffObstacle:MovieClip;
 		
-		public function ControlsPane()
+		public function ControlsPane(_colors:Array)
 		{
 			view = TemplateLoader.get("PaintPaneMC");
-			view.team1.index = 1;
-			view.team2.index = 2;
-			selectButton(view.team1);
+			
+			var map:Object = {
+
+				"yellow" :"YellowMC",
+				"red": "RedMC",
+				"teal": "TealMC",
+				"orange": "OrangeMC",
+				"green": "GreenMC",
+				"gray": "GrayMC",
+				"brown": "BrownMC"
+			}
+			
+			var colorMC:GameSprite;
+			for (var i:int = 0; i < _colors.length; i++ )
+			{
+				colorMC = TemplateLoader.get(map[_colors[i]]);
+				view.addChild(colorMC);
+				colorMC.x = view.bg.width;
+				colorMC.y = colorMC.height * i;
+				colorMC.index = i;
+				ButtonManager.setButton(colorMC, "TOUCH", onTeamSelected);
+			}
+			
+			selectButton(colorMC);
 			
 			view.paintCoverMC.visible = false;
 	
 			
-			ButtonManager.setButton(view.team1, "TOUCH", onTeamSelected);
-			ButtonManager.setButton(view.team2, "TOUCH", onTeamSelected);
-			ButtonManager.setButton(view.playBTN, "TOUCH", onGoClicked);
+			
+			//ButtonManager.setButton(view.playBTN, "TOUCH", onGoClicked);
 			ButtonManager.setButton(view.saveBTN, "TOUCH", onSaveClicked);
 			ButtonManager.setButton(view.closeBTN, "TOUCH", onExitClicked);
 			
@@ -104,7 +124,6 @@
 			ButtonManager.setButton(view.bucketMC, "TOUCH", onBucketClicked);
 			ButtonManager.setButton(view.noneBTN, "TOUCH", onNoneClicked);
 			
-			ButtonManager.setButton(view.detailsPanelBTN, "TOUCH", onDetailsPanelClicked);
 			
 			view.addEventListener(TouchEvent.TOUCH, onPaneTouch);
 			
@@ -1038,11 +1057,7 @@
 			}
 		}
 		
-		private function onDetailsPanelClicked(caller:GameSprite):void
-		{
-			dispatchEvent(new Event("DETAILS_PANEL_CLICKED"))
-		}
-		
+
 		private function onTeamSelected(caller:GameSprite):void
 		{
 			selectButton(caller);
@@ -1051,6 +1066,9 @@
 		
 		private function selectButton(caller:GameSprite):void 
 		{
+			view.addChild(view.btnCoverMC);
+			view.btnCoverMC.width = caller.width;
+			view.btnCoverMC.height = caller.height;
 			view.btnCoverMC.x = caller.x;
 			view.btnCoverMC.y = caller.y;
 		}

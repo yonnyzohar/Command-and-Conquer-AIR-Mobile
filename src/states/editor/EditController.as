@@ -41,9 +41,8 @@
 		public function EditController()
 		{
 			LevelManager.init();
-			LevelManager.currentlevelData = LevelManager.getLevelData(0);
-			//LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
-			onLoadAssetsComplete();
+			//LevelManager.currentlevelData = LevelManager.getLevelData(0);
+			LevelManager.loadRelevantAssets(LevelManager.currentlevelData, onLoadAssetsComplete);
 		}
 		
 		private function onLoadAssetsComplete():void
@@ -51,8 +50,18 @@
 			unitsArr.splice(0);
 			model = new EditModel();
 			baordMC = Board.getInstance();
-			var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
-			baordMC.init(true, randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols));
+			
+			if(Parameters.editLoad)
+			{
+				baordMC.init(false,LevelManager.currentlevelData.map);
+			}
+			else
+			{
+				var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
+				baordMC.init(true, randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols));
+			}
+			
+			
 			hud = new HUD(true);
 			hud.init();
 			hud.addMiniMap();
@@ -71,26 +80,11 @@
 			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.UNITS_LAYER]);
 			Parameters.mapHolder.addChild(Board.mapContainerArr[Board.EFFECTS_LAYER]);
 			
-			Parameters.editObj = new Object();
-			Parameters.editObj.team1 = new Object();
-			Parameters.editObj.team2 = new Object();
+			Parameters.editObj = LevelManager.currentlevelData;
 			
-			Parameters.editObj.team1.startVehicles = [];
-			Parameters.editObj.team1.startUnits = [];
-			Parameters.editObj.team1.startBuildings = [];
-			Parameters.editObj.team1.startTurrets = [];
 			
-			Parameters.editObj.team2.startVehicles = [];
-			Parameters.editObj.team2.startUnits = [];
-			Parameters.editObj.team2.startBuildings = [];
-			Parameters.editObj.team2.startTurrets = [];
+			createStartAssets();
 			
-			//["startVehicles", "startUnits", "startBuildings", "startTurrets" ]
-			
-			if (Parameters.editLoad)
-			{
-				createStartAssets();
-			}
 			
 
 			init();
@@ -111,36 +105,33 @@
 			var obj:Object;
 			var placementsArr:Array;
 			var typesArr:Array = ["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
-			var names:Array = ["vehicle", "infantry", "building", "turret" ];
-			var teams:Array = ["team1", "team2"];
-			var gdiNod:Array = ["gdi", "nod"];
-			editTeamsArr = [[], []]
+			var names:Array = ["vehicle", "infantry", "building", "turret"];
 			
-			Parameters.editObj = LevelManager.currentlevelData;
+			var teams:Array = Parameters.editObj.teams;
 			
 			for (var j:int = 0; j < teams.length; j++ )
 			{
+				var team:Object = teams[j];
+				var color:String = team.color;
+				
 				for (var g:int = 0; g < typesArr.length; g++ )
 				{
 					var curType:String = typesArr[g];
 					
-					for(i = 0; i < Parameters.editObj[teams[j]][curType].length; i++ )
+					for(i = 0; i < team[curType].length; i++ )
 					{
-						obj = Parameters.editObj[teams[j]][curType][i];
-						
+						obj = team[curType][i];
 						
 						selRow = obj.row;
 						selCol = obj.col;
 						
-			
-						placeImage( names[g], obj.name, gdiNod[j]);
+						placeImage( names[g], obj.name, color);
 						currentImage.x =  (Parameters.tileSize * selCol) ;
 						currentImage.y =  (Parameters.tileSize * selRow) ;
 						currentImage.model.row = selRow;
 						currentImage.model.col = selCol;
 						currentImage.model.name = obj.name;
 						obj.asset = currentImage;
-						editTeamsArr[j].push(currentImage);
 					}
 				}
 			}
@@ -150,19 +141,20 @@
 		
 		private function removeBadData():void
 		{
+			var teams:Array = Parameters.editObj.teams;
 			var typesArr:Array = ["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
-			var teams:Array = ["team1", "team2"];
 			var obj:Object;
 			
 			for (var j:int = 0; j < teams.length; j++ )
 			{
+				var team:Object = teams[j];
 				for (var g:int = 0; g < typesArr.length; g++ )
 				{
 					var curType:String = typesArr[g];
 					
-					for(var i:int = 0; i < Parameters.editObj[teams[j]][curType].length; i++ )
+					for(var i:int = 0; i < team[curType].length; i++ )
 					{
-						obj = Parameters.editObj[teams[j]][curType][i];
+						obj = team[curType][i];
 						delete obj.asset;
 					}
 				}
@@ -190,53 +182,46 @@
 			model.currentUnit = hud.unitsContainer.currentUnit;
 			model.currentUnitName = hud.unitsContainer.currentUnitName;
 			model.currentType = hud.unitsContainer.selectedSlot.contextType;
-			var gdiOrNod:String = "gdi"
-			if (HUD.currentTeam == 2)
-			{
-				gdiOrNod = "nod";
-			}
-			placeImage(model.currentType, model.currentUnit, gdiOrNod);
+			
+			
+			
+			placeImage(model.currentType, model.currentUnit, Parameters.editObj.teams[HUD.currentTeam].color);
 			
 			
 		}
 		
-		private function placeImage(currentType:String, currentUnit:String, owner:String):void 
+		private function placeImage(currentType:String, currentUnit:String, color:String):void 
 		{
-			try {
-				currentImage = new EditAssetObj()
+			trace("edit: " + currentType + ", " + currentUnit + " " + color);
+			currentImage = new EditAssetObj()
 			
-				if (currentType == "infantry")
-				{
-					currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_stand", owner)));
-					
-				}
-				if (currentType == "vehicle")
-				{
-					currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_move", owner)));
-					var tex:Texture = GameAtlas.getTexture(currentUnit + "_turret", owner);
-					if (tex)
-					{
-						currentImage.addChild(new Image(tex));
-					}
-					
-				}
-				if (currentType == "building" || currentType == "turret")
-				{
-					currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit+"_healthy", owner)));
-				}
-				
-				currentImage.model.name = currentUnit;
-				currentImage.model.type = currentType;
-				currentImage.model.owner = owner;
-				
-				currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
-				Board.mapContainerArr[Board.UNITS_LAYER].addChild(currentImage);
-			}
-			catch (e:Error)
+			if (currentType == "infantry")
 			{
-				currentImage = null;
+				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_stand", color)));
+				
+			}
+			if (currentType == "vehicle")
+			{
+				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_move", color)));
+				var tex:Texture = GameAtlas.getTexture(currentUnit + "_turret", color);
+				if (tex)
+				{
+					currentImage.addChild(new Image(tex));
+				}
+				
+			}
+			if (currentType == "building" || currentType == "turret")
+			{
+				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit+"_healthy", color)));
 			}
 			
+			currentImage.model.name = currentUnit;
+			currentImage.model.type = currentType;
+			currentImage.model.color = color;
+			
+			currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
+			Board.mapContainerArr[Board.UNITS_LAYER].addChild(currentImage);
+		
 			
 		}
 			
@@ -249,7 +234,15 @@
 			Parameters.gameHolder.addChild(hud.ui);
 			Parameters.gameHolder.addChild(hud.miniMap);
 			
-			controlsPane = new ControlsPane();
+			var colors:Array = [];
+			for (var i:int = 0; i < Parameters.editObj.teams.length; i++ )
+			{
+				colors.push(Parameters.editObj.teams[i].color);
+			}
+			
+			
+			
+			controlsPane = new ControlsPane(colors);
 			
 			Parameters.gameHolder.addChild(controlsPane.view);
 			controlsPane.addEventListener("GO_CLICKED", onGoClicked);
@@ -312,14 +305,6 @@
 					currentImage.model.row = targetRow;
 					currentImage.model.col = targetCol;
 					
-					if (HUD.currentTeam == 1)
-					{
-						editTeamsArr[0].push(currentImage);
-					}
-					else
-					{
-						editTeamsArr[1].push(currentImage);
-					}
 					
 					addToCorrectArray(currentImage);
 					
@@ -337,56 +322,29 @@
 		private function addToCorrectArray(currentImage:EditAssetObj):void 
 		{
 			var o:Object = {name : currentImage.model.name, row : currentImage.model.row, col: currentImage.model.col, asset: currentImage}
+			var currentTeam:Object = Parameters.editObj.teams[HUD.currentTeam];
 
-			if(HUD.currentTeam == 1)
-			{
-				//["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
-				 
-				
 				if(model.currentType == "infantry")
 				{
-					Parameters.editObj.team1.startUnits.push(o );
+					currentTeam.startUnits.push(o );
 				}
 				
 				if( model.currentType == "vehicle")
 				{
-					Parameters.editObj.team1.startVehicles.push(o );
+					currentTeam.startVehicles.push(o );
 				}
 				
 				if(model.currentType == "building")
 				{
-					Parameters.editObj.team1.startBuildings.push(o );
+					currentTeam.startBuildings.push(o );
 				}
 				
 				if( model.currentType == "turret")
 				{
-					Parameters.editObj.team1.startTurrets.push(o );
+					currentTeam.startTurrets.push(o );
 				}
 				
-			}
-			else
-			{
-				if(model.currentType == "infantry")
-				{
-					Parameters.editObj.team2.startUnits.push(o);
-				}
-				
-				if( model.currentType == "vehicle")
-				{
-					Parameters.editObj.team2.startVehicles.push(o );
-				}
-				
-				if(model.currentType == "building")
-				{
-					Parameters.editObj.team2.startBuildings.push(o );
-				}
-				
-				if( model.currentType == "turret")
-				{
-					Parameters.editObj.team2.startTurrets.push(o );
-				}
-				
-			}
+
 		}
 		
 		
@@ -402,18 +360,6 @@
 		private function fillObject():void
 		{
 			removeBadData();
-			Parameters.editObj.tech = 5;
-			Parameters.editObj.team1.teamName =  "gdi";
-			Parameters.editObj.team2.teamName =  "nod";
-			
-			/*Parameters.editObj.team1.AiBehaviour = DetailsPanelController.team1Behaviour;
-			Parameters.editObj.team2.AiBehaviour = DetailsPanelController.team2Behaviour;
-			
-			Parameters.editObj.team1.Agent = DetailsPanelController.team1Controller;
-			Parameters.editObj.team2.Agent = DetailsPanelController.team2Controller;
-			
-			Parameters.editObj.team1.cash = DetailsPanelController.team1StartCash;
-			Parameters.editObj.team2.cash = DetailsPanelController.team2StartCash;*/
 			Parameters.editObj.numTiles = Parameters.numRows;
 			Parameters.editObj.map = getMap();
 			
