@@ -40,17 +40,21 @@
 			var j:int = 0;
 			var curDict:Dictionary;
 			
-			/*for (i = 0; i < stats.length; i++ )
+			for (i = 0; i < stats.length; i++ )
 			{
 				curDict = stats[i];	
 				for (var k:String in curDict)
 				{
 					if (Parameters.editMode)
 					{
-						dirsToLoadMap[k] = k;
+						if (curDict[k].tech <= levelTech)
+						{
+							dirsToLoadMap[k] = k;
+						}
+						
 					}
 				}
-			}*/
+			}
 			
 			
 			
@@ -91,7 +95,9 @@
 						}
 						
 						
-						curDict = stats[i];					
+						curDict = stats[i];	
+						
+						
 						if (curDict[n].tech > levelTech)
 						{
 							////trace(n + " tech is " + curDict[n].tech + " current " + levelTech)

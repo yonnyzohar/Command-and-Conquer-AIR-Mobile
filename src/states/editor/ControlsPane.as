@@ -563,33 +563,27 @@
 		private function removeUnitFromArray(_row:int, _col:int):void
 		{
 			var o:Object;
+			var teams:Array = Parameters.editObj.teams;
 			var typesArr:Array = ["startVehicles", "startUnits", "startBuildings", "startTurrets" ];
-			for (var i:int = 0; i < typesArr.length; i++ )
+			
+			outer : for (var g:int = 0; g < teams.length; g++ )
 			{
-				for (var j:int = 0; j < Parameters.editObj.team1[typesArr[i]].length; j++ )
+				var team:Object = teams[g];
+				for (var i:int = 0; i < typesArr.length; i++ )
 				{
-					o = Parameters.editObj.team1[typesArr[i]][j];
-					if (o)
+					for (var j:int = team[typesArr[i]].length-1; j >= 0; j-- )
 					{
-						if (o.row == _row && o.col == _col)
+						o = team[typesArr[i]][j];
+						if (o)
 						{
-							o.asset.removeFromParent();
+							if (o.row == _row && o.col == _col && o.asset)
+							{
+								o.asset.removeFromParent();
+								team[typesArr[i]].splice(i, 1);
+								break outer;
+							}
 						}
 					}
-					
-				}
-				
-				for (j = 0; j < Parameters.editObj.team2[typesArr[i]].length; j++ )
-				{
-					o = Parameters.editObj.team1[typesArr[i]][j];
-					if (o)
-					{
-						if (o.row == _row && o.col == _col)
-						{
-							o.asset.removeFromParent();
-						}
-					}
-					
 				}
 			}
 		}

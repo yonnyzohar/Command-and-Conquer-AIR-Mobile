@@ -1,14 +1,20 @@
 ﻿package states.editor
 {
 	import com.randomMap.RandomMapGenerator;
+	import flash.filesystem.File;
 	import flash.geom.Point;
+	import flash.utils.Dictionary;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 	import global.GameAtlas;
 	import global.map.Node;
 	import global.map.SpiralBuilder;
 	import starling.textures.Texture;
+	import states.game.stats.BuildingsStats;
+	import states.game.stats.InfantryStats;
 	import states.game.stats.LevelManager;
+	import states.game.stats.TurretStats;
+	import states.game.stats.VehicleStats;
 	
 	import global.Parameters;
 	import global.GameAtlas;
@@ -65,7 +71,16 @@
 			hud = new HUD(true);
 			hud.init();
 			hud.addMiniMap();
-			hud.initEdit();
+			
+			
+			var currentBuildings:Dictionary = populateCorrectTech(BuildingsStats.dict);
+			var currentTurrets:Dictionary   = populateCorrectTech(TurretStats.dict);
+			var currentInfantry:Dictionary  = populateCorrectTech(InfantryStats.dict);
+			var currentVehicles:Dictionary  = populateCorrectTech(VehicleStats.dict);
+			
+			
+			
+			hud.initEdit(currentBuildings, currentTurrets, currentInfantry, currentVehicles);
 			hud.unitsContainer.addEventListener("SLOT_SELECTED", onUnitSelected);
 			hud.buildingsContainer.addEventListener("SLOT_SELECTED", onBuildingSelected);
 			
@@ -94,6 +109,20 @@
 				//trace("saving!")
 				onSaveClicked();
 			},30000);
+		}
+		
+		private function populateCorrectTech(dict:Dictionary):Dictionary 
+		{
+			var returnDict:Dictionary = new Dictionary();
+			for (var k in dict)
+			{
+				if (dict[k].tech <= LevelManager.currentlevelData.tech)
+				{
+					returnDict[k] = dict[k];
+				}
+			}
+			
+			return returnDict;
 		}
 		
 		public function createStartAssets():void
@@ -441,7 +470,7 @@
 		private function onSaveClicked(e:Event = null):void
 		{
 			fillObject();
-			FileSaver.getInstance().save("savedLevel.json", JSON.stringify(Parameters.editObj));
+			FileSaver.getInstance().save("savedLevel.json", JSON.stringify(Parameters.editObj), File.desktopDirectory);
 
 		}
 		

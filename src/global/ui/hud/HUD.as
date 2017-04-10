@@ -3,6 +3,7 @@
 	
 	import com.dynamicTaMaker.utils.ButtonManager;
 	import flash.geom.Point;
+	import flash.utils.Dictionary;
 	import global.enums.MouseStates;
 	import global.utilities.DragScroll;
 	import global.utilities.GameTimer;
@@ -196,12 +197,12 @@
 			unitsContainer     = new PaneColumn(UnitSlotHolder, "units", ui, teamObj);
 		}	
 		
-		public function initEdit():void
+		public function initEdit(currentBuildings:Dictionary, currentTurrets:Dictionary, currentInfantry:Dictionary, currentVehicles:Dictionary):void
 		{
-			buildingsContainer.init(BuildingsStats.dict, false, "building");
-			buildingsContainer.init(TurretStats.dict, false, "turret");
-			unitsContainer.init(InfantryStats.dict, false, "infantry");
-			unitsContainer.init(VehicleStats.dict, false, "vehicle");
+			buildingsContainer.init(currentBuildings, false, "building");
+			buildingsContainer.init(currentTurrets, false, "turret");
+			unitsContainer.init(currentInfantry, false, "infantry");
+			unitsContainer.init(currentVehicles, false, "vehicle");
 			enterHud();
 		}
 		

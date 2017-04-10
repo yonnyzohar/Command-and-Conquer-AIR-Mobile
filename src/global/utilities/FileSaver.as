@@ -26,8 +26,12 @@ package global.utilities
 			return instance;
 		}
 		
-		public function save(fileName:String, fileConts:String):void
+		public function save(fileName:String, fileConts:String, alternateLoc:File = null):void
 		{
+			if(alternateLoc)
+			{
+				outputDir = alternateLoc;
+			}
 			outputFile = outputDir.resolvePath(fileName);
 			newFileStream.open(outputFile, FileMode.WRITE);
 			newFileStream.writeUTFBytes(fileConts);
