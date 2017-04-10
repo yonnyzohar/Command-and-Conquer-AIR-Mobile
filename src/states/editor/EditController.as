@@ -196,12 +196,8 @@
 			model.currentUnitName = hud.buildingsContainer.currentUnitName;
 			model.currentType = hud.buildingsContainer.selectedSlot.contextType;
 			
-			var gdiOrNod:String = "gdi"
-			if (HUD.currentTeam == 2)
-			{
-				gdiOrNod = "nod";
-			}
-			placeImage(model.currentType, model.currentUnit, gdiOrNod);
+
+			placeImage(model.currentType, model.currentUnit, Parameters.editObj.teams[HUD.currentTeam].color);
 			
 
 		}
