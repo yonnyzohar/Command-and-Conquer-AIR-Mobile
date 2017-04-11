@@ -640,14 +640,18 @@ package states.game.entities.units
 				if(distX < speed &&distY < speed )
 				{
 					clearTile(model.row, model.col);
-					occupyTile(  currNode.row , currNode.col );
-					
-					if (!inFirstNodeOfPath())
+					if (currNode)
 					{
-						view.x = UnitModel(model).destX;
-						view.y = UnitModel(model).destY;
-						
+						occupyTile(  currNode.row , currNode.col );
+					
+						if (!inFirstNodeOfPath())
+						{
+							view.x = UnitModel(model).destX;
+							view.y = UnitModel(model).destY;
+							
+						}
 					}
+					
 					
 					UnitModel(model).inWayPoint = true;
 					dispatchEvent(WAYPOINT_REACHED_EVENT);
