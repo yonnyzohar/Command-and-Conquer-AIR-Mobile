@@ -108,6 +108,11 @@
 					readyTXT.visible = false;
 				}
 				
+				if(Parameters.AI_ONLY_GAME)
+				{
+					return;
+				}
+
 				view.addEventListener(TouchEvent.TOUCH, onSlotClicked);
 			}
 			

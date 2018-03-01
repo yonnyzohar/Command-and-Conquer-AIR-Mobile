@@ -108,6 +108,10 @@
 		
 		private function onRepairClicked(caller:GameSprite = null):void
 		{
+			if(Parameters.AI_ONLY_GAME)
+			{
+				return;
+			}
 			if (ui.repairBTN.blackCover == undefined)
 			{
 				ui.repairBTN.blackCover = createBlackCover(ui.repairBTN);
@@ -130,6 +134,11 @@
 		
 		private function onSellClicked(caller:GameSprite = null):void
 		{
+			if(Parameters.AI_ONLY_GAME)
+			{
+				return;
+			}
+
 			if (ui.sellBTN.blackCover == undefined)
 			{
 				ui.sellBTN.blackCover = createBlackCover(ui.sellBTN);
