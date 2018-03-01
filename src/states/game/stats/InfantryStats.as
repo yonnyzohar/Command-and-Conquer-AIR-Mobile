@@ -32,7 +32,7 @@ package states.game.stats
 				infantryObj.name 				= curUnit.name;//done
 				infantryObj.totalHealth 	    = curUnit.hitPoints;//done
 				infantryObj.sight 		    	= curUnit.sight;//done
-				infantryObj.speed 				= curUnit.speed * Parameters.UNIT_MOVE_FACTOR;   
+				infantryObj.speed 				= curUnit.speed ;   
 				//infantryObj.idleRotate 		    = curUnit.idleRotate; -- this is for units turning when idle, change this 
 				//infantryObj.occupyArr			= curUnit.occupyArr; -- try to live withut this
 				infantryObj.rotationType		= curUnit.directions;

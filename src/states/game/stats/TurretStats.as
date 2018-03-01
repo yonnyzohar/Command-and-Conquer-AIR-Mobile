@@ -31,7 +31,7 @@ package states.game.stats
 				turretObj.sight			= curTurret.sight;
 				turretObj.gridShape		= curTurret.gridBuild;
 				turretObj.weapon = WeaponStats.dict[curTurret.primaryWeapon];
-				turretObj.turnSpeed		= curTurret.turnSpeed * Parameters.UNIT_MOVE_FACTOR;
+				turretObj.turnSpeed		= curTurret.turnSpeed ;
 				turretObj.rotationType  = curTurret.directions;
 				
 				turretObj.pixelOffsetX  = curTurret.pixelOffsetX;

@@ -74,24 +74,9 @@
 		public function Game() 
 		{
 			LevelManager.init();
-			setSpeed(Parameters.gameSpeed);
 		}
 		
-		private function setSpeed(number:Number):void 
-		{
-			Parameters.CASH_INCREMENT = 2;
-			Harvester.HARVEST_AMOUNT = 10;
-			Parameters.UNIT_MOVE_FACTOR = 1;
-			
-			//unit move
-			Parameters.CASH_INCREMENT *= number;
-			Harvester.HARVEST_AMOUNT *= number;
-			Parameters.UNIT_MOVE_FACTOR  *= number;
-			
-			trace("CASH_INCREMENT " + Parameters.CASH_INCREMENT);
-			trace("HARVEST_AMOUNT " + Harvester.HARVEST_AMOUNT);
-			trace("UNIT_MOVE_FACTOR " + Parameters.UNIT_MOVE_FACTOR);
-		}
+		
 		
 		public function init(_levelNum:int, _playerSide:int, _savedObject:Object = null):void 
 		{

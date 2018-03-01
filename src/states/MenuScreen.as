@@ -74,6 +74,11 @@ package states
 				optionsMenu.abortMC.textBox.text = "ABORT";
 				optionsMenu.width = Parameters.flashStage.stageWidth;
 				optionsMenu.height = Parameters.flashStage.stageHeight;
+
+				optionsMenu.fastMC.textBox.text = "FAST";
+				optionsMenu.regMC.textBox.text = "NORMAL";
+				optionsMenu.slowMC.textBox.text = "SLOW";
+
 			}
 			Parameters.gameHolder.addChild(optionsMenu);
 			ButtonManager.setButton(optionsMenu.xButton, "TOUCH", onXClicked);
@@ -81,10 +86,59 @@ package states
 			ButtonManager.setButton(optionsMenu.saveMC, "TOUCH", onSaveClicked);
 			ButtonManager.setButton(optionsMenu.restartMC, "TOUCH", onRestartClicked);
 			ButtonManager.setButton(optionsMenu.abortMC, "TOUCH", onAbortClicked);
+
+			ButtonManager.setButton(optionsMenu.fastMC, "TOUCH", onFastClicked);
+			ButtonManager.setButton(optionsMenu.regMC, "TOUCH", onRegClicked);
+			ButtonManager.setButton(optionsMenu.slowMC, "TOUCH", onSlowClicked);
+
 			
 			optionsMenu.foreGround.visible = false;
 			optionsMenu.topMessage.visible = false;
+
+			handleGameSpeedButtons();
 		}
+
+		private function handleGameSpeedButtons():void
+		{
+			optionsMenu.fastMC.alpha = 1;
+			optionsMenu.regMC.alpha  = 1;
+			optionsMenu.slowMC.alpha = 1;
+
+			if(Parameters.gameSpeed == Parameters.SPEEDS.SLOW)
+			{
+				optionsMenu.slowMC.alpha = .5;
+			}
+
+			if(Parameters.gameSpeed == Parameters.SPEEDS.NORMAL)
+			{
+				optionsMenu.regMC.alpha = .5;
+			}
+
+			if(Parameters.gameSpeed == Parameters.SPEEDS.FAST)
+			{
+				optionsMenu.fastMC.alpha = .5;
+			}
+		}
+
+		private function onFastClicked(caller:GameSprite):void 
+		{
+			Parameters.gameSpeed = Parameters.SPEEDS.FAST;
+			handleGameSpeedButtons();
+		}
+
+		private function onRegClicked(caller:GameSprite):void 
+		{
+			Parameters.gameSpeed = Parameters.SPEEDS.NORMAL;
+			handleGameSpeedButtons();
+		}
+
+		private function onSlowClicked(caller:GameSprite):void 
+		{
+			Parameters.gameSpeed = Parameters.SPEEDS.SLOW;
+			handleGameSpeedButtons();
+		}
+
+		
 		
 		private function onAbortClicked(caller:GameSprite):void 
 		{

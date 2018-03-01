@@ -28,7 +28,7 @@ package  states.game.stats
 
 
 		public function get bulletSpeed():Number{
-			return _bulletSpeed * Parameters.UNIT_MOVE_FACTOR;
+			return _bulletSpeed * Parameters.UNIT_MOVE_FACTOR * Parameters.gameSpeed;;
 		}
 
 		public function set bulletSpeed(val:Number):void{

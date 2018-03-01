@@ -17,8 +17,15 @@
 	 */
 	public class Parameters 
 	{
-		public static var CASH_INCREMENT:int = 1;
+		public static var CASH_INCREMENT:int = 2;
 		static public var UNIT_MOVE_FACTOR:Number = 0.1;
+		static public var gameSpeed:Number = 1;
+
+		static public var SPEEDS:Object = {
+			SLOW : 0.5,
+			NORMAL:1,
+			FAST:1.5
+		}
 		
 		
 		public static var mapMoveSpeed:int = 5;
@@ -53,7 +60,7 @@
 		static public var useFilters:Boolean = false;
 		
 		static public var AI_ONLY_GAME:Boolean = false;
-		static public var gameSpeed:Number = 2;
+		
 		
 		static public var editLoad:Boolean = false;
 		

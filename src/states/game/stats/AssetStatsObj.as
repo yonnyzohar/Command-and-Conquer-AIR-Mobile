@@ -35,7 +35,7 @@ package states.game.stats
 		public var tech:int = 0;
 
 		public function get speed():Number{
-			return _speed * Parameters.UNIT_MOVE_FACTOR;
+			return _speed * Parameters.UNIT_MOVE_FACTOR * Parameters.gameSpeed;
 		}
 
 		public function set speed(val:Number):void{

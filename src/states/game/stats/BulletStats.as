@@ -29,7 +29,7 @@ package states.game.stats
 				
 				bulletObj.ballisticCurve = curBullet.ballisticCurve  ;                //:Boolean;// true,
 				bulletObj.rotationSpeed  = curBullet.rotationSpeed  ;                 //:int;
-				bulletObj.bulletSpeed    = curBullet.bulletSpeed    * Parameters.UNIT_MOVE_FACTOR;                  //:int;
+				bulletObj.bulletSpeed    = curBullet.bulletSpeed ;                  //:int;
 				bulletObj.count 		 = curBullet.count 		 ;                 //:int;
 				bulletObj.delay 		 = curBullet.delay 		;                  //:int;
 				bulletObj.innacurate 	 = curBullet.innacurate ;	                  //:Boolean;
