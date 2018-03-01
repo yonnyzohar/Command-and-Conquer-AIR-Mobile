@@ -74,7 +74,7 @@
 				
 				cashUi = TemplateLoader.get("CashContMC");
 				var ratio:Number= cashUi.width / cashUi.height;
-				cashUi.width  = Parameters.flashStage.stageWidth * 0.2;
+				cashUi.width  = Parameters.flashStage.stageWidth * 0.15;
 				cashUi.height = cashUi.width / ratio;
 
 				Parameters.gameHolder.addChild(cashUi);
