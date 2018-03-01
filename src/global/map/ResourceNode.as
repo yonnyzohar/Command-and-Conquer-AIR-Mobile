@@ -56,6 +56,10 @@ package global.map
 		
 		public function reduceResource(_harvestAmount:int):void
 		{
+			if(!obstacleTile)
+			{
+				return;
+			}
 			quantity -=_harvestAmount;
 			var totalFrames:int = (obstacleTile.numFrames-1)
 			if (quantity > 0)

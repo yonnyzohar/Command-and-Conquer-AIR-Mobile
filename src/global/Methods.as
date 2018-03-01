@@ -41,18 +41,7 @@ package global
 			return int(Math.abs(endY - curY) + Math.abs(endX - curX));
 		}
 
-		public static function setGameSpeed(number:Number):void 
-        {
-            
-            //unit move
-            //Parameters.CASH_INCREMENT *= number;
-            //Harvester.HARVEST_AMOUNT *= number;
-            //Parameters.UNIT_MOVE_FACTOR  *= number;
-            
-            trace("CASH_INCREMENT " + Parameters.CASH_INCREMENT);
-            trace("HARVEST_AMOUNT " + Harvester.HARVEST_AMOUNT);
-            trace("UNIT_MOVE_FACTOR " + Parameters.UNIT_MOVE_FACTOR);
-        }
+		
 		
 		public static function getCurretStatsObj(_name:String):AssetStatsObj 
 		{
