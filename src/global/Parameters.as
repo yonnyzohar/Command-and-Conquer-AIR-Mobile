@@ -53,7 +53,7 @@
 		static public var useFilters:Boolean = false;
 		
 		static public var AI_ONLY_GAME:Boolean = false;
-		static public var gameSpeed:int = 4;
+		static public var gameSpeed:Number = 2;
 		
 		static public var editLoad:Boolean = false;
 		

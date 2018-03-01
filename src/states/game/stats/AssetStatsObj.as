@@ -4,6 +4,9 @@ package states.game.stats
 	 * ...
 	 * @author Yonny Zohar
 	 */
+
+	import global.Parameters;
+
 	public class AssetStatsObj 
 	{
 		public var type:String;
@@ -18,7 +21,7 @@ package states.game.stats
 		
 		//this is vehicle specific but there is no multiple inheritence in flash so fuck it
 		public var numOfCannons:int = 1;//firesTwice
-		public var speed:Number;
+		private var _speed:Number;
 		public var singleAnimState:Boolean = false;//means there is no walk, shoot etc..
 		public var weapon:WeaponStatsObj;
 		public var connectedSprites:Array;
@@ -30,6 +33,14 @@ package states.game.stats
 		public var pixelHeight:int;
 		public var pixelWidth:int;
 		public var tech:int = 0;
+
+		public function get speed():Number{
+			return _speed * Parameters.UNIT_MOVE_FACTOR;
+		}
+
+		public function set speed(val:Number):void{
+			_speed  = val;
+		}
 		
 		public function get cost():int 
 		{

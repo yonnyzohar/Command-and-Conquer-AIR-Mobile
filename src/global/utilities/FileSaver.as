@@ -25,6 +25,19 @@ package global.utilities
 		{
 			return instance;
 		}
+
+		public function checkFile(fileName:String):Boolean
+		{
+			outputFile = outputDir.resolvePath(fileName);
+			if(outputFile.exists)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 		
 		public function save(fileName:String, fileConts:String, alternateLoc:File = null):void
 		{

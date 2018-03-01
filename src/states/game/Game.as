@@ -81,7 +81,7 @@
 		{
 			Parameters.CASH_INCREMENT = 2;
 			Harvester.HARVEST_AMOUNT = 10;
-			Parameters.UNIT_MOVE_FACTOR = 0.2;
+			Parameters.UNIT_MOVE_FACTOR = 1;
 			
 			//unit move
 			Parameters.CASH_INCREMENT *= number;

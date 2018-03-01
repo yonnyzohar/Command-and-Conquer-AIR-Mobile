@@ -10,6 +10,7 @@
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import global.GameAtlas;
+	import global.utilities.FileSaver;
 
 	public class StartScreen extends EventDispatcher
 	{
@@ -28,7 +29,19 @@
 			view.btn3.tf.text = "AI GAME";
 			
 			view.btn1.addEventListener(TouchEvent.TOUCH, onGameClicked);
-			view.btn2.addEventListener(TouchEvent.TOUCH, onLoadClicked);
+
+			var file:Boolean = FileSaver.getInstance().checkFile("save.json");
+			if(file == true)
+			{
+				view.btn2.addEventListener(TouchEvent.TOUCH, onLoadClicked);
+				view.btn2.alpha = 1;
+			}
+			else
+			{
+				view.btn2.alpha = 0.5;
+			}
+
+			
 			view.btn3.addEventListener(TouchEvent.TOUCH, onAiGameClicked);
 			view.editBTN.addEventListener(TouchEvent.TOUCH, onEditClicked);
 			//view.editBTN.visible = false;

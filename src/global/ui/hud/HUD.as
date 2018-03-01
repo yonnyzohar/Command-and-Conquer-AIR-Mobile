@@ -72,7 +72,11 @@
 				ui.nodSymbolMC.visible = false;
 				//
 				
-				cashUi = TemplateLoader.get("CashContMC")
+				cashUi = TemplateLoader.get("CashContMC");
+				var ratio:Number= cashUi.width / cashUi.height;
+				cashUi.width  = Parameters.flashStage.stageWidth * 0.2;
+				cashUi.height = cashUi.width / ratio;
+
 				Parameters.gameHolder.addChild(cashUi);
 				ui.height = Parameters.flashStage.stageHeight;
 				ui.width  = Parameters.flashStage.stageWidth * 0.25;

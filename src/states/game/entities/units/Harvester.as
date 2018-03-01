@@ -1,4 +1,4 @@
-package  states.game.entities.units
+﻿package  states.game.entities.units
 {
 	import global.enums.Agent;
 	import global.enums.UnitStates;
@@ -292,7 +292,14 @@ package  states.game.entities.units
 		
 		private function isValidTiberium(destResourceNode:Node):Boolean 
 		{
-			return true;
+			if(destResourceNode != null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		
 		protected function findClosestResourceOnMap():Node

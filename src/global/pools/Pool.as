@@ -1,4 +1,4 @@
-package global.pools
+﻿package global.pools
 {
 	
 	import global.GameAtlas;
@@ -15,6 +15,8 @@ package global.pools
 		private var textures:Vector.<Texture>;
 		private var offsetX:int = 0;
 		private var offsetY:int = 0;
+		private var counter:int = 0;
+		private var default_pool_size:int = 10;
 		
 		public function Pool(_CLS:Class, _textures:Vector.<Texture>, _offsetX:int = 0, _offsetY:int = 0)
 		{
@@ -22,51 +24,51 @@ package global.pools
 			offsetY = _offsetY;
 			CLS = _CLS;
 			textures = _textures;
-			var b:PoolElement = new CLS(textures, offsetX, offsetY);
-			b.inUse = false;
-			pool.push(b);
+			var b:PoolElement;
+			for(var i:int = 0; i < default_pool_size; i++)
+			{
+				b = new CLS(textures, offsetX, offsetY);
+				b.inUse = false;
+				pool.push(b);
+			}
+
+			counter = default_pool_size;
+			
+			
 		}
 		
 		
 		public function getAsset():PoolElement
 		{
 			var b:PoolElement = null;
-			var found:Boolean = false;
-			var poolLen:int = pool.length;
-			for (var i:int = 0; i < poolLen; i++ )
-			{
-				b = pool[i];
-				
-				if (CLS(pool[i]).inUse == false)
-				{
-					b = pool[i];
-					b.inUse = true;
-					found = true;
-					break;
-				}
-			}
-			
-			if (!found)
-			{
-				b = new CLS(textures, offsetX, offsetY);
+
+			if ( counter > 0 ){
+				b = pool[--counter];
 				b.inUse = true;
-				pool.push(b);
+				b.x = 0;
+				b.y = 0;
+				b.visible = true;
+				b.alpha = 1;
+				b.touchable = false;
+				b.scaleX = b.scaleY = Parameters.gameScale;
+				b.rotation = 0;
+				return b;
 			}
 			
-			b.x = 0;
-			b.y = 0;
-			b.visible = true;
-			b.alpha = 1;
-			b.touchable = false;
-			b.scaleX = b.scaleY = Parameters.gameScale;
-			b.rotation = 0;
-			return b;
+			var GROWTH_VALUE:int = 1;
+			
+			var i:uint = GROWTH_VALUE;
+			while( --i > -1 ){
+				pool.unshift ( new CLS(textures, offsetX, offsetY) );
+			}
+			
+			counter = GROWTH_VALUE;
+			return getAsset();
 		}
 		
 		public function returnAsset(b:PoolElement):void
 		{
-			b.inUse = false;
-			b.removeFromParent();
+			pool[counter++] = b;
 		}
 		
 		public function returnAllAssets():void
