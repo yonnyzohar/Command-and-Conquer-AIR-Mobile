@@ -28,6 +28,7 @@
 	import states.game.entities.GameEntity;
 	import states.game.entities.units.UnitModel;
 	import states.game.entities.units.*;
+	import flash.net.SharedObject;
 	
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
@@ -73,6 +74,17 @@
 
 		public function Game() 
 		{
+			var sharedObj:SharedObject = SharedObject.getLocal("sharedObj");
+			if (sharedObj.data.speed == undefined)
+			{
+				sharedObj.data.speed = Parameters.gameSpeed;
+				sharedObj.flush();
+			}
+			else{
+				Parameters.gameSpeed = sharedObj.data.speed;
+			}
+			
+
 			LevelManager.init();
 		}
 		

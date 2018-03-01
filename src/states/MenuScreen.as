@@ -15,6 +15,7 @@ package states
 	import starling.events.EventDispatcher;
 	import states.game.stats.LevelManager;
 	import states.game.teamsData.TeamObject;
+	import flash.net.SharedObject;
 	/**
 	 * ...
 	 * @author Yonny Zohar
@@ -118,6 +119,11 @@ package states
 			{
 				optionsMenu.fastMC.alpha = .5;
 			}
+
+			var sharedObj:SharedObject = SharedObject.getLocal("sharedObj");
+			sharedObj.data.speed = Parameters.gameSpeed;
+			sharedObj.flush();
+			
 		}
 
 		private function onFastClicked(caller:GameSprite):void 
