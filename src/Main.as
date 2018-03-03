@@ -208,7 +208,23 @@
 		private function onMissionOver(e:starling.events.Event):void 
 		{
 			removeGame();
-			initStartScreen(); 
+			
+			if(Parameters.AI_ONLY_GAME)
+			{
+				initStartScreen(); 
+				return;
+			}
+
+			createGame();
+
+			if(game.gameWon)
+			{
+				game.levelNum++;
+				game.init(game.levelNum, game.playerSide);
+			}
+			else{
+				game.init(game.levelNum, game.playerSide);
+			}
 		}
 		
 		private function onGameLoadComplete(e:starling.events.Event):void 

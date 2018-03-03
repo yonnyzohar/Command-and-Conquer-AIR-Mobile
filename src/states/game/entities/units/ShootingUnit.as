@@ -80,11 +80,6 @@ package  states.game.entities.units
 		//main find target loop
 		protected function findATarget(_pulse:Boolean):void
 		{
-			
-			if (uniqueID == 1)
-			{
-				//trace("bob");
-			}
 
 			if(UnitModel(model).userOverrideAutoShoot)
 			{

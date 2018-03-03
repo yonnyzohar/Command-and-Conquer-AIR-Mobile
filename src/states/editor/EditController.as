@@ -64,7 +64,8 @@
 			else
 			{
 				var randomMapGenerator:RandomMapGenerator = new RandomMapGenerator();
-				baordMC.init(true, randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols));
+				randomMapGenerator.createRandomMap(Parameters.numRows, Parameters.numCols)
+				baordMC.init(true, []);
 			}
 			
 			
@@ -218,36 +219,57 @@
 		private function placeImage(currentType:String, currentUnit:String, color:String):void 
 		{
 			trace("edit: " + currentType + ", " + currentUnit + " " + color);
-			currentImage = new EditAssetObj()
 			
+			currentImage = new EditAssetObj();
+			var added:Boolean = false;
+			
+			var texture:Texture;
 			if (currentType == "infantry")
 			{
-				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_stand", color)));
+				texture = GameAtlas.getTexture(currentUnit + "_stand", color);
+				if (texture)
+				{
+					added = true;
+					currentImage.addChild(new Image( texture ));
+				}
 				
 			}
 			if (currentType == "vehicle")
 			{
-				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit + "_move", color)));
-				var tex:Texture = GameAtlas.getTexture(currentUnit + "_turret", color);
-				if (tex)
+				texture = GameAtlas.getTexture(currentUnit + "_move", color)
+				if (texture)
 				{
-					currentImage.addChild(new Image(tex));
+					added = true;
+					currentImage.addChild(new Image( texture ));
+				}
+
+				texture = GameAtlas.getTexture(currentUnit + "_turret", color);
+				if (texture)
+				{
+					added = true;
+					currentImage.addChild(new Image(texture));
 				}
 				
 			}
 			if (currentType == "building" || currentType == "turret")
 			{
-				currentImage.addChild(new Image(GameAtlas.getTexture(currentUnit+"_healthy", color)));
+				texture = GameAtlas.getTexture(currentUnit+"_healthy", color);
+				if (texture)
+				{
+					added = true;
+					currentImage.addChild(new Image( texture ));
+				}
 			}
+
+			if(added)
+			{
+				currentImage.model.name = currentUnit;
+				currentImage.model.type = currentType;
+				currentImage.model.color = color;
 			
-			currentImage.model.name = currentUnit;
-			currentImage.model.type = currentType;
-			currentImage.model.color = color;
-			
-			currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
-			Board.mapContainerArr[Board.UNITS_LAYER].addChild(currentImage);
-		
-			
+				currentImage.scaleX = currentImage.scaleY = Parameters.gameScale;
+				Board.mapContainerArr[Board.UNITS_LAYER].addChild(currentImage);
+			}
 		}
 			
 		public function init():void

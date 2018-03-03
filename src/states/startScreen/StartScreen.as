@@ -64,6 +64,8 @@
 				ButtonManager.setButton(chooseSideScreen.xButton, "TOUCH", onXClicked);
 				ButtonManager.setButton(chooseSideScreen.gdiSymbolMC, "TOUCH", onTeam1Clicked);
 				ButtonManager.setButton(chooseSideScreen.nodSymbolMC, "TOUCH", onTeam2Clicked);
+				chooseSideScreen.play();
+				chooseSideScreen.looping = false;
 			}
 			
 		}

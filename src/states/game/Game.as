@@ -65,6 +65,7 @@
 		private var finalMessage:MovieClip;
 		
 		public var playerSide:int;
+		public var gameWon:Boolean = false;
 		public var levelNum:int;
 		private var savedObject:Object;
 		
@@ -92,6 +93,8 @@
 		
 		public function init(_levelNum:int, _playerSide:int, _savedObject:Object = null):void 
 		{
+			trace("initting level " + _levelNum);
+
 			levelNum   = _levelNum;
 			playerSide = _playerSide;
 			savedObject = _savedObject;
@@ -361,6 +364,7 @@
 		
 		private function showMissionFailed():void 
 		{
+			gameWon = false;
 			freezeGame();
 			finalMessage = GameAtlas.createMovieClip("missionFailed");
 			Parameters.theStage.addChild(finalMessage);
@@ -374,6 +378,7 @@
 		
 		private function showMissionAccomplished():void 
 		{
+			gameWon = true;
 			freezeGame();
 			finalMessage = GameAtlas.createMovieClip("missionAccomplished");
 			Parameters.theStage.addChild(finalMessage);
@@ -435,9 +440,6 @@
 				{
 					team[j].end();
 				}
-				
-				
-				
 			}
 			
 			setTimeout(function():void

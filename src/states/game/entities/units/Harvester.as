@@ -45,9 +45,11 @@
 		
 		override public function update(_pulse:Boolean):void
 		{
+			
 			if(model != null && model.dead == false)
 			{
-				
+				//trace(uniqueID + " "  + model.currentState);
+
 				if (loadingBegan == false)
 				{
 					resetRowCol()
@@ -251,6 +253,11 @@
 				
 			}
 		}
+
+		override protected function findATarget(_pulse:Boolean):void
+		{
+			return;
+		}
 		
 		
 		
@@ -399,6 +406,11 @@
 				return;
 			}
 			
+			if(harvestAnimPlaying)
+			{
+				return;
+			}
+			
 			if (!harvestAnimPlaying && destResourceNode && destResourceNode.isResource == true)
 			{
 				FullCircleView(view).setDirection(model.row, model.col, destResourceNode.row, destResourceNode.col);
@@ -528,6 +540,9 @@
 		
 		private function onHarvestLoopComplete(e:Event):void 
 		{
+			view.mc.removeEventListener(Event.COMPLETE, onHarvestLoopComplete);
+			Starling.juggler.remove(MovieClip(view.mc));
+			
 			if (destResourceNode == null)
 			{
 				returnRegHarvester()
@@ -547,6 +562,8 @@
 				{
 					if (destResourceNode.isResource)
 					{
+						view.mc.addEventListener(Event.COMPLETE, onHarvestLoopComplete);
+						Starling.juggler.add(MovieClip(view.mc));
 						view.mc.currentFrame = 0;
 						view.mc.play();
 					}
