@@ -1,4 +1,4 @@
-package com.dynamicTaMaker.loaders
+﻿package com.dynamicTaMaker.loaders
 {
 	import com.dynamicTaMaker.atlases.MyTA;
 	
@@ -6,6 +6,7 @@ package com.dynamicTaMaker.loaders
 	import com.dynamicTaMaker.views.GameSprite;
 	import com.dynamicTaMaker.views.GameTextField;
 	import com.dynamicTaMaker.views.TimelineSprite;
+	import com.dynamicTaMaker.views.GameBitmapTextField;
 	
 	import flash.text.TextFormat;
 	
@@ -15,6 +16,7 @@ package com.dynamicTaMaker.loaders
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
+	import flash.geom.Matrix;
 	
 	
 	
@@ -23,27 +25,72 @@ package com.dynamicTaMaker.loaders
 	{
 		private static var ta:TextureAtlas;
 		//private static var placementsXML:XML;
-		private static var placementsObj:Object;
-		private static var templates:Object = new Object();
+		//private static var placementsObj:Object;
+		//private static var templates:Object = new Object();
 		private static var valsToSetArr:Array = [];
-		
+		private static var scenes:Array = [];
 		
 		public function TemplateLoader()
 		{
 			
 		}
 		
-		public static function init(_ta:TextureAtlas, _placementsObj:Object):void
+		public static function init(_ta:TextureAtlas, _placementFiles:Array):void
 		{
 			valsToSetArr = [];
 			ta = _ta;
-			placementsObj = _placementsObj;
+
+			for (var i:int = 0; i < _placementFiles.length; i++) {
+				var _placementsObj:Object = _placementFiles[i];
+				var templates:Object = getAllAssets(_placementsObj, {});
+				scenes.push({
+					placementsObj: _placementsObj,
+					templates: templates
+				});
+			}
 			
-			templates = getAllAssets(placementsObj, templates);
+			//templates = getAllAssets(placementsObj, templates);
 			//traceJSON.stringify(templates))
 			//trace"bob");
 		}
 		
+		
+		
+		public static function get(tempName:String):GameSprite
+		{
+			for (var i = 0; i < scenes.length; i++) {
+            	var scene:Object = scenes[i];
+				var baseNode:Object = scene.templates[tempName];
+				var mc:GameSprite;
+				if(baseNode.frames)
+				{
+					mc = new TimelineSprite();
+					mc.frames = fixRotation(baseNode.frames);
+				}
+				else
+				{
+					mc = new GameSprite();
+				}
+				
+				mc.name = baseNode.instanceName;
+
+				createAsset(mc, baseNode);
+				
+				valsToSetArr.reverse();
+				for(var i:int = 0; i < valsToSetArr.length; i++)
+				{
+					var val:Object = valsToSetArr[i];
+					val.mc.width = val.w;
+					val.mc.height = val.h;
+				}
+				valsToSetArr.splice(0);		
+				
+				return mc;
+			}
+
+			return null;
+		}
+
 		private static function getAllAssets(o:Object, allAssets:Object):Object
 		{
 			for(var k:String in o)
@@ -61,36 +108,6 @@ package com.dynamicTaMaker.loaders
 				
 			}
 			return allAssets;
-		}
-		
-		public static function get(tempName:String):GameSprite
-		{
-			var baseNode:Object = templates[tempName];
-			var mc:GameSprite;
-			if(baseNode.frames)
-			{
-				mc = new TimelineSprite();
-				mc.frames = fixRotation(baseNode.frames);
-			}
-			else
-			{
-				mc = new GameSprite();
-			}
-			
-			mc.name = baseNode.instanceName;
-
-			createAsset(mc, baseNode);
-			
-			valsToSetArr.reverse();
-			for(var i:int = 0; i < valsToSetArr.length; i++)
-			{
-				var val:Object = valsToSetArr[i];
-				val.mc.width = val.w;
-				val.mc.height = val.h;
-			}
-			valsToSetArr.splice(0);		
-			
-			return mc;
 		}
 		
 		
@@ -116,11 +133,25 @@ package com.dynamicTaMaker.loaders
 				var _a:Number = 0;
 				var type:String = child.type;
 				var asset:GameSprite;
+				var matrix:Object = child.matrix;
+				var tfType:String;
 
-				
+				if (type == "bmpTextField") {
+                tfType = child.tfType;
+                var bmptf:GameBitmapTextField = new GameBitmapTextField(child.text + "", {
+                    font: child.size + "px " + child.font,
+                    align: 'center'
+               		 }, _w, _h);
+
+					bmptf.name = _name;
+					bmptf.x = _x;
+					bmptf.y = _y;
+					mc[_name] = bmptf;
+					mc.addChild(bmptf);
+            	}
 				if(type == "textField")
 				{
-					var tfType:String = child.tfType;
+					tfType = child.tfType;
 					var tf:GameTextField = new GameTextField(_w,_h,child.text + "",child.font,child.size,child.color);
 					
 					tf.name = _name;
@@ -136,6 +167,10 @@ package com.dynamicTaMaker.loaders
 					texName = texName.substr(0,texName.indexOf("_"));
 					////tracetexName);
 					var tex:Texture = MyTA.ta.getTexture(texName);
+					if(tex == null)
+					{
+						return;
+					}
 					var img:Image = new Image(tex);
 					img.x = _x;
 					img.y = _y;
@@ -160,10 +195,11 @@ package com.dynamicTaMaker.loaders
 					asset.y = _y;
 					//btn.width = _w;
 					//btn.height = _h;
-					asset.rotation = degreesToRadians(child.rotation);
+					//asset.rotation = degreesToRadians(child.rotation);
 					asset.alpha = _a;
 					mc[asset.name] = asset;
 					mc.addChild(asset);
+					asset.transformationMatrix = new Matrix(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
 					valsToSetArr.push({mc : asset, w :_w, h : _h });
 					
 					
@@ -194,10 +230,12 @@ package com.dynamicTaMaker.loaders
 					asset.y = _y;
 					//asset.width = _w;
 					//asset.height = _h;
-					asset.rotation = degreesToRadians(child.rotation);
+					//asset.rotation = degreesToRadians(child.rotation);
 					asset.alpha = _a;
 					mc[asset.name] = asset;
 					mc.addChild(asset);
+
+					asset.transformationMatrix = new Matrix(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
 					
 					valsToSetArr.push({mc : asset, w :_w, h : _h });
 					

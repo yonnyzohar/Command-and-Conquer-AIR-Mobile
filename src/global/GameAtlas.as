@@ -3,7 +3,6 @@
 	
 	import com.greensock.loading.display.ContentDisplay;
 	import com.greensock.loading.LoaderMax;
-	import com.WorkerFactory;
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.filesystem.File;

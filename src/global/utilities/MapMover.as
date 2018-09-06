@@ -309,8 +309,8 @@
 		
 		private function moveMiniMap():void
 		{
-			var screenRow:int = Math.abs(Parameters.mapHolder.y / (Parameters.tileSize /** Parameters.gameScale*/));
-			var screenCol:int = Math.abs(Parameters.mapHolder.x / (Parameters.tileSize /** Parameters.gameScale*/));
+			var screenRow:int = Math.abs(Parameters.mapHolder.y / (Parameters.tileSize ));/** Parameters.gameScale*/
+			var screenCol:int = Math.abs(Parameters.mapHolder.x / (Parameters.tileSize ));/** Parameters.gameScale*/
 			var _stageHeight:int = Parameters.flashStage.stageHeight / Parameters.tileSize;
 			var _stageWidth:int = (Parameters.flashStage.stageWidth - HUD.hudWidth) / Parameters.tileSize;
 			
@@ -338,8 +338,8 @@
 			var row:int = 0;
 			var gap:int = 1;
 			
-			var screenRow:int = Math.abs(Parameters.mapHolder.y / (Parameters.tileSize /** Parameters.gameScale*/));
-			var screenCol:int = Math.abs(Parameters.mapHolder.x / (Parameters.tileSize /** Parameters.gameScale*/));
+			var screenRow:int = Math.abs(Parameters.mapHolder.y / (Parameters.tileSize)); /** Parameters.gameScale*/
+			var screenCol:int = Math.abs(Parameters.mapHolder.x / (Parameters.tileSize ));/** Parameters.gameScale*/
 			var _stageWidth:int = (Parameters.flashStage.stageWidth - HUD.hudWidth) / Parameters.tileSize;
 			var _stageHeight:int = Parameters.flashStage.stageHeight / Parameters.tileSize;
 			var hudTiles:int = HUD.hudWidth / Parameters.tileSize;

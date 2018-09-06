@@ -121,7 +121,7 @@
 			var bitmapData:BitmapData = dymanicTaCreator.TAbitmapData;
 			var taPlacementsXML:XML = new XML(dymanicTaCreator.taPlacements)
 			MyTA.init(bitmapData, taPlacementsXML);
-			TemplateLoader.init(MyTA.ta, dymanicTaCreator.viewHeirarchyObj);
+			TemplateLoader.init(MyTA.ta, [dymanicTaCreator.viewHeirarchyObj]);
 
 
 			Parameters.loadingScreen = new LoadingScreen();

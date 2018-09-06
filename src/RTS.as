@@ -48,7 +48,7 @@
 			NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 			stage.addEventListener(flash.events.MouseEvent.RIGHT_CLICK, onRightMouseClicked);
 			
-			setTimeout(initStarlingContext,1000);
+			setTimeout(initStarlingContext,500);
 	
 		}
 		
