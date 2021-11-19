@@ -12,3 +12,5 @@ Download Link
 
 You can find a working demo of this project on http://yonnyzohar.co.il/#Command_and_Conquer_Mobile
 I will update the APK as versions progress.
+
+https://www.youtube.com/watch?v=USR-evBDCJg&t=418s
